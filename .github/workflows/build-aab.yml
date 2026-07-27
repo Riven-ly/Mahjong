@@ -1,0 +1,60 @@
+name: Android 自动化打包正式 AAB 🤖
+
+on:
+  workflow_dispatch:  # 只保留手动触发
+
+jobs:
+  build:
+    name: Build Android AAB ✨
+    runs-on: ubuntu-latest
+    steps:
+      # 🚀 释放虚拟机磁盘空间
+      - name: Free Disk Space (清理磁盘空间)
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf /usr/shadowbi
+          docker image prune --all --force
+
+      # 1. 检出代码（Keystore 跟着项目一起被同步下来）
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # 2. 缓存 Library 目录 (加速二次打包)
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-Android-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-Android-
+
+      # 3. 开始打包（直接读取项目内的签名文件）
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: Android
+          unityVersion: 2022.3.62f3 
+          androidExportType: 'androidAppBundle'
+
+          # 🎯 修复 2：将路径指向项目 Assets 下的实际相对路径（请根据你的真实文件名修改）
+          androidKeystoreName: Assets/mySignKey.keystore
+
+          # 🔐 敏感的密码依然从 GitHub Secrets 安全拉取
+          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          androidKeyaliasName: ${{ secrets.ANDROID_KEY_ALIAS }}
+          androidKeyaliasPass: ${{ secrets.ANDROID_KEY_PASS }}
+          androidTargetSdkVersion: AndroidApiLevelAuto
+
+      # 4. 上传生成的 AAB 文件
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Android-Release-AAB
+          path: build/Android

@@ -1,0 +1,21 @@
+# Unity核心缓存（必须忽略，解决你当前的问题）
+Library/
+# Unity临时文件
+Temp/
+Obj/
+
+# 个人编辑器设置（不同开发者不一样）
+UserSettings/
+# 日志文件
+Logs/
+
+# 打包安装包（可选，避免提交大文件）
+*.apk
+*.aab
+*.exe
+*.ipa
+.vs/
+*.suo
+# 系统临时文件
+.DS_Store
+Thumbs.db
