@@ -61,16 +61,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\AB\SwitchAorBSprite.cs" />
+    <Compile Include="Assets\scripts\language\PortugueseLanguageConfig.cs" />
     <Compile Include="Assets\scripts\item\ItemBase.cs" />
     <Compile Include="Assets\scripts\AB\ABResManager.cs" />
     <Compile Include="Assets\scripts\Manager\PlayerInfo.cs" />
     <Compile Include="Assets\scripts\AB\ABbuildManager.cs" />
     <Compile Include="Assets\scripts\Manager\GameManager.cs" />
+    <Compile Include="Assets\scripts\Manager\AudioManager.cs" />
+    <Compile Include="Assets\scripts\language\IndonesianLanguageConfig.cs" />
     <Compile Include="Assets\scripts\EventSystem\GameEvent.cs" />
     <Compile Include="Assets\scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\scripts\Panel\LobbyScenePanel.cs" />
+    <Compile Include="Assets\scripts\language\MultilingualSprite.cs" />
+    <Compile Include="Assets\scripts\Panel\GameScenePanel.cs" />
+    <Compile Include="Assets\scripts\language\MultilingualText.cs" />
     <Compile Include="Assets\scripts\Manager\UIBase.cs" />
+    <Compile Include="Assets\scripts\language\EnglishLanguageConfig.cs" />
     <Compile Include="Assets\scripts\EventSystem\EventManager.cs" />
+    <Compile Include="Assets\scripts\language\LanguageManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -397,12 +405,12 @@
       <HintPath>Library\PackageCache\com.unity.collections@1.2.4\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.4\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
+      <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.4\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">

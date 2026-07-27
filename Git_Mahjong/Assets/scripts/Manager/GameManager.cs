@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     public List<Sprite> specialRewardsDuis;
     public GameObject ItemPrefab;
 
-    public Material liziMa;
     public Action EvaluationGameCallback;
 
     public int addDebug_hours = 0;
