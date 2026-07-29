@@ -10,7 +10,7 @@ readOnly: false
 aiMaintained: true
 explicitMaintenanceRules: true
 createdAt: 1785134626594
-updatedAt: 1785134626594
+updatedAt: 1785144422150
 ---
 
 # project-mistake-note
@@ -24,4 +24,6 @@ updatedAt: 1785134626594
 <!-- locus:maintain-rules:end -->
 
 <!-- locus:body:start -->
+- UGUI 对象跨不同 RectTransform 父节点播放移动动画时，先用 `SetParent(parent, true)` 保持世界位置，再补间目标局部坐标；使用 `false` 会在动画开始前产生位置跳变。
+- 堆叠卡牌的阻挡态不能直接关闭 `blocksRaycasts`，否则点击会穿透到下层卡牌；需要拆分点击与拖拽权限，让阻挡牌接收点击反馈但禁止拖拽。
 <!-- locus:body:end -->

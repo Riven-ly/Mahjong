@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63388426e8914dd4c81976558339cda9, type: 3}
+  m_Name: MahjongCardVisualCatalog
+  m_EditorClassIdentifier: 
+  entries:
+  - typeId: 1
+    sprite: {fileID: 21300000, guid: f8a70913a3c3ec44db4cf0581ad31a1e, type: 3}
+  - typeId: 2
+    sprite: {fileID: 21300000, guid: a0a62784afe2d1a439b78fd8a02ebf53, type: 3}
+  - typeId: 3
+    sprite: {fileID: 21300000, guid: 0d92c5c5d3be88547a818303057bf514, type: 3}
+  - typeId: 4
+    sprite: {fileID: 21300000, guid: fde194c8f28a0f84b92d4554286d2ad9, type: 3}
+  - typeId: 5
+    sprite: {fileID: 21300000, guid: ea7409eb4aa76e043815f9d03fdc5f1f, type: 3}
+  - typeId: 6
+    sprite: {fileID: 21300000, guid: 098252115fc413c459d62443b8a2159d, type: 3}
+  - typeId: 7
+    sprite: {fileID: 21300000, guid: 41ee1f980c358e244ae3a9c7ef0b9764, type: 3}
+  - typeId: 8
+    sprite: {fileID: 21300000, guid: 2646b2866c9a99a4db18e060cd369745, type: 3}
+  - typeId: 9
+    sprite: {fileID: 21300000, guid: 3afa6ba1bed245d478df2eac14718d58, type: 3}
+  - typeId: 10
+    sprite: {fileID: 21300000, guid: 58d187c8bc30ede4bbb28ce42ae50701, type: 3}
+  - typeId: 11
+    sprite: {fileID: 21300000, guid: 18663594181493840b1a664bb598fee2, type: 3}
+  - typeId: 12
+    sprite: {fileID: 21300000, guid: e8d52870715afcd419d0959e7322f6cc, type: 3}
+  - typeId: 13
+    sprite: {fileID: 21300000, guid: 9524c480fef51e241b4e431e94adaa82, type: 3}
+  - typeId: 14
+    sprite: {fileID: 21300000, guid: 7c9ec73b45173ff4cb14a930b511b4c9, type: 3}
+  - typeId: 15
+    sprite: {fileID: 21300000, guid: d4ba9f4cf689f8e419b093bc23c276fc, type: 3}
+  - typeId: 16
+    sprite: {fileID: 21300000, guid: 623efced1605572449501f2fc2f8714d, type: 3}
+  - typeId: 17
+    sprite: {fileID: 21300000, guid: e89217cd4e9ad29499b35a671992fa03, type: 3}
+  - typeId: 18
+    sprite: {fileID: 21300000, guid: 6624cb19c9f581a438a430afc786b6a3, type: 3}
+  - typeId: 19
+    sprite: {fileID: 21300000, guid: d7d4f85beef4f7447b6ae97947d0bedd, type: 3}
+  - typeId: 20
+    sprite: {fileID: 21300000, guid: 93c78b44360d1d9449d004505260251c, type: 3}
+  - typeId: 21
+    sprite: {fileID: 21300000, guid: 2f796b8554f3007439cf1b33901af954, type: 3}
+  - typeId: 22
+    sprite: {fileID: 21300000, guid: 94fc04ea30f7ebc408f705824d6d2126, type: 3}
+  - typeId: 23
+    sprite: {fileID: 21300000, guid: 44ddead1e770a7a4da062bb4ea38946d, type: 3}
+  - typeId: 24
+    sprite: {fileID: 21300000, guid: c6178307c0fa74a408a19fc010cdb7bd, type: 3}
+  - typeId: 25
+    sprite: {fileID: 21300000, guid: 50d90ee312612844f85277210110ca93, type: 3}
+  - typeId: 26
+    sprite: {fileID: 21300000, guid: 8889918678836e543a0a2361819e7469, type: 3}
+  - typeId: 27
+    sprite: {fileID: 21300000, guid: dd7c7dd37a6ff414e866ab4f323ac79c, type: 3}
+  - typeId: 28
+    sprite: {fileID: 21300000, guid: dddd2d1d116cb1f4ab524e23819ff33b, type: 3}
+  - typeId: 29
+    sprite: {fileID: 21300000, guid: 81aff0d80cc1eb346aa6ee525c3fa278, type: 3}
+  - typeId: 30
+    sprite: {fileID: 21300000, guid: 9bb0b10d42839b84cbd878daf8ced426, type: 3}
+  - typeId: 31
+    sprite: {fileID: 21300000, guid: 02832a9da2d08704e8db8b656fa7a09c, type: 3}
+  - typeId: 32
+    sprite: {fileID: 21300000, guid: 17f00f076485f2244a1f11e541e56e6b, type: 3}
+  - typeId: 33
+    sprite: {fileID: 21300000, guid: 3e51262339527354591e2271da58aa84, type: 3}
+  - typeId: 34
+    sprite: {fileID: 21300000, guid: 7f56b6a50febba9469543fffc88b0450, type: 3}
