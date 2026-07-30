@@ -106,7 +106,6 @@ namespace MahjongGame.View
             bool hasDisplaySprite = displaySprite != null;
             backgroundImage.color = hasDisplaySprite ? Color.white : fallbackColor;
             iconImage.sprite = displaySprite;
-            iconImage.SetNativeSize();
             iconImage.gameObject.SetActive(hasDisplaySprite);
             typeText.gameObject.SetActive(!hasDisplaySprite);
             typeText.text = TypeId.ToString();

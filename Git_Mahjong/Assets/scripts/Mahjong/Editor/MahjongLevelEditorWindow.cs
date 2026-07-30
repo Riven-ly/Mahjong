@@ -20,6 +20,7 @@ namespace MahjongGame.EditorTools
         private int selectedLevelIndex; // 当前目录关卡索引
         private int newTypeId = 9; // 待新增卡牌类型ID
         private float cellSize = CellCardWidth * 0.5f; // 编辑器网格单元格显示宽度
+        [SerializeField] private float iconNativeSizeScale = 0.2f; // 图标原生尺寸缩放比例
         private bool showLowerLayers = true; // 是否半透明显示低层卡牌
         private string statusMessage = "尚未校验"; // 当前校验或保存状态提示
         private MessageType statusType = MessageType.Info; // 当前状态提示类型
@@ -164,6 +165,9 @@ namespace MahjongGame.EditorTools
                 float gridZoom = cellSize / CellCardWidth;
                 gridZoom = GUILayout.HorizontalSlider(gridZoom, 0.25f, 1.5f, GUILayout.Width(160f));
                 cellSize = CellCardWidth * gridZoom;
+                GUILayout.Label("Icon Scale", GUILayout.Width(65f));
+                iconNativeSizeScale = GUILayout.HorizontalSlider(iconNativeSizeScale, 0.01f, 1f, GUILayout.Width(120f));
+                GUILayout.Label(iconNativeSizeScale.ToString("0.00"), GUILayout.Width(30f));
             }
         }
 
@@ -393,7 +397,7 @@ namespace MahjongGame.EditorTools
         /// <summary>
         /// 使用默认背景和配置图片绘制卡牌；图片缺失时显示类型颜色和数字占位。
         /// </summary>
-        private static void DrawCard(Rect cellRect, int typeId, float alpha)
+        private void DrawCard(Rect cellRect, int typeId, float alpha)
         {
             Rect cardRect = new Rect(cellRect.x + 4f, cellRect.y + 4f, cellRect.width - 8f, cellRect.height - 8f);
             Sprite cardSprite = MahjongCardVisualCatalogLoader.GetSprite(typeId);
@@ -432,10 +436,10 @@ namespace MahjongGame.EditorTools
         /// <summary>
         /// 使用原生尺寸并随网格缩放在指定区域中心绘制卡牌图标，并应用颜色。
         /// </summary>
-        private static void DrawSpriteNativeCentered(Rect targetRect, Sprite sprite, Color color)
+        private void DrawSpriteNativeCentered(Rect targetRect, Sprite sprite, Color color)
         {
             Rect textureRect = sprite.textureRect;
-            float iconScale = targetRect.width / CellCardWidth;
+            float iconScale = targetRect.width / CellCardWidth * iconNativeSizeScale;
             float iconWidth = textureRect.width * iconScale;
             float iconHeight = textureRect.height * iconScale;
             Rect nativeRect = new Rect(

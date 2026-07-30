@@ -27,6 +27,11 @@ public static class EnglishLanguageConfig
         {"HOME", "HOME"},
         {"PLAY", "PLAY"},
         {"DAILYCHALLENGE", "DAILY CHALLENGE"},
+        //Task
+        {"TaskDailyLogin", "每日登录"},
+        {"TaskCompleteLevel", "完成{0}次关卡"},
+        {"TaskPlayAds", "观看{0}次广告"},
+        {"TaskReachLevel", "达到第{0}关"},
 
         //tipsPanel
         {"NoItemHintTips", "No movable cards available!"},

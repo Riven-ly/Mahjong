@@ -10,6 +10,7 @@ public class GameScenePanel : UIBase,IEventListener
 {
     public MahjongGameplayView gameplayView; // 麻将主玩法视图组件
     public Button SettingBtn;
+    public Button taskBtn;
 
     public GameSceneItem_Exchange gameSceneItem_Exchange;
     public GameSceneItem_Hint gameSceneItem_Hint;
@@ -23,6 +24,11 @@ public class GameScenePanel : UIBase,IEventListener
         {
             AudioManager.Instance.PlayBtnMusic();
             UIManager.Instance.OpenUI<SettingPanel>();
+        });
+        taskBtn.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayBtnMusic();
+            UIManager.Instance.OpenUI<TaskPanel>();
         });
     }
 

@@ -70,9 +70,11 @@
     <Compile Include="Assets\scripts\Manager\PlayerInfo.cs" />
     <Compile Include="Assets\scripts\AB\ABbuildManager.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongLevelCatalogLoader.cs" />
+    <Compile Include="Assets\scripts\Panel\TaskPanel.cs" />
     <Compile Include="Assets\scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\scripts\Manager\AudioManager.cs" />
     <Compile Include="Assets\scripts\language\IndonesianLanguageConfig.cs" />
+    <Compile Include="Assets\scripts\Task\TaskManager.cs" />
     <Compile Include="Assets\scripts\Panel\SettingPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\Model\MahjongLevelModels.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Hint.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongSlotRules.cs" />
     <Compile Include="Assets\scripts\Panel\GameScenePanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardColorUtility.cs" />
+    <Compile Include="Assets\scripts\Task\TaskItem.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongOperationResult.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Return.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGeometry.cs" />

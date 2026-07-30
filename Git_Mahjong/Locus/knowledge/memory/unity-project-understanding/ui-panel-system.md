@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785137072634
-updatedAt: 1785137072634
+updatedAt: 1785403337062
 ---
 
 # ui-panel-system
@@ -26,4 +26,6 @@ updatedAt: 1785137072634
 - 当前面板资源位于 `Assets/Resources/UI/Panel/`。
 - `GameManager.Init()` 启动时打开 `LobbyScenePanel`。
 - `LobbyScenePanel` 与 `GameScenePanel` 使用按钮在两者之间切换，并同步 `GameManager.gameType`。
+- 任务面板位于 `Assets/Resources/UI/Panel/TaskPanel.prefab`，通过 `GameScenePanel/Root/TaskBtn` 打开；单条任务预制体为 `Assets/Resources/UI/TaskItem.prefab`。
+- `Assets/Scenes/Game.unity/Manager/TaskManager` 是场景级任务单例，监听 `MahjongGameWon` 与 `RewardedAdCompleted`，状态以 `TaskManagerData` JSON 独立存入 PlayerPrefs。
 <!-- locus:body:end -->
