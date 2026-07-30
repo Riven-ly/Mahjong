@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using MahjongGame.View;
 
 
 public enum GameType
@@ -24,13 +25,13 @@ public class GameManager : MonoBehaviour
     public static bool LoadABAsyncOK = false;
 
     public GameType gameType;
+    public GameObject ItemPrefab;
+    public MahjongCell mahjongCellPrefab;
     public PlayerInfo playerInfo;
     public List<Sprite> specialDiamonds;
     public List<Sprite> specialRewardsDuis;
-    public GameObject ItemPrefab;
 
-    public Action EvaluationGameCallback;
-
+    [HideInInspector]public List<MahjongCell> beforeMahjongCells;
     public int addDebug_hours = 0;
     private void Awake()
     {
@@ -42,14 +43,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        BeforeCreatMahjongCells();
+
         Init();
+
     }
 
     public void Init()
     {
         playerInfo = GetPlayerInfo();
-
-        UIManager.Instance.OpenUI<LobbyScenePanel>(1);
+        gameType = GameType.MainGame;
+        UIManager.Instance.OpenUI<GameScenePanel>();
     }
 
     public string GetTimeString(float _Seconds)
@@ -58,6 +62,18 @@ public class GameManager : MonoBehaviour
         int m = (int)(safeSeconds / 60);
         int s = (int)(safeSeconds % 60);
         return $"{m:D2}:{s:D2}";
+    }
+
+    private void BeforeCreatMahjongCells()
+    {
+        beforeMahjongCells = new List<MahjongCell>();
+        for (int i = 0; i < 33; i++)
+        {
+            var obj = Instantiate(mahjongCellPrefab, UIManager.Instance.GameScene);
+            obj.transform.localPosition = Vector3.zero;
+            obj.gameObject.SetActive(false);
+            beforeMahjongCells.Add(obj.GetComponent<MahjongCell>());
+        }
     }
 
     public void UpdateAppATTToDiamond(Image image)

@@ -6,29 +6,42 @@ using UnityEngine.UI;
 /// <summary>
 /// 游戏场景面板及页面导航入口。
 /// </summary>
-public class GameScenePanel : UIBase
+public class GameScenePanel : UIBase,IEventListener
 {
-    [SerializeField] private MahjongGameplayView gameplayView; // 麻将主玩法视图组件
-    [SerializeField] private Button lobbyEnter; // 返回大厅按钮
-
-    public event Action LobbyEnterRequested; // 返回大厅请求事件
+    public MahjongGameplayView gameplayView; // 麻将主玩法视图组件
+    public Button SettingBtn; 
 
     /// <summary>
-    /// 初始化主玩法逻辑并注册返回大厅按钮事件。
+    /// 注册设置按钮事件。
     /// </summary>
-    private void Awake()
+    private void Start()
     {
-        lobbyEnter.onClick.AddListener(HandleLobbyEnterClicked);
+        SettingBtn.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayBtnMusic();
+            UIManager.Instance.OpenUI<SettingPanel>();
+        });
+    }
+
+    private void OnEnable()
+    {
+        EventManager.Instance.RegisterListener(GameEvent.MahjongGameWon, this);
+        EventManager.Instance.RegisterListener(GameEvent.MahjongGameLost, this);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnregisterListener(GameEvent.MahjongGameWon, this);
+        EventManager.Instance.UnregisterListener(GameEvent.MahjongGameLost, this);
     }
 
     /// <summary>
-    /// 根据玩家等级读取关卡配置并开始新游戏。data 可传入 int 随机种子，用于缺失等级时随机选择关卡。
+    /// 根据玩家等级读取关卡配置并开始新游戏。
     /// </summary>
     public override void Refresh(object data = null)
     {
-        int randomSeed = data is int seed ? seed : Environment.TickCount;
         int playerLevel = GameManager.Instance.playerInfo.level;
-        gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel, randomSeed));
+        gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel, Environment.TickCount));
     }
 
     /// <summary>
@@ -41,14 +54,23 @@ public class GameScenePanel : UIBase
     }
 
     /// <summary>
-    /// 处理返回大厅按钮点击，派发请求并切换现有 UI 面板。
+    /// 重置游戏
     /// </summary>
-    private void HandleLobbyEnterClicked()
+    public void ResetGame()
     {
-        LobbyEnterRequested?.Invoke();
-        GameManager.Instance.gameType = GameType.LobbyScene;
-        UIManager.Instance.OpenUI<LobbyScenePanel>();
-        Hide();
+        Refresh();
     }
 
+    public void OnEventTriggered(GameEvent eventType, object data = null)
+    {
+        switch (eventType)
+        {
+            case GameEvent.MahjongGameWon:
+                Debug.Log("游戏胜利");
+                break;
+            case GameEvent.MahjongGameLost:
+                Debug.Log("游戏失败");
+                break;
+        }
+    }
 }

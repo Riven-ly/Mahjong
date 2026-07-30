@@ -30,6 +30,7 @@ namespace MahjongGame.GameLogic
         public bool Succeeded { get; } // 本次操作是否成功
         public MahjongOperationFailure Failure { get; } // 操作失败原因
         public int MovedCardId { get; } // 本次进入卡槽的卡牌实例ID
+        public IReadOnlyList<int> SlotCardIdsBeforeElimination { get; } // 本次入槽完成且尚未消除时的卡槽卡牌实例ID列表
         public IReadOnlyList<int> EliminatedCardIds { get; } // 本次消除的卡牌实例ID列表
         public MahjongGameState GameState { get; } // 操作完成后的游戏状态
 
@@ -40,12 +41,14 @@ namespace MahjongGame.GameLogic
             bool succeeded,
             MahjongOperationFailure failure,
             int movedCardId,
+            IReadOnlyList<int> slotCardIdsBeforeElimination,
             IReadOnlyList<int> eliminatedCardIds,
             MahjongGameState gameState)
         {
             Succeeded = succeeded;
             Failure = failure;
             MovedCardId = movedCardId;
+            SlotCardIdsBeforeElimination = slotCardIdsBeforeElimination;
             EliminatedCardIds = eliminatedCardIds;
             GameState = gameState;
         }
@@ -56,12 +59,14 @@ namespace MahjongGame.GameLogic
         public static MahjongOperationResult Success(
             MahjongGameState gameState,
             int movedCardId = 0,
+            IReadOnlyList<int> slotCardIdsBeforeElimination = null,
             IReadOnlyList<int> eliminatedCardIds = null)
         {
             return new MahjongOperationResult(
                 true,
                 MahjongOperationFailure.None,
                 movedCardId,
+                slotCardIdsBeforeElimination ?? EmptyCardIds,
                 eliminatedCardIds ?? EmptyCardIds,
                 gameState);
         }
@@ -78,7 +83,7 @@ namespace MahjongGame.GameLogic
                 throw new ArgumentOutOfRangeException(nameof(failure));
             }
 
-            return new MahjongOperationResult(false, failure, 0, EmptyCardIds, gameState);
+            return new MahjongOperationResult(false, failure, 0, EmptyCardIds, EmptyCardIds, gameState);
         }
     }
 }

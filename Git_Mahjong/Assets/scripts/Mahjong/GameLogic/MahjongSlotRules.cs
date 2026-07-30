@@ -41,9 +41,9 @@ namespace MahjongGame.GameLogic
         }
 
         /// <summary>
-        /// 将卡牌加入卡槽并返回本次消除列表。调用前必须通过 ValidateAdd 校验。
+        /// 将卡牌加入卡槽并标记本次匹配卡牌。匹配卡牌仍保留在卡槽中占位，等待动画完成后再移除。
         /// </summary>
-        public IReadOnlyList<int> AddAndResolveMatches(int cardInstanceId)
+        public IReadOnlyList<int> AddAndMarkMatches(int cardInstanceId)
         {
             MahjongOperationFailure failure = ValidateAdd(cardInstanceId);
             if (failure != MahjongOperationFailure.None)
@@ -52,15 +52,16 @@ namespace MahjongGame.GameLogic
             }
 
             MahjongCardModel card = model.GetCard(cardInstanceId);
+            int insertIndex = GetInsertIndex(card.TypeId);
             card.SetState(MahjongCardState.InSlot);
-            model.Slot.Add(cardInstanceId);
+            model.Slot.Insert(insertIndex, cardInstanceId);
 
             var matchedCardIds = new List<int>(MahjongConfig.MatchCount);
             for (int i = 0; i < model.Slot.CardInstanceIds.Count; i++)
             {
                 int slotCardId = model.Slot.CardInstanceIds[i];
                 MahjongCardModel slotCard = model.GetCard(slotCardId);
-                if (slotCard.TypeId == card.TypeId)
+                if (slotCard.TypeId == card.TypeId && slotCard.State == MahjongCardState.InSlot)
                 {
                     matchedCardIds.Add(slotCardId);
                     if (matchedCardIds.Count == MahjongConfig.MatchCount)
@@ -78,12 +79,27 @@ namespace MahjongGame.GameLogic
 
             for (int i = 0; i < matchedCardIds.Count; i++)
             {
-                int matchedCardId = matchedCardIds[i];
-                model.Slot.Remove(matchedCardId);
-                model.GetCard(matchedCardId).SetState(MahjongCardState.Eliminated);
+                model.GetCard(matchedCardIds[i]).SetState(MahjongCardState.PendingElimination);
             }
 
             return matchedCardIds;
+        }
+
+        /// <summary>
+        /// 获取指定类型卡牌的入槽索引；存在同类型卡牌时紧随最后一张，否则追加到末尾。
+        /// </summary>
+        private int GetInsertIndex(int typeId)
+        {
+            for (int i = model.Slot.Count - 1; i >= 0; i--)
+            {
+                MahjongCardModel slotCard = model.GetCard(model.Slot.CardInstanceIds[i]);
+                if (slotCard.TypeId == typeId && slotCard.State == MahjongCardState.InSlot)
+                {
+                    return i + 1;
+                }
+            }
+
+            return model.Slot.Count;
         }
     }
 }

@@ -1,6 +1,6 @@
-using System;
 using DG.Tweening;
 using MahjongGame.Model;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -31,6 +31,8 @@ namespace MahjongGame.View
         [SerializeField] private Image iconImage; // 卡牌类型图标
         [SerializeField] private Text typeText; // 缺少图标时显示的卡牌类型数字文本
         [SerializeField] private CanvasGroup canvasGroup; // 卡牌透明度与交互控制
+        [SerializeField] private GameObject BlockedMaskObj; // 被阻挡的牌的mask遮罩
+        
 
         private RectTransform rectTransform; // 当前卡牌矩形变换
         private RectTransform dragArea; // 拖拽坐标转换区域
@@ -91,6 +93,7 @@ namespace MahjongGame.View
             //name = $"MahjongCell_{InstanceId}";
             name = iconImage.sprite.name;
             SetInteractable(true);
+            BlockedMaskObj.SetActive(false);
         }
 
         /// <summary>
@@ -152,6 +155,7 @@ namespace MahjongGame.View
             isDragging = false;
             suppressClick = false;
             gameObject.SetActive(false);
+            BlockedMaskObj.SetActive(false);
         }
 
         /// <summary>
@@ -169,6 +173,7 @@ namespace MahjongGame.View
         /// </summary>
         public void SetBlocked(bool blocked)
         {
+            BlockedMaskObj.gameObject.SetActive(blocked);
             canvasGroup.alpha = blocked ? MahjongViewConfig.BlockedAlpha : MahjongViewConfig.NormalAlpha;
             isPointerEnabled = true;
             isDragEnabled = !blocked;
@@ -272,12 +277,24 @@ namespace MahjongGame.View
         }
 
         /// <summary>
+        /// 中断当前卡牌动画并从当前位置移动到新的槽位位置。调用前必须保证卡牌已位于卡槽节点下。
+        /// </summary>
+        public Tween RetargetToSlotPosition(Vector2 targetPosition)
+        {
+            DOTween.Kill(this);
+            return rectTransform.DOAnchorPos(targetPosition, 0.2f)
+                .SetEase(Ease.OutQuad)
+                .SetTarget(this);
+        }
+
+        /// <summary>
         /// 播放卡牌消除动画。调用前必须由业务结果确认卡牌已经消除。
         /// </summary>
-        public Tween AnimateEliminated()
+        public Tween AnimateEliminated(Action eliminationCompleted)
         {
             SetInteractable(false);
             return transform.DOScale(Vector3.zero, MahjongViewConfig.EliminateDuration)
+                .OnComplete(() => eliminationCompleted?.Invoke())
                 .SetEase(Ease.InBack)
                 .SetTarget(this);
         }

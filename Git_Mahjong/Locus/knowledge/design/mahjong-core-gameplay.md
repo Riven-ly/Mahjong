@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785138573703
-updatedAt: 1785298217964
+updatedAt: 1785393778233
 ---
 
 # mahjong-core-gameplay
@@ -32,6 +32,7 @@ updatedAt: 1785298217964
 - View 仅使用 UGUI，负责显示、动画和事件，不直接修改逻辑数据。
 - 复用现有 UI 框架，主玩法集成到 GameScenePanel。
 - MahjongCell 使用 Image + 数字占位，并实现拖拽与点击接口。
+- 配对消除在卡牌缩放消失结束时，于原卡槽位置播放独立、可池化的白色麻将碎片粒子；效果由主碎片层和延迟残屑层组成，表现为持续喷发、右上扩散、重力下落和末段淡出，单次完整播放约 1.8 秒。
 
 ## 关卡配置
 - 关卡目录使用单个 JSON 文件，按 `GameManager.Instance.playerInfo.level` 读取对应关卡。

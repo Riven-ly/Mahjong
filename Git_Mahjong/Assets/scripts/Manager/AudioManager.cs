@@ -45,7 +45,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBtnMusic()
     {
-       // btnMusic.Play();
+        btnMusic.Play();
     }
 
     public void PlaySceneLoopMusic(string name)

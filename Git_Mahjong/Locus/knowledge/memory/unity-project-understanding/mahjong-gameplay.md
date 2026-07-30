@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785138573722
-updatedAt: 1785297052615
+updatedAt: 1785394624135
 ---
 
 # mahjong-gameplay
@@ -35,9 +35,11 @@ Mahjong 主玩法代码结构与当前实现进度缓存。
 - 阶段3 View 位于 `Assets/scripts/Mahjong/View/MahjongCell.cs`，预制体位于 `Assets/Prefab/Mahjong/MahjongCell.prefab`；卡牌尺寸为 171×199，Background 子 Image 显示背景，Icon 子 Image 显示类型图片，TypeText 仅在图片缺失时显示数字占位，并由 CanvasGroup 统一控制交互与透明度。MahjongCellBackgroundStyle 和 SetBackgroundStyle 提供默认、绿、黄、红背景切换接口，预制体分别绑定 `Assets/Texture/Mahjong/bg/di*.png`；当前玩法不主动调用该接口。
 - MahjongCell 实现 IBeginDragHandler、IDragHandler、IEndDragHandler、IPointerClickHandler，仅派发选择意图，不修改 Model；拖拽入槽使用卡牌中心相对 SlotRoot 世界矩形的归一化插值判定。
 - `Assets/Resources/UI/Panel/GameScenePanel.prefab` 的 `Root/MahjongGameplay` 独立节点挂载 `MahjongGameplayView`，其子节点为 BoardRoot、SlotRoot、DragLayer，并绑定 MahjongCell 预制体。
-- `Assets/scripts/Mahjong/View/MahjongGameplayView.cs` 持有唯一 MahjongGameLogic，按 MahjongOperationResult 驱动 DOTween 入槽、消除、回位和阻挡刷新。
-- MahjongGameplayView 内置专用 `Stack<MahjongCell>` 对象池；重新开局和配对消除均回收卡牌视图，构建新局时优先复用，不引入独立对象池框架。
+- `Assets/scripts/Mahjong/View/MahjongGameplayView.cs` 持有唯一 MahjongGameLogic，按 MahjongOperationResult 驱动 DOTween 入槽、消除、回位和阻挡刷新；成功选择会立即更新逻辑与牌面可操作状态，并行播放各自的入槽动画，待同组卡牌全部到达卡槽后再播放消除动画。
+- MahjongGameplayView 内置专用 `Stack<MahjongCell>` 对象池；GameScenePanel 的 Awake 通过 `GameManager.PrewarmMahjongCells` 按 MahjongLevelCatalogLoader.GetMaximumCardCount() 预创建全关卡目录所需的 MahjongCell，重新开局和配对消除均只回收/复用，主玩法构建阶段不实例化卡牌视图。
 - GameScenePanel 仅保留 UIBase 生命周期转发、MahjongGameplayView 引用、lobbyEnter 和大厅导航，不再包含麻将玩法实现。
 - 阶段3运行验证覆盖动态卡牌数量生成、卡槽外拖拽回位、点击入槽、拖拽入槽和2张配对消除。
 - `Assets/Resources/Mahjong/MahjongCardVisualCatalog.asset` 统一配置 typeId 到 Sprite 的映射，由 `MahjongCardVisualCatalogLoader` 供运行时 MahjongCell 与关卡编辑器 Card Palette 共用；缺少图片时恢复颜色底图和数字 ID 占位。
+- 卡槽入槽顺序由 `MahjongSlotRules` 从末尾查找处于 InSlot 状态的相同 TypeId 后插入，`MahjongSlotModel.Insert` 保存该顺序；PendingElimination 牌不会参与后续入槽的同类型插入定位。连续点击允许各新牌并行飞入逻辑计算出的槽位；`MahjongGameplayView.AnimateSlotCellsAfterInsertion` 会将插入点之后的已在槽内 Cell 移向绝对槽位坐标，并通过 `MahjongCell.RetargetToSlotPosition` 中断、重定向仍在飞行的 Cell。每张飞行卡牌由 `slotMoveTweens` 按实例ID管理，`StartSlotMove` 只接受最新补间的完成回调，避免快速点击时旧回调与新目标竞争而重叠。匹配牌进入 `PendingElimination` 状态时仍保留在卡槽并占容量；消除动画完成后由 `MahjongGameLogic.CompleteElimination` 实际移除并标记为 Eliminated。连续消除期间，`CompleteEliminationAnimation` 会在每一组已完成的消除牌从模型和视图移除后立即调用 `LayoutSlotViews`；该方法跳过尚在 PendingElimination 状态的牌，为剩余可保留牌使用连续显示索引，以便即时补位。卡槽满时，`MahjongGameLogic.ResolveGameState` 若存在 PendingElimination 牌则等待消除结算，不会提前判负。
+- 消除特效当前运行资产为 `Assets/Prefab/Mahjong/MahjongEliminationFragments2.prefab`，其整体右上抛射轨迹被确认接近目标；材质为 `Assets/Material/MahjongEliminationFragments.mat`（主贴图 `Assets/Texture/Mahjong/EliminationParticleCircle.asset`）。该预制体采用单层圆形粒子：0秒一次发射76–84个，发射半径0.055、起始速度0、初始尺寸0.22–0.42；Velocity over Lifetime 在0–0.12秒保持 X/Y 为0形成成团蓄势，随后同步提升至右上方向（X最高2.5、Y最高5.8），叠加2倍重力下落，生命周期0.9–1.25秒并缩小淡出。`Assets/Resources/UI/Panel/GameScenePanel.prefab` 的 `GameScenePanel/Root/MahjongGameplay/EliminationEffectRoot` 持有两个失活预创建的 `MahjongEliminationFragments2` 实例；`MahjongGameplayView` 在 Awake 只收集该节点的直接子级根粒子并维护专用粒子对象池，池不足才基于首个实例创建。消除缩放结束的回调在 `MahjongCell.AnimateEliminated` 中触发，由 `MahjongGameplayView` 以卡牌世界坐标播放粒子；`StopGameplay` 会终止并回收所有该类特效。旧版 `Assets/Prefab/Mahjong/MahjongEliminationFragments.prefab` 不再被运行时池使用。
 <!-- locus:body:end -->

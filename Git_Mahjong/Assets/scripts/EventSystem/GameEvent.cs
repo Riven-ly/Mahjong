@@ -1,12 +1,11 @@
 
-// ÊÂ¼şÀàĞÍÃ¶¾Ù
+/// <summary>
+/// æ¸¸æˆå…¨å±€äº‹ä»¶ç±»å‹ã€‚
+/// </summary>
 public enum GameEvent
 {
     NULL,
-    TryAutoHoming,
+    MahjongGameWon,
+    MahjongGameLost,
     StopHintAnim,
-    Update_ItemReturnInfo,
-    DailyChallengeComplete,
-    AddGameBox,
-    UpdateTxProgress,
 }

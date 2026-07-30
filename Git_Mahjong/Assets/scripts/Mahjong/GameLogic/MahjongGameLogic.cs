@@ -113,9 +113,34 @@ namespace MahjongGame.GameLogic
         /// </summary>
         private MahjongOperationResult ExecuteSelection(int cardInstanceId)
         {
-            IReadOnlyList<int> eliminatedCardIds = slotRules.AddAndResolveMatches(cardInstanceId);
+            IReadOnlyList<int> eliminatedCardIds = slotRules.AddAndMarkMatches(cardInstanceId);
+            IReadOnlyList<int> slotCardIdsBeforeElimination = new List<int>(Model.Slot.CardInstanceIds);
+            if (eliminatedCardIds.Count == 0)
+            {
+                ResolveGameState();
+            }
+
+            return MahjongOperationResult.Success(
+                Model.State,
+                cardInstanceId,
+                slotCardIdsBeforeElimination,
+                eliminatedCardIds);
+        }
+
+        /// <summary>
+        /// 在消除动画完成后移除已标记的卡槽卡牌并结算游戏状态。
+        /// </summary>
+        public MahjongGameState CompleteElimination(IReadOnlyList<int> cardInstanceIds)
+        {
+            for (int i = 0; i < cardInstanceIds.Count; i++)
+            {
+                int cardInstanceId = cardInstanceIds[i];
+                Model.Slot.Remove(cardInstanceId);
+                Model.GetCard(cardInstanceId).SetState(MahjongCardState.Eliminated);
+            }
+
             ResolveGameState();
-            return MahjongOperationResult.Success(Model.State, cardInstanceId, eliminatedCardIds);
+            return Model.State;
         }
 
         /// <summary>
@@ -184,12 +209,18 @@ namespace MahjongGame.GameLogic
         private void ResolveGameState()
         {
             bool hasRemainingCard = false;
+            bool hasPendingElimination = false;
             for (int i = 0; i < Model.Cards.Count; i++)
             {
-                if (Model.Cards[i].State != MahjongCardState.Eliminated)
+                MahjongCardState cardState = Model.Cards[i].State;
+                if (cardState != MahjongCardState.Eliminated)
                 {
                     hasRemainingCard = true;
-                    break;
+                }
+
+                if (cardState == MahjongCardState.PendingElimination)
+                {
+                    hasPendingElimination = true;
                 }
             }
 
@@ -197,7 +228,7 @@ namespace MahjongGame.GameLogic
             {
                 Model.SetState(MahjongGameState.Won);
             }
-            else if (Model.Slot.IsFull)
+            else if (Model.Slot.IsFull && !hasPendingElimination)
             {
                 Model.SetState(MahjongGameState.Lost);
             }

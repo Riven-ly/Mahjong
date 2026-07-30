@@ -11,6 +11,7 @@ namespace MahjongGame.Model
         OnBoard,
         Moving,
         InSlot,
+        PendingElimination,
         Eliminated
     }
 
@@ -117,13 +118,18 @@ namespace MahjongGame.Model
         public bool IsFull => Count >= MahjongConfig.SlotCapacity; // 卡槽是否已达到容量上限
 
         /// <summary>
-        /// 将卡牌实例ID加入卡槽。调用前必须确认卡牌允许入槽且卡槽未满。
+        /// 将卡牌实例ID插入卡槽指定位置。调用前必须确认卡牌允许入槽、索引有效且卡槽未满。
         /// </summary>
-        public void Add(int cardInstanceId)
+        public void Insert(int index, int cardInstanceId)
         {
             if (cardInstanceId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(cardInstanceId));
+            }
+
+            if (index < 0 || index > cardInstanceIds.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             if (IsFull)
@@ -136,7 +142,7 @@ namespace MahjongGame.Model
                 throw new InvalidOperationException("The card already exists in the slot.");
             }
 
-            cardInstanceIds.Add(cardInstanceId);
+            cardInstanceIds.Insert(index, cardInstanceId);
         }
 
         /// <summary>
