@@ -178,10 +178,8 @@ namespace MahjongGame.View
                 return false;
             }
 
-            MahjongCardModel card = gameLogic.Model.GetCard(result.MovedCardId);
             cell.transform.SetParent(boardRoot, false);
-            cell.SetBoardPosition(GetBoardPosition(card.Position, card.Layer, gameLogic.Model.LevelDefinition));
-            cell.transform.SetAsLastSibling();
+            RefreshBoardPositions();
             LayoutSlotViews();
             RefreshBoardStates();
             return true;
