@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameSceneItem_Return : GameSceneItemBase
 {
+    /// <summary>
+    /// 刷新撤销道具的数量与解锁状态。
+    /// </summary>
     public override void Refresh()
     {
         base.Refresh();
@@ -25,6 +28,9 @@ public class GameSceneItem_Return : GameSceneItemBase
         // clickBtn.interactable = GameStepRecord.Instance.steps.Count > 0;
     }
 
+    /// <summary>
+    /// 使用撤销道具，将卡槽最后一张稳定卡牌撤回牌面。
+    /// </summary>
     public override void OnClick()
     {
         base.OnClick();
@@ -35,11 +41,11 @@ public class GameSceneItem_Return : GameSceneItemBase
         }
 
         EventManager.Instance.TriggerEvent(GameEvent.StopHintAnim);
-        bool isUseItemSucceed = true;
+        bool isUseItemSucceed = UIManager.Instance.GetUI<GameScenePanel>().TryUndoMahjongCard();
         if (isUseItemSucceed)
         {
             GameManager.Instance.playerInfo.Minus_item_return(1);
-            //GameManager.Instance.SavePlayerInfo();
+            GameManager.Instance.SavePlayerInfo();
             Refresh();
         }
     }

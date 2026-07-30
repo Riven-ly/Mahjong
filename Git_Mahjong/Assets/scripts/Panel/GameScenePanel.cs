@@ -9,8 +9,11 @@ using UnityEngine.UI;
 public class GameScenePanel : UIBase,IEventListener
 {
     public MahjongGameplayView gameplayView; // 麻将主玩法视图组件
-    public Button SettingBtn; 
+    public Button SettingBtn;
 
+    public GameSceneItem_Exchange gameSceneItem_Exchange;
+    public GameSceneItem_Hint gameSceneItem_Hint;
+    public GameSceneItem_Return gameSceneItem_Return;
     /// <summary>
     /// 注册设置按钮事件。
     /// </summary>
@@ -23,16 +26,24 @@ public class GameScenePanel : UIBase,IEventListener
         });
     }
 
+    /// <summary>
+    /// 面板启用时注册玩法结果与提示关闭事件。
+    /// </summary>
     private void OnEnable()
     {
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameLost, this);
+        EventManager.Instance.RegisterListener(GameEvent.StopHintAnim, this);
     }
 
+    /// <summary>
+    /// 面板禁用时注销玩法结果与提示关闭事件。
+    /// </summary>
     private void OnDisable()
     {
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameLost, this);
+        EventManager.Instance.UnregisterListener(GameEvent.StopHintAnim, this);
     }
 
     /// <summary>
@@ -42,6 +53,10 @@ public class GameScenePanel : UIBase,IEventListener
     {
         int playerLevel = GameManager.Instance.playerInfo.level;
         gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel, Environment.TickCount));
+
+        gameSceneItem_Exchange.Refresh();
+        gameSceneItem_Hint.Refresh();
+        gameSceneItem_Return.Refresh();
     }
 
     /// <summary>
@@ -61,6 +76,41 @@ public class GameScenePanel : UIBase,IEventListener
         Refresh();
     }
 
+    /// <summary>
+    /// 尝试撤回卡槽最后一张稳定卡牌。
+    /// </summary>
+    public bool TryUndoMahjongCard()
+    {
+        return gameplayView.TryUndo();
+    }
+
+    /// <summary>
+    /// 尝试随机交换游戏区域内卡牌的位置。
+    /// </summary>
+    public bool TryShuffleMahjongCards()
+    {
+        return gameplayView.TryShuffle();
+    }
+
+    /// <summary>
+    /// 尝试显示一组可消除牌面的提示特效。
+    /// </summary>
+    public bool TryShowMahjongHint()
+    {
+        return gameplayView.TryShowHint();
+    }
+
+    /// <summary>
+    /// 关闭全部麻将牌的提示特效。
+    /// </summary>
+    public void StopMahjongHint()
+    {
+        gameplayView.StopHint();
+    }
+
+    /// <summary>
+    /// 响应玩法结果与提示关闭事件。
+    /// </summary>
     public void OnEventTriggered(GameEvent eventType, object data = null)
     {
         switch (eventType)
@@ -70,6 +120,9 @@ public class GameScenePanel : UIBase,IEventListener
                 break;
             case GameEvent.MahjongGameLost:
                 Debug.Log("游戏失败");
+                break;
+            case GameEvent.StopHintAnim:
+                StopMahjongHint();
                 break;
         }
     }

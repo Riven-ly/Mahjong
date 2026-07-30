@@ -80,8 +80,8 @@ namespace MahjongGame.Model
     {
         public int InstanceId { get; } // 卡牌唯一实例ID
         public int TypeId { get; } // 卡牌类型ID
-        public int Layer { get; } // 卡牌所在堆叠层级
-        public MahjongGridPosition Position { get; } // 卡牌逻辑网格坐标
+        public int Layer { get; private set; } // 卡牌所在堆叠层级
+        public MahjongGridPosition Position { get; private set; } // 卡牌逻辑网格坐标
         public MahjongCardState State { get; private set; } // 卡牌当前状态
 
         /// <summary>
@@ -102,6 +102,24 @@ namespace MahjongGame.Model
         public void SetState(MahjongCardState state)
         {
             State = state;
+        }
+
+        /// <summary>
+        /// 交换当前卡牌与另一张卡牌的牌面层级和逻辑网格坐标。
+        /// </summary>
+        public void SwapBoardPosition(MahjongCardModel other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            int layer = Layer;
+            MahjongGridPosition position = Position;
+            Layer = other.Layer;
+            Position = other.Position;
+            other.Layer = layer;
+            other.Position = position;
         }
     }
 

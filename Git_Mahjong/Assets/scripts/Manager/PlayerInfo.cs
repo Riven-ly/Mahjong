@@ -10,10 +10,10 @@ public class PlayerInfo
 
     public int level = 1;
 
-    public int gameSceneItem_Hint = 5;
-    public int gameSceneItem_Extract = 5;
-    public int gameSceneItem_Exchange = 5;
-    public int gameSceneItem_Return = 5;
+    public int gameSceneItem_Hint = 50;
+    public int gameSceneItem_Extract = 50;
+    public int gameSceneItem_Exchange = 50;
+    public int gameSceneItem_Return = 50;
 
     //========================= ½ð±Ò =========================
     public void Add_gold(float _cnt)

@@ -12,6 +12,7 @@ namespace MahjongGame.GameLogic
         private readonly MahjongLayoutGenerator layoutGenerator; // 卡牌布局生成器
         private MahjongBoardRules boardRules; // 当前牌面合法性规则
         private MahjongSlotRules slotRules; // 当前卡槽与消除规则
+        private readonly int[] lastHintCardIds = new int[MahjongConfig.MatchCount]; // 上一次提示的卡牌实例ID
 
         public MahjongGameModel Model { get; private set; } // 当前只供外部读取的游戏数据
 
@@ -32,6 +33,7 @@ namespace MahjongGame.GameLogic
             Model = new MahjongGameModel(levelDefinition, cards);
             boardRules = new MahjongBoardRules(Model);
             slotRules = new MahjongSlotRules(Model);
+            Array.Clear(lastHintCardIds, 0, lastHintCardIds.Length);
             Model.SetState(MahjongGameState.Playing);
             return MahjongOperationResult.Success(Model.State);
         }
@@ -170,37 +172,154 @@ namespace MahjongGame.GameLogic
         }
 
         /// <summary>
-        /// 校验当前是否支持洗牌。当前阶段固定返回未实现，不修改任何游戏数据。
+        /// 校验当前是否支持洗牌。仅游戏中的牌面卡牌可以参与洗牌。
         /// </summary>
         public MahjongOperationFailure ValidateShuffle()
         {
-            return MahjongOperationFailure.FeatureNotImplemented;
+            if (Model == null || Model.State != MahjongGameState.Playing)
+            {
+                return MahjongOperationFailure.GameNotPlaying;
+            }
+
+            return MahjongOperationFailure.None;
         }
 
         /// <summary>
-        /// 请求洗牌。当前阶段固定返回失败，不修改任何游戏数据。
+        /// 随机交换游戏区域内卡牌的完整棋盘位置，不影响卡槽内卡牌。
         /// </summary>
         public MahjongOperationResult Shuffle()
         {
-            MahjongGameState state = Model == null ? MahjongGameState.Ready : Model.State;
-            return MahjongOperationResult.Failed(ValidateShuffle(), state);
+            MahjongOperationFailure failure = ValidateShuffle();
+            if (failure != MahjongOperationFailure.None)
+            {
+                MahjongGameState state = Model == null ? MahjongGameState.Ready : Model.State;
+                return MahjongOperationResult.Failed(failure, state);
+            }
+
+            var boardCards = new List<MahjongCardModel>();
+            for (int i = 0; i < Model.Cards.Count; i++)
+            {
+                MahjongCardModel card = Model.Cards[i];
+                if (card.State == MahjongCardState.OnBoard)
+                {
+                    boardCards.Add(card);
+                }
+            }
+
+            var random = new Random();
+            for (int i = boardCards.Count - 1; i > 0; i--)
+            {
+                int swapIndex = random.Next(i + 1);
+                boardCards[i].SwapBoardPosition(boardCards[swapIndex]);
+            }
+
+            return MahjongOperationResult.Success(Model.State);
         }
 
         /// <summary>
-        /// 校验当前是否支持撤销。当前阶段固定返回未实现，不修改任何游戏数据。
+        /// 校验当前是否支持撤销。仅允许撤回卡槽中最后一张未消除卡牌。
         /// </summary>
         public MahjongOperationFailure ValidateUndo()
         {
-            return MahjongOperationFailure.FeatureNotImplemented;
+            if (Model == null || (Model.State != MahjongGameState.Playing && Model.State != MahjongGameState.Lost))
+            {
+                return MahjongOperationFailure.GameNotPlaying;
+            }
+
+            return Model.Slot.Count > 0
+                ? MahjongOperationFailure.None
+                : MahjongOperationFailure.CardNotFound;
         }
 
         /// <summary>
-        /// 请求撤销。当前阶段固定返回失败，不修改任何游戏数据。
+        /// 将卡槽中最后一张未消除卡牌撤回游戏区域。
         /// </summary>
         public MahjongOperationResult Undo()
         {
-            MahjongGameState state = Model == null ? MahjongGameState.Ready : Model.State;
-            return MahjongOperationResult.Failed(ValidateUndo(), state);
+            MahjongOperationFailure failure = ValidateUndo();
+            if (failure != MahjongOperationFailure.None)
+            {
+                MahjongGameState state = Model == null ? MahjongGameState.Ready : Model.State;
+                return MahjongOperationResult.Failed(failure, state);
+            }
+
+            int cardInstanceId = Model.Slot.CardInstanceIds[Model.Slot.Count - 1];
+            Model.Slot.Remove(cardInstanceId);
+            Model.GetCard(cardInstanceId).SetState(MahjongCardState.OnBoard);
+            Model.SetState(MahjongGameState.Playing);
+            return MahjongOperationResult.Success(Model.State, cardInstanceId);
+        }
+
+        /// <summary>
+        /// 查找一组可消除卡牌，优先选择牌面与卡槽的匹配组合并轮换提示候选。
+        /// </summary>
+        public IReadOnlyList<int> GetHintCardIds()
+        {
+            if (Model == null || Model.State != MahjongGameState.Playing)
+            {
+                return Array.Empty<int>();
+            }
+
+            var slotMatchCandidates = new List<int[]>();
+            var boardMatchCandidates = new List<int[]>();
+            for (int i = 0; i < Model.Cards.Count; i++)
+            {
+                MahjongCardModel firstCard = Model.Cards[i];
+                if (firstCard.State != MahjongCardState.OnBoard || ValidateSelectCard(firstCard.InstanceId) != MahjongOperationFailure.None)
+                {
+                    continue;
+                }
+
+                for (int j = 0; j < Model.Slot.CardInstanceIds.Count; j++)
+                {
+                    int slotCardId = Model.Slot.CardInstanceIds[j];
+                    if (Model.GetCard(slotCardId).TypeId == firstCard.TypeId)
+                    {
+                        slotMatchCandidates.Add(new[] { firstCard.InstanceId, slotCardId });
+                    }
+                }
+
+                for (int j = i + 1; j < Model.Cards.Count; j++)
+                {
+                    MahjongCardModel secondCard = Model.Cards[j];
+                    if (secondCard.TypeId == firstCard.TypeId &&
+                        secondCard.State == MahjongCardState.OnBoard &&
+                        ValidateSelectCard(secondCard.InstanceId) == MahjongOperationFailure.None)
+                    {
+                        boardMatchCandidates.Add(new[] { firstCard.InstanceId, secondCard.InstanceId });
+                    }
+                }
+            }
+
+            slotMatchCandidates.AddRange(boardMatchCandidates);
+            if (slotMatchCandidates.Count == 0)
+            {
+                return Array.Empty<int>();
+            }
+
+            int candidateIndex = GetNextHintCandidateIndex(slotMatchCandidates);
+            int[] selectedCardIds = slotMatchCandidates[candidateIndex];
+            lastHintCardIds[0] = selectedCardIds[0];
+            lastHintCardIds[1] = selectedCardIds[1];
+            return selectedCardIds;
+        }
+
+        /// <summary>
+        /// 获取与上次提示不同的下一组候选索引，所有候选提示完成后从头轮换。
+        /// </summary>
+        private int GetNextHintCandidateIndex(IReadOnlyList<int[]> candidates)
+        {
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                int[] candidate = candidates[i];
+                if ((candidate[0] == lastHintCardIds[0] && candidate[1] == lastHintCardIds[1]) ||
+                    (candidate[0] == lastHintCardIds[1] && candidate[1] == lastHintCardIds[0]))
+                {
+                    return (i + 1) % candidates.Count;
+                }
+            }
+
+            return 0;
         }
 
         /// <summary>

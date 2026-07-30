@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameSceneItem_Hint : GameSceneItemBase
 {
 
+    /// <summary>
+    /// 刷新提示道具的数量与解锁状态。
+    /// </summary>
     public override void Refresh()
     {
         base.Refresh();
@@ -21,6 +24,9 @@ public class GameSceneItem_Hint : GameSceneItemBase
 
     }
 
+    /// <summary>
+    /// 使用提示道具，显示一组可消除的牌面卡牌。
+    /// </summary>
     public override void OnClick()
     {
         base.OnClick();
@@ -35,18 +41,16 @@ public class GameSceneItem_Hint : GameSceneItemBase
         if (isUseItemSucceed)
         {
             GameManager.Instance.playerInfo.Minus_item_hint(1);
-            //GameManager.Instance.SavePlayerInfo();
+            GameManager.Instance.SavePlayerInfo();
             Refresh();
-        }
-        else
-        {
-            string str = LanguageManager.Instance.GetText("NoItemHintTips");
-            UIManager.Instance.OpenUI<GeneralTipsPanel>(str);
         }
     }
 
+    /// <summary>
+    /// 尝试显示一组可消除卡牌的提示特效。
+    /// </summary>
     private bool TryHintAnim()
     {
-        return false;
+        return UIManager.Instance.GetUI<GameScenePanel>().TryShowMahjongHint();
     }
 }

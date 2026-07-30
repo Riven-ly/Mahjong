@@ -32,8 +32,8 @@ namespace MahjongGame.View
         [SerializeField] private Text typeText; // 缺少图标时显示的卡牌类型数字文本
         [SerializeField] private CanvasGroup canvasGroup; // 卡牌透明度与交互控制
         [SerializeField] private GameObject BlockedMaskObj; // 被阻挡的牌的mask遮罩
-        
 
+        private GameObject hintEffect; // 提示特效节点
         private RectTransform rectTransform; // 当前卡牌矩形变换
         private RectTransform dragArea; // 拖拽坐标转换区域
         private RectTransform slotArea; // 有效拖拽目标区域
@@ -57,6 +57,7 @@ namespace MahjongGame.View
         private void Awake()
         {
             rectTransform = (RectTransform)transform;
+            hintEffect = transform.Find("HintEffect").gameObject;
         }
 
         /// <summary>
@@ -94,6 +95,30 @@ namespace MahjongGame.View
             name = iconImage.sprite.name;
             SetInteractable(true);
             BlockedMaskObj.SetActive(false);
+            SetHintEffectActive(false);
+        }
+
+        /// <summary>
+        /// 更新卡牌显示的类型图标和颜色。调用前必须已完成 Initialize。
+        /// </summary>
+        public void RefreshVisual(Sprite displaySprite, Color fallbackColor)
+        {
+            bool hasDisplaySprite = displaySprite != null;
+            backgroundImage.color = hasDisplaySprite ? Color.white : fallbackColor;
+            iconImage.sprite = displaySprite;
+            iconImage.SetNativeSize();
+            iconImage.gameObject.SetActive(hasDisplaySprite);
+            typeText.gameObject.SetActive(!hasDisplaySprite);
+            typeText.text = TypeId.ToString();
+            name = hasDisplaySprite ? iconImage.sprite.name : TypeId.ToString();
+        }
+
+        /// <summary>
+        /// 设置提示特效节点是否显示。
+        /// </summary>
+        public void SetHintEffectActive(bool active)
+        {
+            hintEffect.SetActive(active);
         }
 
         /// <summary>
@@ -156,6 +181,7 @@ namespace MahjongGame.View
             suppressClick = false;
             gameObject.SetActive(false);
             BlockedMaskObj.SetActive(false);
+            SetHintEffectActive(false);
         }
 
         /// <summary>

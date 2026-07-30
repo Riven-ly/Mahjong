@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelValidator.Editor.cs" />
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelEditorState.cs" />
+    <Compile Include="Assets\Editor\ABbuildEditor.cs" />
+    <Compile Include="Assets\Editor\CustomToolEditor.cs" />
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelCatalogRepository.cs" />
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelEditorWindow.cs" />
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelSolver.cs" />

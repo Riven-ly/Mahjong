@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class GameSceneItem_Exchange : GameSceneItemBase
 {
+    /// <summary>
+    /// 刷新洗牌道具的数量与解锁状态。
+    /// </summary>
     public override void Refresh()
     {
         base.Refresh();
@@ -22,6 +25,9 @@ public class GameSceneItem_Exchange : GameSceneItemBase
 
     }
 
+    /// <summary>
+    /// 使用洗牌道具，随机交换游戏区域内卡牌的位置。
+    /// </summary>
     public override void OnClick()
     {
         base.OnClick();
@@ -36,16 +42,19 @@ public class GameSceneItem_Exchange : GameSceneItemBase
         if (isUseItemSucceed)
         {
             GameManager.Instance.playerInfo.Minus_item_exchange(1);
-            //GameManager.Instance.SavePlayerInfo();
+            GameManager.Instance.SavePlayerInfo();
             Refresh();
         }
     }
 
 
 
+    /// <summary>
+    /// 尝试随机交换游戏区域内全部卡牌的位置。
+    /// </summary>
     public bool TryExchangeAllPlayingCard()
     {
-        return true;
+        return UIManager.Instance.GetUI<GameScenePanel>().TryShuffleMahjongCards();
     }
 
   

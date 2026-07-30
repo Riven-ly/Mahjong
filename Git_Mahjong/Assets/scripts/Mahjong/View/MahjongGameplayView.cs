@@ -63,6 +63,7 @@ namespace MahjongGame.View
         /// </summary>
         public void StopGameplay()
         {
+            StopHint();
             DOTween.Kill(this);
             foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
             {
@@ -124,6 +125,7 @@ namespace MahjongGame.View
         /// </summary>
         private void HandleCellSelectRequested(MahjongCell cell, bool isDraggedToSlot)
         {
+            StopHint();
             int slotInsertIndex = GetSlotInsertIndex(cell.InstanceId);
             MahjongOperationResult result = isDraggedToSlot
                 ? gameLogic.DragCardToSlot(cell.InstanceId)
@@ -157,6 +159,125 @@ namespace MahjongGame.View
             if (result.EliminatedCardIds.Count > 0)
             {
                 pendingEliminationResults.Add(result);
+            }
+        }
+
+        /// <summary>
+        /// 撤回卡槽中最后一张稳定卡牌并恢复牌面交互。
+        /// </summary>
+        public bool TryUndo()
+        {
+            if (!IsStable())
+            {
+                return false;
+            }
+
+            MahjongOperationResult result = gameLogic.Undo();
+            if (!result.Succeeded || !cellViews.TryGetValue(result.MovedCardId, out MahjongCell cell))
+            {
+                return false;
+            }
+
+            MahjongCardModel card = gameLogic.Model.GetCard(result.MovedCardId);
+            cell.transform.SetParent(boardRoot, false);
+            cell.SetBoardPosition(GetBoardPosition(card.Position, card.Layer, gameLogic.Model.LevelDefinition));
+            cell.transform.SetAsLastSibling();
+            LayoutSlotViews();
+            RefreshBoardStates();
+            return true;
+        }
+
+        /// <summary>
+        /// 随机交换游戏区域卡牌的完整棋盘位置并刷新牌面显示。
+        /// </summary>
+        public bool TryShuffle()
+        {
+            if (!IsStable())
+            {
+                return false;
+            }
+
+            MahjongOperationResult result = gameLogic.Shuffle();
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+
+            RefreshBoardPositions();
+            RefreshBoardStates();
+            return true;
+        }
+
+        /// <summary>
+        /// 找到一组可消除的牌面卡牌并显示提示特效。
+        /// </summary>
+        public bool TryShowHint()
+        {
+            if (!IsStable())
+            {
+                return false;
+            }
+
+            IReadOnlyList<int> hintCardIds = gameLogic.GetHintCardIds();
+            if (hintCardIds.Count == 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < hintCardIds.Count; i++)
+            {
+                cellViews[hintCardIds[i]].SetHintEffectActive(true);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 关闭全部卡牌的提示特效。
+        /// </summary>
+        public void StopHint()
+        {
+            foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
+            {
+                pair.Value.SetHintEffectActive(false);
+            }
+        }
+
+        /// <summary>
+        /// 判断当前是否没有入槽或消除动画，允许执行道具操作。
+        /// </summary>
+        private bool IsStable()
+        {
+            return gameLogic != null &&
+                   gameLogic.Model != null &&
+                   movingCardIds.Count == 0 &&
+                   pendingEliminationResults.Count == 0 &&
+                   activeEliminationCount == 0;
+        }
+
+        /// <summary>
+        /// 根据当前逻辑中的层级与坐标更新全部牌面卡牌位置和显示层级。
+        /// </summary>
+        private void RefreshBoardPositions()
+        {
+            int layerCount = gameLogic.Model.LevelDefinition.GetLayerCount();
+            for (int layer = 0; layer < layerCount; layer++)
+            {
+                for (int i = 0; i < gameLogic.Model.Cards.Count; i++)
+                {
+                    MahjongCardModel card = gameLogic.Model.Cards[i];
+                    if (card.State != MahjongCardState.OnBoard || card.Layer != layer ||
+                        !cellViews.TryGetValue(card.InstanceId, out MahjongCell cell))
+                    {
+                        continue;
+                    }
+
+                    cell.SetBoardPosition(GetBoardPosition(card.Position, card.Layer, gameLogic.Model.LevelDefinition));
+                    cell.RefreshVisual(
+                        MahjongCardVisualCatalogLoader.GetSprite(card.TypeId),
+                        MahjongCardColorUtility.GetColor(card.TypeId));
+                    cell.transform.SetAsLastSibling();
+                }
             }
         }
 
