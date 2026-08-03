@@ -45,7 +45,10 @@ public class GameManager : MonoBehaviour
     {
         BeforeCreatMahjongCells();
 
-        Init();
+        DOTween.Sequence().AppendInterval(2F).AppendCallback(() =>
+        {
+            Init();
+        });
 
     }
 

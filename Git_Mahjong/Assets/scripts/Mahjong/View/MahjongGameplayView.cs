@@ -178,11 +178,26 @@ namespace MahjongGame.View
                 return false;
             }
 
-            cell.transform.SetParent(boardRoot, false);
+            MahjongCardModel card = gameLogic.Model.GetCard(result.MovedCardId);
+            movingCardIds.Add(result.MovedCardId);
+            SetBoardInput(false);
+            LayoutSlotViews();
+            cell.AnimateReturnToBoard(
+                boardRoot,
+                GetBoardPosition(card.Position, card.Layer, gameLogic.Model.LevelDefinition),
+                () => CompleteUndoAnimation(result.MovedCardId));
+            return true;
+        }
+
+        /// <summary>
+        /// 完成撤销回位动画后恢复牌面层级、布局与交互。
+        /// </summary>
+        private void CompleteUndoAnimation(int cardInstanceId)
+        {
+            movingCardIds.Remove(cardInstanceId);
             RefreshBoardPositions();
             LayoutSlotViews();
             RefreshBoardStates();
-            return true;
         }
 
         /// <summary>

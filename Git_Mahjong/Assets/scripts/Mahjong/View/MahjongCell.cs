@@ -221,6 +221,23 @@ namespace MahjongGame.View
         }
 
         /// <summary>
+        /// 从卡槽保持当前位置返回牌面指定位置。调用前必须保证目标位置属于当前卡牌。
+        /// </summary>
+        public Tween AnimateReturnToBoard(Transform parent, Vector2 targetPosition, Action completed)
+        {
+            DOTween.Kill(this);
+            transform.SetParent(parent, true);
+            return rectTransform.DOAnchorPos(targetPosition, MahjongViewConfig.ReturnDuration)
+                .OnComplete(() =>
+                {
+                    rectTransform.anchoredPosition = targetPosition;
+                    completed?.Invoke();
+                })
+                .SetEase(Ease.OutQuad)
+                .SetTarget(this);
+        }
+
+        /// <summary>
         /// 播放非法操作抖动并返回原位。调用前必须保证卡牌未进入卡槽。
         /// </summary>
         public Sequence AnimateRejected()

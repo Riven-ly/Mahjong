@@ -42,7 +42,7 @@ public class GameSceneItem_Exchange : GameSceneItemBase
         if (isUseItemSucceed)
         {
             GameManager.Instance.playerInfo.Minus_item_exchange(1);
-            GameManager.Instance.SavePlayerInfo();
+            //GameManager.Instance.SavePlayerInfo();
             Refresh();
         }
     }

@@ -5,9 +5,18 @@ using UnityEngine;
 [Serializable]
 public class PlayerInfo
 {
-    public float gold = 0;
-    public float diamond = 0;
+    public const int CurrencyUnitScale = 1000;
+    public float Gold
+    {
+        get => gold / (float)CurrencyUnitScale;
+    }
+    public float Diamond
+    {
+        get => diamond / (float)CurrencyUnitScale;
+    }
 
+    private int gold = 0;
+    private int diamond = 0;
     public int level = 1;
 
     public int gameSceneItem_Hint = 50;
@@ -16,29 +25,28 @@ public class PlayerInfo
     public int gameSceneItem_Return = 50;
 
     //========================= 金币 =========================
-    public void Add_gold(float _cnt)
+    public void Add_gold(int _cnt)
     {
         gold += _cnt;
-        gold = Mathf.Floor(gold * 100) / 100f;
+        gold = Mathf.Min(gold, 9999999);
     }
-    public void Minus_gold(float _cnt)
+    public void Minus_gold(int _cnt)
     {
         gold -= _cnt;
-        gold = Mathf.Floor(gold * 100) / 100f;
         gold = Mathf.Max(gold, 0);
     }
 
     //========================= 钻石 =========================
-    public void Add_diamond(float _cnt)
+    public void Add_diamond(int _cnt)
     {
         diamond += _cnt;
-        diamond = Mathf.Floor(diamond * 100) / 100f;
+        diamond = Mathf.Min(diamond, 9999999);
     }
-    public void Minus_diamond(float _cnt)
+    public void Minus_diamond(int _cnt)
     {
         diamond -= _cnt;
-        diamond = Mathf.Floor(diamond * 100) / 100f;
         diamond = Mathf.Max(diamond, 0);
+
     }
 
     //========================= Hint 道具 =========================

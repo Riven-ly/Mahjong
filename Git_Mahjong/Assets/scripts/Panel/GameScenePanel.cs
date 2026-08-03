@@ -58,7 +58,7 @@ public class GameScenePanel : UIBase,IEventListener
     public override void Refresh(object data = null)
     {
         int playerLevel = GameManager.Instance.playerInfo.level;
-        gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel, Environment.TickCount));
+        gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel));
 
         gameSceneItem_Exchange.Refresh();
         gameSceneItem_Hint.Refresh();
@@ -122,10 +122,10 @@ public class GameScenePanel : UIBase,IEventListener
         switch (eventType)
         {
             case GameEvent.MahjongGameWon:
-                Debug.Log("游戏胜利");
+                UIManager.Instance.OpenUI<GameWinPanel>();
                 break;
             case GameEvent.MahjongGameLost:
-                Debug.Log("游戏失败");
+                UIManager.Instance.OpenUI<GameLostPanel>();
                 break;
             case GameEvent.StopHintAnim:
                 StopMahjongHint();

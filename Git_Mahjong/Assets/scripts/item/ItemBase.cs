@@ -19,8 +19,8 @@ public enum ItemType
 public class ItemData
 {
     public ItemType itemType;
-    public float count;
-    public ItemData(ItemType _itemType, float _count)
+    public int count;
+    public ItemData(ItemType _itemType, int _count)
     {
         itemType = _itemType;
         count = _count;
@@ -35,7 +35,7 @@ public class ItemBase : MonoBehaviour
     public Transform effect;
 
     [HideInInspector] public ItemType itemType;
-    [HideInInspector] public float count;
+    [HideInInspector] public int count;
 
     public virtual void Init(ItemData _itemData)
     {
@@ -84,16 +84,16 @@ public class ItemBase : MonoBehaviour
                 GameManager.Instance.playerInfo.Add_diamond(count);
                 break;
             case ItemType.Hint:
-                GameManager.Instance.playerInfo.Add_item_hint((int)count);
+                GameManager.Instance.playerInfo.Add_item_hint(count);
                 break;
             case ItemType.Exchange:
-                GameManager.Instance.playerInfo.Add_item_exchange((int)count);
+                GameManager.Instance.playerInfo.Add_item_exchange(count);
                 break;
             case ItemType.Extract:
-                GameManager.Instance.playerInfo.Add_item_extract((int)count);
+                GameManager.Instance.playerInfo.Add_item_extract(count);
                 break;
             case ItemType.Return:
-                GameManager.Instance.playerInfo.Add_item_return((int)count);
+                GameManager.Instance.playerInfo.Add_item_return(count);
                 break;
         }
 

@@ -67,6 +67,7 @@
     <Compile Include="Assets\scripts\item\ItemBase.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Exchange.cs" />
     <Compile Include="Assets\scripts\AB\ABResManager.cs" />
+    <Compile Include="Assets\scripts\Panel\GameWinPanel.cs" />
     <Compile Include="Assets\scripts\Manager\PlayerInfo.cs" />
     <Compile Include="Assets\scripts\AB\ABbuildManager.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongLevelCatalogLoader.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Assets\scripts\EventSystem\GameEvent.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCell.cs" />
     <Compile Include="Assets\scripts\Manager\UIManager.cs" />
+    <Compile Include="Assets\scripts\Panel\GameLostPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGenerator.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongGameLogic.cs" />
     <Compile Include="Assets\scripts\Panel\LobbyScenePanel.cs" />
@@ -1109,6 +1111,14 @@
     </Reference>
     <Reference Include="Unity.2D.Common.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.Aseprite.Editor">

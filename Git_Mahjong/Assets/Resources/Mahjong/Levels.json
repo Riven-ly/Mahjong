@@ -1,6 +1,49 @@
 {
   "version": 1,
-  "cardTypeIds": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42],
+  "cardTypeIds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42
+  ],
   "levels": [
     {
       "level": 1,
@@ -8,323 +51,119 @@
       "gridRowCount": 4,
       "cards": [
         {
-          "typeId": 16,
-          "layer": 0,
+          "typeId": 26,
+          "layer": 2,
           "column": 0,
-          "row": 0
-        },
-        {
-          "typeId": 41,
-          "layer": 0,
-          "column": 3,
-          "row": 0
-        },
-        {
-          "typeId": 1,
-          "layer": 0,
-          "column": 1,
-          "row": 1
-        },
-        {
-          "typeId": 41,
-          "layer": 0,
-          "column": 3,
-          "row": 1
-        },
-        {
-          "typeId": 3,
-          "layer": 0,
-          "column": 1,
           "row": 2
         },
         {
-          "typeId": 42,
-          "layer": 0,
+          "typeId": 26,
+          "layer": 2,
           "column": 3,
-          "row": 2
+          "row": 0
         },
         {
-          "typeId": 3,
-          "layer": 0,
-          "column": 0,
-          "row": 3
-        },
-        {
-          "typeId": 42,
-          "layer": 0,
-          "column": 2,
-          "row": 3
-        },
-        {
-          "typeId": 2,
-          "layer": 0,
-          "column": 3,
-          "row": 3
-        },
-        {
-          "typeId": 20,
+          "typeId": 19,
           "layer": 1,
-          "column": 0,
+          "column": 2,
           "row": -1
         },
         {
-          "typeId": 1,
-          "layer": 1,
-          "column": 0,
-          "row": 0
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 1,
-          "row": 0
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 2,
-          "row": 0
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 3,
-          "row": 0
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 0,
-          "row": 1
-        },
-        {
-          "typeId": 7,
-          "layer": 1,
-          "column": 1,
-          "row": 1
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 2,
-          "row": 1
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 3,
-          "row": 1
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 0,
-          "row": 2
-        },
-        {
-          "typeId": 4,
-          "layer": 1,
-          "column": 1,
-          "row": 2
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 2,
-          "row": 2
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 3,
-          "row": 2
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 0,
-          "row": 3
-        },
-        {
-          "typeId": 6,
-          "layer": 1,
-          "column": 1,
-          "row": 3
-        },
-        {
-          "typeId": 1,
+          "typeId": 32,
           "layer": 1,
           "column": 2,
           "row": 3
         },
         {
-          "typeId": 1,
-          "layer": 1,
-          "column": 3,
-          "row": 3
-        },
-        {
-          "typeId": 20,
-          "layer": 2,
-          "column": 0,
-          "row": 0
-        },
-        {
-          "typeId": 7,
-          "layer": 2,
-          "column": 1,
-          "row": 1
-        },
-        {
-          "typeId": 1,
+          "typeId": 19,
           "layer": 2,
           "column": 1,
           "row": 2
         },
         {
-          "typeId": 2,
+          "typeId": 32,
           "layer": 2,
-          "column": 1,
-          "row": 3
-        },
-        {
-          "typeId": 1,
-          "layer": 3,
-          "column": -1,
-          "row": -1
+          "column": 3,
+          "row": 1
         },
         {
           "typeId": 16,
-          "layer": 3,
-          "column": 0,
-          "row": -1
-        },
-        {
-          "typeId": 42,
-          "layer": 3,
-          "column": 1,
-          "row": -1
-        },
-        {
-          "typeId": 1,
-          "layer": 3,
-          "column": 3,
-          "row": -1
-        },
-        {
-          "typeId": 42,
-          "layer": 3,
-          "column": -1,
-          "row": 0
-        },
-        {
-          "typeId": 14,
-          "layer": 3,
-          "column": 0,
-          "row": 0
-        },
-        {
-          "typeId": 14,
-          "layer": 3,
-          "column": 1,
-          "row": 0
-        },
-        {
-          "typeId": 1,
-          "layer": 3,
-          "column": 1,
-          "row": 1
-        },
-        {
-          "typeId": 41,
-          "layer": 3,
-          "column": -1,
-          "row": 2
-        },
-        {
-          "typeId": 4,
-          "layer": 3,
-          "column": 2,
-          "row": 2
-        },
-        {
-          "typeId": 41,
-          "layer": 3,
+          "layer": 1,
           "column": -1,
           "row": 3
         },
         {
-          "typeId": 6,
-          "layer": 3,
-          "column": 3,
-          "row": 3
+          "typeId": 16,
+          "layer": 0,
+          "column": 0,
+          "row": 2
         }
       ]
     },
     {
       "level": 2,
-      "gridColumnCount": 3,
-      "gridRowCount": 3,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
       "cards": [
         {
-          "typeId": 3,
-          "layer": 0,
-          "column": 2,
-          "row": 0
-        },
-        {
-          "typeId": 2,
-          "layer": 0,
-          "column": 1,
-          "row": 1
-        },
-        {
-          "typeId": 1,
-          "layer": 0,
-          "column": 1,
-          "row": 2
-        },
-        {
-          "typeId": 1,
-          "layer": 1,
-          "column": 1,
-          "row": 0
-        },
-        {
-          "typeId": 6,
-          "layer": 1,
-          "column": 2,
-          "row": 0
-        },
-        {
-          "typeId": 4,
+          "typeId": 22,
           "layer": 1,
           "column": 0,
           "row": 1
         },
         {
-          "typeId": 3,
+          "typeId": 2,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 20,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 9,
           "layer": 1,
-          "column": 1,
+          "column": 3,
           "row": 1
         },
         {
-          "typeId": 4,
-          "layer": 1,
-          "column": 1,
-          "row": 2
-        },
-        {
-          "typeId": 2,
+          "typeId": 9,
           "layer": 2,
           "column": 1,
           "row": 0
         },
         {
-          "typeId": 6,
+          "typeId": 20,
           "layer": 2,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 7,
+          "layer": 2,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 2,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 7,
+          "layer": 0,
           "column": 1,
           "row": 1
+        },
+        {
+          "typeId": 22,
+          "layer": 0,
+          "column": 3,
+          "row": 3
         }
       ]
     },
@@ -335,15 +174,2402 @@
       "cards": [
         {
           "typeId": 1,
+          "layer": 1,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 26,
+          "layer": 2,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 27,
+          "layer": 0,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 27,
+          "layer": 2,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 9,
+          "layer": 1,
+          "column": -1,
+          "row": 0
+        },
+        {
+          "typeId": 11,
+          "layer": 1,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 36,
+          "layer": 2,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 26,
+          "layer": 1,
+          "column": 3,
+          "row": -1
+        },
+        {
+          "typeId": 1,
+          "layer": 1,
+          "column": -1,
+          "row": 3
+        },
+        {
+          "typeId": 9,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 11,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 36,
+          "layer": 2,
+          "column": 1,
+          "row": 3
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 35,
+          "layer": 1,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 29,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 29,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 11,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 24,
+          "layer": 1,
+          "column": -1,
+          "row": 3
+        },
+        {
+          "typeId": 12,
+          "layer": 3,
+          "column": -1,
+          "row": -1
+        },
+        {
+          "typeId": 8,
+          "layer": 2,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 8,
+          "layer": 1,
+          "column": 2,
+          "row": -1
+        },
+        {
+          "typeId": 24,
+          "layer": 3,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 11,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 41,
+          "layer": 2,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 35,
           "layer": 0,
           "column": 1,
           "row": 1
         },
         {
+          "typeId": 12,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 41,
+          "layer": 3,
+          "column": 1,
+          "row": -1
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 32,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 27,
+          "layer": 1,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 32,
+          "layer": 2,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 17,
+          "layer": 3,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 29,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 15,
+          "layer": 2,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 31,
+          "layer": 1,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 27,
+          "layer": 3,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 31,
+          "layer": 3,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 21,
+          "layer": 1,
+          "column": -1,
+          "row": 0
+        },
+        {
+          "typeId": 15,
+          "layer": 3,
+          "column": -1,
+          "row": 0
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 21,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 29,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 17,
+          "layer": 3,
+          "column": -1,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 6,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 17,
+          "layer": 2,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 31,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 20,
+          "layer": 1,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 14,
+          "layer": 3,
+          "column": 3,
+          "row": -1
+        },
+        {
+          "typeId": 20,
+          "layer": 1,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 37,
+          "layer": 1,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 17,
+          "layer": 3,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 36,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 31,
+          "layer": 2,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 35,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 35,
+          "layer": 3,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 36,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 12,
+          "layer": 2,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 14,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 12,
+          "layer": 1,
+          "column": 0,
+          "row": -1
+        },
+        {
+          "typeId": 37,
+          "layer": 3,
+          "column": 0,
+          "row": 3
+        }
+      ]
+    },
+    {
+      "level": 7,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 3,
+          "layer": 2,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 19,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 20,
+          "layer": 4,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 22,
+          "layer": 4,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 9,
+          "layer": 4,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 28,
+          "layer": 4,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 11,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 28,
+          "layer": 4,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 9,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 19,
+          "layer": 3,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 7,
+          "layer": 4,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 26,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 13,
+          "layer": 4,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 7,
+          "layer": 1,
+          "column": -1,
+          "row": -1
+        },
+        {
+          "typeId": 3,
+          "layer": 2,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 11,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 22,
+          "layer": 2,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 20,
+          "layer": 1,
+          "column": 0,
+          "row": -1
+        },
+        {
+          "typeId": 13,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 26,
+          "layer": 3,
+          "column": 3,
+          "row": 3
+        }
+      ]
+    },
+    {
+      "level": 8,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 23,
+          "layer": 2,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 18,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 18,
+          "layer": 2,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 39,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 12,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 9,
+          "layer": 3,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 15,
+          "layer": 1,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 34,
+          "layer": 3,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 34,
+          "layer": 2,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 23,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 7,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 9,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 32,
+          "layer": 1,
+          "column": -1,
+          "row": -1
+        },
+        {
+          "typeId": 32,
+          "layer": 3,
+          "column": 0,
+          "row": -1
+        },
+        {
+          "typeId": 15,
+          "layer": 0,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 3,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 7,
+          "layer": 1,
+          "column": -1,
+          "row": 3
+        },
+        {
+          "typeId": 33,
+          "layer": 3,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 12,
+          "layer": 1,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 33,
+          "layer": 4,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 39,
+          "layer": 3,
+          "column": 3,
+          "row": -1
+        },
+        {
+          "typeId": 3,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 9,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 24,
+          "layer": 4,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 42,
+          "layer": 2,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 42,
+          "layer": 4,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 29,
+          "layer": 4,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 14,
+          "layer": 2,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 29,
+          "layer": 1,
+          "column": 2,
+          "row": -1
+        },
+        {
+          "typeId": 40,
+          "layer": 2,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 14,
+          "layer": 2,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 40,
+          "layer": 2,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 36,
+          "layer": 1,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 3,
+          "layer": 3,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 24,
+          "layer": 1,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 12,
+          "layer": 1,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 20,
+          "layer": 1,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 18,
+          "layer": 3,
+          "column": -1,
+          "row": 3
+        },
+        {
+          "typeId": 27,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 22,
+          "layer": 1,
+          "column": -1,
+          "row": -1
+        },
+        {
+          "typeId": 3,
+          "layer": 4,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 36,
+          "layer": 4,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 20,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 22,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 12,
+          "layer": 3,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 18,
+          "layer": 1,
+          "column": -1,
+          "row": 2
+        },
+        {
+          "typeId": 27,
+          "layer": 0,
+          "column": 0,
+          "row": 3
+        }
+      ]
+    },
+    {
+      "level": 10,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 41,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 26,
+          "layer": 3,
+          "column": 1,
+          "row": -1
+        },
+        {
+          "typeId": 37,
+          "layer": 5,
+          "column": 3,
+          "row": -1
+        },
+        {
+          "typeId": 18,
+          "layer": 5,
+          "column": 0,
+          "row": 1
+        },
+        {
           "typeId": 1,
+          "layer": 3,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 39,
+          "layer": 4,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 1,
+          "layer": 2,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 12,
+          "layer": 2,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 13,
+          "layer": 4,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 14,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 10,
+          "layer": 0,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 12,
+          "layer": 3,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 21,
+          "layer": 1,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 28,
+          "layer": 1,
+          "column": -1,
+          "row": -1
+        },
+        {
+          "typeId": 37,
+          "layer": 4,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 2,
+          "layer": 4,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 10,
+          "layer": 1,
+          "column": 3,
+          "row": -1
+        },
+        {
+          "typeId": 28,
+          "layer": 3,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 14,
+          "layer": 5,
+          "column": -1,
+          "row": -1
+        },
+        {
+          "typeId": 13,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 41,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 26,
+          "layer": 5,
+          "column": 1,
+          "row": -1
+        },
+        {
+          "typeId": 2,
+          "layer": 2,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 18,
+          "layer": 3,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 39,
+          "layer": 2,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 21,
+          "layer": 1,
+          "column": 2,
+          "row": 0
+        }
+      ]
+    },
+    {
+      "level": 11,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 16,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 29,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 6,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 9,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 30,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 6,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 22,
+          "layer": 0,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 31,
+          "layer": 0,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 22,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 12,
+          "layer": 0,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 9,
+          "layer": 1,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 29,
+          "layer": 1,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 16,
+          "layer": 1,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 30,
+          "layer": 1,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 12,
+          "layer": 2,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 31,
+          "layer": 2,
+          "column": 2,
+          "row": 3
+        }
+      ]
+    },
+    {
+      "level": 12,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 22,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 29,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 39,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 18,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 8,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 18,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 5,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 16,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 35,
+          "layer": 0,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 22,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 27,
+          "layer": 1,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 35,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 27,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 29,
+          "layer": 1,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 5,
+          "layer": 1,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 39,
+          "layer": 1,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 16,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 8,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "level": 13,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 16,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 1,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 34,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 41,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 11,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 16,
           "layer": 0,
           "column": 2,
           "row": 1
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 2,
+          "layer": 1,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 11,
+          "layer": 1,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 39,
+          "layer": 1,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 7,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 41,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 1,
+          "layer": 1,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 33,
+          "layer": 2,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 39,
+          "layer": 2,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 34,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 7,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 33,
+          "layer": 3,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 2,
+          "layer": 3,
+          "column": 2,
+          "row": 0
+        }
+      ]
+    },
+    {
+      "level": 14,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 39,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 5,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 4,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 34,
+          "layer": 0,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 41,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 26,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 11,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 10,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 4,
+          "layer": 0,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 2,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 10,
+          "layer": 1,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 2,
+          "layer": 1,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 23,
+          "layer": 1,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 1,
+          "layer": 1,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 39,
+          "layer": 1,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 5,
+          "layer": 1,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 29,
+          "layer": 1,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 41,
+          "layer": 1,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 1,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 23,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 34,
+          "layer": 2,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 26,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 29,
+          "layer": 3,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 11,
+          "layer": 3,
+          "column": 2,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 15,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 10,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 27,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 40,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 14,
+          "layer": 0,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 2,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 28,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 9,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 33,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 10,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 2,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 24,
+          "layer": 0,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 9,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 24,
+          "layer": 1,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 3,
+          "layer": 1,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 27,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 41,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 14,
+          "layer": 1,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 33,
+          "layer": 1,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 42,
+          "layer": 1,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 4,
+          "layer": 1,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 41,
+          "layer": 2,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 40,
+          "layer": 2,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 4,
+          "layer": 2,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 42,
+          "layer": 2,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 28,
+          "layer": 3,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 3,
+          "layer": 3,
+          "column": 2,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 16,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 34,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 33,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 39,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 6,
+          "layer": 0,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 34,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 33,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 32,
+          "layer": 0,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 40,
+          "layer": 0,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 30,
+          "layer": 1,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 37,
+          "layer": 1,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 40,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 7,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 9,
+          "layer": 1,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 25,
+          "layer": 1,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 37,
+          "layer": 1,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 32,
+          "layer": 1,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 7,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 39,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 30,
+          "layer": 2,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 9,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 25,
+          "layer": 3,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 6,
+          "layer": 3,
+          "column": 2,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 17,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 39,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 27,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 13,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 10,
+          "layer": 0,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 34,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 27,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 40,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 9,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 26,
+          "layer": 0,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 41,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 13,
+          "layer": 1,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 40,
+          "layer": 1,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 10,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 34,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 41,
+          "layer": 1,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 28,
+          "layer": 1,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 17,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 28,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 39,
+          "layer": 2,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 9,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 26,
+          "layer": 3,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 17,
+          "layer": 3,
+          "column": 2,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 18,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 8,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 14,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 28,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 8,
+          "layer": 0,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 20,
+          "layer": 0,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 36,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 31,
+          "layer": 0,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 35,
+          "layer": 0,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 25,
+          "layer": 1,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 41,
+          "layer": 1,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 42,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 20,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 25,
+          "layer": 1,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 36,
+          "layer": 1,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 28,
+          "layer": 1,
+          "column": 0,
+          "row": 3
+        },
+        {
+          "typeId": 11,
+          "layer": 1,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 35,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 41,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 11,
+          "layer": 2,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 42,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 14,
+          "layer": 3,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 31,
+          "layer": 3,
+          "column": 2,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 19,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 23,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 6,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 25,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 2,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 5,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 34,
+          "layer": 0,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 12,
+          "layer": 0,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 25,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 5,
+          "layer": 0,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 2,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 28,
+          "layer": 1,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 6,
+          "layer": 1,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 40,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 18,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 23,
+          "layer": 1,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 34,
+          "layer": 1,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 17,
+          "layer": 1,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 21,
+          "layer": 1,
+          "column": 3,
+          "row": 3
+        },
+        {
+          "typeId": 21,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 18,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 17,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 12,
+          "layer": 2,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 28,
+          "layer": 3,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 40,
+          "layer": 3,
+          "column": 2,
+          "row": 2
+        }
+      ]
+    },
+    {
+      "level": 20,
+      "gridColumnCount": 4,
+      "gridRowCount": 4,
+      "cards": [
+        {
+          "typeId": 23,
+          "layer": 0,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 40,
+          "layer": 0,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 35,
+          "layer": 0,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 29,
+          "layer": 0,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 22,
+          "layer": 0,
+          "column": 0,
+          "row": 1
+        },
+        {
+          "typeId": 27,
+          "layer": 0,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 37,
+          "layer": 0,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 1,
+          "layer": 0,
+          "column": 3,
+          "row": 1
+        },
+        {
+          "typeId": 12,
+          "layer": 0,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 31,
+          "layer": 0,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 38,
+          "layer": 0,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 18,
+          "layer": 0,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 35,
+          "layer": 1,
+          "column": 0,
+          "row": 0
+        },
+        {
+          "typeId": 29,
+          "layer": 1,
+          "column": 3,
+          "row": 0
+        },
+        {
+          "typeId": 31,
+          "layer": 1,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 27,
+          "layer": 1,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 22,
+          "layer": 1,
+          "column": 0,
+          "row": 2
+        },
+        {
+          "typeId": 40,
+          "layer": 1,
+          "column": 3,
+          "row": 2
+        },
+        {
+          "typeId": 12,
+          "layer": 1,
+          "column": 1,
+          "row": 3
+        },
+        {
+          "typeId": 6,
+          "layer": 1,
+          "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 38,
+          "layer": 2,
+          "column": 1,
+          "row": 0
+        },
+        {
+          "typeId": 18,
+          "layer": 2,
+          "column": 2,
+          "row": 0
+        },
+        {
+          "typeId": 33,
+          "layer": 2,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 20,
+          "layer": 2,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 6,
+          "layer": 2,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 37,
+          "layer": 2,
+          "column": 2,
+          "row": 2
+        },
+        {
+          "typeId": 23,
+          "layer": 3,
+          "column": 1,
+          "row": 1
+        },
+        {
+          "typeId": 1,
+          "layer": 3,
+          "column": 2,
+          "row": 1
+        },
+        {
+          "typeId": 33,
+          "layer": 3,
+          "column": 1,
+          "row": 2
+        },
+        {
+          "typeId": 20,
+          "layer": 3,
+          "column": 2,
+          "row": 2
         }
       ]
     }

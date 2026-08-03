@@ -20,7 +20,7 @@ namespace MahjongGame.EditorTools
         private int selectedLevelIndex; // 当前目录关卡索引
         private int newTypeId = 9; // 待新增卡牌类型ID
         private float cellSize = CellCardWidth * 0.5f; // 编辑器网格单元格显示宽度
-        [SerializeField] private float iconNativeSizeScale = 0.2f; // 图标原生尺寸缩放比例
+        private float iconNativeSizeScale = 0.2f; // 图标原生尺寸缩放比例
         private bool showLowerLayers = true; // 是否半透明显示低层卡牌
         private string statusMessage = "尚未校验"; // 当前校验或保存状态提示
         private MessageType statusType = MessageType.Info; // 当前状态提示类型
@@ -165,9 +165,9 @@ namespace MahjongGame.EditorTools
                 float gridZoom = cellSize / CellCardWidth;
                 gridZoom = GUILayout.HorizontalSlider(gridZoom, 0.25f, 1.5f, GUILayout.Width(160f));
                 cellSize = CellCardWidth * gridZoom;
-                GUILayout.Label("Icon Scale", GUILayout.Width(65f));
-                iconNativeSizeScale = GUILayout.HorizontalSlider(iconNativeSizeScale, 0.01f, 1f, GUILayout.Width(120f));
-                GUILayout.Label(iconNativeSizeScale.ToString("0.00"), GUILayout.Width(30f));
+                //GUILayout.Label("Icon Scale", GUILayout.Width(65f));
+                //iconNativeSizeScale = GUILayout.HorizontalSlider(iconNativeSizeScale, 0.01f, 1f, GUILayout.Width(120f));
+                //GUILayout.Label(iconNativeSizeScale.ToString("0.00"), GUILayout.Width(30f));
             }
         }
 
