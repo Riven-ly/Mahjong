@@ -62,18 +62,25 @@
   <ItemGroup>
     <Compile Include="Assets\scripts\sceneitem\GameSceneItemBase.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardVisualCatalog.cs" />
+    <Compile Include="Assets\scripts\Ad\AdManager.cs" />
     <Compile Include="Assets\scripts\AB\SwitchAorBSprite.cs" />
     <Compile Include="Assets\scripts\language\PortugueseLanguageConfig.cs" />
     <Compile Include="Assets\scripts\item\ItemBase.cs" />
+    <Compile Include="Assets\scripts\Manager\OtherSdkManager.cs" />
+    <Compile Include="Assets\scripts\Panel\TxPanel.cs" />
+    <Compile Include="Assets\scripts\Panel\GeneralRewardsPanel.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Exchange.cs" />
+    <Compile Include="Assets\scripts\Effect\GoldCollectEffect.cs" />
     <Compile Include="Assets\scripts\AB\ABResManager.cs" />
     <Compile Include="Assets\scripts\Panel\GameWinPanel.cs" />
     <Compile Include="Assets\scripts\Manager\PlayerInfo.cs" />
+    <Compile Include="Assets\scripts\Ad\ApplovinMaxInterstitialOperator.cs" />
     <Compile Include="Assets\scripts\AB\ABbuildManager.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongLevelCatalogLoader.cs" />
     <Compile Include="Assets\scripts\Panel\TaskPanel.cs" />
     <Compile Include="Assets\scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\scripts\Manager\AudioManager.cs" />
+    <Compile Include="Assets\scripts\Ad\ApplovinMaxRewardOperator.cs" />
     <Compile Include="Assets\scripts\language\IndonesianLanguageConfig.cs" />
     <Compile Include="Assets\scripts\Task\TaskManager.cs" />
     <Compile Include="Assets\scripts\Panel\SettingPanel.cs" />
@@ -81,34 +88,44 @@
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Hint.cs" />
     <Compile Include="Assets\scripts\EventSystem\GameEvent.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCell.cs" />
+    <Compile Include="Assets\scripts\Manager\EncryptSDKKey.cs" />
     <Compile Include="Assets\scripts\Manager\UIManager.cs" />
+    <Compile Include="Assets\scripts\Ad\RewardAdButton.cs" />
     <Compile Include="Assets\scripts\Panel\GameLostPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGenerator.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongGameLogic.cs" />
     <Compile Include="Assets\scripts\Panel\LobbyScenePanel.cs" />
     <Compile Include="Assets\scripts\language\MultilingualSprite.cs" />
+    <Compile Include="Assets\scripts\NetworkChecker\NetworkCheckerPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongSlotRules.cs" />
     <Compile Include="Assets\scripts\Panel\GameScenePanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardColorUtility.cs" />
     <Compile Include="Assets\scripts\Task\TaskItem.cs" />
+    <Compile Include="Assets\scripts\Effect\GoldFlyControl.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongOperationResult.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Return.cs" />
+    <Compile Include="Assets\scripts\Panel\PlayerInfoUI.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGeometry.cs" />
     <Compile Include="Assets\scripts\language\MultilingualText.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelValidator.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralTipsPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongGameplayView.cs" />
+    <Compile Include="Assets\scripts\NetworkChecker\NetworkChecker.cs" />
     <Compile Include="Assets\scripts\Manager\UIBase.cs" />
     <Compile Include="Assets\scripts\language\EnglishLanguageConfig.cs" />
     <Compile Include="Assets\scripts\Mahjong\Model\MahjongModels.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongBoardRules.cs" />
     <Compile Include="Assets\scripts\EventSystem\EventManager.cs" />
     <Compile Include="Assets\scripts\language\LanguageManager.cs" />
+    <Compile Include="Assets\scripts\Task\TxManager.cs" />
+    <Compile Include="Assets\scripts\Panel\GameLoadingPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Adjust\Native\Android\AdjustAndroidManifest.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\scripts\Effect\UIScanLight.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
@@ -120,6 +137,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\MaxSdk\Mediation\MediationAdapters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
@@ -453,6 +471,14 @@
       <HintPath>Library\PackageCache\com.unity.collections@1.2.4\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SolarEngineUnityTool">
+      <HintPath>Assets\Plugins\SolarEngine\MiniGame\SolarEngineUnityTool.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SolarEngineMiniGames">
+      <HintPath>Assets\Plugins\SolarEngine\MiniGame\SolarEngineMiniGames.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
       <Private>False</Private>
@@ -463,6 +489,14 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1\Runtime\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MiniGameRemoteConfig">
+      <HintPath>Assets\Plugins\SolarEngine\MiniGame\MiniGameRemoteConfig.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="solarenginewindows">
+      <HintPath>Assets\Plugins\SolarEngine\Windows\solarenginewindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
@@ -1150,6 +1184,30 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{F25638F6-BED8-BEEC-4078-97431383DD8A}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="AdjustSdk.Editor.csproj">
+      <Project>{7BDB9AA6-FE25-B2A6-2537-7873403F7F9A}</Project>
+      <Name>AdjustSdk.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="SolarEngineSDK.Editor.csproj">
+      <Project>{52DFE437-0E05-2EB0-D3C3-56D4EFBE95D6}</Project>
+      <Name>SolarEngineSDK.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="MaxSdk.Scripts.IntegrationManager.Editor.csproj">
+      <Project>{5CE3557F-23AE-32D3-921A-FC4B008F188B}</Project>
+      <Name>MaxSdk.Scripts.IntegrationManager.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="SolarEngineSDK.csproj">
+      <Project>{B40F0D7F-9177-61B4-6244-3F02DF6ABCD8}</Project>
+      <Name>SolarEngineSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="MaxSdk.Scripts.csproj">
+      <Project>{0C7D07A7-D38B-ED79-2F3E-6DFB84AB4932}</Project>
+      <Name>MaxSdk.Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="AdjustSdk.Scripts.csproj">
+      <Project>{96F99D1A-0545-0B4B-F9AC-802C4843C8FB}</Project>
+      <Name>AdjustSdk.Scripts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

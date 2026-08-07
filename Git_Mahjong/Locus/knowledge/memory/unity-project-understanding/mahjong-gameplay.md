@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785138573722
-updatedAt: 1785410006952
+updatedAt: 1786070836116
 ---
 
 # mahjong-gameplay
@@ -44,4 +44,6 @@ Mahjong 主玩法代码结构与当前实现进度缓存。
 - 消除特效当前运行资产为 `Assets/Prefab/Mahjong/MahjongEliminationFragments2.prefab`，其整体右上抛射轨迹被确认接近目标；材质为 `Assets/Material/MahjongEliminationFragments.mat`（主贴图 `Assets/Texture/Mahjong/EliminationParticleCircle.asset`）。该预制体采用单层圆形粒子：0秒一次发射76–84个，发射半径0.055、起始速度0、初始尺寸0.22–0.42；Velocity over Lifetime 在0–0.12秒保持 X/Y 为0形成成团蓄势，随后同步提升至右上方向（X最高2.5、Y最高5.8），叠加2倍重力下落，生命周期0.9–1.25秒并缩小淡出。`Assets/Resources/UI/Panel/GameScenePanel.prefab` 的 `GameScenePanel/Root/MahjongGameplay/EliminationEffectRoot` 持有两个失活预创建的 `MahjongEliminationFragments2` 实例；`MahjongGameplayView` 在 Awake 只收集该节点的直接子级根粒子并维护专用粒子对象池，池不足才基于首个实例创建。消除缩放结束的回调在 `MahjongCell.AnimateEliminated` 中触发，由 `MahjongGameplayView` 以卡牌世界坐标播放粒子；`StopGameplay` 会终止并回收所有该类特效。旧版 `Assets/Prefab/Mahjong/MahjongEliminationFragments.prefab` 不再被运行时池使用。
 - `Assets/Texture/Mahjong/cell/` 当前为42张标准麻将牌：typeId 1–9 对应 `1tong`–`9tong`，10–18 对应 `1tiao`–`9tiao`，19–27 对应 `1wan`–`9wan`，28–34 为东南西北、中发白，35–42 为春夏秋冬梅兰竹菊（文件名以 `hua` 前缀区分冬与东风）。`Assets/Resources/Mahjong/MahjongCardVisualCatalog.asset` 已按该顺序完整映射。
 - 卡牌贴图尺寸不统一时，运行时 `MahjongCell` 的 Icon 保留预制体固定区域与 Image 的 Preserve Aspect，不调用 `SetNativeSize()`。关卡编辑器 `MahjongLevelEditorWindow` 的 `DrawCard` 则按贴图原生尺寸绘制，并通过窗口 `Level Settings` 中持久化的 `Icon Scale` 滑条（范围0.01–1，默认0.19）统一缩放预览。
+- `MahjongCell` 入槽时自身从 `Vector3.one` 缩放到 `MahjongViewConfig.SlotCardScale`，缩放与点击入槽/拖拽入槽的移动补间同时开始；`AnimateBack`、`AnimateReturnToBoard` 和 `ResetForPool` 会恢复为 `Vector3.one`。`GameScenePanel.prefab` 的 `SlotRoot` 保持原始局部缩放 `Vector3.one`。
+- `MahjongGameplayView` 在每组卡槽消除动画结束并完成逻辑移除后，累计该组消除卡牌数；每局开局清零。累计达到 `MahjongConfig.RewardTriggerEliminatedCardCount`（10张）时，以 `RewardInitialProbability`（50%）首次判定；之后每多消除一组（2张）增加 `RewardProbabilityIncreasePerGroup`（10%），成功时无参打开 `GeneralRewardsPanel` 并清零累计数。
 <!-- locus:body:end -->

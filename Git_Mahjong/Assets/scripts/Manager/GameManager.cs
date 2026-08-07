@@ -44,19 +44,81 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         BeforeCreatMahjongCells();
-
-        DOTween.Sequence().AppendInterval(2F).AppendCallback(() =>
-        {
-            Init();
-        });
-
+        Init();
     }
 
     public void Init()
     {
         playerInfo = GetPlayerInfo();
+        UIManager.Instance.OpenUI<PlayerInfoUI>();
         gameType = GameType.MainGame;
         UIManager.Instance.OpenUI<GameScenePanel>();
+    }
+
+    public int GetReward()
+    {
+        var saveData = TaskManager.Instance.saveData;
+        float dailyActualReward = saveData.dailyActualReward;      //实际领取奖励
+        float dailyEstimatedReward = saveData.dailyEstimatedReward;//每日任务预估奖励
+        int playerGold = (int)(GameManager.Instance.playerInfo.Gold * PlayerInfo.CurrencyUnitScale);
+        int loginDays = saveData.loginDays;                       //登录天数
+
+        //1.计算时间系数K1
+        float K1;
+        if (loginDays >= 1 && loginDays <= 3)
+        {
+            K1 = 1f;
+        }
+        else
+        {
+            K1 = 0.7f;
+        }
+
+        //2.计算进度值：玩家当前金额/(66.4+每日任务预估奖励-玩家实际领取)
+        float denominator = 66400 + dailyEstimatedReward - dailyActualReward;
+       
+        float progress = playerGold / denominator;
+
+        //进度截断，防止大于1或者负数
+        progress = Mathf.Clamp01(progress);
+
+        //3.计算进度系数K2
+        float K2;
+        if (progress <= 0.50f)
+        {
+            K2 = 1f;
+        }
+        else if (progress <= 0.70f)
+        {
+            K2 = 0.6f;
+        }
+        else if (progress <= 0.80f)
+        {
+            K2 = 0.3f;
+        }
+        else if (progress <= 0.90f)
+        {
+            K2 = 0.1f;
+        }
+        else if (progress <= 0.98f)
+        {
+            K2 = 0.02f;
+        }
+        else
+        {
+            K2 = 0.001f;
+        }
+
+        //4.随机0.9~1.1
+        int randomVal = UnityEngine.Random.Range(90, 111);
+
+        //公式 R=1.66 * K1 * K2 * Random(0.9,1.1)
+        float R = 166 * K1 * K2 * (randomVal / 100f);
+        if(R < 10)
+        {
+            R = 10;
+        }
+        return (int)R;
     }
 
     public string GetTimeString(float _Seconds)

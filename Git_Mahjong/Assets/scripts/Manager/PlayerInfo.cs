@@ -5,17 +5,17 @@ using UnityEngine;
 [Serializable]
 public class PlayerInfo
 {
-    public const int CurrencyUnitScale = 1000;
+    public const int CurrencyUnitScale = 100;
     public float Gold
     {
-        get => gold / (float)CurrencyUnitScale;
+        get => MathF.Round(gold / (float)CurrencyUnitScale, 2);
     }
     public float Diamond
     {
-        get => diamond / (float)CurrencyUnitScale;
+        get => MathF.Round(diamond / (float)CurrencyUnitScale, 2);
     }
 
-    private int gold = 0;
+    [SerializeField] private int gold = 0;
     private int diamond = 0;
     public int level = 1;
 

@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,14 +46,17 @@ public class ItemBase : MonoBehaviour
         icon.SetNativeSize();
         icon.transform.localScale = Vector3.one * iconScales[(int)itemType];
 
-        string unit = "";
         if(itemType == ItemType.Hint || itemType == ItemType.Exchange || itemType == ItemType.Extract || itemType == ItemType.Return)
         {
-            unit = "x";
+            cntText.text = "x" + count;
         }
-        cntText.text = unit + count.ToString();
+        else
+        {
+            string unit = LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit");
+            cntText.text = unit + MathF.Round(count / (float)PlayerInfo.CurrencyUnitScale, 2);
+        }
 
-        if(itemType == ItemType.Gold)
+        if (itemType == ItemType.Gold)
         {
             GameManager.Instance.UpdateAppATTToDiamond(icon);
         }
@@ -100,9 +103,31 @@ public class ItemBase : MonoBehaviour
 
     }
 
-    public void PlayItemAnim() 
+    public void PlayItemAnim()
     {
+        switch (itemType)
+        {
+            case ItemType.Gold:
+                UIManager.Instance.GetUI<PlayerInfoUI>().GoldFlyAnim(transform.position);
+                break;
+            case ItemType.GoldDui:
+                UIManager.Instance.GetUI<PlayerInfoUI>().GoldFlyAnim(transform.position);
+                break;
+            case ItemType.Diamond:
+                UIManager.Instance.GetUI<PlayerInfoUI>().DiamondFlyAnim(transform.position);
+                break;
+            case ItemType.DiamondDui:
+                UIManager.Instance.GetUI<PlayerInfoUI>().DiamondFlyAnim(transform.position);
+                break;
+            case ItemType.Hint:
+                UIManager.Instance.GetUI<GameScenePanel>()?.gameSceneItem_Hint.Refresh();
+                break;
+            case ItemType.Exchange:
+                UIManager.Instance.GetUI<GameScenePanel>()?.gameSceneItem_Exchange.Refresh();
+                break;
+            case ItemType.Return:
+                UIManager.Instance.GetUI<GameScenePanel>()?.gameSceneItem_Return.Refresh();
+                break;
+        }
     }
-    
-
 }

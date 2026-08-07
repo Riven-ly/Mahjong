@@ -10,9 +10,8 @@ public class TaskPanel : UIBase
     public Button closeButton;
     public Button dailyTabButton;
     public Button mainlineTabButton;
-    public Image dailyTabBackground;
-    public Image mainlineTabBackground;
-    public Text taskCountText;
+    public Button dailyTabButton_h;
+    public Button mainlineTabButton_h;
     public Transform contentRoot;
     public TaskItem taskItemPrefab;
 
@@ -27,6 +26,8 @@ public class TaskPanel : UIBase
         closeButton.onClick.AddListener(Hide);
         dailyTabButton.onClick.AddListener(() => SwitchCategory(TaskCategory.Daily));
         mainlineTabButton.onClick.AddListener(() => SwitchCategory(TaskCategory.Mainline));
+        dailyTabButton_h.onClick.AddListener(() => SwitchCategory(TaskCategory.Daily));
+        mainlineTabButton_h.onClick.AddListener(() => SwitchCategory(TaskCategory.Mainline));
     }
 
     /// <summary>
@@ -98,9 +99,10 @@ public class TaskPanel : UIBase
         taskItems.Clear();
 
         List<TaskData> tasks = currentCategory == TaskCategory.Daily ? TaskManager.Instance.DailyTasks : TaskManager.Instance.MainlineTasks;
-        taskCountText.text = $"{tasks.Count} 个任务";
-        dailyTabBackground.color = currentCategory == TaskCategory.Daily ? new Color(0.98f, 0.72f, 0.24f) : new Color(0.08f, 0.33f, 0.29f);
-        mainlineTabBackground.color = currentCategory == TaskCategory.Mainline ? new Color(0.98f, 0.72f, 0.24f) : new Color(0.08f, 0.33f, 0.29f);
+        dailyTabButton_h.gameObject.SetActive(currentCategory == TaskCategory.Mainline);
+        dailyTabButton.gameObject.SetActive(currentCategory == TaskCategory.Daily);
+        mainlineTabButton_h.gameObject.SetActive(currentCategory == TaskCategory.Daily);
+        mainlineTabButton.gameObject.SetActive(currentCategory == TaskCategory.Mainline);
 
         CreateTaskItems(tasks, 0);
         CreateTaskItems(tasks, 1);

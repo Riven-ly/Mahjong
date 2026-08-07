@@ -210,8 +210,11 @@ namespace MahjongGame.View
         /// </summary>
         public Tween AnimateBack()
         {
+            DOTween.Kill(this);
             transform.SetParent(originalParent, true);
-            return rectTransform.DOAnchorPos(boardPosition, MahjongViewConfig.ReturnDuration)
+            return DOTween.Sequence()
+                .Join(rectTransform.DOAnchorPos(boardPosition, MahjongViewConfig.ReturnDuration))
+                .Join(transform.DOScale(Vector3.one, MahjongViewConfig.ReturnDuration))
                 .OnComplete(() =>
                 {
                     transform.SetSiblingIndex(originalSiblingIndex);
@@ -227,7 +230,9 @@ namespace MahjongGame.View
         {
             DOTween.Kill(this);
             transform.SetParent(parent, true);
-            return rectTransform.DOAnchorPos(targetPosition, MahjongViewConfig.ReturnDuration)
+            return DOTween.Sequence()
+                .Join(rectTransform.DOAnchorPos(targetPosition, MahjongViewConfig.ReturnDuration))
+                .Join(transform.DOScale(Vector3.one, MahjongViewConfig.ReturnDuration))
                 .OnComplete(() =>
                 {
                     rectTransform.anchoredPosition = targetPosition;
@@ -242,7 +247,9 @@ namespace MahjongGame.View
         /// </summary>
         public Sequence AnimateRejected()
         {
+            DOTween.Kill(this);
             transform.SetParent(originalParent, false);
+            transform.localScale = Vector3.one;
             transform.SetSiblingIndex(originalSiblingIndex);
             rectTransform.anchoredPosition = boardPosition;
             return DOTween.Sequence()
@@ -258,7 +265,7 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 将卡牌设置到指定父节点，沿前段轻微弯曲、后段继续转向槽位的三次贝塞尔曲线移动，并在到达后先缩小再恢复。调用前必须由业务结果确认卡牌允许移动。
+        /// 将卡牌设置到指定父节点，并在移动开始时同步缩小到卡槽尺寸。调用前必须由业务结果确认卡牌允许移动。
         /// </summary>
         public Tween AnimateTo(Transform parent, Vector2 targetPosition)
         {
@@ -271,7 +278,7 @@ namespace MahjongGame.View
                 Mathf.Lerp(startPosition.y, targetPosition.y, 0.45f));
             Vector2 secondControlPosition = new Vector2(startPosition.x, targetPosition.y);
             return DOTween.Sequence()
-                .Append(DOTween.To(
+                .Join(DOTween.To(
                         () => 0f,
                         progress =>
                         {
@@ -286,13 +293,14 @@ namespace MahjongGame.View
                         1f,
                         0.38f)
                     .SetEase(Ease.Linear))
-                .Append(transform.DOScale(0.94f, 0.1f))
-                .Append(transform.DOScale(1f, 0.1f))
+                .Join(transform.DOScale(MahjongViewConfig.SlotCardScale, 0.38f)
+                    .SetEase(Ease.Linear)
+                    .OnComplete(() => transform.localScale = Vector3.one * MahjongViewConfig.SlotCardScale))
                 .SetTarget(this);
         }
 
         /// <summary>
-        /// 将拖拽卡牌设置到槽位父节点，并使用简单世界坐标移动进入目标槽位。
+        /// 将拖拽卡牌设置到槽位父节点，并在移动开始时同步缩小到卡槽尺寸。
         /// </summary>
         public Tween AnimateDraggedTo(Transform parent, Vector2 targetPosition)
         {
@@ -301,9 +309,9 @@ namespace MahjongGame.View
             canvasGroup.alpha = MahjongViewConfig.NormalAlpha;
             Vector3 targetWorldPosition = parent.TransformPoint(targetPosition);
             return DOTween.Sequence()
-                .Append(transform.DOMove(targetWorldPosition, 0.1f))
-                .Append(transform.DOScale(0.94f, 0.1f))
-                .Append(transform.DOScale(1f, 0.1f))
+                .Join(transform.DOMove(targetWorldPosition, 0.1f))
+                .Join(transform.DOScale(MahjongViewConfig.SlotCardScale, 0.1f)
+                    .OnComplete(() => transform.localScale = Vector3.one * MahjongViewConfig.SlotCardScale))
                 .SetEase(Ease.Linear)
                 .SetTarget(this);
         }
@@ -313,18 +321,24 @@ namespace MahjongGame.View
         /// </summary>
         public Tween AnimateSlotReposition(Vector2 targetPosition)
         {
-            return rectTransform.DOAnchorPos(targetPosition, 0.2f)
+            return DOTween.Sequence()
+                .Join(rectTransform.DOAnchorPos(targetPosition, 0.2f))
+                .Join(transform.DOScale(Vector3.one * MahjongViewConfig.SlotCardScale, 0.2f)
+                    .OnComplete(() => transform.localScale = Vector3.one * MahjongViewConfig.SlotCardScale))
                 .SetEase(Ease.OutQuad)
                 .SetTarget(this);
         }
 
         /// <summary>
-        /// 中断当前卡牌动画并从当前位置移动到新的槽位位置。调用前必须保证卡牌已位于卡槽节点下。
+        /// 中断当前卡牌动画并从当前位置移动到新的槽位位置，同时校正卡槽缩放。调用前必须保证卡牌已位于卡槽节点下。
         /// </summary>
         public Tween RetargetToSlotPosition(Vector2 targetPosition)
         {
             DOTween.Kill(this);
-            return rectTransform.DOAnchorPos(targetPosition, 0.2f)
+            return DOTween.Sequence()
+                .Join(rectTransform.DOAnchorPos(targetPosition, 0.2f))
+                .Join(transform.DOScale(Vector3.one * MahjongViewConfig.SlotCardScale, 0.2f)
+                    .OnComplete(() => transform.localScale = Vector3.one * MahjongViewConfig.SlotCardScale))
                 .SetEase(Ease.OutQuad)
                 .SetTarget(this);
         }
@@ -472,6 +486,7 @@ namespace MahjongGame.View
         public const float BoardCellWidth = 163f; // 牌面完整网格横向间距
         public const float BoardCellHeight = 190f; // 牌面完整网格纵向间距
         public const float LayerVisualOffsetX = 9f; // 每升一层额外增加的向左X轴视觉偏移
-        public const float SlotCellWidth = 191f; // 卡槽卡牌横向间距
+        public const float SlotCellWidth = 125f; // 卡槽卡牌横向间距
+        public const float SlotCardScale = 0.7f; // 卡牌进入卡槽后的缩放比例
     }
 }

@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785403317874
-updatedAt: 1785407050693
+updatedAt: 1786074689790
 ---
 
 # task-system
@@ -31,3 +31,11 @@ updatedAt: 1785407050693
 - `TaskPanel : UIBase` 仅负责每日/主线 Tab、滚动列表和任务状态展示；单条 `TaskItem` 负责将领取操作转发给 `TaskManager`。
 - 入口位于 `GameScenePanel` 右上角，打开 `TaskPanel`。
 - 任务奖励当前使用玩家金币；广告任务要求广告 SDK 在确认激励完成后触发 `EventManager.Instance.TriggerEvent(GameEvent.PlayAds)`。
+
+## 提现任务
+
+- 提现面板为 `TxPanel`，显示 `PlayerInfo.Gold` 现金余额、四个固定金额按钮（$100、$200、$500、$1000）和所选档位的阶段进度；Change 与 Withdraw Cash 不属于此功能范围。
+- 四个档位都是相互独立、并行推进的三阶段任务链：先达到对应现金余额，再累计通关，最后累计签到。$100 任务依次为达到$100、通关15关、签到7天；$200 为达到$200、通关30关、签到10天；$500 为达到$500、通关75关、签到15天；$1000 为达到$1000、通关150关、签到20天。
+- 余额阶段以 `PlayerInfo.Gold` 判断，首次达到对应金额即永久完成并保存，后续金币消费不会使该阶段回退。
+- 每个档位的通关计数互相独立；同一次 `GameEvent.MahjongGameWon` 只推进已完成余额阶段、尚未达到通关目标的档位。
+- 签到进度直接读取 `TaskManager.saveData.loginDays`，不另建签到计数；仅在余额和通关阶段均完成后显示签到阶段。

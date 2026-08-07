@@ -2289,15 +2289,15 @@
           "row": 2
         },
         {
-          "typeId": 5,
-          "layer": 0,
-          "column": 3,
-          "row": 3
-        },
-        {
           "typeId": 2,
           "layer": 0,
           "column": 2,
+          "row": 3
+        },
+        {
+          "typeId": 5,
+          "layer": 0,
+          "column": 3,
           "row": 3
         },
         {
@@ -2371,6 +2371,18 @@
           "layer": 2,
           "column": 3,
           "row": 2
+        },
+        {
+          "typeId": 41,
+          "layer": 3,
+          "column": -1,
+          "row": -1
+        },
+        {
+          "typeId": 41,
+          "layer": 3,
+          "column": 3,
+          "row": -1
         },
         {
           "typeId": 28,

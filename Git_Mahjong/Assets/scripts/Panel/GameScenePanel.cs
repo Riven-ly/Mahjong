@@ -1,5 +1,7 @@
-using System;
+using DG.Tweening;
 using MahjongGame.View;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +10,23 @@ using UnityEngine.UI;
 /// </summary>
 public class GameScenePanel : UIBase,IEventListener
 {
+    public Transform root;
     public MahjongGameplayView gameplayView; // 麻将主玩法视图组件
     public Button SettingBtn;
     public Button taskBtn;
+    public Image taskRedImg;
+    public Text levelText;
 
     public GameSceneItem_Exchange gameSceneItem_Exchange;
     public GameSceneItem_Hint gameSceneItem_Hint;
     public GameSceneItem_Return gameSceneItem_Return;
+
+    private void Awake()
+    {
+        RectTransform rect = root.GetComponent<RectTransform>();
+        float topBlockHeight = Screen.height - Screen.safeArea.yMax;
+        rect.offsetMax = new Vector2(0, -topBlockHeight);
+    }
     /// <summary>
     /// 注册设置按钮事件。
     /// </summary>
@@ -29,17 +41,21 @@ public class GameScenePanel : UIBase,IEventListener
         {
             AudioManager.Instance.PlayBtnMusic();
             UIManager.Instance.OpenUI<TaskPanel>();
+            //UIManager.Instance.OpenUI<TxPanel>();
         });
+
+        TaskManager.Instance.TasksChanged += RefreshTaskRedPoint;
     }
 
     /// <summary>
-    /// 面板启用时注册玩法结果与提示关闭事件。
+    /// 面板启用时注册玩法结果、提示关闭与任务刷新事件。
     /// </summary>
     private void OnEnable()
     {
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.RegisterListener(GameEvent.StopHintAnim, this);
+  
     }
 
     /// <summary>
@@ -53,16 +69,31 @@ public class GameScenePanel : UIBase,IEventListener
     }
 
     /// <summary>
+    /// 刷新任务按钮上的可领取任务红点。
+    /// </summary>
+    private void RefreshTaskRedPoint()
+    {
+        if (taskRedImg == null)
+        {
+            return;
+        }
+
+        taskRedImg.gameObject.SetActive(TaskManager.Instance != null && TaskManager.Instance.HasClaimableTasks());
+    }
+
+    /// <summary>
     /// 根据玩家等级读取关卡配置并开始新游戏。
     /// </summary>
     public override void Refresh(object data = null)
     {
         int playerLevel = GameManager.Instance.playerInfo.level;
+        levelText.text = LanguageManager.Instance.GetText("Level") + $" {playerLevel}";
         gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel));
 
         gameSceneItem_Exchange.Refresh();
         gameSceneItem_Hint.Refresh();
         gameSceneItem_Return.Refresh();
+        RefreshTaskRedPoint();
     }
 
     /// <summary>
@@ -122,7 +153,12 @@ public class GameScenePanel : UIBase,IEventListener
         switch (eventType)
         {
             case GameEvent.MahjongGameWon:
-                UIManager.Instance.OpenUI<GameWinPanel>();
+                UIManager.Instance.OpenUIMask();
+                DOTween.Sequence().AppendInterval(1f).AppendCallback(() =>
+                {
+                    UIManager.Instance.HideUIMask();
+                    UIManager.Instance.OpenUI<GameWinPanel>();
+                });
                 break;
             case GameEvent.MahjongGameLost:
                 UIManager.Instance.OpenUI<GameLostPanel>();
@@ -132,4 +168,28 @@ public class GameScenePanel : UIBase,IEventListener
                 break;
         }
     }
+
+    //private void PlayBoBao()
+    //{
+    //    bobaoTrans.transform.DOKill();
+    //    string curname = GenerateText();
+    //    int ranV = Random.Range(1000, 10000);
+    //    float targetF = ranV / 100f;
+
+    //    bobaoText.text = string.Format(bobaoStr, curname, unit + targetF, wh);
+    //    Vector3 curPos = bobaoTrans.transform.localPosition;
+    //    curPos.x = 475f;
+    //    bobaoTrans.transform.localPosition = curPos;
+    //    DOTween.Sequence()
+    //           //.Append(bobaoTrans.transform.DOLocalMoveX(0f, 3f).SetEase(Ease.Linear))
+    //           //.AppendInterval(5f)
+    //           .Append(bobaoTrans.transform.DOLocalMoveX(-2000f, 10f).SetEase(Ease.Linear))
+    //           .AppendInterval(3f)
+    //           .AppendCallback(() =>
+    //           {
+    //               PlayBoBao();
+    //           })
+    //           .SetTarget(bobaoTrans.transform)
+    //           ;
+    //}
 }

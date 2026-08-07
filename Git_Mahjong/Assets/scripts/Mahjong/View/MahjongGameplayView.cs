@@ -26,6 +26,7 @@ namespace MahjongGame.View
         private readonly Dictionary<int, Tween> slotMoveTweens = new Dictionary<int, Tween>(); // 当前卡牌实例ID对应的入槽补间
         private readonly List<MahjongOperationResult> pendingEliminationResults = new List<MahjongOperationResult>(); // 等待相关卡牌到达卡槽的消除结果集合
         private int activeEliminationCount; // 当前正在播放消除动画的组数
+        private int eliminatedCardCount; // 本局自上次随机奖励后累计消除的卡牌数量
 
         /// <summary>
         /// 初始化麻将主玩法业务逻辑。
@@ -53,6 +54,7 @@ namespace MahjongGame.View
         {
             StopGameplay();
             ClearCellViews();
+            eliminatedCardCount = 0;
             MahjongOperationResult result = gameLogic.StartNewGame(levelDefinition);
             BuildBoardViews();
             RefreshBoardStates();
@@ -387,9 +389,39 @@ namespace MahjongGame.View
             }
 
             activeEliminationCount--;
+            if (gameState == MahjongGameState.Playing)
+            {
+                TryShowEliminationReward(result.EliminatedCardIds.Count);
+            }
             LayoutSlotViews();
             TriggerGameResultEvent(gameState);
             TryUpdateSlotLayout();
+        }
+
+        /// <summary>
+        /// 在消除动画结束后累计消除卡牌，并按配置概率弹出随机奖励。
+        /// </summary>
+        private void TryShowEliminationReward(int eliminatedCount)
+        {
+            eliminatedCardCount += eliminatedCount;
+            if (eliminatedCardCount < MahjongConfig.RewardTriggerEliminatedCardCount)
+            {
+                return;
+            }
+
+            int extraGroupCount = (eliminatedCardCount - MahjongConfig.RewardTriggerEliminatedCardCount) /
+                                  MahjongConfig.MatchCount;
+            float probability = Mathf.Min(
+                1f,
+                MahjongConfig.RewardInitialProbability +
+                extraGroupCount * MahjongConfig.RewardProbabilityIncreasePerGroup);
+            if (Random.value >= probability)
+            {
+                return;
+            }
+
+            eliminatedCardCount = 0;
+            UIManager.Instance.OpenUI<GeneralRewardsPanel>();
         }
 
         /// <summary>

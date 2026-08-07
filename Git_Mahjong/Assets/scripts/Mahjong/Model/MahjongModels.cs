@@ -241,6 +241,9 @@ namespace MahjongGame.Model
         public const int MatchCount = 2; // 同类型卡牌消除所需数量
         public const int GridCoordinateStep = 1; // 标准整数网格中相邻格的逻辑坐标间隔
         public const int MaxLayerCount = 10; // 全局允许的最大层数，包含Layer 0
+        public const int RewardTriggerEliminatedCardCount = 10; // 触发随机奖励所需的累计消除卡牌数量
+        public const float RewardInitialProbability = 0.5f; // 达到消除阈值时弹出随机奖励的概率
+        public const float RewardProbabilityIncreasePerGroup = 0.1f; // 每额外消除一组卡牌增加的随机奖励概率
         public const int LevelCatalogVersion = 1; // 当前支持的关卡目录版本
         public const string LevelCatalogResourcePath = "Mahjong/Levels"; // Resources关卡目录加载路径
     }

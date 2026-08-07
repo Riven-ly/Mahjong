@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ public class TaskItem : MonoBehaviour
     public Image progressFill;
     public Button actionButton;
     public Text actionText;
+    public Transform claimed;
+    public Image rewardIcon;
 
     private TaskData taskData;
 
@@ -23,6 +26,11 @@ public class TaskItem : MonoBehaviour
         actionButton.onClick.AddListener(OnActionButtonClick);
     }
 
+    private void Start()
+    {
+        GameManager.Instance.UpdateAppATTToDiamond(rewardIcon);
+    }
+
     /// <summary>
     /// 根据任务数据刷新卡片显示。
     /// </summary>
@@ -30,19 +38,15 @@ public class TaskItem : MonoBehaviour
     {
         taskData = data;
         descriptionText.text = string.Format(LanguageManager.Instance.GetText(taskData.description), taskData.targetProgress);
-        rewardText.text = $"+{taskData.goldReward:0}";
+        rewardText.text = $"{LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(taskData.goldReward / (float)PlayerInfo.CurrencyUnitScale, 2)}";
         progressText.text = $"{taskData.currentProgress}/{taskData.targetProgress}";
         progressFill.fillAmount = Mathf.Clamp01((float)taskData.currentProgress / taskData.targetProgress);
 
-        if (taskData.isClaimed)
-        {
-            actionText.text = "已领取";
-            actionButton.interactable = false;
-            return;
-        }
+        claimed.gameObject.SetActive(taskData.isClaimed);
+        actionButton.gameObject.SetActive(!taskData.isClaimed);
 
         bool isCompleted = taskData.currentProgress >= taskData.targetProgress;
-        actionText.text = isCompleted ? "领取" : "前往";
+        actionText.text = isCompleted ? LanguageManager.Instance.GetText("Claim") : LanguageManager.Instance.GetText("Go");
         actionButton.interactable = true;
     }
 
