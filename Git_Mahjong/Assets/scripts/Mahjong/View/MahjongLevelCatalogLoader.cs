@@ -11,7 +11,7 @@ namespace MahjongGame.View
     /// </summary>
     public static class MahjongLevelCatalogLoader
     {
-        private const int ExcludedFallbackLevelCount = 5; // 兜底选关时排除的最小关卡编号数量
+        private const int ExcludedFallbackLevelCount = 10; // 兜底选关时排除的前置关卡数量
         private static MahjongLevelCatalog catalog; // 已加载的关卡目录缓存
         private static Dictionary<int, MahjongLevelDefinition> levelsById; // 关卡编号到配置的查询缓存
         private static List<MahjongLevelDefinition> fallbackLevels; // 排除简单关后的随机兜底候选关卡
@@ -40,19 +40,20 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 根据关卡配置决定直接使用固定牌面或生成本局随机牌面。
+        /// 根据关卡牌位生成本局随机两两配对牌面。
         /// </summary>
         private static MahjongLevelDefinition CreateRuntimeLevel(MahjongLevelDefinition levelDefinition)
         {
-            if (!levelDefinition.randomizeTypeIds)
+            if (levelDefinition == null)
             {
-                return levelDefinition;
+                return null;
             }
 
-            return MahjongGame.GameLogic.MahjongLevelRandomizer.CreateRandomizedLevel(
+            MahjongLevelDefinition randomizedLevel = MahjongGame.GameLogic.MahjongLevelRandomizer.CreateRandomizedLevel(
                 levelDefinition,
                 catalog.cardTypeIds,
                 new System.Random(unchecked(Environment.TickCount * 31 + levelDefinition.level)));
+            return randomizedLevel ?? levelDefinition;
         }
 
         /// <summary>

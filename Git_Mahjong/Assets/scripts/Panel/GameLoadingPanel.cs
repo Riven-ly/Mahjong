@@ -24,6 +24,7 @@ public class GameLoadingPanel : UIBase
         isOpenStatic = false;
         this.DOKill();
     }
+
     // Start is called before the first frame update
     void Start()
     {

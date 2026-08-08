@@ -9,13 +9,13 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785138573722
-updatedAt: 1786070836116
+updatedAt: 1786171020595
 ---
 
 # mahjong-gameplay
 
 ## Summary
-Mahjong 主玩法代码结构与当前实现进度缓存。
+Mahjong 主玩法代码结构与当前实现进度缓存；2026-08 已由卡槽玩法切换为双点击配对、三生命与中心汇聚消除。
 
 <!-- locus:body:start -->
 - 玩法设计见 `design/mahjong-core-gameplay.md`。

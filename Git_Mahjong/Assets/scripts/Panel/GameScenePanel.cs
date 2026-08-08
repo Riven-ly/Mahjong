@@ -21,12 +21,21 @@ public class GameScenePanel : UIBase,IEventListener
     public GameSceneItem_Exchange gameSceneItem_Exchange;
     public GameSceneItem_Hint gameSceneItem_Hint;
     public GameSceneItem_Return gameSceneItem_Return;
+    [SerializeField] private Transform health1; // 第一格生命节点
+    [SerializeField] private Transform health2; // 第二格生命节点
+    [SerializeField] private Transform health3; // 第三格生命节点
 
+    private readonly CanvasGroup[] healthCanvasGroups = new CanvasGroup[3]; // 三格生命的淡出控制组件
+
+    /// <summary>
+    /// 初始化安全区与生命显示引用。
+    /// </summary>
     private void Awake()
     {
         RectTransform rect = root.GetComponent<RectTransform>();
         float topBlockHeight = Screen.height - Screen.safeArea.yMax;
         rect.offsetMax = new Vector2(0, -topBlockHeight);
+        InitializeHealthCanvasGroups();
     }
     /// <summary>
     /// 注册设置按钮事件。
@@ -55,7 +64,7 @@ public class GameScenePanel : UIBase,IEventListener
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.RegisterListener(GameEvent.StopHintAnim, this);
-  
+        gameplayView.HealthChanged += RefreshHealth;
     }
 
     /// <summary>
@@ -66,6 +75,7 @@ public class GameScenePanel : UIBase,IEventListener
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.UnregisterListener(GameEvent.StopHintAnim, this);
+        gameplayView.HealthChanged -= RefreshHealth;
     }
 
     /// <summary>
@@ -89,6 +99,7 @@ public class GameScenePanel : UIBase,IEventListener
         int playerLevel = GameManager.Instance.playerInfo.level;
         levelText.text = LanguageManager.Instance.GetText("Level") + $" {playerLevel}";
         gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel));
+        RefreshHealth(MahjongViewConfig.InitialHealth);
 
         gameSceneItem_Exchange.Refresh();
         gameSceneItem_Hint.Refresh();
@@ -114,11 +125,44 @@ public class GameScenePanel : UIBase,IEventListener
     }
 
     /// <summary>
-    /// 尝试撤回卡槽最后一张稳定卡牌。
+    /// 缓存三格生命的 CanvasGroup 引用。
     /// </summary>
-    public bool TryUndoMahjongCard()
+    private void InitializeHealthCanvasGroups()
     {
-        return gameplayView.TryUndo();
+        healthCanvasGroups[0] = health1.GetComponent<CanvasGroup>();
+        healthCanvasGroups[1] = health2.GetComponent<CanvasGroup>();
+        healthCanvasGroups[2] = health3.GetComponent<CanvasGroup>();
+    }
+
+    /// <summary>
+    /// 刷新三格生命显示；扣血时将失去的生命淡出。
+    /// </summary>
+    private void RefreshHealth(int remainingHealth)
+    {
+        for (int i = 0; i < healthCanvasGroups.Length; i++)
+        {
+            CanvasGroup healthCanvasGroup = healthCanvasGroups[i];
+            bool active = i < remainingHealth;
+            healthCanvasGroup.DOKill();
+            if (active)
+            {
+                healthCanvasGroup.gameObject.SetActive(true);
+                healthCanvasGroup.alpha = 1f;
+            }
+            else if (healthCanvasGroup.gameObject.activeSelf)
+            {
+                healthCanvasGroup.DOFade(0f, MahjongViewConfig.HealthFadeDuration)
+                    .OnComplete(() => healthCanvasGroup.gameObject.SetActive(false));
+            }
+        }
+    }
+
+    /// <summary>
+    /// 尝试启动返回道具的五组自动消除。
+    /// </summary>
+    public bool TryAutoEliminateMahjongPairs()
+    {
+        return gameplayView.TryAutoEliminate(5);
     }
 
     /// <summary>

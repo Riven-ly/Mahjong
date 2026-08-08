@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInfoUI : UIBase
+public class PlayerInfoUI : UIBase,IEventListener
 {
     [Header("Gold")]
     public Transform goldTrans;
@@ -28,15 +28,16 @@ public class PlayerInfoUI : UIBase
     private void OnEnable()
     {
         isOpen = false;
+        EventManager.Instance.RegisterListener(GameEvent.UpdateAppATTUI, this);
     }
     private void OnDisable()
     {
         isOpen = false;
+        EventManager.Instance.UnregisterListener(GameEvent.UpdateAppATTUI, this);
     }
+
     private void Start()
     {
-        GameManager.Instance.UpdateAppATTToDiamond(goldIcon);
-
         //if (TxElementMananger.Instance != null)
         //{
         //    var obj = Instantiate(TxElementMananger.Instance.TxProgressPrefab, txTrans);
@@ -151,5 +152,10 @@ public class PlayerInfoUI : UIBase
         {
             diamondCnt.text = GameManager.Instance.playerInfo.Diamond.ToString();
         });
+    }
+
+    public void OnEventTriggered(GameEvent eventType, object data = null)
+    {
+        GameManager.Instance.UpdateAppATTToDiamond(goldIcon);
     }
 }

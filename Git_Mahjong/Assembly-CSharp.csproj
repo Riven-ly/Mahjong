@@ -87,6 +87,7 @@
     <Compile Include="Assets\scripts\Mahjong\Model\MahjongLevelModels.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Hint.cs" />
     <Compile Include="Assets\scripts\EventSystem\GameEvent.cs" />
+    <Compile Include="Assets\scripts\TwoPointMiddle.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCell.cs" />
     <Compile Include="Assets\scripts\Manager\EncryptSDKKey.cs" />
     <Compile Include="Assets\scripts\Manager\UIManager.cs" />

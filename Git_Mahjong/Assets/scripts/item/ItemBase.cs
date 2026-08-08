@@ -63,10 +63,6 @@ public class ItemBase : MonoBehaviour
         else if(itemType == ItemType.GoldDui)
         {
             GameManager.Instance.UpdateAppATTToDiamondDui(icon);
-            if (GameManager.appATTtype == 1)
-            {
-                icon.transform.localScale = Vector3.one * 0.5f;
-            }
         }
     }
 

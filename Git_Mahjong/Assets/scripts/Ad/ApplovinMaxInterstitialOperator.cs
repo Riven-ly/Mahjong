@@ -64,7 +64,7 @@ public class ApplovinMaxInterstitialOperator : MonoBehaviour
             if (insertTimer <= 0 && insertClickCoolingTime <= 0)
             {
                 insertTimer = insertTime;
-                OnClickInterstitialAd(false);
+                //OnClickInterstitialAd(false);
 
             }
             if (insertClickCoolingTime > 0)

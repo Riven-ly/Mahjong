@@ -31,6 +31,7 @@ public class ABResManager : MonoBehaviour
     {
         GameManager.Instance.specialDiamonds[1] = diamondsSprite;
         GameManager.Instance.specialRewardsDuis[1] = diamondRerardIconsSprite;
+        EventManager.Instance.TriggerEvent(GameEvent.UpdateAppATTUI);
     }
 
     private void InitTxElementPanel()

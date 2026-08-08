@@ -29,23 +29,20 @@ public class GameSceneItem_Return : GameSceneItemBase
     }
 
     /// <summary>
-    /// 使用撤销道具，将卡槽最后一张稳定卡牌撤回牌面。
+    /// 使用返回道具，连续自动消除五组可操作同类型牌。
     /// </summary>
     public override void OnClick()
     {
         base.OnClick();
         if (cnt <= 0)
         {
-            //UIManager.Instance.OpenUI<AddSceneItemPanel>(this);
             return;
         }
 
-        EventManager.Instance.TriggerEvent(GameEvent.StopHintAnim);
-        bool isUseItemSucceed = UIManager.Instance.GetUI<GameScenePanel>().TryUndoMahjongCard();
+        bool isUseItemSucceed = UIManager.Instance.GetUI<GameScenePanel>().TryAutoEliminateMahjongPairs();
         if (isUseItemSucceed)
         {
             GameManager.Instance.playerInfo.Minus_item_return(1);
-            //GameManager.Instance.SavePlayerInfo();
             Refresh();
         }
     }

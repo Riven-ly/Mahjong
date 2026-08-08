@@ -14,25 +14,25 @@ namespace MahjongGame.View
         [SerializeField] private RectTransform boardRoot; // 牌面卡牌根节点
         [SerializeField] private RectTransform adaptivePointTop; // 牌面允许区域的上边界锚点
         [SerializeField] private RectTransform adaptivePointBottom; // 牌面允许区域的下边界锚点
-        [SerializeField] private RectTransform slotRoot; // 底部卡槽根节点
-        [SerializeField] private RectTransform dragLayer; // 拖拽期间临时置顶层
-
         private readonly Dictionary<int, MahjongCell> cellViews = new Dictionary<int, MahjongCell>(); // 实例ID到卡牌视图的映射
         private readonly Stack<MahjongCell> cellPool = new Stack<MahjongCell>(); // 可复用的麻将卡牌视图池
         private readonly Stack<ParticleSystem> eliminationEffectPool = new Stack<ParticleSystem>(); // 可复用的消除粒子特效池
         private readonly List<ParticleSystem> eliminationEffects = new List<ParticleSystem>(); // 已创建的消除粒子特效集合
         private RectTransform eliminationEffectRoot; // 消除粒子特效独立根节点
+        private RectTransform eliminationLayer; // 消除卡牌置顶表现层
         private ParticleSystem eliminationEffectTemplate; // 消除粒子特效模板实例
         private MahjongGameLogic gameLogic; // 当前主玩法业务逻辑入口
-        private readonly HashSet<int> movingCardIds = new HashSet<int>(); // 当前正在进入卡槽的卡牌实例ID集合
-        private readonly Dictionary<int, Tween> slotMoveTweens = new Dictionary<int, Tween>(); // 当前卡牌实例ID对应的入槽补间
-        private readonly List<MahjongOperationResult> pendingEliminationResults = new List<MahjongOperationResult>(); // 等待相关卡牌到达卡槽的消除结果集合
+        private int selectedCardId; // 当前已选中等待配对的卡牌实例ID
+        private int remainingHealth; // 当前剩余生命数
+        private int autoEliminationRemainingGroupCount; // 返回道具尚待自动消除的组数
         private int activeEliminationCount; // 当前正在播放消除动画的组数
         private int eliminatedCardCount; // 本局自上次随机奖励后累计消除的卡牌数量
 
         private const float MahjongCellHalfWidth = 85.5f; // 单张麻将牌局部坐标宽度的一半
         private const float MahjongCellHalfHeight = 99.5f; // 单张麻将牌局部坐标高度的一半
         private const float HorizontalScreenMargin = 50f; // 屏幕安全区左右保留边距
+
+        public event System.Action<int> HealthChanged; // 剩余生命变化事件
 
         /// <summary>
         /// 初始化麻将主玩法业务逻辑。
@@ -50,6 +50,7 @@ namespace MahjongGame.View
                 GameManager.Instance.beforeMahjongCells = null;
             }
 
+            eliminationLayer = transform.Find("EliminationLayer") as RectTransform;
             InitializeEliminationEffectPool();
         }
 
@@ -61,10 +62,13 @@ namespace MahjongGame.View
             StopGameplay();
             ClearCellViews();
             eliminatedCardCount = 0;
+            selectedCardId = 0;
+            remainingHealth = MahjongViewConfig.InitialHealth;
+            autoEliminationRemainingGroupCount = 0;
             ApplyBoardScale(levelDefinition);
             MahjongOperationResult result = gameLogic.StartNewGame(levelDefinition);
             BuildBoardViews();
-            RefreshBoardStates();
+            EnsurePlayablePair();
         }
 
         /// <summary>
@@ -129,9 +133,12 @@ namespace MahjongGame.View
 
             SetBoardInput(false);
             ResetEliminationEffects();
-            movingCardIds.Clear();
-            slotMoveTweens.Clear();
-            pendingEliminationResults.Clear();
+            if (autoEliminationRemainingGroupCount > 0)
+            {
+                EndAutoElimination();
+            }
+
+            selectedCardId = 0;
             activeEliminationCount = 0;
         }
 
@@ -154,8 +161,6 @@ namespace MahjongGame.View
                     MahjongCell cell = GetCellView();
                     cell.Initialize(
                         card,
-                        dragLayer,
-                        slotRoot,
                         MahjongCardVisualCatalogLoader.GetSprite(card.TypeId),
                         MahjongCardColorUtility.GetColor(card.TypeId),
                         HandleCellSelectRequested);
@@ -167,83 +172,72 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 处理卡牌视图的选择请求，并立即播放本次入槽动画。
+        /// 处理卡牌视图的点击选择、取消选择或配对消除。
         /// </summary>
-        private void HandleCellSelectRequested(MahjongCell cell, bool isDraggedToSlot)
+        private void HandleCellSelectRequested(MahjongCell cell)
         {
-            StopHint();
-            int slotInsertIndex = GetSlotInsertIndex(cell.InstanceId);
-            MahjongOperationResult result = isDraggedToSlot
-                ? gameLogic.DragCardToSlot(cell.InstanceId)
-                : gameLogic.SelectCard(cell.InstanceId);
-            if (!result.Succeeded)
+            if (activeEliminationCount != 0)
             {
-                Tween failureTween = isDraggedToSlot && result.Failure == MahjongOperationFailure.NoMatchingCardInSlot
-                    ? cell.AnimateBack()
-                    : cell.AnimateRejected();
-                failureTween.OnComplete(RefreshBoardStates);
                 return;
             }
 
-            cell.SetInteractable(false);
-            if (result.GameState == MahjongGameState.Playing)
+            cell.SetHintEffectActive(false);
+            MahjongOperationFailure failure = gameLogic.ValidateSelectCard(cell.InstanceId);
+            if (failure != MahjongOperationFailure.None)
             {
-                RefreshBoardStates();
+                cell.AnimateRejected();
+                return;
             }
-            else
+
+            if (selectedCardId == 0)
             {
+                selectedCardId = cell.InstanceId;
+                cell.SetSelectionEffectActive(true);
+                return;
+            }
+
+            if (selectedCardId == cell.InstanceId)
+            {
+                selectedCardId = 0;
+                cell.SetSelectionEffectActive(false);
+                return;
+            }
+
+            MahjongCell firstCell = cellViews[selectedCardId];
+            MahjongOperationResult result = gameLogic.MarkPairForElimination(selectedCardId, cell.InstanceId);
+            selectedCardId = 0;
+            if (!result.Succeeded)
+            {
+                firstCell.SetSelectionEffectActive(true);
+                cell.SetSelectionEffectActive(true);
                 SetBoardInput(false);
+                Sequence rejectSequence = DOTween.Sequence();
+                rejectSequence.Join(firstCell.AnimateRejected());
+                rejectSequence.Join(cell.AnimateRejected());
+                rejectSequence.AppendCallback(() =>
+                {
+                    firstCell.SetSelectionEffectActive(false);
+                    cell.SetSelectionEffectActive(false);
+                    RefreshBoardStates();
+                });
+                if (result.Failure == MahjongOperationFailure.NoMatchingCardInSlot)
+                {
+                    remainingHealth--;
+                    HealthChanged?.Invoke(remainingHealth);
+                    if (remainingHealth <= 0)
+                    {
+                        DOVirtual.DelayedCall(MahjongViewConfig.HealthFadeDuration, () =>
+                            TriggerGameResultEvent(gameLogic.LoseGame()))
+                            .SetTarget(this);
+                    }
+                }
+
+                return;
             }
 
-            movingCardIds.Add(cell.InstanceId);
-            AnimateSlotCellsAfterInsertion(result.SlotCardIdsBeforeElimination, slotInsertIndex);
-            Vector2 slotPosition = GetSlotPosition(slotInsertIndex);
-            Tween moveTween = isDraggedToSlot
-                ? cell.AnimateDraggedTo(slotRoot, slotPosition)
-                : cell.AnimateTo(slotRoot, slotPosition);
-            StartSlotMove(cell.InstanceId, moveTween);
-            if (result.EliminatedCardIds.Count > 0)
-            {
-                pendingEliminationResults.Add(result);
-            }
-        }
-
-        /// <summary>
-        /// 撤回卡槽中最后一张稳定卡牌并恢复牌面交互。
-        /// </summary>
-        public bool TryUndo()
-        {
-            if (!IsStable())
-            {
-                return false;
-            }
-
-            MahjongOperationResult result = gameLogic.Undo();
-            if (!result.Succeeded || !cellViews.TryGetValue(result.MovedCardId, out MahjongCell cell))
-            {
-                return false;
-            }
-
-            MahjongCardModel card = gameLogic.Model.GetCard(result.MovedCardId);
-            movingCardIds.Add(result.MovedCardId);
-            SetBoardInput(false);
-            LayoutSlotViews();
-            cell.AnimateReturnToBoard(
-                boardRoot,
-                GetBoardPosition(card, gameLogic.Model.LevelDefinition),
-                () => CompleteUndoAnimation(result.MovedCardId));
-            return true;
-        }
-
-        /// <summary>
-        /// 完成撤销回位动画后恢复牌面层级、布局与交互。
-        /// </summary>
-        private void CompleteUndoAnimation(int cardInstanceId)
-        {
-            movingCardIds.Remove(cardInstanceId);
-            RefreshBoardPositions();
-            LayoutSlotViews();
-            RefreshBoardStates();
+            firstCell.SetSelectionEffectActive(true);
+            cell.SetSelectionEffectActive(true);
+            PlayEliminationAnimation(result);
         }
 
         /// <summary>
@@ -263,8 +257,97 @@ namespace MahjongGame.View
             }
 
             RefreshBoardPositions();
-            RefreshBoardStates();
+            EnsurePlayablePair();
             return true;
+        }
+
+        /// <summary>
+        /// 确保当前可操作牌中至少存在一组同类型配对；不存在时保留牌面并洗牌后重试。
+        /// </summary>
+        private void EnsurePlayablePair()
+        {
+            if (gameLogic.Model.State != MahjongGameState.Playing)
+            {
+                return;
+            }
+
+            while (gameLogic.GetHintCardIds().Count == 0)
+            {
+                MahjongOperationResult shuffleResult = gameLogic.Shuffle();
+                if (!shuffleResult.Succeeded)
+                {
+                    break;
+                }
+            }
+
+            RefreshBoardPositions();
+            RefreshBoardStates();
+        }
+
+        /// <summary>
+        /// 使用返回道具自动消除指定数量的可操作同类型牌组。
+        /// </summary>
+        public bool TryAutoEliminate(int groupCount)
+        {
+            if (!IsStable() || groupCount <= 0)
+            {
+                return false;
+            }
+
+            autoEliminationRemainingGroupCount = groupCount;
+            UIManager.Instance.OpenUIMask();
+            StartNextAutoElimination();
+            return true;
+        }
+
+        /// <summary>
+        /// 查找下一组可操作配对；找不到时保留剩余牌并洗牌后继续尝试。
+        /// </summary>
+        private void StartNextAutoElimination()
+        {
+            if (autoEliminationRemainingGroupCount <= 0 || gameLogic.Model.State != MahjongGameState.Playing)
+            {
+                EndAutoElimination();
+                return;
+            }
+
+            IReadOnlyList<int> cardIds = gameLogic.GetHintCardIds();
+            if (cardIds.Count == 0)
+            {
+                MahjongOperationResult shuffleResult = gameLogic.Shuffle();
+                if (!shuffleResult.Succeeded)
+                {
+                    autoEliminationRemainingGroupCount = 0;
+                    RefreshBoardStates();
+                    EndAutoElimination();
+                    return;
+                }
+
+                RefreshBoardPositions();
+                RefreshBoardStates();
+                DOVirtual.DelayedCall(0f, StartNextAutoElimination).SetTarget(this);
+                return;
+            }
+
+            MahjongOperationResult result = gameLogic.MarkPairForElimination(cardIds[0], cardIds[1]);
+            if (!result.Succeeded)
+            {
+                autoEliminationRemainingGroupCount = 0;
+                RefreshBoardStates();
+                EndAutoElimination();
+                return;
+            }
+
+            PlayEliminationAnimation(result);
+        }
+
+        /// <summary>
+        /// 结束返回道具的自动消除并解除全局输入遮罩。
+        /// </summary>
+        private void EndAutoElimination()
+        {
+            autoEliminationRemainingGroupCount = 0;
+            UIManager.Instance.HideUIMask();
         }
 
         /// <summary>
@@ -309,8 +392,8 @@ namespace MahjongGame.View
         {
             return gameLogic != null &&
                    gameLogic.Model != null &&
-                   movingCardIds.Count == 0 &&
-                   pendingEliminationResults.Count == 0 &&
+                   gameLogic.Model.State == MahjongGameState.Playing &&
+                   selectedCardId == 0 &&
                    activeEliminationCount == 0;
         }
 
@@ -341,80 +424,66 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 开始或替换指定卡牌的入槽补间。替换时仅终止该卡牌的旧补间。
-        /// </summary>
-        private void StartSlotMove(int cardInstanceId, Tween moveTween)
-        {
-            if (slotMoveTweens.TryGetValue(cardInstanceId, out Tween previousTween))
-            {
-                previousTween.Kill();
-            }
-
-            slotMoveTweens[cardInstanceId] = moveTween;
-            moveTween.OnComplete(() => CompleteMoveToSlot(cardInstanceId, moveTween));
-        }
-
-        /// <summary>
-        /// 记录卡牌到达卡槽，并检查是否可以开始配对消除动画。
-        /// </summary>
-        private void CompleteMoveToSlot(int cardInstanceId, Tween completedTween)
-        {
-            if (!slotMoveTweens.TryGetValue(cardInstanceId, out Tween activeTween) || activeTween != completedTween)
-            {
-                return;
-            }
-
-            slotMoveTweens.Remove(cardInstanceId);
-            movingCardIds.Remove(cardInstanceId);
-            TryPlayPendingEliminations();
-            TryUpdateSlotLayout();
-        }
-
-        /// <summary>
-        /// 在同组待消除卡牌都到达卡槽后，播放消除动画并回收视图。
-        /// </summary>
-        private void TryPlayPendingEliminations()
-        {
-            for (int i = pendingEliminationResults.Count - 1; i >= 0; i--)
-            {
-                MahjongOperationResult result = pendingEliminationResults[i];
-                bool allEliminatedCardsArrived = true;
-                for (int j = 0; j < result.EliminatedCardIds.Count; j++)
-                {
-                    if (movingCardIds.Contains(result.EliminatedCardIds[j]))
-                    {
-                        allEliminatedCardsArrived = false;
-                        break;
-                    }
-                }
-
-                if (!allEliminatedCardsArrived)
-                {
-                    continue;
-                }
-
-                pendingEliminationResults.RemoveAt(i);
-                PlayEliminationAnimation(result);
-            }
-        }
-
-        /// <summary>
         /// 播放一组已到达卡槽的卡牌消除动画。
         /// </summary>
         private void PlayEliminationAnimation(MahjongOperationResult result)
         {
             activeEliminationCount++;
-            Sequence eliminateSequence = DOTween.Sequence();
-            for (int i = result.EliminatedCardIds.Count - 1; i >= 0; i--)
+            SetBoardInput(false);
+            MahjongCell firstCell = cellViews[result.EliminatedCardIds[0]];
+            MahjongCell secondCell = cellViews[result.EliminatedCardIds[1]];
+            Vector3 collisionWorldPosition = (firstCell.RectTransform.position + secondCell.RectTransform.position) * 0.5f;
+            firstCell.transform.SetParent(eliminationLayer, true);
+            secondCell.transform.SetParent(eliminationLayer, true);
+            firstCell.transform.SetAsLastSibling();
+            secondCell.transform.SetAsLastSibling();
+            Vector2 centerPosition = eliminationLayer.InverseTransformPoint(collisionWorldPosition);
+            Vector2 firstTransitPosition = centerPosition + Vector2.left * MahjongViewConfig.TransitOffsetX;
+            Vector2 secondTransitPosition = centerPosition + Vector2.right * MahjongViewConfig.TransitOffsetX;
+            if (firstCell.RectTransform.position.x > secondCell.RectTransform.position.x)
             {
-                if (cellViews.TryGetValue(result.EliminatedCardIds[i], out MahjongCell eliminatedCell))
-                {
-                    eliminateSequence.Join(eliminatedCell.AnimateEliminated(() =>
-                        PlayEliminationEffect(eliminatedCell.RectTransform.position)));
-                }
+                Vector2 swapPosition = firstTransitPosition;
+                firstTransitPosition = secondTransitPosition;
+                secondTransitPosition = swapPosition;
             }
+
+            Vector2 firstCollisionPosition = centerPosition + Vector2.left * MahjongViewConfig.CollisionHalfDistance;
+            Vector2 secondCollisionPosition = centerPosition + Vector2.right * MahjongViewConfig.CollisionHalfDistance;
+            Vector2 firstReboundPosition = firstCollisionPosition + Vector2.left * MahjongViewConfig.ReboundOffsetX;
+            Vector2 secondReboundPosition = secondCollisionPosition + Vector2.right * MahjongViewConfig.ReboundOffsetX;
+            if (firstCell.RectTransform.position.x > secondCell.RectTransform.position.x)
+            {
+                Vector2 swapPosition = firstCollisionPosition;
+                firstCollisionPosition = secondCollisionPosition;
+                secondCollisionPosition = swapPosition;
+                swapPosition = firstReboundPosition;
+                firstReboundPosition = secondReboundPosition;
+                secondReboundPosition = swapPosition;
+            }
+
+            Sequence eliminateSequence = DOTween.Sequence();
+            eliminateSequence.Join(firstCell.AnimateToEliminationPoint(
+                eliminationLayer,
+                firstTransitPosition,
+                firstCollisionPosition,
+                firstReboundPosition,
+                firstCollisionPosition));
+            eliminateSequence.Join(secondCell.AnimateToEliminationPoint(
+                eliminationLayer,
+                secondTransitPosition,
+                secondCollisionPosition,
+                secondReboundPosition,
+                secondCollisionPosition));
+            eliminateSequence.AppendCallback(() =>
+            {
+                PlayEliminationEffect(collisionWorldPosition);
+                firstCell.AnimateEliminated(null);
+                secondCell.AnimateEliminated(null);
+            });
+            eliminateSequence.AppendInterval(MahjongViewConfig.EliminateDuration);
             eliminateSequence.SetTarget(this).AppendCallback(() => CompleteEliminationAnimation(result));
         }
+
 
         /// <summary>
         /// 回收已完成消除动画的卡牌视图，并刷新卡槽布局和牌面状态。
@@ -435,21 +504,44 @@ namespace MahjongGame.View
             activeEliminationCount--;
             if (gameState == MahjongGameState.Playing)
             {
-                TryShowEliminationReward(result.EliminatedCardIds.Count);
+                TryShowEliminationReward(result.EliminatedCardIds.Count, () =>
+                {
+                    if (autoEliminationRemainingGroupCount > 0)
+                    {
+                        autoEliminationRemainingGroupCount--;
+                        EnsurePlayablePair();
+                        if (autoEliminationRemainingGroupCount > 0)
+                        {
+                            DOVirtual.DelayedCall(0f, StartNextAutoElimination).SetTarget(this);
+                        }
+                        else
+                        {
+                            EndAutoElimination();
+                        }
+                    }
+                    else
+                    {
+                        EnsurePlayablePair();
+                    }
+                });
             }
-            LayoutSlotViews();
+            else if (autoEliminationRemainingGroupCount > 0)
+            {
+                EndAutoElimination();
+            }
+
             TriggerGameResultEvent(gameState);
-            TryUpdateSlotLayout();
         }
 
         /// <summary>
         /// 在消除动画结束后累计消除卡牌，并按配置概率弹出随机奖励。
         /// </summary>
-        private void TryShowEliminationReward(int eliminatedCount)
+        private void TryShowEliminationReward(int eliminatedCount,System.Action _callback)
         {
             eliminatedCardCount += eliminatedCount;
             if (eliminatedCardCount < MahjongConfig.RewardTriggerEliminatedCardCount)
             {
+                _callback?.Invoke();
                 return;
             }
 
@@ -461,29 +553,26 @@ namespace MahjongGame.View
                 extraGroupCount * MahjongConfig.RewardProbabilityIncreasePerGroup);
             if (Random.value >= probability)
             {
+                _callback?.Invoke();
                 return;
             }
 
             eliminatedCardCount = 0;
-            UIManager.Instance.OpenUI<GeneralRewardsPanel>();
-        }
-
-        /// <summary>
-        /// 在所有已开始的入槽和消除动画结束后，按最终逻辑卡槽顺序重排视图。
-        /// </summary>
-        private void TryUpdateSlotLayout()
-        {
-            if (movingCardIds.Count != 0 || pendingEliminationResults.Count != 0 || activeEliminationCount != 0)
+            bool isAutoEliminating = autoEliminationRemainingGroupCount > 0;
+            if (isAutoEliminating)
             {
-                return;
+                UIManager.Instance.HideUIMask();
             }
 
-            LayoutSlotViews();
-            RefreshBoardStates();
-            if (gameLogic.Model.State == MahjongGameState.Lost)
+            UIManager.Instance.OpenUI<GeneralRewardsPanel>(null, () =>
             {
-                TriggerGameResultEvent(gameLogic.Model.State);
-            }
+                if (isAutoEliminating && autoEliminationRemainingGroupCount > 0)
+                {
+                    UIManager.Instance.OpenUIMask();
+                }
+
+                _callback?.Invoke();
+            });
         }
 
         /// <summary>
@@ -533,7 +622,7 @@ namespace MahjongGame.View
             effectTransform.SetAsLastSibling();
             effect.gameObject.SetActive(true);
             effect.Play(true);
-            DOVirtual.DelayedCall(2f, () => RecycleEliminationEffect(effect))
+            DOVirtual.DelayedCall(MahjongViewConfig.EliminationEffectDuration, () => RecycleEliminationEffect(effect))
                 .SetTarget(effect);
         }
 
@@ -582,64 +671,6 @@ namespace MahjongGame.View
             else if (gameState == MahjongGameState.Lost)
             {
                 EventManager.Instance.TriggerEvent(GameEvent.MahjongGameLost);
-            }
-        }
-
-        /// <summary>
-        /// 按指定卡槽顺序重新排列所有槽内卡牌视图；未指定时使用当前逻辑卡槽顺序。
-        /// </summary>
-        private void LayoutSlotViews(IReadOnlyList<int> cardInstanceIds = null)
-        {
-            IReadOnlyList<int> slotCardIds = cardInstanceIds ?? gameLogic.Model.Slot.CardInstanceIds;
-            int displayIndex = 0;
-            for (int i = 0; i < slotCardIds.Count; i++)
-            {
-                int cardInstanceId = slotCardIds[i];
-                MahjongCardModel card = gameLogic.Model.GetCard(cardInstanceId);
-                if (card.State == MahjongCardState.PendingElimination)
-                {
-                    continue;
-                }
-
-                if (cellViews.TryGetValue(cardInstanceId, out MahjongCell slotCell))
-                {
-                    Vector2 targetPosition = GetSlotPosition(displayIndex);
-                    if (movingCardIds.Contains(cardInstanceId))
-                    {
-                        StartSlotMove(cardInstanceId, slotCell.RetargetToSlotPosition(targetPosition));
-                    }
-                    else
-                    {
-                        slotCell.AnimateSlotReposition(targetPosition);
-                    }
-                }
-
-                displayIndex++;
-            }
-        }
-
-        /// <summary>
-        /// 将插入点之后的卡牌移动到新槽位。飞行中的卡牌会从当前位置重定向并保持入槽完成回调。
-        /// </summary>
-        private void AnimateSlotCellsAfterInsertion(IReadOnlyList<int> slotCardIdsBeforeElimination, int slotInsertIndex)
-        {
-            for (int i = slotInsertIndex + 1; i < slotCardIdsBeforeElimination.Count; i++)
-            {
-                int cardInstanceId = slotCardIdsBeforeElimination[i];
-                if (!cellViews.TryGetValue(cardInstanceId, out MahjongCell slotCell))
-                {
-                    continue;
-                }
-
-                Vector2 targetPosition = GetSlotPosition(i);
-                if (movingCardIds.Contains(cardInstanceId))
-                {
-                    StartSlotMove(cardInstanceId, slotCell.RetargetToSlotPosition(targetPosition));
-                }
-                else
-                {
-                    slotCell.AnimateSlotReposition(targetPosition);
-                }
             }
         }
 
@@ -743,32 +774,6 @@ namespace MahjongGame.View
             return new Vector2(x, y);
         }
 
-        /// <summary>
-        /// 获取卡牌进入卡槽时应插入的索引：同类型卡牌存在时紧随最后一张，否则追加至末尾。
-        /// </summary>
-        private int GetSlotInsertIndex(int cardInstanceId)
-        {
-            MahjongCardModel card = gameLogic.Model.GetCard(cardInstanceId);
-            for (int i = gameLogic.Model.Slot.Count - 1; i >= 0; i--)
-            {
-                MahjongCardModel slotCard = gameLogic.Model.GetCard(gameLogic.Model.Slot.CardInstanceIds[i]);
-                if (slotCard.TypeId == card.TypeId)
-                {
-                    return i + 1;
-                }
-            }
-
-            return gameLogic.Model.Slot.Count;
-        }
-
-        /// <summary>
-        /// 根据卡槽索引计算对应的 UGUI 局部坐标。调用前必须保证索引位于卡槽容量范围内。
-        /// </summary>
-        private static Vector2 GetSlotPosition(int slotIndex)
-        {
-            float centeredIndex = slotIndex - (MahjongConfig.SlotCapacity - 1) * 0.5f;
-            return new Vector2(centeredIndex * MahjongViewConfig.SlotCellWidth, 0f);
-        }
 
     }
 }

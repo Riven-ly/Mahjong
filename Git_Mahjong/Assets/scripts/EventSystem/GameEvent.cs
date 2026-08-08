@@ -10,4 +10,5 @@ public enum GameEvent
     StopHintAnim,
     PlayAds,
     GetGold,
+    UpdateAppATTUI,
 }
