@@ -218,6 +218,7 @@ namespace MahjongGame.View
                 {
                     firstCell.SetSelectionEffectActive(false);
                     cell.SetSelectionEffectActive(false);
+                    StopHint();
                     RefreshBoardStates();
                 });
                 if (result.Failure == MahjongOperationFailure.NoMatchingCardInSlot)
@@ -235,6 +236,7 @@ namespace MahjongGame.View
                 return;
             }
 
+            StopHint();
             firstCell.SetSelectionEffectActive(true);
             cell.SetSelectionEffectActive(true);
             PlayEliminationAnimation(result);
@@ -245,9 +247,18 @@ namespace MahjongGame.View
         /// </summary>
         public bool TryShuffle()
         {
-            if (!IsStable())
+            if (gameLogic == null ||
+                gameLogic.Model == null ||
+                gameLogic.Model.State != MahjongGameState.Playing ||
+                activeEliminationCount != 0)
             {
                 return false;
+            }
+
+            if (selectedCardId != 0)
+            {
+                cellViews[selectedCardId].SetSelectionEffectActive(false);
+                selectedCardId = 0;
             }
 
             MahjongOperationResult result = gameLogic.Shuffle();
@@ -289,13 +300,34 @@ namespace MahjongGame.View
         /// </summary>
         public bool TryAutoEliminate(int groupCount)
         {
-            if (!IsStable() || groupCount <= 0)
+            if (gameLogic == null ||
+                gameLogic.Model == null ||
+                gameLogic.Model.State != MahjongGameState.Playing ||
+                activeEliminationCount != 0 ||
+                groupCount <= 0)
             {
                 return false;
             }
 
             autoEliminationRemainingGroupCount = groupCount;
+            StopHint();
             UIManager.Instance.OpenUIMask();
+            if (selectedCardId != 0)
+            {
+                IReadOnlyList<int> selectedPairCardIds = gameLogic.GetHintCardIdsForCard(selectedCardId);
+                cellViews[selectedCardId].SetSelectionEffectActive(false);
+                selectedCardId = 0;
+                if (selectedPairCardIds.Count != 0)
+                {
+                    MahjongOperationResult result = gameLogic.MarkPairForElimination(selectedPairCardIds[0], selectedPairCardIds[1]);
+                    if (result.Succeeded)
+                    {
+                        PlayEliminationAnimation(result);
+                        return true;
+                    }
+                }
+            }
+
             StartNextAutoElimination();
             return true;
         }
@@ -355,12 +387,30 @@ namespace MahjongGame.View
         /// </summary>
         public bool TryShowHint()
         {
-            if (!IsStable())
+            if (gameLogic == null ||
+                gameLogic.Model == null ||
+                gameLogic.Model.State != MahjongGameState.Playing ||
+                activeEliminationCount != 0)
             {
                 return false;
             }
 
-            IReadOnlyList<int> hintCardIds = gameLogic.GetHintCardIds();
+            IReadOnlyList<int> hintCardIds;
+            if (selectedCardId != 0)
+            {
+                hintCardIds = gameLogic.GetHintCardIdsForCard(selectedCardId);
+                if (hintCardIds.Count == 0)
+                {
+                    cellViews[selectedCardId].SetSelectionEffectActive(false);
+                    selectedCardId = 0;
+                    hintCardIds = gameLogic.GetHintCardIds();
+                }
+            }
+            else
+            {
+                hintCardIds = gameLogic.GetHintCardIds();
+            }
+
             if (hintCardIds.Count == 0)
             {
                 return false;

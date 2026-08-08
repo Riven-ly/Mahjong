@@ -565,6 +565,7 @@ GameObject:
   - component: {fileID: 1256974993513923795}
   - component: {fileID: 341074821239576932}
   - component: {fileID: 3881506026185355166}
+  - component: {fileID: 7683905115895084901}
   m_Layer: 5
   m_Name: HintEffect
   m_TagString: Untagged
@@ -629,3 +630,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7683905115895084901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7058774995389323823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3851b36f7ea522a428ddec1aea56fbcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mahjongCell: {fileID: 5210653118229894191}

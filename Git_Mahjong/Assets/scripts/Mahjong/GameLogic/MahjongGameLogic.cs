@@ -190,6 +190,37 @@ namespace MahjongGame.GameLogic
         }
 
         /// <summary>
+        /// 查找指定可操作牌对应的一张同类型可操作牌，用于优先提示已选卡牌。
+        /// </summary>
+        public IReadOnlyList<int> GetHintCardIdsForCard(int cardInstanceId)
+        {
+            if (Model == null || Model.State != MahjongGameState.Playing ||
+                ValidateSelectCard(cardInstanceId) != MahjongOperationFailure.None)
+            {
+                return Array.Empty<int>();
+            }
+
+            MahjongCardModel selectedCard = Model.GetCard(cardInstanceId);
+            for (int i = 0; i < Model.Cards.Count; i++)
+            {
+                MahjongCardModel candidateCard = Model.Cards[i];
+                if (candidateCard.InstanceId == cardInstanceId ||
+                    candidateCard.State != MahjongCardState.OnBoard ||
+                    candidateCard.TypeId != selectedCard.TypeId ||
+                    ValidateSelectCard(candidateCard.InstanceId) != MahjongOperationFailure.None)
+                {
+                    continue;
+                }
+
+                lastHintCardIds[0] = cardInstanceId;
+                lastHintCardIds[1] = candidateCard.InstanceId;
+                return new[] { cardInstanceId, candidateCard.InstanceId };
+            }
+
+            return Array.Empty<int>();
+        }
+
+        /// <summary>
         /// 获取与上次提示不同的下一组候选索引。
         /// </summary>
         private int GetNextHintCandidateIndex(IReadOnlyList<int[]> candidates)

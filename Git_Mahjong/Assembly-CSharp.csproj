@@ -108,6 +108,7 @@
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Return.cs" />
     <Compile Include="Assets\scripts\Task\TxBoBao.cs" />
     <Compile Include="Assets\scripts\Panel\PlayerInfoUI.cs" />
+    <Compile Include="Assets\scripts\Mahjong\View\MahjongHintEffect.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGeometry.cs" />
     <Compile Include="Assets\scripts\language\MultilingualText.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelValidator.cs" />
