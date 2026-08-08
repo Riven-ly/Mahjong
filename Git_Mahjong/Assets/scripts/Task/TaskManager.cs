@@ -262,13 +262,34 @@ public class TaskManager : MonoBehaviour, IEventListener
             return;
         }
 
+        MergeDailyTasks();
         MergeMainlineTasks();
     }
 
-    /// <summary>
-    /// 合并新版主线任务配置并保留已有任务状态。
-    /// </summary>
-    private void MergeMainlineTasks()
+        /// <summary>
+        /// 合并新版每日任务配置并保留当日已有任务状态。
+        /// </summary>
+        private void MergeDailyTasks()
+        {
+            List<TaskData> configuredTasks = CreateDailyTasks();
+            foreach (TaskData configuredTask in configuredTasks)
+            {
+                TaskData savedTask = saveData.dailyTasks.Find(task => task.id == configuredTask.id);
+                if (savedTask != null)
+                {
+                    configuredTask.currentProgress = savedTask.currentProgress;
+                    configuredTask.isClaimed = savedTask.isClaimed;
+                }
+            }
+
+            saveData.dailyTasks = configuredTasks;
+            SaveTasks();
+        }
+
+        /// <summary>
+        /// 合并新版主线任务配置并保留已有任务状态。
+        /// </summary>
+        private void MergeMainlineTasks()
     {
         List<TaskData> configuredTasks = CreateMainlineTasks();
         foreach (TaskData configuredTask in configuredTasks)
@@ -322,45 +343,47 @@ public class TaskManager : MonoBehaviour, IEventListener
     /// <summary>
     /// 创建每日任务配置。
     /// </summary>
-    private List<TaskData> CreateDailyTasks()
-    {
-        return new List<TaskData>
+        private List<TaskData> CreateDailyTasks()
         {
-            new TaskData { id = "daily_login", description = "TaskDailyLogin", category = TaskCategory.Daily, progressType = TaskProgressType.Login, targetProgress = 1, goldReward = 50 },
-            new TaskData { id = "daily_win_3", description = "TaskCompleteLevel", category = TaskCategory.Daily, progressType = TaskProgressType.MahjongGameWon, targetProgress = 3, goldReward = 200 },
-            new TaskData { id = "daily_ad_3", description = "TaskPlayAds", category = TaskCategory.Daily, progressType = TaskProgressType.PlayAds, targetProgress = 3, goldReward = 150},
-        };
-    }
+            return new List<TaskData>
+            {
+                new TaskData { id = "daily_login", description = "TaskDailyLogin", category = TaskCategory.Daily, progressType = TaskProgressType.Login, targetProgress = 1, goldReward = 50 },
+                new TaskData { id = "daily_win_1", description = "TaskCompleteLevel", category = TaskCategory.Daily, progressType = TaskProgressType.MahjongGameWon, targetProgress = 1, goldReward = 50 },
+                new TaskData { id = "daily_win_3", description = "TaskCompleteLevel", category = TaskCategory.Daily, progressType = TaskProgressType.MahjongGameWon, targetProgress = 3, goldReward = 60 },
+                new TaskData { id = "daily_win_5", description = "TaskCompleteLevel", category = TaskCategory.Daily, progressType = TaskProgressType.MahjongGameWon, targetProgress = 5, goldReward = 80 },
+                new TaskData { id = "daily_win_10", description = "TaskCompleteLevel", category = TaskCategory.Daily, progressType = TaskProgressType.MahjongGameWon, targetProgress = 10, goldReward = 100 },
+                new TaskData { id = "daily_win_20", description = "TaskCompleteLevel", category = TaskCategory.Daily, progressType = TaskProgressType.MahjongGameWon, targetProgress = 20, goldReward = 150 },
+                new TaskData { id = "daily_ad_3", description = "TaskPlayAds", category = TaskCategory.Daily, progressType = TaskProgressType.PlayAds, targetProgress = 3, goldReward = 50 },
+                new TaskData { id = "daily_ad_15", description = "TaskPlayAds", category = TaskCategory.Daily, progressType = TaskProgressType.PlayAds, targetProgress = 15, goldReward = 50 },
+                new TaskData { id = "daily_ad_30", description = "TaskPlayAds", category = TaskCategory.Daily, progressType = TaskProgressType.PlayAds, targetProgress = 30, goldReward = 100 },
+                new TaskData { id = "daily_ad_50", description = "TaskPlayAds", category = TaskCategory.Daily, progressType = TaskProgressType.PlayAds, targetProgress = 50, goldReward = 50 },
+            };
+        }
 
     /// <summary>
     /// 创建主线任务配置。
     /// </summary>
-    private List<TaskData> CreateMainlineTasks()
-    {
-        return new List<TaskData>
+        private List<TaskData> CreateMainlineTasks()
         {
-            new TaskData { id = "mainline_win_5", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 5, goldReward = 100 },
-            new TaskData { id = "mainline_win_10", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 10, goldReward = 20 },
-            new TaskData { id = "mainline_win_15", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 15, goldReward = 30 },
-            new TaskData { id = "mainline_win_20", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 20, goldReward = 40 },
-            new TaskData { id = "mainline_win_30", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 30, goldReward = 50 },
-            new TaskData { id = "mainline_win_40", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 40, goldReward = 60 },
-            new TaskData { id = "mainline_win_50", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 50, goldReward = 70 },
-            new TaskData { id = "mainline_win_70", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 70, goldReward = 80 },
-            new TaskData { id = "mainline_win_100", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 100, goldReward = 90 },
-            new TaskData { id = "mainline_win_150", description = "TaskCompleteLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.MahjongGameWon, targetProgress = 150, goldReward = 33 },
-            new TaskData { id = "mainline_level_5", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 5, goldReward = 300 },
-            new TaskData { id = "mainline_level_10", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 10, goldReward = 450 },
-            new TaskData { id = "mainline_level_15", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 15, goldReward = 600 },
-            new TaskData { id = "mainline_level_20", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 20, goldReward = 750 },
-            new TaskData { id = "mainline_level_30", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 30, goldReward = 1000 },
-            new TaskData { id = "mainline_level_40", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 40, goldReward = 1250 },
-            new TaskData { id = "mainline_level_50", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 50, goldReward = 1500 },
-            new TaskData { id = "mainline_level_70", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 70, goldReward = 1800 },
-            new TaskData { id = "mainline_level_100", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 100, goldReward = 2200 },
-            new TaskData { id = "mainline_level_150", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 150, goldReward = 3000 },
-        };
-    }
+            return new List<TaskData>
+            {
+                new TaskData { id = "mainline_level_5", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 5, goldReward = 50 },
+                new TaskData { id = "mainline_level_10", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 10, goldReward = 50 },
+                new TaskData { id = "mainline_level_20", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 20, goldReward = 60 },
+                new TaskData { id = "mainline_level_30", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 30, goldReward = 60 },
+                new TaskData { id = "mainline_level_50", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 50, goldReward = 70 },
+                new TaskData { id = "mainline_level_80", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 80, goldReward = 70 },
+                new TaskData { id = "mainline_level_100", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 100, goldReward = 70 },
+                new TaskData { id = "mainline_level_150", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 150, goldReward = 80 },
+                new TaskData { id = "mainline_level_200", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 200, goldReward = 80 },
+                new TaskData { id = "mainline_level_250", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 250, goldReward = 80 },
+                new TaskData { id = "mainline_level_300", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 300, goldReward = 90 },
+                new TaskData { id = "mainline_level_350", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 350, goldReward = 90 },
+                new TaskData { id = "mainline_level_400", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 400, goldReward = 90 },
+                new TaskData { id = "mainline_level_450", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 450, goldReward = 100 },
+                new TaskData { id = "mainline_level_500", description = "TaskReachLevel", category = TaskCategory.Mainline, progressType = TaskProgressType.LevelProgress, targetProgress = 500, goldReward = 100 },
+            };
+        }
 
     /// <summary>
     /// 保存任务状态到本地偏好设置。

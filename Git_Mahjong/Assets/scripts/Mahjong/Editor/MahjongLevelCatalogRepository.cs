@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using MahjongGame.GameLogic;
 using MahjongGame.Model;
 using Newtonsoft.Json;
 using UnityEditor;
@@ -100,7 +101,7 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 按层级、行和列稳定排序卡牌布局。
+        /// 按层级和精确半格中心坐标稳定排序卡牌布局。
         /// </summary>
         private static int CompareCards(MahjongLevelCardDefinition left, MahjongLevelCardDefinition right)
         {
@@ -110,8 +111,10 @@ namespace MahjongGame.EditorTools
                 return layerComparison;
             }
 
-            int rowComparison = left.row.CompareTo(right.row);
-            return rowComparison != 0 ? rowComparison : left.column.CompareTo(right.column);
+            int rowComparison = MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(left).CompareTo(MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(right));
+            return rowComparison != 0
+                ? rowComparison
+                : MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(left).CompareTo(MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(right));
         }
 
         /// <summary>

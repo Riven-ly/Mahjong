@@ -23,6 +23,7 @@ namespace MahjongGame.Model
         public int level; // 对应玩家等级的关卡编号
         public int gridColumnCount; // 逻辑网格列数
         public int gridRowCount; // 逻辑网格行数
+        public bool randomizeTypeIds; // 是否在每次开局时随机生成两两配对且可解的牌型
         public List<MahjongLevelCardDefinition> cards = new List<MahjongLevelCardDefinition>(); // 本关全部固定卡牌布局
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace MahjongGame.Model
     {
         public int typeId; // 卡牌类型ID
         public int layer; // 卡牌所在堆叠层级
-        public int column; // 卡牌逻辑列坐标
-        public int row; // 卡牌逻辑行坐标
+        public int coordY; // 卡牌中心横向半格坐标
+        public int coordX; // 卡牌中心纵向半格坐标
     }
 }

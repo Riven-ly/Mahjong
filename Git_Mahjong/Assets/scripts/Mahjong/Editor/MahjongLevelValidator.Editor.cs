@@ -34,8 +34,6 @@ namespace MahjongGame.GameLogic
                 throw new InvalidOperationException($"关卡{levelDefinition.level}未配置卡牌布局。");
             }
 
-            int maxColumn = levelDefinition.gridColumnCount - 1;
-            int maxRow = levelDefinition.gridRowCount - 1;
             var typeCounts = new Dictionary<int, int>();
             var occupiedPositions = new HashSet<string>();
             for (int i = 0; i < levelDefinition.cards.Count; i++)
@@ -51,14 +49,9 @@ namespace MahjongGame.GameLogic
                     throw new InvalidOperationException($"关卡{levelDefinition.level}的第{i}张牌层级必须在0到{MahjongConfig.MaxLayerCount - 1}之间。");
                 }
 
-                int minimumCoordinate = MahjongLayoutGeometry.IsOffsetLayer(card.layer) ? -1 : 0;
-                if (card.column < minimumCoordinate || card.column > maxColumn ||
-                    card.row < minimumCoordinate || card.row > maxRow)
-                {
-                    throw new InvalidOperationException($"关卡{levelDefinition.level}的第{i}张牌坐标越界。");
-                }
-
-                string positionKey = $"{card.layer}:{card.column}:{card.row}";
+                int coordY = MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(card);
+                int coordX = MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(card);
+                string positionKey = $"{card.layer}:{coordY}:{coordX}";
                 if (!occupiedPositions.Add(positionKey))
                 {
                     throw new InvalidOperationException($"关卡{levelDefinition.level}在{positionKey}存在重复卡牌。");

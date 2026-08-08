@@ -1,4 +1,5 @@
 using System;
+using MahjongGame.Model;
 
 namespace MahjongGame.GameLogic
 {
@@ -8,44 +9,31 @@ namespace MahjongGame.GameLogic
     public static class MahjongLayoutGeometry
     {
         public const int HalfGridUnitsPerCell = 2; // 一个完整逻辑网格占用的半格单位数
-        public const int OffsetUnitsOnOddLayer = 1; // 奇数层在每个轴上的半格偏移量
-
         /// <summary>
-        /// 判断指定层是否需要应用横纵各半格的视觉与逻辑偏移。
+        /// 获取关卡卡牌中心的半格列坐标。
         /// </summary>
-        public static bool IsOffsetLayer(int layer)
+        public static int GetCenterColumnInHalfGridUnits(MahjongLevelCardDefinition card)
         {
-            return layer % 2 != 0;
+            return card.coordY;
         }
 
         /// <summary>
-        /// 获取卡牌中心的半格列坐标。
+        /// 获取关卡卡牌中心的半格行坐标。
         /// </summary>
-        public static int GetCenterColumnInHalfGridUnits(int column, int layer)
+        public static int GetCenterRowInHalfGridUnits(MahjongLevelCardDefinition card)
         {
-            return column * HalfGridUnitsPerCell + (IsOffsetLayer(layer) ? OffsetUnitsOnOddLayer : 0);
+            return card.coordX;
         }
 
         /// <summary>
-        /// 获取卡牌中心的半格行坐标。
+        /// 判断两张关卡卡牌是否存在面积重叠。
         /// </summary>
-        public static int GetCenterRowInHalfGridUnits(int row, int layer)
+        public static bool HasAreaOverlap(MahjongLevelCardDefinition first, MahjongLevelCardDefinition second)
         {
-            return row * HalfGridUnitsPerCell + (IsOffsetLayer(layer) ? OffsetUnitsOnOddLayer : 0);
-        }
-
-        /// <summary>
-        /// 判断两张完整网格尺寸的卡牌是否存在面积重叠。
-        /// </summary>
-        public static bool HasAreaOverlap(int firstColumn, int firstRow, int firstLayer, int secondColumn, int secondRow, int secondLayer)
-        {
-            int columnDistance = Math.Abs(
-                GetCenterColumnInHalfGridUnits(firstColumn, firstLayer) -
-                GetCenterColumnInHalfGridUnits(secondColumn, secondLayer));
-            int rowDistance = Math.Abs(
-                GetCenterRowInHalfGridUnits(firstRow, firstLayer) -
-                GetCenterRowInHalfGridUnits(secondRow, secondLayer));
+            int columnDistance = Math.Abs(GetCenterColumnInHalfGridUnits(first) - GetCenterColumnInHalfGridUnits(second));
+            int rowDistance = Math.Abs(GetCenterRowInHalfGridUnits(first) - GetCenterRowInHalfGridUnits(second));
             return columnDistance < HalfGridUnitsPerCell && rowDistance < HalfGridUnitsPerCell;
         }
+
     }
 }

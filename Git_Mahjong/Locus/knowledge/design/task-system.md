@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785403317874
-updatedAt: 1786074689790
+updatedAt: 1786160502836
 ---
 
 # task-system
@@ -25,12 +25,16 @@ updatedAt: 1786074689790
 - 当前时间统一调用 `GameManager.GetNowTime()`；每日任务依据 `yyyyMMdd` 日切重置，主线任务永久保留。
 - 每日登录由 `GameManager.Init()` 最后触发 `GameEvent.DailyLogin`；`TaskManager` 收到后比较保存日期和当前 `yyyyMMdd`，仅跨天时重置每日任务并增加登录进度。
 - `TaskManager` 通过 `IEventListener` 监听 `GameEvent.MahjongGameWon`、`GameEvent.DailyLogin` 和 `GameEvent.PlayAds` 并更新对应任务；广告任务进度类型为 `TaskProgressType.PlayAds`。
-- 主线任务共 20 条：10 条累计通关里程碑和 10 条关卡进度里程碑，目标均为 5、10、15、20、30、40、50、70、100、150。
+- 每日任务共 10 条：每日登录（0.5）；累计通关 1、3、5、10、20 次（奖励依次为 0.5、0.6、0.8、1、1.5）；观看激励广告 3、15、30、50 次（奖励依次为 0.5、0.5、1、0.5）。
+- 主线任务共 15 条，均为关卡进度里程碑：通过第 5、10、20、30、50、80、100、150、200、250、300、350、400、450、500 关；奖励依次为 0.5、0.5、0.6、0.6、0.7、0.7、0.7、0.8、0.8、0.8、0.9、0.9、0.9、1、1。
+- 奖励内部以 `PlayerInfo.CurrencyUnitScale=100` 存储，例如 0.5 对应 `goldReward=50`。
 - 关卡进度使用 `GameManager.Instance.playerInfo.level` 作为当前进度源；读取主线任务列表时同步为 `min(level, targetProgress)`，无需额外事件累加。
+- 每日与主线配置更新均按任务 ID 保留已有进度和领取状态。
 - 配置更新时按任务 ID 保留已有进度和领取状态。
 - `TaskPanel : UIBase` 仅负责每日/主线 Tab、滚动列表和任务状态展示；单条 `TaskItem` 负责将领取操作转发给 `TaskManager`。
 - 入口位于 `GameScenePanel` 右上角，打开 `TaskPanel`。
 - 任务奖励当前使用玩家金币；广告任务要求广告 SDK 在确认激励完成后触发 `EventManager.Instance.TriggerEvent(GameEvent.PlayAds)`。
+- `PlayerInfo` 增加金币等级系统：等级范围0–100，经验以0.1为最小存储单位。升至目标等级 `L` 所需经验为 `INT(10 * L^(0.5 + 0.03 * MAX(L-10, 0)))`；每次通关加1经验，通关结算和通用奖励弹窗中成功领取激励广告奖励各加1经验，普通领取各加0.1经验。
 
 ## 提现任务
 

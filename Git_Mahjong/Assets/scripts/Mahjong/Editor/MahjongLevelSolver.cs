@@ -98,14 +98,14 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 获取当前状态下全部无遮挡且未被左右同时夹住的卡牌索引。
+        /// 获取当前状态下全部未被更高层精确重叠遮挡的卡牌索引。
         /// </summary>
         private static List<int> GetSelectableCardIndexes(MahjongLevelDefinition levelDefinition, bool[] cardsOnBoard)
         {
             var selectableCardIndexes = new List<int>();
             for (int cardIndex = 0; cardIndex < levelDefinition.cards.Count; cardIndex++)
             {
-                if (!cardsOnBoard[cardIndex] || IsCovered(levelDefinition, cardsOnBoard, cardIndex) || HasBothSideNeighbors(levelDefinition, cardsOnBoard, cardIndex))
+                if (!cardsOnBoard[cardIndex] || IsCovered(levelDefinition, cardsOnBoard, cardIndex))
                 {
                     continue;
                 }
@@ -130,54 +130,13 @@ namespace MahjongGame.EditorTools
                 }
 
                 MahjongLevelCardDefinition other = levelDefinition.cards[otherIndex];
-                if (other.layer > card.layer &&
-                    MahjongLayoutGeometry.HasAreaOverlap(
-                        card.column,
-                        card.row,
-                        card.layer,
-                        other.column,
-                        other.row,
-                        other.layer))
+                if (other.layer > card.layer && MahjongLayoutGeometry.HasAreaOverlap(card, other))
                 {
                     return true;
                 }
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// 判断指定卡牌在同层同行是否同时存在左右紧邻牌。
-        /// </summary>
-        private static bool HasBothSideNeighbors(MahjongLevelDefinition levelDefinition, bool[] cardsOnBoard, int cardIndex)
-        {
-            MahjongLevelCardDefinition card = levelDefinition.cards[cardIndex];
-            bool hasLeft = false;
-            bool hasRight = false;
-            for (int otherIndex = 0; otherIndex < levelDefinition.cards.Count; otherIndex++)
-            {
-                if (!cardsOnBoard[otherIndex] || otherIndex == cardIndex)
-                {
-                    continue;
-                }
-
-                MahjongLevelCardDefinition other = levelDefinition.cards[otherIndex];
-                if (other.layer != card.layer || other.row != card.row)
-                {
-                    continue;
-                }
-
-                if (other.column == card.column - MahjongConfig.GridCoordinateStep)
-                {
-                    hasLeft = true;
-                }
-                else if (other.column == card.column + MahjongConfig.GridCoordinateStep)
-                {
-                    hasRight = true;
-                }
-            }
-
-            return hasLeft && hasRight;
         }
 
         /// <summary>

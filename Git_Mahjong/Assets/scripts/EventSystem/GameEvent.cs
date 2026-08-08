@@ -9,4 +9,5 @@ public enum GameEvent
     MahjongGameLost,
     StopHintAnim,
     PlayAds,
+    GetGold,
 }

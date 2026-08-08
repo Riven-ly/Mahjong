@@ -100,8 +100,7 @@ public class GameLoadingPanel : UIBase
 
         //2.各个SDK初始化
         GameManager.appATTtype = 1;//todo
-        //GameManager.Instance.UpdateAppATT();//todo
-        GameManager.LoadABAsyncOK = true;//todo
+        GameManager.Instance.UpdateAppATT();//todo
 
         //3.loading进度条动起来
         slider.DOValue(0.9f, 1.8f).SetEase(Ease.Linear);

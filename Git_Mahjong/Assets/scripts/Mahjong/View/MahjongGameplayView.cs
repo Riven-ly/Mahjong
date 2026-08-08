@@ -12,6 +12,8 @@ namespace MahjongGame.View
     public sealed class MahjongGameplayView : MonoBehaviour
     {
         [SerializeField] private RectTransform boardRoot; // 牌面卡牌根节点
+        [SerializeField] private RectTransform adaptivePointTop; // 牌面允许区域的上边界锚点
+        [SerializeField] private RectTransform adaptivePointBottom; // 牌面允许区域的下边界锚点
         [SerializeField] private RectTransform slotRoot; // 底部卡槽根节点
         [SerializeField] private RectTransform dragLayer; // 拖拽期间临时置顶层
 
@@ -27,6 +29,10 @@ namespace MahjongGame.View
         private readonly List<MahjongOperationResult> pendingEliminationResults = new List<MahjongOperationResult>(); // 等待相关卡牌到达卡槽的消除结果集合
         private int activeEliminationCount; // 当前正在播放消除动画的组数
         private int eliminatedCardCount; // 本局自上次随机奖励后累计消除的卡牌数量
+
+        private const float MahjongCellHalfWidth = 85.5f; // 单张麻将牌局部坐标宽度的一半
+        private const float MahjongCellHalfHeight = 99.5f; // 单张麻将牌局部坐标高度的一半
+        private const float HorizontalScreenMargin = 50f; // 屏幕安全区左右保留边距
 
         /// <summary>
         /// 初始化麻将主玩法业务逻辑。
@@ -55,9 +61,47 @@ namespace MahjongGame.View
             StopGameplay();
             ClearCellViews();
             eliminatedCardCount = 0;
+            ApplyBoardScale(levelDefinition);
             MahjongOperationResult result = gameLogic.StartNewGame(levelDefinition);
             BuildBoardViews();
             RefreshBoardStates();
+        }
+
+        /// <summary>
+        /// 根据上下自适应锚点和屏幕安全区左右边距限制全部卡牌完整边缘的牌面缩放。
+        /// </summary>
+        private void ApplyBoardScale(MahjongLevelDefinition levelDefinition)
+        {
+            float minimumCardX = float.MaxValue;
+            float maximumCardX = float.MinValue;
+            float minimumCardY = float.MaxValue;
+            float maximumCardY = float.MinValue;
+            for (int i = 0; i < levelDefinition.cards.Count; i++)
+            {
+                MahjongLevelCardDefinition card = levelDefinition.cards[i];
+                float x = (card.coordY * 0.5f - (levelDefinition.gridColumnCount - 1) * 0.5f) * MahjongViewConfig.BoardCellWidth -
+                          card.layer / 2 * MahjongViewConfig.LayerVisualOffsetX;
+                float y = (card.coordX * 0.5f - (levelDefinition.gridRowCount - 1) * 0.5f) * MahjongViewConfig.BoardCellHeight;
+                minimumCardX = Mathf.Min(minimumCardX, x - MahjongCellHalfWidth);
+                maximumCardX = Mathf.Max(maximumCardX, x + MahjongCellHalfWidth);
+                minimumCardY = Mathf.Min(minimumCardY, y - MahjongCellHalfHeight);
+                maximumCardY = Mathf.Max(maximumCardY, y + MahjongCellHalfHeight);
+            }
+
+            RectTransform parent = boardRoot.parent as RectTransform;
+            float topLimitY = parent.InverseTransformPoint(adaptivePointTop.position).y - boardRoot.anchoredPosition.y;
+            float bottomLimitY = parent.InverseTransformPoint(adaptivePointBottom.position).y - boardRoot.anchoredPosition.y;
+            Rect safeArea = Screen.safeArea;
+            float leftSafeAreaRatio = safeArea.xMin / Screen.width;
+            float rightSafeAreaRatio = safeArea.xMax / Screen.width;
+            float localMargin = HorizontalScreenMargin * parent.rect.width / Screen.width;
+            float leftLimitX = Mathf.Lerp(parent.rect.xMin, parent.rect.xMax, leftSafeAreaRatio) + localMargin - boardRoot.anchoredPosition.x;
+            float rightLimitX = Mathf.Lerp(parent.rect.xMin, parent.rect.xMax, rightSafeAreaRatio) - localMargin - boardRoot.anchoredPosition.x;
+            float topScale = maximumCardY > 0f ? topLimitY / maximumCardY : 1f;
+            float bottomScale = minimumCardY < 0f ? bottomLimitY / minimumCardY : 1f;
+            float leftScale = minimumCardX < 0f ? leftLimitX / minimumCardX : 1f;
+            float rightScale = maximumCardX > 0f ? rightLimitX / maximumCardX : 1f;
+            boardRoot.localScale = Vector3.one * Mathf.Min(1f, topScale, bottomScale, leftScale, rightScale);
         }
 
         /// <summary>
@@ -115,7 +159,7 @@ namespace MahjongGame.View
                         MahjongCardVisualCatalogLoader.GetSprite(card.TypeId),
                         MahjongCardColorUtility.GetColor(card.TypeId),
                         HandleCellSelectRequested);
-                    cell.SetBoardPosition(GetBoardPosition(card.Position, card.Layer, gameLogic.Model.LevelDefinition));
+                    cell.SetBoardPosition(GetBoardPosition(card, gameLogic.Model.LevelDefinition));
                     cell.transform.SetAsLastSibling();
                     cellViews.Add(card.InstanceId, cell);
                 }
@@ -186,7 +230,7 @@ namespace MahjongGame.View
             LayoutSlotViews();
             cell.AnimateReturnToBoard(
                 boardRoot,
-                GetBoardPosition(card.Position, card.Layer, gameLogic.Model.LevelDefinition),
+                GetBoardPosition(card, gameLogic.Model.LevelDefinition),
                 () => CompleteUndoAnimation(result.MovedCardId));
             return true;
         }
@@ -287,7 +331,7 @@ namespace MahjongGame.View
                         continue;
                     }
 
-                    cell.SetBoardPosition(GetBoardPosition(card.Position, card.Layer, gameLogic.Model.LevelDefinition));
+                    cell.SetBoardPosition(GetBoardPosition(card, gameLogic.Model.LevelDefinition));
                     cell.RefreshVisual(
                         MahjongCardVisualCatalogLoader.GetSprite(card.TypeId),
                         MahjongCardColorUtility.GetColor(card.TypeId));
@@ -618,8 +662,7 @@ namespace MahjongGame.View
                 }
 
                 bool blocked = gameLogic.Model.State != MahjongGameState.Playing ||
-                               gameLogic.IsCardCovered(card.InstanceId) ||
-                               gameLogic.HasBothSideNeighbors(card.InstanceId);
+                               gameLogic.IsCardCovered(card.InstanceId);
                 cell.SetBlocked(blocked);
             }
         }
@@ -688,16 +731,15 @@ namespace MahjongGame.View
         /// <summary>
         /// 将纯逻辑网格坐标按层级奇偶的半格错位规则换算为牌面 UGUI 局部坐标。
         /// </summary>
-        private static Vector2 GetBoardPosition(MahjongGridPosition position, int layer, MahjongLevelDefinition levelDefinition)
+        private static Vector2 GetBoardPosition(MahjongCardModel card, MahjongLevelDefinition levelDefinition)
         {
+            float centerColumn = card.CoordY * 0.5f;
+            float centerRow = card.CoordX * 0.5f;
             float maxColumn = levelDefinition.gridColumnCount - 1;
             float maxRow = levelDefinition.gridRowCount - 1;
-            float offset = MahjongLayoutGeometry.IsOffsetLayer(layer) ? 0.5f : 0f;
-            float layerVisualOffset = layer / 2 * MahjongViewConfig.LayerVisualOffsetX;
-            float x = (position.Column + offset - maxColumn * 0.5f) * MahjongViewConfig.BoardCellWidth /
-                      MahjongConfig.GridCoordinateStep - layerVisualOffset;
-            float y = (position.Row + offset - maxRow * 0.5f) * MahjongViewConfig.BoardCellHeight /
-                      MahjongConfig.GridCoordinateStep;
+            float layerVisualOffset = card.Layer / 2 * MahjongViewConfig.LayerVisualOffsetX;
+            float x = (centerColumn - maxColumn * 0.5f) * MahjongViewConfig.BoardCellWidth - layerVisualOffset;
+            float y = (centerRow - maxRow * 0.5f) * MahjongViewConfig.BoardCellHeight;
             return new Vector2(x, y);
         }
 

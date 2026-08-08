@@ -105,6 +105,7 @@ public class PlayerInfoUI : UIBase
         ).SetTarget(goldTrans)
         .OnComplete(() =>
         {
+            EventManager.Instance.TriggerEvent(GameEvent.GetGold);
             goldCnt.text = GameManager.Instance.playerInfo.Gold.ToString();
         });
     }

@@ -6,6 +6,7 @@ public class ABResManager : MonoBehaviour
 {
     public GameObject txElementManangerPrefab;
     public GameObject TxElementBtnPrefab;
+    public GameObject BobaoPrefab;
 
     public Sprite diamondsSprite;
     public Sprite diamondRerardIconsSprite;
@@ -35,5 +36,7 @@ public class ABResManager : MonoBehaviour
     private void InitTxElementPanel()
     {
         Instantiate(txElementManangerPrefab);
+        Instantiate(TxElementBtnPrefab, UIManager.Instance.GetUI<PlayerInfoUI>().txTrans);
+        Instantiate(BobaoPrefab, UIManager.Instance.GetUI<GameScenePanel>().bobao);
     }
 }

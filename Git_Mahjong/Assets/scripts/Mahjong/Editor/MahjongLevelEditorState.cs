@@ -13,8 +13,9 @@ namespace MahjongGame.EditorTools
     {
         public int originalLevel; // 当前加载关卡的原始编号，新关卡为零
         public int level = 1; // 正在编辑的关卡编号
-        public int gridColumnCount = 4; // 正在编辑的网格列数
-        public int gridRowCount = 4; // 正在编辑的网格行数
+        public int gridColumnCount = 5; // 正在编辑的网格列数
+        public int gridRowCount = 5; // 正在编辑的网格行数
+        public bool randomizeTypeIds; // 是否在进入关卡时随机生成牌型
         public int currentLayer; // 当前编辑层级
         public int selectedTypeId = 1; // 当前画笔使用的卡牌类型ID
         public List<int> cardTypeIds = new List<int>(); // 编辑器卡牌类型面板
@@ -29,6 +30,7 @@ namespace MahjongGame.EditorTools
             level = levelDefinition.level;
             gridColumnCount = levelDefinition.gridColumnCount;
             gridRowCount = levelDefinition.gridRowCount;
+            randomizeTypeIds = levelDefinition.randomizeTypeIds;
             currentLayer = 0;
             cardTypeIds = new List<int>(catalog.cardTypeIds);
             cards = CloneCards(levelDefinition.cards);
@@ -44,6 +46,7 @@ namespace MahjongGame.EditorTools
             level = newLevel;
             gridColumnCount = 4;
             gridRowCount = 4;
+            randomizeTypeIds = false;
             currentLayer = 0;
             cardTypeIds = new List<int>(catalog.cardTypeIds);
             cards.Clear();
@@ -68,14 +71,16 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 查找指定层级和网格坐标中的卡牌；不存在时返回空。
+        /// 查找指定层级和精确半格中心坐标中的卡牌；不存在时返回空。
         /// </summary>
-        public MahjongLevelCardDefinition GetCard(int layer, int column, int row)
+        public MahjongLevelCardDefinition GetCard(int layer, int coordY, int coordX)
         {
             for (int i = 0; i < cards.Count; i++)
             {
                 MahjongLevelCardDefinition card = cards[i];
-                if (card.layer == layer && card.column == column && card.row == row)
+                if (card.layer == layer &&
+                    MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(card) == coordY &&
+                    MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(card) == coordX)
                 {
                     return card;
                 }
@@ -85,19 +90,19 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 在指定层级和网格坐标放置或替换卡牌。
+        /// 在指定层级和精确半格中心坐标放置或替换卡牌。
         /// </summary>
-        public void SetCard(int layer, int column, int row, int typeId)
+        public void SetCard(int layer, int coordY, int coordX, int typeId)
         {
-            MahjongLevelCardDefinition card = GetCard(layer, column, row);
+            MahjongLevelCardDefinition card = GetCard(layer, coordY, coordX);
             if (card == null)
             {
                 cards.Add(new MahjongLevelCardDefinition
                 {
                     typeId = typeId,
                     layer = layer,
-                    column = column,
-                    row = row
+                    coordY = coordY,
+                    coordX = coordX
                 });
                 return;
             }
@@ -106,14 +111,16 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 删除指定层级和网格坐标中的卡牌。
+        /// 删除指定层级和精确半格中心坐标中的卡牌。
         /// </summary>
-        public void RemoveCard(int layer, int column, int row)
+        public void RemoveCard(int layer, int coordY, int coordX)
         {
             for (int i = cards.Count - 1; i >= 0; i--)
             {
                 MahjongLevelCardDefinition card = cards[i];
-                if (card.layer == layer && card.column == column && card.row == row)
+                if (card.layer == layer &&
+                    MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(card) == coordY &&
+                    MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(card) == coordX)
                 {
                     cards.RemoveAt(i);
                     return;
@@ -157,12 +164,15 @@ namespace MahjongGame.EditorTools
         /// </summary>
         public void CropOutsideGrid()
         {
+            int maximumColumnHalf = (gridColumnCount - 1) * MahjongLayoutGeometry.HalfGridUnitsPerCell;
+            int maximumRowHalf = (gridRowCount - 1) * MahjongLayoutGeometry.HalfGridUnitsPerCell;
             for (int i = cards.Count - 1; i >= 0; i--)
             {
                 MahjongLevelCardDefinition card = cards[i];
-                int minimumCoordinate = MahjongLayoutGeometry.IsOffsetLayer(card.layer) ? -1 : 0;
-                if (card.column < minimumCoordinate || card.column >= gridColumnCount ||
-                    card.row < minimumCoordinate || card.row >= gridRowCount)
+                int coordY = MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(card);
+                int coordX = MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(card);
+                if (coordY < 0 || coordY > maximumColumnHalf ||
+                    coordX < 0 || coordX > maximumRowHalf)
                 {
                     cards.RemoveAt(i);
                 }
@@ -179,6 +189,7 @@ namespace MahjongGame.EditorTools
                 level = level,
                 gridColumnCount = gridColumnCount,
                 gridRowCount = gridRowCount,
+                randomizeTypeIds = randomizeTypeIds,
                 cards = CloneCards(cards)
             };
         }
@@ -213,8 +224,8 @@ namespace MahjongGame.EditorTools
                 {
                     typeId = card.typeId,
                     layer = card.layer,
-                    column = card.column,
-                    row = card.row
+                    coordY = MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(card),
+                    coordX = MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(card)
                 });
             }
 

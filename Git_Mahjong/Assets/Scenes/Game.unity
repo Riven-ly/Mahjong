@@ -160,7 +160,6 @@ Transform:
   - {fileID: 1697754904}
   - {fileID: 184746023}
   - {fileID: 1158336092}
-  - {fileID: 1353778382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &83642287
@@ -1027,6 +1026,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7936216410920101884, guid: 425d645db069be549a2881d1c451c88b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8301225559666093455, guid: 425d645db069be549a2881d1c451c88b, type: 3}
       propertyPath: m_Name
       value: GameLoadingPanel
@@ -1089,6 +1092,7 @@ MonoBehaviour:
   ItemPrefab: {fileID: 8134801657290373883, guid: 2c392ef3f260a934eb919c20bf82c042, type: 3}
   mahjongCellPrefab: {fileID: 5210653118229894191, guid: a4947f4ca6f5fd84e9ba8f1905c69b76, type: 3}
   playerInfo:
+    gold: 0
     level: 1
     gameSceneItem_Hint: 5
     gameSceneItem_Extract: 5
@@ -1253,50 +1257,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 600
   m_TargetDisplay: 0
---- !u!1 &1353778381
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1353778382}
-  - component: {fileID: 1353778383}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1353778382
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353778381}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 83642286}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1353778383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353778381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c2c7e61b9d4361448e996d892471675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1407343057
 GameObject:
   m_ObjectHideFlags: 0

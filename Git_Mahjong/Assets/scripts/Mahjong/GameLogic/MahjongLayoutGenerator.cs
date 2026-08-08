@@ -22,7 +22,11 @@ namespace MahjongGame.GameLogic
                     i + 1,
                     cardDefinition.typeId,
                     cardDefinition.layer,
-                    new MahjongGridPosition(cardDefinition.column, cardDefinition.row)));
+                    new MahjongGridPosition(
+                        cardDefinition.coordY / MahjongLayoutGeometry.HalfGridUnitsPerCell,
+                        cardDefinition.coordX / MahjongLayoutGeometry.HalfGridUnitsPerCell),
+                    cardDefinition.coordY,
+                    cardDefinition.coordX));
             }
 
             return cards;

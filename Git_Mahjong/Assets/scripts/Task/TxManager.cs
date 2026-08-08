@@ -34,6 +34,7 @@ public class TxTaskData
 public class TxSaveData
 {
     public List<TxTaskData> tasks; // 金额任务列表
+    public string AccountStr = "";
 }
 
 /// <summary>
@@ -46,7 +47,7 @@ public class TxManager : MonoBehaviour, IEventListener
     public static TxManager Instance { get; private set; }
     public Action TasksChanged;
 
-    private TxSaveData saveData;
+    public TxSaveData saveData;
 
     /// <summary>
     /// 获取金额任务列表。
@@ -227,13 +228,14 @@ public class TxManager : MonoBehaviour, IEventListener
                 new TxTaskData { amount = 500, winTarget = 75, loginTarget = 15 },
                 new TxTaskData { amount = 1000, winTarget = 150, loginTarget = 20 },
             },
+            AccountStr = "",
         };
     }
 
     /// <summary>
     /// 保存金额任务状态到本地偏好设置。
     /// </summary>
-    private void SaveTasks()
+    public void SaveTasks()
     {
         PlayerPrefs.SetString(SaveKey, JsonConvert.SerializeObject(saveData));
         PlayerPrefs.Save();

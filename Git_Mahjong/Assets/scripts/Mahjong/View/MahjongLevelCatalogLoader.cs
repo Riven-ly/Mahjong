@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MahjongGame.Model;
 using Newtonsoft.Json;
@@ -24,18 +25,34 @@ namespace MahjongGame.View
             EnsureLoaded();
             if (levelsById.TryGetValue(playerLevel, out MahjongLevelDefinition levelDefinition))
             {
-                return levelDefinition;
+                return CreateRuntimeLevel(levelDefinition);
             }
 
             if (sessionFallbackLevels.TryGetValue(playerLevel, out MahjongLevelDefinition fallbackLevel))
             {
-                return fallbackLevel;
+                return CreateRuntimeLevel(fallbackLevel);
             }
 
-            fallbackLevel = fallbackLevels[Random.Range(0, fallbackLevels.Count)];
+            fallbackLevel = fallbackLevels[UnityEngine.Random.Range(0, fallbackLevels.Count)];
             sessionFallbackLevels.Add(playerLevel, fallbackLevel);
             Debug.LogWarning($"未找到玩家等级{playerLevel}对应关卡，当前会话随机使用关卡{fallbackLevel.level}。");
-            return fallbackLevel;
+            return CreateRuntimeLevel(fallbackLevel);
+        }
+
+        /// <summary>
+        /// 根据关卡配置决定直接使用固定牌面或生成本局随机牌面。
+        /// </summary>
+        private static MahjongLevelDefinition CreateRuntimeLevel(MahjongLevelDefinition levelDefinition)
+        {
+            if (!levelDefinition.randomizeTypeIds)
+            {
+                return levelDefinition;
+            }
+
+            return MahjongGame.GameLogic.MahjongLevelRandomizer.CreateRandomizedLevel(
+                levelDefinition,
+                catalog.cardTypeIds,
+                new System.Random(unchecked(Environment.TickCount * 31 + levelDefinition.level)));
         }
 
         /// <summary>

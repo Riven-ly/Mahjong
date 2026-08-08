@@ -71,6 +71,9 @@ public class GeneralRewardsPanel : UIBase
         rewardAdButton.Init(AdsCallback, page_id, true);
     }
 
+    /// <summary>
+    /// 领取激励广告奖励并增加金币等级经验。
+    /// </summary>
     private void AdsCallback()
     {
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
@@ -93,6 +96,7 @@ public class GeneralRewardsPanel : UIBase
             item.PlayItemAnim();
         }
         TaskManager.Instance.LiLuDailyEstimatedReward(ad_V, ad_V);
+        GameManager.Instance.playerInfo.AddGoldExperience(10);
         //动画
         DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
         {
@@ -102,6 +106,9 @@ public class GeneralRewardsPanel : UIBase
         });
     }
 
+    /// <summary>
+    /// 领取普通奖励并增加金币等级经验。
+    /// </summary>
     private void CollectClick()
     {
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
@@ -124,6 +131,7 @@ public class GeneralRewardsPanel : UIBase
             item.PlayItemAnim();
         }
         TaskManager.Instance.LiLuDailyEstimatedReward(c_V, ad_V);
+        GameManager.Instance.playerInfo.AddGoldExperience(1);
         //动画
         DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
         {

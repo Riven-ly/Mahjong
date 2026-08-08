@@ -37,13 +37,9 @@ namespace MahjongGame.GameLogic
                     continue;
                 }
 
-                if (MahjongLayoutGeometry.HasAreaOverlap(
-                        card.Position.Column,
-                        card.Position.Row,
-                        card.Layer,
-                        other.Position.Column,
-                        other.Position.Row,
-                        other.Layer))
+                int columnDistance = Math.Abs(card.CoordY - other.CoordY);
+                int rowDistance = Math.Abs(card.CoordX - other.CoordX);
+                if (columnDistance < MahjongLayoutGeometry.HalfGridUnitsPerCell && rowDistance < MahjongLayoutGeometry.HalfGridUnitsPerCell)
                 {
                     return true;
                 }
@@ -65,24 +61,24 @@ namespace MahjongGame.GameLogic
 
             bool hasLeft = false;
             bool hasRight = false;
-            int leftColumn = card.Position.Column - MahjongConfig.GridCoordinateStep;
-            int rightColumn = card.Position.Column + MahjongConfig.GridCoordinateStep;
+            int leftCenterColumn = card.CoordY - MahjongLayoutGeometry.HalfGridUnitsPerCell;
+            int rightCenterColumn = card.CoordY + MahjongLayoutGeometry.HalfGridUnitsPerCell;
 
             for (int i = 0; i < model.Cards.Count; i++)
             {
                 MahjongCardModel other = model.Cards[i];
                 if (other.State != MahjongCardState.OnBoard ||
                     other.Layer != card.Layer ||
-                    other.Position.Row != card.Position.Row)
+                    other.CoordX != card.CoordX)
                 {
                     continue;
                 }
 
-                if (other.Position.Column == leftColumn)
+                if (other.CoordY == leftCenterColumn)
                 {
                     hasLeft = true;
                 }
-                else if (other.Position.Column == rightColumn)
+                else if (other.CoordY == rightCenterColumn)
                 {
                     hasRight = true;
                 }
@@ -120,11 +116,6 @@ namespace MahjongGame.GameLogic
             if (IsCovered(cardInstanceId))
             {
                 return MahjongOperationFailure.CardCovered;
-            }
-
-            if (HasBothSideNeighbors(cardInstanceId))
-            {
-                return MahjongOperationFailure.CardBlockedByBothSides;
             }
 
             if (model.Slot.IsFull)

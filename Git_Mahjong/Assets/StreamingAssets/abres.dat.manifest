@@ -1,0 +1,143 @@
+ManifestFileVersion: 0
+CRC: 3222407484
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1d8d9d10f80c9fa61d2b6c098a0f742a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5c70ff647cda0efa22e53ef273a5adc7
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 1d8d9d10f80c9fa61d2b6c098a0f742a
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 111
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c8a3ac10aac10f84fa87a80a9d07f718, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 81f2b06ee9ab76143bc53de1005e054b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 60ba655b7def2534c8761fd0dedc5d2c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4c2c7e61b9d4361448e996d892471675, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 98bfc8d102b6ace48b1ea4351c395cda, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ca172b1b9ee7cb843a193c935893b1b0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1f3a1d94a1496c348a6db6df892e745f, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 225
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: TxSaveData
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.AnimationTriggers
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Button/ButtonClickedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.ColorBlock
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.FontData
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.InputField/EndEditEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.InputField/OnChangeEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.InputField/SubmitEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Navigation
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.SpriteState
+Assets:
+- Assets/ABRes/TxElement/Prefab/bobao.prefab
+- Assets/ABRes/TxElement/Texture/TypeSelect/kuang.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/cash app.png
+- Assets/ABRes/TxElement/Texture/dingzi.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/2.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/inter.png
+- Assets/ABRes/TxElement/Texture/duigou.png
+- Assets/ABRes/TxElement/Texture/withdraw.png
+- Assets/ABRes/TxElement/Texture/di_2.png
+- Assets/ABRes/TxElement/Texture/btn(1).png
+- Assets/ABRes/TxElement/Texture/money.png
+- Assets/ABRes/ABResManager/m.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/btn.png
+- Assets/ABRes/TxElement/Prefab/TxBtn.prefab
+- Assets/ABRes/TxElement/Texture/bg(1).png
+- Assets/ABRes/TxElement/Texture/TypeSelect/btn_green(1).png
+- Assets/ABRes/TxElement/Texture/TypeSelect/paypal.png
+- Assets/ABRes/TxElement/Texture/di_3.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/1.png
+- Assets/ABRes/TxElement/Texture/btn 1.png
+- Assets/ABRes/TxElement/Texture/2.png
+- Assets/ABRes/TxElement/Prefab/TxManager.prefab
+- Assets/ABRes/TxElement/Texture/1.png
+- Assets/ABRes/TxElement/Texture/paypal.png
+- Assets/ABRes/TxElement/Texture/shop.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/btn_green.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/btn_blue.png
+- Assets/ABRes/TxElement/Texture/x 1.png
+- Assets/ABRes/TxElement/Texture/card_1.png
+- Assets/ABRes/ABResManager/ABResManager.prefab
+- Assets/ABRes/TxElement/Prefab/TxElementTypeSelectPanel.prefab
+- Assets/ABRes/TxElement/Texture/TypeSelect/paytm.png
+- Assets/ABRes/TxElement/Texture/card_2.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/pix.png
+- Assets/ABRes/TxElement/Texture/di.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/paypay.png
+- Assets/ABRes/TxElement/Texture/btn.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/bg.png
+- Assets/ABRes/TxElement/Texture/di(1).png
+- Assets/ABRes/TxElement/Prefab/TxPanel.prefab
+- Assets/ABRes/TxElement/Texture/TypeSelect/qiwi.png
+- Assets/ABRes/ABResManager/m_d.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/coinbase.png
+- Assets/ABRes/TxElement/Texture/bg.png
+Dependencies: []

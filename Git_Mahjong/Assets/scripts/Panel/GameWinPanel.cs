@@ -65,6 +65,9 @@ public class GameWinPanel : UIBase
 
         rewardAdButton.Init(AdsCallback, page_id, true);
     }
+    /// <summary>
+    /// 领取激励广告通关奖励并进入下一关。
+    /// </summary>
     private void AdsCallback()
     {
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
@@ -85,6 +88,7 @@ public class GameWinPanel : UIBase
             item.GetItemReward();
             item.PlayItemAnim();
         }
+        GameManager.Instance.playerInfo.AddGoldExperience(10);
         //动画
         DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
         {
@@ -94,6 +98,9 @@ public class GameWinPanel : UIBase
         });
     }
 
+    /// <summary>
+    /// 领取普通通关奖励并进入下一关。
+    /// </summary>
     private void CollectClick()
     {
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
@@ -115,6 +122,7 @@ public class GameWinPanel : UIBase
             item.GetItemReward();
             item.PlayItemAnim();
         }
+        GameManager.Instance.playerInfo.AddGoldExperience(1);
         //动画
         DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
         {

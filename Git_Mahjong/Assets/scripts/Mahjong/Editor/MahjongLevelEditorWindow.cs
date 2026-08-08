@@ -22,6 +22,7 @@ namespace MahjongGame.EditorTools
         private float cellSize = CellCardWidth * 0.5f; // 编辑器网格单元格显示宽度
         private float iconNativeSizeScale = 0.2f; // 图标原生尺寸缩放比例
         private bool showLowerLayers = true; // 是否半透明显示低层卡牌
+        private bool editHalfGrid; // 是否以当前层半格网格显示和编辑
         private string statusMessage = "尚未校验"; // 当前校验或保存状态提示
         private MessageType statusType = MessageType.Info; // 当前状态提示类型
         private bool painting; // 是否正在拖动绘制或擦除
@@ -30,7 +31,6 @@ namespace MahjongGame.EditorTools
         private static Sprite defaultCardBackgroundSprite; // 关卡编辑器使用的默认卡牌背景图片
         private const float CellCardWidth = 171f; // Cell卡牌原始宽度
         private const float CellCardHeight = 199f; // Cell卡牌原始高度
-        private const float RuntimeLayerVisualOffsetX = 9f; // 主玩法每层向左偏移的运行时像素值
 
         /// <summary>
         /// 打开麻将关卡编辑器窗口。
@@ -161,6 +161,7 @@ namespace MahjongGame.EditorTools
                 EditorGUILayout.LabelField($"Cards: {state.cards.Count}", GUILayout.Width(100f));
                 EditorGUILayout.LabelField($"Layers: {state.GetLayerCount()}", GUILayout.Width(100f));
                 showLowerLayers = EditorGUILayout.ToggleLeft("Show Lower Layers", showLowerLayers, GUILayout.Width(140f));
+                editHalfGrid = GUILayout.Toggle(editHalfGrid, "Half Grid", EditorStyles.miniButton, GUILayout.Width(80f));
                 GUILayout.Label("Zoom", GUILayout.Width(36f));
                 float gridZoom = cellSize / CellCardWidth;
                 gridZoom = GUILayout.HorizontalSlider(gridZoom, 0.25f, 1.5f, GUILayout.Width(160f));
@@ -275,56 +276,45 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 绘制带奇数层半格错位预览的分层关卡网格。
+        /// 绘制当前层的完整格或半格中心坐标网格。
         /// </summary>
         private void DrawGrid()
         {
             EditorGUILayout.Space(6f);
-            EditorGUILayout.LabelField($"Grid — Editing Layer {state.currentLayer}", EditorStyles.boldLabel);
-            float headerSize = 24f;
+            EditorGUILayout.LabelField($"{(editHalfGrid ? "Half Grid" : "Grid")} — Editing Layer {state.currentLayer}", EditorStyles.boldLabel);
+            const float headerSize = 32f;
             float gridCellHeight = cellSize * CellCardHeight / CellCardWidth;
-            float halfCellWidth = cellSize * 0.5f;
-            float halfCellHeight = gridCellHeight * 0.5f;
-            float width = headerSize + halfCellWidth + state.gridColumnCount * cellSize + halfCellWidth;
-            float height = headerSize + halfCellHeight + state.gridRowCount * gridCellHeight + halfCellHeight;
+            float halfCellWidth = editHalfGrid ? cellSize * 0.5f : cellSize;
+            float halfCellHeight = editHalfGrid ? gridCellHeight * 0.5f : gridCellHeight;
+            int halfColumnCount = editHalfGrid ? (state.gridColumnCount - 1) * MahjongLayoutGeometry.HalfGridUnitsPerCell + 1 : state.gridColumnCount;
+            int halfRowCount = editHalfGrid ? (state.gridRowCount - 1) * MahjongLayoutGeometry.HalfGridUnitsPerCell + 1 : state.gridRowCount;
+            float width = headerSize + (halfColumnCount - 1) * halfCellWidth + cellSize;
+            float height = headerSize + (halfRowCount - 1) * halfCellHeight + gridCellHeight;
             gridScroll = EditorGUILayout.BeginScrollView(gridScroll, GUILayout.Height(Mathf.Min(height + 20f, 900f)));
             Rect gridRect = GUILayoutUtility.GetRect(width, height, GUILayout.ExpandWidth(false));
             EditorGUI.DrawRect(gridRect, new Color(0.13f, 0.13f, 0.13f));
-            Vector2 baseOrigin = new Vector2(gridRect.x + headerSize + halfCellWidth, gridRect.y + headerSize + halfCellHeight);
+            Vector2 baseOrigin = new Vector2(gridRect.x + headerSize, gridRect.y + headerSize);
 
-            for (int column = 0; column < state.gridColumnCount; column++)
+            for (int columnIndex = 0; columnIndex < halfColumnCount; columnIndex++)
             {
-                Rect headerRect = new Rect(baseOrigin.x + column * cellSize, gridRect.y, cellSize, headerSize);
-                GUI.Label(headerRect, column.ToString(), EditorStyles.centeredGreyMiniLabel);
+                int coordY = editHalfGrid ? columnIndex : columnIndex * MahjongLayoutGeometry.HalfGridUnitsPerCell;
+                Rect headerRect = new Rect(baseOrigin.x + columnIndex * halfCellWidth, gridRect.y, cellSize, headerSize);
+                GUI.Label(headerRect, coordY.ToString(), EditorStyles.centeredGreyMiniLabel);
             }
 
-            for (int row = 0; row < state.gridRowCount; row++)
+            for (int displayRow = 0; displayRow < halfRowCount; displayRow++)
             {
-                float rowY = baseOrigin.y + (state.gridRowCount - 1 - row) * gridCellHeight;
+                int rowIndex = halfRowCount - 1 - displayRow;
+                int coordX = editHalfGrid ? rowIndex : rowIndex * MahjongLayoutGeometry.HalfGridUnitsPerCell;
+                float rowY = baseOrigin.y + displayRow * halfCellHeight;
                 Rect headerRect = new Rect(gridRect.x, rowY, headerSize, gridCellHeight);
-                GUI.Label(headerRect, row.ToString(), EditorStyles.centeredGreyMiniLabel);
-                for (int column = 0; column < state.gridColumnCount; column++)
+                GUI.Label(headerRect, coordX.ToString(), EditorStyles.centeredGreyMiniLabel);
+                for (int columnIndex = 0; columnIndex < halfColumnCount; columnIndex++)
                 {
-                    Rect cellRect = new Rect(baseOrigin.x + column * cellSize, rowY, cellSize, gridCellHeight);
-                    EditorGUI.DrawRect(cellRect, (column + row) % 2 == 0 ? new Color(0.2f, 0.2f, 0.2f) : new Color(0.17f, 0.17f, 0.17f));
+                    int coordY = editHalfGrid ? columnIndex : columnIndex * MahjongLayoutGeometry.HalfGridUnitsPerCell;
+                    Rect cellRect = new Rect(baseOrigin.x + columnIndex * halfCellWidth, rowY, cellSize, gridCellHeight);
+                    EditorGUI.DrawRect(cellRect, editHalfGrid && (coordY % MahjongLayoutGeometry.HalfGridUnitsPerCell != 0 || coordX % MahjongLayoutGeometry.HalfGridUnitsPerCell != 0) ? new Color(0.17f, 0.22f, 0.29f) : new Color(0.2f, 0.2f, 0.2f));
                     DrawBorder(cellRect, new Color(0.32f, 0.32f, 0.32f), 1f);
-                }
-            }
-
-            if (MahjongLayoutGeometry.IsOffsetLayer(state.currentLayer))
-            {
-                for (int row = -1; row < state.gridRowCount; row++)
-                {
-                    for (int column = -1; column < state.gridColumnCount; column++)
-                    {
-                        Rect offsetCellRect = new Rect(
-                            baseOrigin.x + (column + 0.5f) * cellSize - GetLayerVisualOffsetX(state.currentLayer),
-                            baseOrigin.y + (state.gridRowCount - 1 - row - 0.5f) * gridCellHeight,
-                            cellSize,
-                            gridCellHeight);
-                        EditorGUI.DrawRect(offsetCellRect, new Color(0.28f, 0.38f, 0.52f, 0.16f));
-                        DrawBorder(offsetCellRect, new Color(0.38f, 0.52f, 0.72f, 0.7f), 1f);
-                    }
                 }
             }
 
@@ -335,7 +325,7 @@ namespace MahjongGame.EditorTools
                     MahjongLevelCardDefinition card = state.cards[i];
                     if (card.layer < state.currentLayer)
                     {
-                        DrawCard(GetCardRect(baseOrigin, gridCellHeight, card), card.typeId, 0.28f);
+                        DrawCard(GetCardRect(baseOrigin, gridCellHeight * 0.5f, card), card.typeId, 0.28f);
                     }
                 }
             }
@@ -348,7 +338,7 @@ namespace MahjongGame.EditorTools
                     continue;
                 }
 
-                Rect cardRect = GetCardRect(baseOrigin, gridCellHeight, card);
+                Rect cardRect = GetCardRect(baseOrigin, gridCellHeight * 0.5f, card);
                 DrawCard(cardRect, card.typeId, 1f);
                 if (IsBlocked(card))
                 {
@@ -356,42 +346,23 @@ namespace MahjongGame.EditorTools
                 }
             }
 
-            bool editingOffsetLayer = MahjongLayoutGeometry.IsOffsetLayer(state.currentLayer);
-            float currentLayerVisualOffset = GetLayerVisualOffsetX(state.currentLayer);
-            Rect contentRect = editingOffsetLayer
-                ? new Rect(
-                    baseOrigin.x - halfCellWidth - currentLayerVisualOffset,
-                    baseOrigin.y - halfCellHeight,
-                    (state.gridColumnCount + 1) * cellSize,
-                    (state.gridRowCount + 1) * gridCellHeight)
-                : new Rect(
-                    baseOrigin.x - currentLayerVisualOffset,
-                    baseOrigin.y,
-                    state.gridColumnCount * cellSize,
-                    state.gridRowCount * gridCellHeight);
-            HandleGridInput(contentRect, editingOffsetLayer);
+            Rect contentRect = new Rect(baseOrigin.x, baseOrigin.y, (halfColumnCount - 1) * halfCellWidth + cellSize, (halfRowCount - 1) * halfCellHeight + gridCellHeight);
+            HandleGridInput(contentRect, halfColumnCount, halfRowCount);
             EditorGUILayout.EndScrollView();
         }
 
         /// <summary>
-        /// 获取指定卡牌按层级奇偶偏移后的编辑器绘制区域。
+        /// 获取指定卡牌按精确半格中心坐标绘制的编辑器区域。
         /// </summary>
-        private Rect GetCardRect(Vector2 baseOrigin, float gridCellHeight, MahjongLevelCardDefinition card)
+        private Rect GetCardRect(Vector2 baseOrigin, float halfCellHeight, MahjongLevelCardDefinition card)
         {
-            float offset = MahjongLayoutGeometry.IsOffsetLayer(card.layer) ? 0.5f : 0f;
+            int coordY = MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(card);
+            int coordX = MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(card);
             return new Rect(
-                baseOrigin.x + (card.column + offset) * cellSize - GetLayerVisualOffsetX(card.layer),
-                baseOrigin.y + (state.gridRowCount - 1 - card.row - offset) * gridCellHeight,
+                baseOrigin.x + coordY * cellSize * 0.5f,
+                baseOrigin.y + ((state.gridRowCount - 1) * MahjongLayoutGeometry.HalfGridUnitsPerCell - coordX) * halfCellHeight,
                 cellSize,
-                gridCellHeight);
-        }
-
-        /// <summary>
-        /// 将主玩法的层级微偏移按当前编辑器网格缩放换算为像素。
-        /// </summary>
-        private float GetLayerVisualOffsetX(int layer)
-        {
-            return layer / 2 * RuntimeLayerVisualOffsetX * cellSize / 163f;
+                cellSize * CellCardHeight / CellCardWidth);
         }
 
         /// <summary>
@@ -476,7 +447,7 @@ namespace MahjongGame.EditorTools
         /// <summary>
         /// 处理网格左键绘制、右键擦除、Shift吸取和拖动连续操作。
         /// </summary>
-        private void HandleGridInput(Rect contentRect, bool editingOffsetLayer)
+        private void HandleGridInput(Rect contentRect, int halfColumnCount, int halfRowCount)
         {
             Event currentEvent = Event.current;
             int controlId = GUIUtility.GetControlID(FocusType.Passive);
@@ -488,12 +459,12 @@ namespace MahjongGame.EditorTools
                 paintedCells.Clear();
                 GUIUtility.hotControl = controlId;
                 Undo.RegisterCompleteObjectUndo(state, erasing ? "Erase Mahjong Cards" : "Paint Mahjong Cards");
-                PaintGridCell(contentRect, currentEvent.mousePosition, currentEvent.shift, editingOffsetLayer);
+                PaintGridCell(contentRect, currentEvent.mousePosition, currentEvent.shift, halfColumnCount, halfRowCount);
                 currentEvent.Use();
             }
             else if (currentEvent.type == EventType.MouseDrag && painting && GUIUtility.hotControl == controlId)
             {
-                PaintGridCell(contentRect, currentEvent.mousePosition, false, editingOffsetLayer);
+                PaintGridCell(contentRect, currentEvent.mousePosition, false, halfColumnCount, halfRowCount);
                 currentEvent.Use();
             }
             else if (currentEvent.type == EventType.MouseUp && painting && GUIUtility.hotControl == controlId)
@@ -507,26 +478,29 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 将鼠标位置转换为网格坐标，并执行本次绘制、擦除或吸取。
+        /// 将鼠标位置转换为当前网格模式对应的中心坐标，并执行本次绘制、擦除或吸取。
         /// </summary>
-        private void PaintGridCell(Rect contentRect, Vector2 mousePosition, bool pickType, bool editingOffsetLayer)
+        private void PaintGridCell(Rect contentRect, Vector2 mousePosition, bool pickType, int halfColumnCount, int halfRowCount)
         {
             if (!contentRect.Contains(mousePosition))
             {
                 return;
             }
 
-            float gridCellHeight = cellSize * CellCardHeight / CellCardWidth;
-            int coordinateOffset = editingOffsetLayer ? -1 : 0;
-            int column = Mathf.FloorToInt((mousePosition.x - contentRect.x) / cellSize) + coordinateOffset;
-            int row = state.gridRowCount - 1 - Mathf.FloorToInt((mousePosition.y - contentRect.y) / gridCellHeight);
-            int cellKey = (row + 1) * (state.gridColumnCount + 1) + column + 1;
+            float halfCellWidth = editHalfGrid ? cellSize * 0.5f : cellSize;
+            float halfCellHeight = editHalfGrid ? cellSize * CellCardHeight / CellCardWidth * 0.5f : cellSize * CellCardHeight / CellCardWidth;
+            int columnIndex = Mathf.Clamp(Mathf.RoundToInt((mousePosition.x - contentRect.x) / halfCellWidth), 0, halfColumnCount - 1);
+            int displayRow = Mathf.Clamp(Mathf.RoundToInt((mousePosition.y - contentRect.y) / halfCellHeight), 0, halfRowCount - 1);
+            int rowIndex = halfRowCount - 1 - displayRow;
+            int coordY = editHalfGrid ? columnIndex : columnIndex * MahjongLayoutGeometry.HalfGridUnitsPerCell;
+            int coordX = editHalfGrid ? rowIndex : rowIndex * MahjongLayoutGeometry.HalfGridUnitsPerCell;
+            int cellKey = coordX * halfColumnCount + coordY;
             if (!paintedCells.Add(cellKey))
             {
                 return;
             }
 
-            MahjongLevelCardDefinition card = state.GetCard(state.currentLayer, column, row);
+            MahjongLevelCardDefinition card = state.GetCard(state.currentLayer, coordY, coordX);
             if (pickType)
             {
                 if (card != null)
@@ -538,11 +512,11 @@ namespace MahjongGame.EditorTools
 
             if (erasing)
             {
-                state.RemoveCard(state.currentLayer, column, row);
+                state.RemoveCard(state.currentLayer, coordY, coordX);
             }
             else if (state.selectedTypeId > 0)
             {
-                state.SetCard(state.currentLayer, column, row, state.selectedTypeId);
+                state.SetCard(state.currentLayer, coordY, coordX, state.selectedTypeId);
             }
 
             EditorUtility.SetDirty(state);
@@ -610,12 +584,15 @@ namespace MahjongGame.EditorTools
         private void ResizeGrid(int columns, int rows)
         {
             bool hasOutsideCards = false;
+            int maximumColumnHalf = (columns - 1) * MahjongLayoutGeometry.HalfGridUnitsPerCell;
+            int maximumRowHalf = (rows - 1) * MahjongLayoutGeometry.HalfGridUnitsPerCell;
             for (int i = 0; i < state.cards.Count; i++)
             {
                 MahjongLevelCardDefinition card = state.cards[i];
-                int minimumCoordinate = MahjongLayoutGeometry.IsOffsetLayer(card.layer) ? -1 : 0;
-                if (card.column < minimumCoordinate || card.column >= columns ||
-                    card.row < minimumCoordinate || card.row >= rows)
+                int coordY = MahjongLayoutGeometry.GetCenterColumnInHalfGridUnits(card);
+                int coordX = MahjongLayoutGeometry.GetCenterRowInHalfGridUnits(card);
+                if (coordY < 0 || coordY > maximumColumnHalf ||
+                    coordX < 0 || coordX > maximumRowHalf)
                 {
                     hasOutsideCards = true;
                     break;
@@ -838,40 +815,20 @@ namespace MahjongGame.EditorTools
         }
 
         /// <summary>
-        /// 判断指定卡牌是否被更高层覆盖或被同层左右邻牌同时夹住。
+        /// 判断指定卡牌是否被更高层覆盖。
         /// </summary>
         private bool IsBlocked(MahjongLevelCardDefinition card)
         {
-            bool hasLeft = false;
-            bool hasRight = false;
             for (int i = 0; i < state.cards.Count; i++)
             {
                 MahjongLevelCardDefinition other = state.cards[i];
-                if (other == card)
-                {
-                    continue;
-                }
-
-                if (other.layer > card.layer &&
-                    MahjongLayoutGeometry.HasAreaOverlap(
-                        card.column,
-                        card.row,
-                        card.layer,
-                        other.column,
-                        other.row,
-                        other.layer))
+                if (other != card && other.layer > card.layer && MahjongLayoutGeometry.HasAreaOverlap(card, other))
                 {
                     return true;
                 }
-
-                if (other.layer == card.layer && other.row == card.row)
-                {
-                    hasLeft |= other.column == card.column - MahjongConfig.GridCoordinateStep;
-                    hasRight |= other.column == card.column + MahjongConfig.GridCoordinateStep;
-                }
             }
 
-            return hasLeft && hasRight;
+            return false;
         }
 
         /// <summary>

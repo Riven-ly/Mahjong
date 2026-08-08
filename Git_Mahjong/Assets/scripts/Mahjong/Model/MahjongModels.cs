@@ -82,17 +82,21 @@ namespace MahjongGame.Model
         public int TypeId { get; } // 卡牌类型ID
         public int Layer { get; private set; } // 卡牌所在堆叠层级
         public MahjongGridPosition Position { get; private set; } // 卡牌逻辑网格坐标
+        public int CoordY { get; private set; } // 卡牌中心横向半格坐标
+        public int CoordX { get; private set; } // 卡牌中心纵向半格坐标
         public MahjongCardState State { get; private set; } // 卡牌当前状态
 
         /// <summary>
-        /// 根据编辑器已校验的关卡数据创建单张卡牌模型。
+        /// 根据编辑器已校验的关卡数据及精确半格坐标创建单张卡牌模型。
         /// </summary>
-        public MahjongCardModel(int instanceId, int typeId, int layer, MahjongGridPosition position)
+        public MahjongCardModel(int instanceId, int typeId, int layer, MahjongGridPosition position, int coordY, int coordX)
         {
             InstanceId = instanceId;
             TypeId = typeId;
             Layer = layer;
             Position = position;
+            CoordY = coordY;
+            CoordX = coordX;
             State = MahjongCardState.OnBoard;
         }
 
@@ -116,10 +120,16 @@ namespace MahjongGame.Model
 
             int layer = Layer;
             MahjongGridPosition position = Position;
+            int coordY = CoordY;
+            int coordX = CoordX;
             Layer = other.Layer;
             Position = other.Position;
+            CoordY = other.CoordY;
+            CoordX = other.CoordX;
             other.Layer = layer;
             other.Position = position;
+            other.CoordY = coordY;
+            other.CoordX = coordX;
         }
     }
 

@@ -48,7 +48,7 @@ public class LanguageManager : MonoBehaviour
         }
 
         //string encryptStr = Convert.ToBase64String(Encoding.UTF8.GetBytes(""));
-        //Debug.Log(encryptStr);
+        // Debug.Log(encryptStr);
     }
     public string GetText(string key)
     {

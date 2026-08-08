@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 玩家存档数据。
+/// </summary>
 [Serializable]
 public class PlayerInfo
 {
@@ -18,11 +21,53 @@ public class PlayerInfo
     [SerializeField] private int gold = 0;
     private int diamond = 0;
     public int level = 1;
+    public int goldLevel; // 金币等级
+    public int goldExperience; // 当前金币等级经验，单位为0.1
 
     public int gameSceneItem_Hint = 50;
     public int gameSceneItem_Extract = 50;
     public int gameSceneItem_Exchange = 50;
     public int gameSceneItem_Return = 50;
+
+    /// <summary>
+    /// 增加金币等级经验并处理升级。经验单位为0.1。
+    /// </summary>
+    public void AddGoldExperience(int experience)
+    {
+        if (goldLevel >= 100)
+        {
+            goldLevel = 100;
+            goldExperience = 0;
+            return;
+        }
+
+        goldExperience += experience;
+        while (goldLevel < 100)
+        {
+            int requiredExperience = GetGoldLevelExperienceRequired(goldLevel + 1);
+            if (goldExperience < requiredExperience)
+            {
+                break;
+            }
+
+            goldExperience -= requiredExperience;
+            goldLevel++;
+        }
+
+        if (goldLevel >= 100)
+        {
+            goldExperience = 0;
+        }
+    }
+
+    /// <summary>
+    /// 获取升至指定金币等级所需经验。返回值单位为0.1。
+    /// </summary>
+    public int GetGoldLevelExperienceRequired(int targetLevel)
+    {
+        float exponent = 0.5f + 0.03f * Mathf.Max(targetLevel - 10, 0);
+        return Mathf.FloorToInt(10f * Mathf.Pow(targetLevel, exponent)) * 10;
+    }
 
     //========================= 金币 =========================
     public void Add_gold(int _cnt)
