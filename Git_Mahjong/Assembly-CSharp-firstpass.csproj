@@ -79,6 +79,7 @@
     <None Include="Assets\Plugins\SolarEngine\Android\proguard-user.txt" />
     <None Include="Assets\Plugins\SolarEngine\Thrid\Newtonsoft.Json.dll" />
     <None Include="Assets\Plugins\SolarEngine\MiniGame\MiniGameRemoteConfig.dll" />
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
     <None Include="Assets\Plugins\Demigiant\DOTween\readme.txt" />
     <None Include="Assets\Plugins\SolarEngine\Windows\solarenginewindows.dll" />
   </ItemGroup>

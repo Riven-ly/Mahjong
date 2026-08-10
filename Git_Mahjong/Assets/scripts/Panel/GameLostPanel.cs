@@ -6,8 +6,14 @@ using UnityEngine.UI;
 /// </summary>
 public class GameLostPanel : UIBase
 {
+    public Transform root;
     public Button restartButton;
-
+    private void Awake()
+    {
+        RectTransform rect = root.GetComponent<RectTransform>();
+        float topBlockHeight = Screen.height - Screen.safeArea.yMax;
+        rect.offsetMax = new Vector2(0, -topBlockHeight);
+    }
     /// <summary>
     /// 注册重新开局按钮事件。
     /// </summary>
@@ -18,6 +24,7 @@ public class GameLostPanel : UIBase
     public override void Refresh(object data = null)
     {
         base.Refresh(data);
+        OtherSdkManager.Instance.CustomEvent("level_fail", "level_id", GameManager.Instance.playerInfo.level);
     }
 
     public override void Hide()

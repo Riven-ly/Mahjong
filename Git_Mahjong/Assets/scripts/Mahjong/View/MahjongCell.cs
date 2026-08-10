@@ -23,6 +23,7 @@ namespace MahjongGame.View
     /// </summary>
     public sealed class MahjongCell : MonoBehaviour, IPointerClickHandler
     {
+        public AudioSource audioSource;
         [SerializeField] private Image backgroundImage; // 卡牌背景图片
         [SerializeField] private Sprite defaultBackgroundSprite; // 默认卡牌背景图片
         [SerializeField] private Sprite greenBackgroundSprite; // 绿色卡牌背景图片
@@ -239,6 +240,7 @@ namespace MahjongGame.View
         /// </summary>
         public Tween AnimateEliminated(Action eliminationCompleted)
         {
+            AudioManager.Instance.PlayMahjongCellMusic("xiaochu");
             SetInteractable(false);
             return transform.DOScale(Vector3.zero, MahjongViewConfig.EliminateDuration)
                 .OnComplete(() => eliminationCompleted?.Invoke())
@@ -255,7 +257,8 @@ namespace MahjongGame.View
             {
                 return;
             }
-
+            
+            AudioManager.Instance.PlayMahjongCellMusic("btn");
             selectRequested(this);
         }
 

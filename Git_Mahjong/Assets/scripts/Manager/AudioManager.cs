@@ -1,4 +1,5 @@
 using DG.Tweening;
+using MahjongGame.View;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource BGM;
     public AudioSource SceneSingleMusic;
+    public AudioSource MahjongCell;
     public AudioSource SceneLoopMusic;
     public AudioSource btnMusic;
 
@@ -29,6 +31,7 @@ public class AudioManager : MonoBehaviour
         {
             sceneMusics.Add(audioClip.name, audioClip);
         }
+        PlayBGM("bgm");
     }
 
     public void PlayBGM(string name)
@@ -65,6 +68,13 @@ public class AudioManager : MonoBehaviour
         if (audioClip == null) return;
         SceneSingleMusic.clip = audioClip;
         SceneSingleMusic.Play();
+    }
+    public void PlayMahjongCellMusic(string name)
+    {
+        AudioClip audioClip = GetAudioClip(name);
+        if (audioClip == null) return;
+        MahjongCell.clip = audioClip;
+        MahjongCell.Play();
     }
 
     private AudioClip GetAudioClip(string name)

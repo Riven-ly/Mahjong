@@ -99,6 +99,7 @@ public class GameLoadingPanel : UIBase
             yield return null;
         }
 
+        OtherSdkManager.Instance.CustomEvent("load_page_open", "load_page_open","");
         //2.各个SDK初始化
         GameManager.appATTtype = 1;//todo
         GameManager.Instance.UpdateAppATT();//todo
@@ -135,6 +136,7 @@ public class GameLoadingPanel : UIBase
     }
     public override void Hide()
     {
+        OtherSdkManager.Instance.CustomEvent("load_page_close", "load_page_open", "");
         base.Hide();
     }
 }

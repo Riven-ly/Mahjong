@@ -12,7 +12,7 @@ public class OtherSdkManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        Init();
+        //Init();
     }
 
 
@@ -20,7 +20,6 @@ public class OtherSdkManager : MonoBehaviour
     {
         Debug.Log("Other SDK≥ı ºªØ");
 
-        AdjustInit();
         SolarEngineInit();
     }
 
@@ -176,12 +175,18 @@ public class OtherSdkManager : MonoBehaviour
 
     public void CustomEvent(string eName,string _key, object _value)
     {
+        if (!IsInit)
+            return;
+
         Dictionary<string, object> customAttributes = new Dictionary<string, object>();
         customAttributes.Add(_key, _value);
         SolarEngine.Analytics.track(eName, customAttributes);
     }
     public void CustomEvent(string eName, string _key, object _value, string _key2, object _value2)
     {
+        if (!IsInit)
+            return;
+
         Dictionary<string, object> customAttributes = new Dictionary<string, object>();
         customAttributes.Add(_key, _value);
         customAttributes.Add(_key2, _value2);
@@ -189,6 +194,9 @@ public class OtherSdkManager : MonoBehaviour
     }
     public void CustomEvent(string eName, string _key, object _value, string _key2, object _value2, string _key3, object _value3)
     {
+        if (!IsInit)
+            return;
+
         Dictionary<string, object> customAttributes = new Dictionary<string, object>();
         customAttributes.Add(_key, _value);
         customAttributes.Add(_key2, _value2);

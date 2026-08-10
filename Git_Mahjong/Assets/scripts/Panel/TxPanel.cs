@@ -86,6 +86,10 @@ public class TxPanel : UIBase
         goldLvText.text = $"Lv.{GameManager.Instance.playerInfo.goldLevel}";
         RefreshDisplay();
         RefreshAccountUI();
+
+        string wd = LanguageManager.Instance.GetText_Encrypt("wd");
+        Debug.Log(wd);
+        OtherSdkManager.Instance.CustomEvent($"{wd}_popup_show", "popup", "");
     }
 
     public void RefreshAccountUI()

@@ -69,12 +69,20 @@ public class GameWinPanel : UIBase
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
+        AudioManager.Instance.PlaySceneSingleMusic("gamewin");
+        if (SettingPanel.IsVibrateEnabled)
+        {
+            Handheld.Vibrate();
+        }
+        OtherSdkManager.Instance.CustomEvent("level_complete", "level_id", GameManager.Instance.playerInfo.level);
+        OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
     }
     /// <summary>
     /// 领取激励广告通关奖励并进入下一关。
     /// </summary>
     private void AdsCallback()
     {
+        OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_two");
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
         UIManager.Instance.OpenUIMask();
         float awaitTime = 0.1f;
@@ -108,6 +116,7 @@ public class GameWinPanel : UIBase
     /// </summary>
     private void CollectClick()
     {
+        OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_one");
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
         UIManager.Instance.OpenUIMask();
         float awaitTime = 0.1f;

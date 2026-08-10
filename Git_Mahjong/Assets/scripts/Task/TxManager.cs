@@ -24,6 +24,7 @@ public class TxTaskData
     public int winTarget; // 通关目标
     public int loginTarget; // 签到目标
     public bool amountReached; // 余额阶段是否已完成
+    public bool loginReached; // 登录阶段是否已完成
     public int winProgress; // 当前通关进度
 }
 
@@ -74,6 +75,7 @@ public class TxManager : MonoBehaviour, IEventListener
     {
         LoadTasks();
         RefreshAmountStages();
+        RefreshLoginStages();
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameWon, this);
         TaskManager.Instance.TasksChanged += NotifyTasksChanged;
     }
@@ -96,7 +98,35 @@ public class TxManager : MonoBehaviour, IEventListener
     private void NotifyTasksChanged()
     {
         RefreshAmountStages();
+        RefreshLoginStages();
         TasksChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// 将首次达到登录条件的金额任务标记为已完成。
+    /// </summary>
+    private void RefreshLoginStages()
+    {
+        bool changed = false;
+        int loginDays = GetLoginDays();
+        foreach (TxTaskData task in saveData.tasks)
+        {
+            if (task.loginReached || !task.amountReached || task.winProgress < task.winTarget || loginDays < task.loginTarget)
+            {
+                continue;
+            }
+
+            task.loginReached = true;
+            changed = true;
+
+            string wd = LanguageManager.Instance.GetText_Encrypt("wd");
+            OtherSdkManager.Instance.CustomEvent($"{wd}_limit_3", "stage_id", 3);
+        }
+
+        if (changed)
+        {
+            SaveTasks();
+        }
     }
 
     /// <summary>
@@ -114,6 +144,9 @@ public class TxManager : MonoBehaviour, IEventListener
 
             task.amountReached = true;
             changed = true;
+
+            string wd = LanguageManager.Instance.GetText_Encrypt("wd");
+            OtherSdkManager.Instance.CustomEvent($"{wd}_limit_1", "stage_id", 1);
         }
 
         if (changed)
@@ -143,9 +176,16 @@ public class TxManager : MonoBehaviour, IEventListener
             }
 
             task.winProgress++;
+            if (task.winProgress == task.winTarget)
+            {
+                string wd = LanguageManager.Instance.GetText_Encrypt("wd");
+                OtherSdkManager.Instance.CustomEvent($"{wd}_limit_2", "stage_id", 2);
+            }
+
             changed = true;
         }
 
+        RefreshLoginStages();
         if (changed)
         {
             SaveTasks();

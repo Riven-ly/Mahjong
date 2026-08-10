@@ -110,5 +110,6 @@ public class GuidePanel_firstGame : UIBase
         guideData = null;
         isGuidingSecondCard = false;
         base.Hide();
+        OtherSdkManager.Instance.CustomEvent("newbie_guide_1_complete", "step", 1);
     }
 }

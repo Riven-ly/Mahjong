@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+
+dependencies {
+    implementation project(':unityLibrary')
+    }
+
+android {
+    namespace "**NAMESPACE**"
+    ndkPath "**NDKPATH**"
+
+    compileSdkVersion **APIVERSION**
+    buildToolsVersion '**BUILDTOOLS**'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    defaultConfig {
+        minSdkVersion **MINSDKVERSION**
+        targetSdkVersion **TARGETSDKVERSION**
+        applicationId '**APPLICATIONID**'
+        ndk {
+            abiFilters **ABIFILTERS**
+        }
+        versionCode **VERSIONCODE**
+        versionName '**VERSIONNAME**'
+    }
+
+    aaptOptions {
+        noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
+        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
+    }**SIGN**
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled **MINIFY_DEBUG**
+            proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
+            jniDebuggable true
+        }
+        release {
+            minifyEnabled **MINIFY_RELEASE**
+            proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
+        }
+    }**PACKAGING_OPTIONS****PLAY_ASSET_PACKS****SPLITS**
+**BUILT_APK_LOCATION**
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+}**SPLITS_VERSION_CODE****LAUNCHER_SOURCE_BUILD_SETUP**
+
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        def processManifest = output.getProcessManifestProvider().get()
+        println("=============== processManifest ${processManifest} ===============")
+        processManifest.doLast() { task ->
+            //def outputDir = task.getManifestOutputDirectory()
+            def outputDir = task.multiApkManifestOutputDirectory
+            File outputDirectory
+            if (outputDir instanceof File) {
+                outputDirectory = outputDir
+            } else {
+                outputDirectory = outputDir.get().asFile
+            }
+            File manifestOutFile = file("$outputDirectory/AndroidManifest.xml")
+            println("----------- ${manifestOutFile} ----------- ")
+            if (manifestOutFile.exists() && manifestOutFile.canRead() && manifestOutFile.canWrite()) {
+                ///这里第二个参数是 false ，所以 namespace 是展开的，所以下面不能用 androidSpace，而是用 nameTag
+                def xml = new XmlParser(false, false).parse(manifestOutFile)
+                println "=====found xml activity=====${xml}"
+                if (xml.application != null && xml.application.size() > 0) {
+                    def mainActivity = xml.application[0].activity.findAll { ac ->
+                        def action = ac.depthFirst().findAll() { node ->
+                            if (node != null) {
+                                return node.attributes().get('android:name') == 'android.intent.action.MAIN'
+                            }
+                        }
+                        return action.size() > 0;
+                    }
+                    println "=====found main1 activity=====${mainActivity.size()} $mainActivity"
+                    if (mainActivity[0] != null) {
+                        mainActivity[0].attributes().put('android:launchMode', 'singleTop')
+                    }
+                    println "=====found main2 activity=====${mainActivity.size()} $mainActivity"
+                    def serialize = groovy.xml.XmlUtil.serialize(xml)
+                    file(manifestOutFile).write(serialize)
+                }
+            }
+
+        }
+    }
+
+}
+

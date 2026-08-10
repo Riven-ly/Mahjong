@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785137072634
-updatedAt: 1786074699158
+updatedAt: 1786349194149
 ---
 
 # ui-panel-system
@@ -30,6 +30,6 @@ updatedAt: 1786074699158
 - 任务面板位于 `Assets/Resources/UI/Panel/TaskPanel.prefab`，通过 `GameScenePanel/Root/TaskBtn` 打开；单条任务预制体为 `Assets/Resources/UI/TaskItem.prefab`。
 - `GameScenePanel` 使用 `taskRedImg` 显示任务红点；通过 `TaskManager.TasksChanged` 和面板刷新时检查 `TaskManager.HasClaimableTasks()`，有已完成未领取任务时打开红点。
 - `Assets/Scenes/Game.unity` 的 `Manager/TaskManager` 是场景级任务单例，监听 `RewardedAdCompleted` 等任务事件，状态以 `TaskManagerData` JSON 独立存入 PlayerPrefs；`TaskSaveData.loginDays` 记录累计登录天数，每个新日期首次刷新每日任务时增加一次。
-- 提现功能使用场景 `Manager` 上的 `TxManager` 单例；状态以 `TxManagerData` JSON 独立保存。每档提现任务保存 `cashReached` 与独立通关计数：首次满足 `PlayerInfo.Gold >= amount` 时永久完成余额阶段，随后才由 `GameEvent.MahjongGameWon` 推进通关阶段，最后读取 `TaskManager.saveData.loginDays` 作为签到阶段。`TxManager` 转发 `TaskManager.TasksChanged`，供 `TxPanel` 刷新阶段。
+- 提现功能使用场景 `Manager` 上的 `TxManager` 单例；状态以 `TxManagerData` JSON 独立保存。每档提现任务保存 `amountReached`、`loginReached` 与独立通关计数：首次满足 `PlayerInfo.Gold >= amount` 时永久完成余额阶段，随后才由 `GameEvent.MahjongGameWon` 推进通关阶段，最后由 `TaskManager.saveData.loginDays` 满足登录阶段。三阶段首次达成均在 `TxManager` 输出 Unity Console 日志；`TxManager` 转发 `TaskManager.TasksChanged`，供 `TxPanel` 刷新阶段。
 - `Assets/Resources/UI/Panel/TxPanel.prefab` 为 Layer2 面板；可通过 `UIManager.Instance.OpenUI<TxPanel>()` 按类名加载。
 <!-- locus:body:end -->

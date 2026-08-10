@@ -107,6 +107,8 @@ public class GameScenePanel : UIBase,IEventListener
         RefreshTaskRedPoint();
         TryOpenFirstGameGuide();
 
+        OtherSdkManager.Instance.CustomEvent("level_start", "level_id", GameManager.Instance.playerInfo.level);
+
         if (playerLevel % 3 == 0)
         {
             GameManager.Instance.TryEvaluationGame();

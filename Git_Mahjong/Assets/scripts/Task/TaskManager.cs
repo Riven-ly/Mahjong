@@ -167,7 +167,14 @@ public class TaskManager : MonoBehaviour, IEventListener
         {
             return;
         }
-
+        if(task.category == TaskCategory.Daily)
+        {
+            OtherSdkManager.Instance.CustomEvent("daily_task_complete", "DailyTask", "");
+        }
+        else if (task.category == TaskCategory.Mainline)
+        {
+            OtherSdkManager.Instance.CustomEvent("level_task_complete", "LevelTask", "");
+        }
         task.isClaimed = true;
         SaveTasks();
         UIManager.Instance.OpenUI<GeneralRewardsPanel>(task, () =>

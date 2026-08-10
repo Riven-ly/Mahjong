@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 3222407484
+CRC: 1911478514
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1d8d9d10f80c9fa61d2b6c098a0f742a
+    Hash: 9d3b5aa537b0e60cecb8191eac04994a
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5c70ff647cda0efa22e53ef273a5adc7
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 1d8d9d10f80c9fa61d2b6c098a0f742a
+    Hash: 9d3b5aa537b0e60cecb8191eac04994a
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -107,14 +107,15 @@ Assets:
 - Assets/ABRes/TxElement/Texture/di_2.png
 - Assets/ABRes/TxElement/Texture/btn(1).png
 - Assets/ABRes/TxElement/Texture/money.png
+- Assets/ABRes/ABResManager/md.png
 - Assets/ABRes/ABResManager/m.png
 - Assets/ABRes/TxElement/Texture/TypeSelect/btn.png
 - Assets/ABRes/TxElement/Prefab/TxBtn.prefab
 - Assets/ABRes/TxElement/Texture/bg(1).png
-- Assets/ABRes/TxElement/Texture/TypeSelect/btn_green(1).png
 - Assets/ABRes/TxElement/Texture/TypeSelect/paypal.png
-- Assets/ABRes/TxElement/Texture/di_3.png
 - Assets/ABRes/TxElement/Texture/TypeSelect/1.png
+- Assets/ABRes/TxElement/Texture/di_3.png
+- Assets/ABRes/TxElement/Texture/TypeSelect/btn_green(1).png
 - Assets/ABRes/TxElement/Texture/btn 1.png
 - Assets/ABRes/TxElement/Texture/2.png
 - Assets/ABRes/TxElement/Prefab/TxManager.prefab
@@ -137,7 +138,6 @@ Assets:
 - Assets/ABRes/TxElement/Texture/di(1).png
 - Assets/ABRes/TxElement/Prefab/TxPanel.prefab
 - Assets/ABRes/TxElement/Texture/TypeSelect/qiwi.png
-- Assets/ABRes/ABResManager/m_d.png
 - Assets/ABRes/TxElement/Texture/TypeSelect/coinbase.png
 - Assets/ABRes/TxElement/Texture/bg.png
 Dependencies: []

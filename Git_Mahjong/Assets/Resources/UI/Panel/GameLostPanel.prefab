@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 4, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &390278766914477021
 CanvasRenderer:
@@ -110,6 +110,7 @@ MonoBehaviour:
   uIPanelLayer: 1
   isOpen: 0
   panelAnim: {fileID: 147133272458089729}
+  root: {fileID: 2427589099696792690}
   restartButton: {fileID: 1380814650322239438}
 --- !u!1 &704380091226001554
 GameObject:

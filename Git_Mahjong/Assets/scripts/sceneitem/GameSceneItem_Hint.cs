@@ -40,6 +40,7 @@ public class GameSceneItem_Hint : GameSceneItemBase
         bool isUseItemSucceed = TryHintAnim();
         if (isUseItemSucceed)
         {
+            OtherSdkManager.Instance.CustomEvent("prop_use", "level_id", GameManager.Instance.playerInfo.level, "prop_id_number", 1);
             GameManager.Instance.playerInfo.Minus_item_hint(1);
             //GameManager.Instance.SavePlayerInfo();
             Refresh();

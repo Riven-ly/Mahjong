@@ -180,7 +180,6 @@ namespace MahjongGame.View
             {
                 return;
             }
-
             cell.SetHintEffectActive(false);
             MahjongOperationFailure failure = gameLogic.ValidateSelectCard(cell.InstanceId);
             if (failure != MahjongOperationFailure.None)

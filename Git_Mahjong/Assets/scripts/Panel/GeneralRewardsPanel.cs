@@ -74,6 +74,8 @@ public class GeneralRewardsPanel : UIBase
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
+        AudioManager.Instance.PlaySceneSingleMusic("gamewin");
+        OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
     }
 
     /// <summary>
@@ -81,6 +83,7 @@ public class GeneralRewardsPanel : UIBase
     /// </summary>
     private void AdsCallback()
     {
+        OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_two");
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
         UIManager.Instance.OpenUIMask();
         float awaitTime = 0.1f;
@@ -117,6 +120,7 @@ public class GeneralRewardsPanel : UIBase
     /// </summary>
     private void CollectClick()
     {
+        OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_one");
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
         UIManager.Instance.OpenUIMask();
         float awaitTime = 0.1f;

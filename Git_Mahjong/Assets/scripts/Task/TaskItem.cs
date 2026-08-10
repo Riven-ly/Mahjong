@@ -23,7 +23,11 @@ public class TaskItem : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        actionButton.onClick.AddListener(OnActionButtonClick);
+        actionButton.onClick.AddListener(() =>
+        {
+            OnActionButtonClick();
+            AudioManager.Instance.PlayBtnMusic();
+        });
     }
 
     private void Start()

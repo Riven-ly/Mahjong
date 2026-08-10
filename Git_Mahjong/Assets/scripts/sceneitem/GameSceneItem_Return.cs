@@ -42,6 +42,7 @@ public class GameSceneItem_Return : GameSceneItemBase
         bool isUseItemSucceed = UIManager.Instance.GetUI<GameScenePanel>().TryAutoEliminateMahjongPairs();
         if (isUseItemSucceed)
         {
+            OtherSdkManager.Instance.CustomEvent("prop_use", "level_id", GameManager.Instance.playerInfo.level, "prop_id_number", 3);
             GameManager.Instance.playerInfo.Minus_item_return(1);
             Refresh();
         }

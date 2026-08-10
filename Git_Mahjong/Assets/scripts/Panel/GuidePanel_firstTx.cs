@@ -39,5 +39,6 @@ public class GuidePanel_firstTx : UIBase
     public override void Hide()
     {
         base.Hide();
+        OtherSdkManager.Instance.CustomEvent("newbie_guide_2_complete", "step", 2);
     }
 }

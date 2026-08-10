@@ -23,11 +23,31 @@ public class TaskPanel : UIBase
     /// </summary>
     private void Start()
     {
-        closeButton.onClick.AddListener(Hide);
-        dailyTabButton.onClick.AddListener(() => SwitchCategory(TaskCategory.Daily));
-        mainlineTabButton.onClick.AddListener(() => SwitchCategory(TaskCategory.Mainline));
-        dailyTabButton_h.onClick.AddListener(() => SwitchCategory(TaskCategory.Daily));
-        mainlineTabButton_h.onClick.AddListener(() => SwitchCategory(TaskCategory.Mainline));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayBtnMusic();
+            Hide();
+        });
+        dailyTabButton.onClick.AddListener(() =>
+        {
+            SwitchCategory(TaskCategory.Daily);
+            AudioManager.Instance.PlayBtnMusic();
+        });
+        mainlineTabButton.onClick.AddListener(() =>
+        {
+            SwitchCategory(TaskCategory.Mainline);
+            AudioManager.Instance.PlayBtnMusic();
+        });
+        dailyTabButton_h.onClick.AddListener(() =>
+        {
+            SwitchCategory(TaskCategory.Daily);
+            AudioManager.Instance.PlayBtnMusic();
+        });
+        mainlineTabButton_h.onClick.AddListener(() =>
+        {
+            SwitchCategory(TaskCategory.Mainline);
+            AudioManager.Instance.PlayBtnMusic();
+        });
     }
 
     /// <summary>
@@ -61,6 +81,8 @@ public class TaskPanel : UIBase
         TaskManager.Instance.RefreshDailyTasks();
         currentCategory = TaskCategory.Daily;
         RefreshTasks();
+
+        OtherSdkManager.Instance.CustomEvent("task_show", "show", "");
     }
 
     public override void Hide()
