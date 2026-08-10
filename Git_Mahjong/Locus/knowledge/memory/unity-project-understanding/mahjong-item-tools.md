@@ -9,7 +9,7 @@ commandEnabled: false
 readOnly: false
 inheritAiConfig: true
 createdAt: 1785398340269
-updatedAt: 1786188112814
+updatedAt: 1786329203372
 ---
 
 # mahjong-item-tools
@@ -23,4 +23,5 @@ Mahjong 撤销、洗牌与提示道具的运行时实现与入口缓存。
 - `MahjongGameplayView` 对外提供 `TryUndo()`、`TryShuffle()`、`TryShowHint()`、`StopHint()`；所有道具操作均要求没有消除动画。洗牌后更新 UGUI 坐标、显示层级与阻挡状态；若已有一张选中牌，`TryShuffle()` 先清除其选中效果与状态再执行洗牌。返回道具对应的 `TryAutoEliminate(5)` 在已有选中牌时优先查询并消除该牌及其可操作同类型牌，随后继续自动消除剩余四组；没有对应牌则取消选中后进入原有五组自动消除流程。撤销时卡牌以保持世界位置的方式切回 `BoardRoot`，再按 `ReturnDuration` 补间回原网格位置；动画期间通过 `movingCardIds` 锁定道具与牌面输入，完成后依层级重排全部牌面视图。重复撤销同一张牌前需先 `DOTween.Kill(this)` 清除该视图残留补间，再开始新的回位动画。不可仅将撤销牌 `SetAsLastSibling()`，否则洗牌后会让低层撤销牌覆盖高层牌，造成显示与遮挡规则不一致。
 - `MahjongCell` 在 Awake 查找既有 `HintEffect` 子节点，并由 `SetHintEffectActive` 开关；`Assets/Prefab/Mahjong/MahjongCell.prefab` 的 `HintEffect` 挂载 `MahjongHintEffect`，引用父级 `MahjongCell`。该组件在节点启用时以 DOTween 驱动卡牌本体在 1.0 与 1.06 间循环呼吸缩放，关闭时停止补间并恢复 1.0 缩放。
 - `GameSceneItem_Return`、`GameSceneItem_Exchange`、`GameSceneItem_Hint` 通过 `GameScenePanel` 的公开麻将道具接口调用玩法逻辑；仅成功时扣除道具。`GameScenePanel` 监听 `GameEvent.StopHintAnim` 并关闭所有提示特效。
+- 首关首次引导由 `GameScenePanel.Refresh()` 在牌面创建完成后触发：当玩家等级为 1 且 PlayerPrefs 的 `FirstGameGuideCompleted` 为 0 时，`MahjongGameplayView.TryShowFirstGameGuide()` 取一组可消除提示牌并返回两张牌的 `RectTransform`；随后打开 `Assets/Resources/UI/Panel/GuidePanel_firstGame.prefab`。面板先将 `trans` 与 `mask` 定位至第一张，`maskBtn` 点击后转发第一张正常选择并将手势移至第二张；第二次点击转发第二张选择、写入完成键并关闭面板。
 <!-- locus:body:end -->

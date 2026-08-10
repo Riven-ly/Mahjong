@@ -39,7 +39,13 @@ public static class EnglishLanguageConfig
         {"TaskReachLevel", "Reach Level {0}"},
         {"DailyTask", "Daily Task"},
         {"LevelTask", "Level Task"},
-
+         //评分
+        {"EvaluationGamePanel_title1", "Are you enjoying the game?"},
+        {"EvaluationGamePanel_btn1", "Not Really"},
+        {"EvaluationGamePanel_btn2", "Love it!"},
+        {"EvaluationGamePanel_btn3", "LATER"},
+        {"EvaluationGamePanel_btn4", "5 STARS"},
+        {"EvaluationGamePanel_title2", "Your 5 stars are very important to us.please give us 5 stars if you like it."},
         //tipsPanel
         {"NoItemHintTips", "No movable cards available!"},
         {"InsufficientDiamond", "Insufficient diamond!"},

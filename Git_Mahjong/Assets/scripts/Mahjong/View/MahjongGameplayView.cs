@@ -425,6 +425,52 @@ namespace MahjongGame.View
         }
 
         /// <summary>
+        /// 显示首关引导所需的一组提示牌，并返回两张目标牌信息。
+        /// </summary>
+        public bool TryShowFirstGameGuide(
+            out int firstTargetCardId,
+            out RectTransform firstTargetRectTransform,
+            out int secondTargetCardId,
+            out RectTransform secondTargetRectTransform)
+        {
+            firstTargetCardId = 0;
+            firstTargetRectTransform = null;
+            secondTargetCardId = 0;
+            secondTargetRectTransform = null;
+            if (!IsStable())
+            {
+                return false;
+            }
+
+            IReadOnlyList<int> hintCardIds = gameLogic.GetHintCardIds();
+            if (hintCardIds.Count < 2 ||
+                !cellViews.TryGetValue(hintCardIds[0], out MahjongCell firstTargetCell) ||
+                !cellViews.TryGetValue(hintCardIds[1], out MahjongCell secondTargetCell))
+            {
+                return false;
+            }
+
+            firstTargetCell.SetHintEffectActive(true);
+            secondTargetCell.SetHintEffectActive(true);
+            firstTargetCardId = firstTargetCell.InstanceId;
+            firstTargetRectTransform = firstTargetCell.RectTransform;
+            secondTargetCardId = secondTargetCell.InstanceId;
+            secondTargetRectTransform = secondTargetCell.RectTransform;
+            return true;
+        }
+
+        /// <summary>
+        /// 转发首关引导目标牌的点击操作。
+        /// </summary>
+        public void SelectFirstGameGuideCard(int cardInstanceId)
+        {
+            if (cellViews.TryGetValue(cardInstanceId, out MahjongCell cell))
+            {
+                HandleCellSelectRequested(cell);
+            }
+        }
+
+        /// <summary>
         /// 关闭全部卡牌的提示特效。
         /// </summary>
         public void StopHint()

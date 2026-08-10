@@ -38,6 +38,7 @@ public class TxPanel : UIBase
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
+            AdManager.Instance.OnClickInterstitialAd("");
             Hide();
         });
         changeBtn.onClick.AddListener(() =>
@@ -154,6 +155,5 @@ public class TxPanel : UIBase
         //progressText.text = $"{currentProgress}/{targetProgress}";
         progressText.text = $"{(int)((currentProgress / targetProgress) * 100)}%";
         progressFill.fillAmount = currentProgress / targetProgress;
-        Debug.Log(currentProgress / targetProgress);
     }
 }

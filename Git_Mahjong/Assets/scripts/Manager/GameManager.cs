@@ -259,7 +259,7 @@ public class GameManager : MonoBehaviour
             return;
 
         // 打开评分面板
-        //UIManager.Instance.OpenUI<EvaluationGamePanel>();
+        UIManager.Instance.OpenUI<EvaluationGamePanel>();
 
         // 次数+1并保存
         todayShowCount++;

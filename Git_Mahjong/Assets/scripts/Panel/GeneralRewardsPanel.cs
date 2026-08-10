@@ -44,6 +44,11 @@ public class GeneralRewardsPanel : UIBase
     {
         isOpen = false;
         ResetPanel();
+        string firstTxStr = PlayerPrefs.GetString("GuidePanel_firstTx");
+        if (string.IsNullOrEmpty(firstTxStr))
+        {
+            UIManager.Instance.OpenUI<GuidePanel_firstTx>();
+        }
     }
     public override void Refresh(object data = null)
     {
@@ -102,6 +107,7 @@ public class GeneralRewardsPanel : UIBase
         {
             playerInfoUI.GoldCanvasRecover();
             playerInfoUI.DiamondCanvasRecover();
+
             Hide();
         });
     }
@@ -137,7 +143,8 @@ public class GeneralRewardsPanel : UIBase
         {
             playerInfoUI.GoldCanvasRecover();
             playerInfoUI.DiamondCanvasRecover();
-            Hide();
+
+            Hide();              
         });
     }
 
@@ -145,6 +152,7 @@ public class GeneralRewardsPanel : UIBase
     {
         GameManager.Instance.SavePlayerInfo();
         base.Hide();
+   
     }
 
     private void ResetPanel()

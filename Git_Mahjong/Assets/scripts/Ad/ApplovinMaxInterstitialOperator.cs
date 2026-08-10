@@ -120,8 +120,8 @@ public class ApplovinMaxInterstitialOperator : MonoBehaviour
         {
             isPlayInsertAds = false;
             Debug.Log("插屏广告未加载完成，无法展示");
-            string str = LanguageManager.Instance.GetText("AdsNotReady");
-            UIManager.Instance.OpenUI<GeneralTipsPanel>(str);
+            //string str = LanguageManager.Instance.GetText("AdsNotReady");
+            //UIManager.Instance.OpenUI<GeneralTipsPanel>(str);
             // 展示失败时重新加载
             LoadInterstitial();
         }

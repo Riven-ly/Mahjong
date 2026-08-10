@@ -105,6 +105,12 @@ public class GameScenePanel : UIBase,IEventListener
         gameSceneItem_Hint.Refresh();
         gameSceneItem_Return.Refresh();
         RefreshTaskRedPoint();
+        TryOpenFirstGameGuide();
+
+        if (playerLevel % 3 == 0)
+        {
+            GameManager.Instance.TryEvaluationGame();
+        }
     }
 
     /// <summary>
@@ -155,6 +161,30 @@ public class GameScenePanel : UIBase,IEventListener
                     .OnComplete(() => healthCanvasGroup.gameObject.SetActive(false));
             }
         }
+    }
+
+    /// <summary>
+    /// 首次进入第一关时，打开指向首组可消除牌的手势引导。
+    /// </summary>
+    private void TryOpenFirstGameGuide()
+    {
+        const string FirstGameGuideCompletedKey = "FirstGameGuideCompleted";
+        if (GameManager.Instance.playerInfo.level != 1 || PlayerPrefs.GetInt(FirstGameGuideCompletedKey, 0) != 0 ||
+            !gameplayView.TryShowFirstGameGuide(
+                out int firstTargetCardId,
+                out RectTransform firstTargetRectTransform,
+                out int secondTargetCardId,
+                out RectTransform secondTargetRectTransform))
+        {
+            return;
+        }
+
+        UIManager.Instance.OpenUI<GuidePanel_firstGame>(new FirstGameGuideData(
+            gameplayView,
+            firstTargetCardId,
+            firstTargetRectTransform,
+            secondTargetCardId,
+            secondTargetRectTransform));
     }
 
     /// <summary>
