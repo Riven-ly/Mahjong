@@ -100,9 +100,11 @@
     <Compile Include="Assets\scripts\language\MultilingualSprite.cs" />
     <Compile Include="Assets\scripts\NetworkChecker\NetworkCheckerPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongSlotRules.cs" />
+    <Compile Include="Assets\StompyRobot\SROptions\SROptions.cs" />
     <Compile Include="Assets\scripts\Panel\GameScenePanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardColorUtility.cs" />
     <Compile Include="Assets\scripts\Task\TxBtn.cs" />
+    <Compile Include="Assets\StompyRobot\SROptions\SROptions.Test.cs" />
     <Compile Include="Assets\scripts\Task\TaskItem.cs" />
     <Compile Include="Assets\scripts\Effect\GoldFlyControl.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongOperationResult.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGeometry.cs" />
     <Compile Include="Assets\scripts\language\MultilingualText.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelValidator.cs" />
+    <Compile Include="Assets\StompyRobot\SROptions\SROptions.Attributes.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralTipsPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongGameplayView.cs" />
     <Compile Include="Assets\scripts\Task\TxElementTypeSelectPanel.cs" />
@@ -149,6 +152,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\MaxSdk\Mediation\MediationAdapters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\StompyRobot\SROptions\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
@@ -1199,6 +1203,14 @@
       <Project>{7BDB9AA6-FE25-B2A6-2537-7873403F7F9A}</Project>
       <Name>AdjustSdk.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="StompyRobot.SRDebugger.csproj">
+      <Project>{76BE9C07-74DD-4E8B-1272-18B43A9561FB}</Project>
+      <Name>StompyRobot.SRDebugger</Name>
+    </ProjectReference>
+    <ProjectReference Include="StompyRobot.SRDebugger.Editor.csproj">
+      <Project>{18DA9026-2EBA-403A-F387-70B61B51B909}</Project>
+      <Name>StompyRobot.SRDebugger.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="SolarEngineSDK.Editor.csproj">
       <Project>{52DFE437-0E05-2EB0-D3C3-56D4EFBE95D6}</Project>
       <Name>SolarEngineSDK.Editor</Name>
@@ -1218,6 +1230,14 @@
     <ProjectReference Include="AdjustSdk.Scripts.csproj">
       <Project>{96F99D1A-0545-0B4B-F9AC-802C4843C8FB}</Project>
       <Name>AdjustSdk.Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="StompyRobot.SRF.csproj">
+      <Project>{81DFAD23-E157-07C3-E7D9-831C1E18BDBA}</Project>
+      <Name>StompyRobot.SRF</Name>
+    </ProjectReference>
+    <ProjectReference Include="StompyRobot.SRF.Editor.csproj">
+      <Project>{AABC455E-ACEF-35DA-ADAF-9C0EFE17D171}</Project>
+      <Name>StompyRobot.SRF.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
