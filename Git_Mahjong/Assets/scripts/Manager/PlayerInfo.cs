@@ -21,13 +21,13 @@ public class PlayerInfo
     [SerializeField] private int gold = 0;
     private int diamond = 0;
     public int level = 1;
-    public int goldLevel; // 金币等级
+    public int goldLevel = 0; // 金币等级
     public int goldExperience; // 当前金币等级经验，单位为0.1
 
-    public int gameSceneItem_Hint = 50;
-    public int gameSceneItem_Extract = 50;
-    public int gameSceneItem_Exchange = 50;
-    public int gameSceneItem_Return = 50;
+    public int gameSceneItem_Hint = 5;
+    public int gameSceneItem_Extract = 5;
+    public int gameSceneItem_Exchange = 5;
+    public int gameSceneItem_Return = 5;
 
     /// <summary>
     /// 增加金币等级经验并处理升级。经验单位为0.1。

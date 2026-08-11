@@ -23,6 +23,7 @@ public class TxBtn : MonoBehaviour,IEventListener
         btn.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
+            AdManager.Instance.OnClickInterstitialAd("");
             UIManager.Instance.OpenUI<TxPanel>();
         });
 

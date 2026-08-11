@@ -26,6 +26,7 @@ public class TaskPanel : UIBase
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
+            AdManager.Instance.OnClickInterstitialAd("");
             Hide();
         });
         dailyTabButton.onClick.AddListener(() =>

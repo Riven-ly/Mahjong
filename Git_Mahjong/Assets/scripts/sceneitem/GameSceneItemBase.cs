@@ -32,6 +32,7 @@ public class GameSceneItemBase : MonoBehaviour
     public Transform unLockTrans;
     public Transform lockTrans;
 
+    public RewardAdButton rewardAdButton;
 
     protected int cnt;
     protected int lockLv = 1;
@@ -50,6 +51,7 @@ public class GameSceneItemBase : MonoBehaviour
             //UIManager.Instance.OpenUI<GeneralTipsPanel>(str);
         });
     }
+
     public void CanvasTop()
     {
         canvas.sortingOrder = 505;
@@ -82,7 +84,10 @@ public class GameSceneItemBase : MonoBehaviour
         //    }
         //}
     }
+    public virtual void AdsCallback()
+    {
 
+    }
     public virtual void Refresh()
     {
     }

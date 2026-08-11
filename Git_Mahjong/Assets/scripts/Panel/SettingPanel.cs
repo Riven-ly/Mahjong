@@ -140,10 +140,10 @@ public class SettingPanel : UIBase
     
     public static void OpenPrivacyPolicy()
     {
-        Application.OpenURL("https://sites.google.com/view/solitaire-casino-tycoon");
+        Application.OpenURL("https://sites.google.com/view/happy-mahjong-rich-adventure");
     }
     public static void OpenTermsOfServic()
     {
-        Application.OpenURL("https://sites.google.com/view/solitaire-casino-tycoon-terms");
+        Application.OpenURL("https://sites.google.com/view/happy-mahjong-rich-adventure");
     }
 }

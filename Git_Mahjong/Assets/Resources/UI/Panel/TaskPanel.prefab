@@ -1031,7 +1031,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 220, y: 0}
-  m_SizeDelta: {x: 408, y: 121}
+  m_SizeDelta: {x: 405, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8636142431849802937
 CanvasRenderer:
@@ -1229,7 +1229,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -220, y: 0}
-  m_SizeDelta: {x: 408, y: 121}
+  m_SizeDelta: {x: 405, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2708630556022758578
 CanvasRenderer:
@@ -1424,10 +1424,10 @@ MonoBehaviour:
   isOpen: 0
   panelAnim: {fileID: 4531878200632529448}
   closeButton: {fileID: 1632203642049582601}
-  dailyTabButton: {fileID: 2212807867749197348}
-  mainlineTabButton: {fileID: 269785277139951818}
-  dailyTabButton_h: {fileID: 5976149040289950144}
-  mainlineTabButton_h: {fileID: 8507550602754506349}
+  dailyTabButton: {fileID: 5976149040289950144}
+  mainlineTabButton: {fileID: 8507550602754506349}
+  dailyTabButton_h: {fileID: 2212807867749197348}
+  mainlineTabButton_h: {fileID: 269785277139951818}
   contentRoot: {fileID: 1598851701901676961}
   taskItemPrefab: {fileID: 7292007914753007886, guid: ae4978480db72e548aca7324350491a1, type: 3}
 --- !u!1 &7929397502701512268

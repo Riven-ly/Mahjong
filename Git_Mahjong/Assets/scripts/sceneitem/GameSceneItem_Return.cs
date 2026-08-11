@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,12 +21,23 @@ public class GameSceneItem_Return : GameSceneItemBase
         lockTrans.gameObject.SetActive(isLock);
 
         cntStr.text = cnt <= 0 ? "+" : GameManager.Instance.playerInfo.gameSceneItem_Return.ToString();
-        Update_ItemReturnInfo();
+
+        clickBtn.gameObject.SetActive(cnt > 0);
+        cntStr.gameObject.SetActive(cnt > 0);
+        rewardAdButton.gameObject.SetActive(cnt <= 0);
+        rewardAdButton.Init(AdsCallback, "", false);
     }
 
-    private void Update_ItemReturnInfo()
+    public override void AdsCallback()
     {
-        // clickBtn.interactable = GameStepRecord.Instance.steps.Count > 0;
+        base.AdsCallback();
+
+        GameManager.Instance.playerInfo.Add_item_return(1);
+        GameManager.Instance.SavePlayerInfo();
+        DOTween.Sequence().AppendInterval(0.1f).AppendCallback(() =>
+        {
+            Refresh();
+        });
     }
 
     /// <summary>

@@ -29,10 +29,10 @@ public class TxBoBao : MonoBehaviour
     {
         bobaoTrans.transform.DOKill();
         string curname = GenerateText();
-        int ranV = Random.Range(1000, 10000);
-        float targetF = ranV / 100f;
+        List<int> ints = new List<int>() { 100, 100, 100, 100, 100, 200, 200, 200, 500, 1000 };
+        int ranV = Random.Range(0, ints.Count - 1);
 
-        bobaoText.text = string.Format(bobaoStr, curname, unit + targetF, wh);
+        bobaoText.text = string.Format(bobaoStr, curname, unit + ints[ranV], wh);
         Vector3 curPos = bobaoTrans.transform.localPosition;
         curPos.x = 475f;
         bobaoTrans.transform.localPosition = curPos;

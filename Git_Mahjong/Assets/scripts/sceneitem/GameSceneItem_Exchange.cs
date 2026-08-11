@@ -23,6 +23,22 @@ public class GameSceneItem_Exchange : GameSceneItemBase
 
         cntStr.text = cnt <= 0 ? "+" : GameManager.Instance.playerInfo.gameSceneItem_Exchange.ToString();
 
+        clickBtn.gameObject.SetActive(cnt > 0);
+        cntStr.gameObject.SetActive(cnt > 0);
+        rewardAdButton.gameObject.SetActive(cnt <= 0);
+        rewardAdButton.Init(AdsCallback, "", false);
+    }
+
+    public override void AdsCallback()
+    {
+        base.AdsCallback();
+
+        GameManager.Instance.playerInfo.Add_item_exchange(1);
+        GameManager.Instance.SavePlayerInfo();
+        DOTween.Sequence().AppendInterval(0.1f).AppendCallback(() =>
+        {
+            Refresh();
+        });
     }
 
     /// <summary>

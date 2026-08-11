@@ -17,7 +17,7 @@ public class AdManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        //Init();
+        Init();
     }
 
     public void Init()
@@ -41,14 +41,9 @@ public class AdManager : MonoBehaviour
     /// </summary>
     public void ShowRewardedAd(string _page_id, Action _rewardCallback, Action _displayErrorCallback)
     {
-        DOTween.Sequence().AppendInterval(0.5F).AppendCallback(() =>
-        {
-            _rewardCallback?.Invoke();
-
-        });
-        //applovinMaxRewardOperator.RewardReceivedCallback = _rewardCallback;
-        //applovinMaxRewardOperator.RewardDisplayErrorCallback = _displayErrorCallback;
-        //applovinMaxRewardOperator.ShowRewardedAd();
+        applovinMaxRewardOperator.RewardReceivedCallback = _rewardCallback;
+        applovinMaxRewardOperator.RewardDisplayErrorCallback = _displayErrorCallback;
+        applovinMaxRewardOperator.ShowRewardedAd();
     }
 
     /// <summary>

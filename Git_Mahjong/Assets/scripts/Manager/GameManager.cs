@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         }
 
         //2.计算进度值：玩家当前金额/(66.4+每日任务预估奖励-玩家实际领取)
-        float denominator = 66400 + dailyEstimatedReward - dailyActualReward;
+        float denominator = 6640 + dailyEstimatedReward - dailyActualReward;
        
         float progress = playerGold / denominator;
 
@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
             K2 = 0.001f;
         }
 
+        Debug.Log(K2);
         //4.随机0.9~1.1
         int randomVal = UnityEngine.Random.Range(90, 111);
 

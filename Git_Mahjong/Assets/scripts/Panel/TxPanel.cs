@@ -88,7 +88,6 @@ public class TxPanel : UIBase
         RefreshAccountUI();
 
         string wd = LanguageManager.Instance.GetText_Encrypt("wd");
-        Debug.Log(wd);
         OtherSdkManager.Instance.CustomEvent($"{wd}_popup_show", "popup", "");
     }
 
