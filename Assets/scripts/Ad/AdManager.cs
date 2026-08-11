@@ -22,10 +22,11 @@ public class AdManager : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("Max SDK³õÊ¼»¯");
+        Debug.Log("Max SDK init");
 
         MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdk.SdkConfiguration sdkConfiguration) =>
         {
+            Debug.Log("Max SDK succes");
             applovinMaxRewardOperator.Init();
             applovinMaxInterstitialOperator.Init();
         };

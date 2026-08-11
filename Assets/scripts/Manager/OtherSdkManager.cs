@@ -18,7 +18,7 @@ public class OtherSdkManager : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("Other SDK≥ı ºªØ");
+        Debug.Log("Other SDK init");
 
         SolarEngineInit();
     }
