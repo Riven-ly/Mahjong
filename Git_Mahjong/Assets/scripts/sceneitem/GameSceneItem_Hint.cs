@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameSceneItem_Hint : GameSceneItemBase
 {
-
+    public AudioSource audioSource;
     /// <summary>
     /// 刷新提示道具的数量与解锁状态。
     /// </summary>
@@ -57,6 +57,7 @@ public class GameSceneItem_Hint : GameSceneItemBase
         bool isUseItemSucceed = TryHintAnim();
         if (isUseItemSucceed)
         {
+            AudioManager.Instance.SetAudioSource(audioSource, "hintitem");
             OtherSdkManager.Instance.CustomEvent("prop_use", "level_id", GameManager.Instance.playerInfo.level, "prop_id_number", 1);
             GameManager.Instance.playerInfo.Minus_item_hint(1);
             //GameManager.Instance.SavePlayerInfo();

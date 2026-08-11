@@ -25,6 +25,8 @@ public class GameLostPanel : UIBase
     {
         base.Refresh(data);
         OtherSdkManager.Instance.CustomEvent("level_fail", "level_id", GameManager.Instance.playerInfo.level);
+        AudioManager.Instance.PlaySceneSingleMusic("gamelose", 0.5f);
+
     }
 
     public override void Hide()

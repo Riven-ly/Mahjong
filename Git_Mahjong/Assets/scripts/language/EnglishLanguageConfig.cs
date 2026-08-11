@@ -77,7 +77,8 @@ public static class EnglishLanguageConfig
         //-------
         {"Special_Diamond__unit", "JA=="},//特殊钻石符号$
         {"CHT", "Y2FzaCBvdXQ="},//Cash out
-        {"CH", "Q2FzaA=="},//Cash 
+        {"Ch", "Q2FzaA=="},//Cash 
+        {"CH", "Q0FTSA=="},//CASH
         {"WD", "V0lUSERSQVc="},
         {"wd", "d2l0aGRyYXc="},
         {"Wh", "V2l0aGRyYXdhbA=="},//Withdrawal 

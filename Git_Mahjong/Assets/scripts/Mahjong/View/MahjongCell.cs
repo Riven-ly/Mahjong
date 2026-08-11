@@ -199,6 +199,11 @@ namespace MahjongGame.View
         /// </summary>
         public Sequence AnimateRejected()
         {
+            if (SettingPanel.IsVibrateEnabled)
+            {
+                Handheld.Vibrate();
+            }
+            AudioManager.Instance.PlayMahjongCellMusic("cardShake");
             DOTween.Kill(this);
             return DOTween.Sequence()
                 .Append(transform.DOShakePosition(
@@ -226,11 +231,17 @@ namespace MahjongGame.View
             return DOTween.Sequence()
                 .Append(rectTransform.DOAnchorPos(transitPosition, MahjongViewConfig.MoveToTransitDuration)
                     .SetEase(Ease.OutQuad))
-                .Append(rectTransform.DOAnchorPos(firstCollisionPosition, MahjongViewConfig.MoveToCenterDuration)
+                .Append(rectTransform.DOAnchorPos(firstCollisionPosition, MahjongViewConfig.MoveToCenterDuration).OnComplete(() =>
+                {
+                    AudioManager.Instance.PlayMahjongCellMusic("cardyes");
+                })
                     .SetEase(Ease.InQuad))
                 .Append(rectTransform.DOAnchorPos(reboundPosition, MahjongViewConfig.ReboundDuration)
                     .SetEase(Ease.OutQuad))
-                .Append(rectTransform.DOAnchorPos(secondCollisionPosition, MahjongViewConfig.SecondCollisionDuration)
+                .Append(rectTransform.DOAnchorPos(secondCollisionPosition, MahjongViewConfig.SecondCollisionDuration).OnComplete(() =>
+                {
+                    AudioManager.Instance.PlayMahjongCellMusic("cardyes");
+                })
                     .SetEase(Ease.InQuad))
                 .SetTarget(this);
         }
@@ -240,7 +251,7 @@ namespace MahjongGame.View
         /// </summary>
         public Tween AnimateEliminated(Action eliminationCompleted)
         {
-            AudioManager.Instance.PlayMahjongCellMusic("xiaochu");
+            //AudioManager.Instance.PlayMahjongCellMusic2("xiaochu");
             SetInteractable(false);
             return transform.DOScale(Vector3.zero, MahjongViewConfig.EliminateDuration)
                 .OnComplete(() => eliminationCompleted?.Invoke())
@@ -258,7 +269,7 @@ namespace MahjongGame.View
                 return;
             }
             
-            AudioManager.Instance.PlayMahjongCellMusic("btn");
+            AudioManager.Instance.PlayMahjongCellMusic("cardselect");
             selectRequested(this);
         }
 

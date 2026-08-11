@@ -144,6 +144,6 @@ public class SettingPanel : UIBase
     }
     public static void OpenTermsOfServic()
     {
-        Application.OpenURL("https://sites.google.com/view/happy-mahjong-rich-adventure");
+        Application.OpenURL("https://sites.google.com/view/happy-mahjong-rich-terms");
     }
 }

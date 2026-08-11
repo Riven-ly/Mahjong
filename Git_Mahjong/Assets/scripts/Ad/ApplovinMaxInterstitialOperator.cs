@@ -20,7 +20,7 @@ public class ApplovinMaxInterstitialOperator : MonoBehaviour
     public static float insertTime = 60f;//²åÆÁÊ±¼ä
     public static float ad_mau_inter_time = 45f;//²åÆÁÀäÈ´Ê±¼ä
     public float insertTimer = 0;
-    private float insertClickCoolingTime_P;
+    [SerializeField] private float insertClickCoolingTime_P;
     public float insertClickCoolingTime
     {
         get
@@ -129,6 +129,7 @@ public class ApplovinMaxInterstitialOperator : MonoBehaviour
 
     public void OnClickInterstitialAd(bool isClick = true)
     {
+        if (!isInit) return;
         if (!inter_enable) return;
         if (isPlayInsertAds) return;
         if (insertClickCoolingTime > 0) return;

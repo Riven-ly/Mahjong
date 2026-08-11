@@ -70,10 +70,6 @@ public class GameWinPanel : UIBase
 
         rewardAdButton.Init(AdsCallback, page_id, true);
         AudioManager.Instance.PlaySceneSingleMusic("gamewin");
-        if (SettingPanel.IsVibrateEnabled)
-        {
-            Handheld.Vibrate();
-        }
         OtherSdkManager.Instance.CustomEvent("level_complete", "level_id", GameManager.Instance.playerInfo.level);
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
     }

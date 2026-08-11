@@ -57,7 +57,7 @@ public class TxPanel : UIBase
             int taskIndex = i;
             amountButtons[i].onClick.AddListener(() => TxManager.Instance.SelectTask(taskIndex));
         }
-        t1.text = LanguageManager.Instance.GetText_Encrypt("CH") + " " + LanguageManager.Instance.GetText_Encrypt("Bl");
+        t1.text = LanguageManager.Instance.GetText_Encrypt("Ch") + " " + LanguageManager.Instance.GetText_Encrypt("Bl");
         c_Btn_text.text = $"{LanguageManager.Instance.GetText_Encrypt("WD")} {LanguageManager.Instance.GetText_Encrypt("CH")}";
     }
 

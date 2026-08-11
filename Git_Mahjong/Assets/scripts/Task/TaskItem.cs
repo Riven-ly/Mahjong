@@ -11,8 +11,9 @@ public class TaskItem : MonoBehaviour
     public Text rewardText;
     public Text progressText;
     public Image progressFill;
-    public Button actionButton;
-    public Text actionText;
+    public Button claimButton;
+    public Button goButton;
+
     public Transform claimed;
     public Image rewardIcon;
 
@@ -23,7 +24,12 @@ public class TaskItem : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        actionButton.onClick.AddListener(() =>
+        claimButton.onClick.AddListener(() =>
+        {
+            OnActionButtonClick();
+            AudioManager.Instance.PlayBtnMusic();
+        });
+        goButton.onClick.AddListener(() =>
         {
             OnActionButtonClick();
             AudioManager.Instance.PlayBtnMusic();
@@ -47,11 +53,15 @@ public class TaskItem : MonoBehaviour
         progressFill.fillAmount = Mathf.Clamp01((float)taskData.currentProgress / taskData.targetProgress);
 
         claimed.gameObject.SetActive(taskData.isClaimed);
-        actionButton.gameObject.SetActive(!taskData.isClaimed);
+        claimButton.gameObject.SetActive(!taskData.isClaimed);
+        goButton.gameObject.SetActive(!taskData.isClaimed);
 
-        bool isCompleted = taskData.currentProgress >= taskData.targetProgress;
-        actionText.text = isCompleted ? LanguageManager.Instance.GetText("Claim") : LanguageManager.Instance.GetText("Go");
-        actionButton.interactable = true;
+        if(!taskData.isClaimed)
+        {
+            bool isCompleted = taskData.currentProgress >= taskData.targetProgress;
+            claimButton.gameObject.SetActive(isCompleted);
+            goButton.gameObject.SetActive(!isCompleted);
+        }
     }
 
     /// <summary>
