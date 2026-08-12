@@ -103,8 +103,8 @@
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\Other\DockConsoleRoot.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\Services\Implementation\SystemInformationService.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\DebugPanelRoot.cs" />
-    <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\Controls\ProfilerGraphControl.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\SRDebug.cs" />
+    <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\Controls\ProfilerGraphControl.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\Services\IConsoleService.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\Controls\Data\ReadOnlyControl.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\Controls\ProfilerEnableControl.cs" />
@@ -117,8 +117,8 @@
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\Other\ErrorNotifier.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\Internal\SRScriptRecompileHelper.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\Internal\CircularBuffer.cs" />
-    <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\MobileMenuController.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\Other\DebugPanelBackgroundBehaviour.cs" />
+    <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\UI\MobileMenuController.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\Services\IOptionsService.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\Services\Implementation\DockConsoleServiceImpl.cs" />
     <Compile Include="Assets\StompyRobot\SRDebugger\Scripts\Services\IPinnedOptionsService.cs" />

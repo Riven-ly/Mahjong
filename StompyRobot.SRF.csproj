@@ -106,8 +106,8 @@
     <Compile Include="Assets\StompyRobot\SRF\Scripts\Extensions\NetFxExtensions.cs" />
     <Compile Include="Assets\StompyRobot\SRF\Scripts\Service\SRSceneServiceBase.cs" />
     <Compile Include="Assets\StompyRobot\SRF\Scripts\UI\FlashGraphic.cs" />
-    <Compile Include="Assets\StompyRobot\SRF\Scripts\Helpers\SRReflection.cs" />
     <Compile Include="Assets\StompyRobot\SRF\Scripts\UI\StyleRoot.cs" />
+    <Compile Include="Assets\StompyRobot\SRF\Scripts\Helpers\SRReflection.cs" />
     <Compile Include="Assets\StompyRobot\SRF\Scripts\UI\SRRetinaScaler.cs" />
     <Compile Include="Assets\StompyRobot\SRF\Scripts\Helpers\AssetUtil.cs" />
     <Compile Include="Assets\StompyRobot\SRF\External\MiniJSON.cs" />

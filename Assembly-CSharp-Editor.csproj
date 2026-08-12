@@ -1287,13 +1287,13 @@
       <Project>{0C7D07A7-D38B-ED79-2F3E-6DFB84AB4932}</Project>
       <Name>MaxSdk.Scripts</Name>
     </ProjectReference>
-    <ProjectReference Include="AdjustSdk.Scripts.csproj">
-      <Project>{96F99D1A-0545-0B4B-F9AC-802C4843C8FB}</Project>
-      <Name>AdjustSdk.Scripts</Name>
-    </ProjectReference>
     <ProjectReference Include="StompyRobot.SRF.csproj">
       <Project>{81DFAD23-E157-07C3-E7D9-831C1E18BDBA}</Project>
       <Name>StompyRobot.SRF</Name>
+    </ProjectReference>
+    <ProjectReference Include="AdjustSdk.Scripts.csproj">
+      <Project>{96F99D1A-0545-0B4B-F9AC-802C4843C8FB}</Project>
+      <Name>AdjustSdk.Scripts</Name>
     </ProjectReference>
     <ProjectReference Include="StompyRobot.SRF.Editor.csproj">
       <Project>{AABC455E-ACEF-35DA-ADAF-9C0EFE17D171}</Project>
