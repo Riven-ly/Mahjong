@@ -32,7 +32,7 @@ public class AdManager : MonoBehaviour
         };
 
         string decryptedSdkKey = EncryptSDKKey.DecryptWithRandomSalt(SDK_key);
-        Debug.Log("解密结果（还原原值）：" + decryptedSdkKey);
+        //Debug.Log("解密结果（还原原值）：" + decryptedSdkKey);
         MaxSdk.SetSdkKey(decryptedSdkKey);
         MaxSdk.InitializeSdk();
     }
