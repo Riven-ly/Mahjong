@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "44308031681",
+    "project_id": "happy-mahjong-rich-adventure",
+    "storage_bucket": "happy-mahjong-rich-adventure.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44308031681:android:b7a164726791484a5fcc40",
+        "android_client_info": {
+          "package_name": "com.Hapmajang.rich"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj23TG3bZpf8iBWg5q7ZgfMQnnQazBmVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
