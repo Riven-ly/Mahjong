@@ -61,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.Async.cs" />
-    <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.ViewBindings.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.ExecuteCode.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusMessagePump.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.cs" />
@@ -69,12 +68,19 @@
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusObjectIdentity.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.InlineProbe.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusEditorWindow.cs" />
+    <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.TickDebugger.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.AccessProbe.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.ReadYaml.cs" />
+    <Compile Include="Packages\com.farlocus.locus\Editor\LocusProjectFileGenerator.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.TypeIndex.cs" />
+    <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.Extensions.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.AssetThumbnail.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusExternalAssetDragBridge.cs" />
+    <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.PropertyTree.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.CompileParams.cs" />
+    <Compile Include="Packages\com.farlocus.locus\Editor\LocusPropertyTree.cs" />
+    <Compile Include="Packages\com.farlocus.locus\Editor\LocusProjectFiles.cs" />
+    <Compile Include="Packages\com.farlocus.locus\Editor\LocusExternalCodeEditor.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.HotReload.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.SerializedProperties.cs" />
     <Compile Include="Packages\com.farlocus.locus\Editor\LocusBridge.Console.cs" />

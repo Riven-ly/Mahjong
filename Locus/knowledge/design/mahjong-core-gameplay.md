@@ -1,23 +1,10 @@
 ---
 id: kd_bb502085-db65-4508-9b3d-235bf18cf985
-type: design
-path: mahjong-core-gameplay.md
-title: mahjong-core-gameplay
-inheritInjectMode: true
-summaryEnabled: true
-commandEnabled: false
-readOnly: false
-inheritAiConfig: true
-createdAt: 1785138573703
-updatedAt: 1786186030821
+injectMode: inherit
+summary: 单机《羊了个羊》式主玩法设计与分层开发约束。
+aiEditMode: inherit
 ---
 
-# mahjong-core-gameplay
-
-## Summary
-单机《羊了个羊》式主玩法设计与分层开发约束。
-
-## Content
 ## 核心规则
 - 卡牌按关卡配置进行多层固定堆叠，上层遮挡下层，仅完全无遮挡卡牌可操作。
 - 玩法不再使用底部卡槽：玩家仅通过点击选择牌面卡牌。

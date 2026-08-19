@@ -99,14 +99,17 @@ public class GameLoadingPanel : UIBase
             yield return null;
         }
 
-        OtherSdkManager.Instance.CustomEvent("load_page_open", "load_page_open","");
         //2.各个SDK初始化
+        GameManager.appATTtype = 1;
+        GameManager.Instance.UpdateAppATT();
 
         //3.loading进度条动起来
         slider.DOValue(0.9f, 1.8f).SetEase(Ease.Linear);
         DoTextNumberAnim(0, 90, 1.8f);
 
         yield return new WaitForSeconds(1.8f);
+
+        OtherSdkManager.Instance.CustomEvent("load_page_open", "load_page_open", "");
 
         //4.游戏资源准备
         while (!GameManager.LoadABAsyncOK)
@@ -115,14 +118,16 @@ public class GameLoadingPanel : UIBase
             yield return null;
         }
 
-        //5.登录检测：东8区/中国不通过 卡死90%（检测调用BI接口）
         if (isCheckRegister)
         {
             slider.DOValue(1f, 0.2f).SetEase(Ease.Linear);
             DoTextNumberAnim(90, 100, 0.2f);
-
-            yield return new WaitForSeconds(0.3f);
-            //GameManager.Instance.Init();
+            GameManager.Instance.Init();
+            if (ABResManager.Instance != null)
+            {
+                ABResManager.Instance.Init();
+            }
+            yield return new WaitForSeconds(0.4f);
             Hide();
         }
     }

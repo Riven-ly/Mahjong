@@ -1,23 +1,10 @@
 ---
 id: kd_1ca41451-a228-4ba7-af9b-bcf2e10d0d3a
-type: memory
-path: unity-project-understanding/mahjong-gameplay.md
-title: mahjong-gameplay
-inheritInjectMode: true
-summaryEnabled: true
-commandEnabled: false
-readOnly: false
-inheritAiConfig: true
-createdAt: 1785138573722
-updatedAt: 1786500991983
+injectMode: inherit
+summary: Mahjong 主玩法代码结构与当前实现进度缓存；2026-08 已由卡槽玩法切换为双点击配对、三生命与中心汇聚消除。
+aiEditMode: inherit
 ---
 
-# mahjong-gameplay
-
-## Summary
-Mahjong 主玩法代码结构与当前实现进度缓存；2026-08 已由卡槽玩法切换为双点击配对、三生命与中心汇聚消除。
-
-<!-- locus:body:start -->
 - 玩法设计见 `design/mahjong-core-gameplay.md`。
 - 阶段1 Model 位于 `Assets/scripts/Mahjong/Model/MahjongModels.cs`，命名空间为 `MahjongGame.Model`。
 - 当前包含 MahjongCardState、MahjongGameState、MahjongGridPosition、MahjongCardModel、MahjongSlotModel、MahjongGameModel、MahjongConfig。
@@ -47,4 +34,3 @@ Mahjong 主玩法代码结构与当前实现进度缓存；2026-08 已由卡槽�
 - `MahjongCell` 入槽时自身从 `Vector3.one` 缩放到 `MahjongViewConfig.SlotCardScale`，缩放与点击入槽/拖拽入槽的移动补间同时开始；`AnimateBack`、`AnimateReturnToBoard` 和 `ResetForPool` 会恢复为 `Vector3.one`。`GameScenePanel.prefab` 的 `SlotRoot` 保持原始局部缩放 `Vector3.one`。
 - `MahjongGameplayView` 在每组卡槽消除动画结束并完成逻辑移除后，累计该组消除卡牌数；每局开局清零。累计达到 `MahjongConfig.RewardTriggerEliminatedCardCount`（10张）时，以 `RewardInitialProbability`（50%）首次判定；之后每多消除一组（2张）增加 `RewardProbabilityIncreasePerGroup`（10%），成功时无参打开 `GeneralRewardsPanel` 并清零累计数。
 - `Assets/Prefab/Effect/FlickerEffect.prefab` 保留原有光束根 Animation，并新增 `StarFlicker` 子节点及独立 `Assets/Animation/FlickerEffectStarAnim.anim`。该节点包含 7 颗不同大小和位置的星星，以错峰透明度与缩放循环闪烁；最低透明度为 0.28，避免星星完全消失。
-<!-- locus:body:end -->

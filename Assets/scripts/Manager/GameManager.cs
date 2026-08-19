@@ -43,12 +43,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Init();
+        BeforeCreatMahjongCells();
     }
 
     public void Init()
     {
-        BeforeCreatMahjongCells();
         playerInfo = GetPlayerInfo();
         UIManager.Instance.OpenUI<PlayerInfoUI>();
         gameType = GameType.MainGame;

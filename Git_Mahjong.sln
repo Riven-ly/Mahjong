@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarEngineSDK.Editor", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdjustSdk.Editor", "AdjustSdk.Editor.csproj", "{7BDB9AA6-FE25-B2A6-2537-7873403F7F9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Locus.UnityTesting.Editor", "Locus.UnityTesting.Editor.csproj", "{D4A8FA1A-F9E0-856B-22ED-B8C2CC6E0E99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{7BDB9AA6-FE25-B2A6-2537-7873403F7F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BDB9AA6-FE25-B2A6-2537-7873403F7F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BDB9AA6-FE25-B2A6-2537-7873403F7F9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4A8FA1A-F9E0-856B-22ED-B8C2CC6E0E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4A8FA1A-F9E0-856B-22ED-B8C2CC6E0E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4A8FA1A-F9E0-856B-22ED-B8C2CC6E0E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4A8FA1A-F9E0-856B-22ED-B8C2CC6E0E99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

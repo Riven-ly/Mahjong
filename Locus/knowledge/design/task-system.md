@@ -1,23 +1,10 @@
 ---
 id: kd_92c57482-a934-48e5-85b7-7d33f9d5e1ad
-type: design
-path: task-system.md
-title: task-system
-inheritInjectMode: true
-summaryEnabled: true
-commandEnabled: false
-readOnly: false
-inheritAiConfig: true
-createdAt: 1785403317874
-updatedAt: 1786160502836
+injectMode: inherit
+summary: 已确认的本地任务系统：场景 TaskManager 负责事件驱动进度和存档，TaskPanel 仅展示两类任务。
+aiEditMode: inherit
 ---
 
-# task-system
-
-## Summary
-已确认的本地任务系统：场景 TaskManager 负责事件驱动进度和存档，TaskPanel 仅展示两类任务。
-
-## Content
 # 任务系统
 
 - `TaskManager` 为场景 `Manager` 节点的单例组件，负责任务配置、进度、领奖、每日刷新与 PlayerPrefs JSON 持久化。

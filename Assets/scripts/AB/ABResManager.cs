@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ABResManager : MonoBehaviour
 {
+    public static ABResManager Instance;
+
     public GameObject txElementManangerPrefab;
     public GameObject TxElementBtnPrefab;
     public GameObject BobaoPrefab;
@@ -13,8 +15,11 @@ public class ABResManager : MonoBehaviour
 
     //新的UI界面
     public List<GameObject> uiPanel;
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        Instance = this;
+    }
+    public void Init()
     {
         UpdateDiamondsUI();
         InitTxElementPanel();
