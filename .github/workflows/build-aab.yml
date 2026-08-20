@@ -41,6 +41,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: Android
+          versioning: None
           unityVersion: 2022.3.62f3 
           androidExportType: 'androidAppBundle'
 

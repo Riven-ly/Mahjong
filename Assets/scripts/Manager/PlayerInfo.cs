@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,16 +10,20 @@ using UnityEngine;
 public class PlayerInfo
 {
     public const int CurrencyUnitScale = 100;
+    [JsonIgnore]
     public float Gold
     {
         get => MathF.Round(gold / (float)CurrencyUnitScale, 2);
     }
+    [JsonIgnore]
     public float Diamond
     {
         get => MathF.Round(diamond / (float)CurrencyUnitScale, 2);
     }
 
-    [SerializeField] private int gold = 0;
+    [JsonProperty]
+    private int gold = 0;
+    [JsonProperty]
     private int diamond = 0;
     public int level = 1;
     public int goldLevel = 0; // ½ð±ÒµÈ¼¶
