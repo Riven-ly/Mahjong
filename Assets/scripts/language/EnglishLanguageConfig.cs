@@ -51,5 +51,7 @@ public static class EnglishLanguageConfig
         {"CANCLE", "CANCLE"},
         {"SUBMIT", "SUBMIT"},
         {"Special_Diamond__unit", "JA=="},//特殊钻石符号$
+        {"wd", "d2l0aGRyYXc="},//withdraw
+        {"ch", "Q2FzaCBPdXQ="},//Cash Out
     };
 }

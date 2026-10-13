@@ -46,4 +46,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diamondsSprite: {fileID: 21300000, guid: 8356263ae019ff447b8e8c7adbe89eea, type: 3}
   diamondRerardIconsSprite: {fileID: 21300000, guid: 326293e297d4c124e997ba97428ea0fc, type: 3}
-  uiPanel: []
+  uiPanel:
+  - {fileID: 1008182925727937391, guid: 32df429cdc184cd1b7361f3375b52e02, type: 3}
+  - {fileID: 4268939527892376072, guid: d8cff3f89a5f496595f9f29f302983be, type: 3}
+  - {fileID: 1008182925727937391, guid: c028bcbe9f6b45528cc4cf2f399e72d5, type: 3}
+  - {fileID: 1008182925727937391, guid: 1876a4cb4542419ab17ebb9cff4c0176, type: 3}
+  - {fileID: 1008182925727937391, guid: 03467185632346febca0160f94056492, type: 3}
+  - {fileID: 3000, guid: 7d31145bab0e4092a0362fd36618ee53, type: 3}
+  - {fileID: 1008182925727937391, guid: 927f7ff06b154b58b8dcf9fd738081c5, type: 3}
+  - {fileID: 1008182925727937391, guid: 5db14333a6b64f34a90d6a722c885746, type: 3}
+  - {fileID: 1008182925727937391, guid: fb77b0596551438ba5837c56cd5f563a, type: 3}
+  txWithdrawBarPrefab: {fileID: 9000000000000000012, guid: 69cbed130a609624a87544abee63c557, type: 3}
+  txTipsRootPrefab: {fileID: 7416951389955493351, guid: 21759ffb297e37a4da42e8ca0b606e09, type: 3}

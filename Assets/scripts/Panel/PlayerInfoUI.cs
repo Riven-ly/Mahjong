@@ -17,6 +17,9 @@ public class PlayerInfoUI : UIBase,IEventListener
     public Image diamondIcon;
     public Text diamondCnt;
     public Canvas diamondCanvas;
+    [Header("Tx")]
+    public Transform txTrans;
+    public Transform txTipsRootTrans;
 
     private void Awake()
     {
@@ -24,6 +27,7 @@ public class PlayerInfoUI : UIBase,IEventListener
         float topBlockHeight = Screen.height - Screen.safeArea.yMax;
         rect.offsetMax = new Vector2(0, -topBlockHeight);
     }
+
     private void OnEnable()
     {
         isOpen = false;
@@ -81,7 +85,7 @@ public class PlayerInfoUI : UIBase,IEventListener
         goldTrans.DOKill();
         float _currentValue = float.Parse(goldCnt.text);
         float targetGold = GameManager.Instance.playerInfo.Gold;
-        bool hasDecimal1 = targetGold != Mathf.RoundToInt(targetGold); // true（有小数）
+        bool hasDecimal1 = targetGold != Mathf.RoundToInt(targetGold); // true锟斤拷锟斤拷小锟斤拷锟斤拷
         int unit = hasDecimal1 ? 2 : 0;
 
         DOTween.To(
@@ -91,8 +95,8 @@ public class PlayerInfoUI : UIBase,IEventListener
               _currentValue = (float)Math.Round(x, unit);
               goldCnt.text = _currentValue.ToString();
           },
-          targetGold, // 目标值
-          1f // 时长
+          targetGold, // 目锟斤拷值
+          1f // 时锟斤拷
         ).SetTarget(goldTrans)
         .OnComplete(() =>
         {
@@ -125,7 +129,7 @@ public class PlayerInfoUI : UIBase,IEventListener
         diamondTrans.DOKill();
         float _currentValue = float.Parse(diamondCnt.text);
         float targetDiamond = GameManager.Instance.playerInfo.Diamond;
-        bool hasDecimal1 = targetDiamond != Mathf.RoundToInt(targetDiamond); // true（有小数）
+        bool hasDecimal1 = targetDiamond != Mathf.RoundToInt(targetDiamond); // true锟斤拷锟斤拷小锟斤拷锟斤拷
         int unit = hasDecimal1 ? 2 : 0;
 
         DOTween.To(
@@ -135,8 +139,8 @@ public class PlayerInfoUI : UIBase,IEventListener
               _currentValue = (float)Math.Round(x, unit);
               diamondCnt.text = _currentValue.ToString();
           },
-          targetDiamond, // 目标值
-          1f // 时长
+          targetDiamond, // 目锟斤拷值
+          1f // 时锟斤拷
         ).SetTarget(diamondTrans)
         .OnComplete(() =>
         {

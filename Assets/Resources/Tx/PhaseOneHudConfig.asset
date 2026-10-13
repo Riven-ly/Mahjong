@@ -1,0 +1,225 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfaa54ac6020a924d9d774a0d0b352c8, type: 3}
+  m_Name: PhaseOneHudConfig
+  m_EditorClassIdentifier: 
+  entries:
+  - actualLevel: 1
+    displayLevel: 1
+    dotCount: 0
+    currentDot: 0
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 2
+    displayLevel: 2
+    dotCount: 0
+    currentDot: 0
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 3
+    displayLevel: 3
+    dotCount: 0
+    currentDot: 0
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 4
+    displayLevel: 4
+    dotCount: 0
+    currentDot: 0
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 5
+    displayLevel: 5
+    dotCount: 0
+    currentDot: 0
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 6
+    displayLevel: 6
+    dotCount: 2
+    currentDot: 1
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 7
+    displayLevel: 6
+    dotCount: 2
+    currentDot: 2
+    completedDots: 1
+    showPercent: 0
+    percent: 0
+  - actualLevel: 8
+    displayLevel: 7
+    dotCount: 3
+    currentDot: 1
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 9
+    displayLevel: 7
+    dotCount: 3
+    currentDot: 2
+    completedDots: 1
+    showPercent: 0
+    percent: 0
+  - actualLevel: 10
+    displayLevel: 7
+    dotCount: 3
+    currentDot: 3
+    completedDots: 2
+    showPercent: 0
+    percent: 0
+  - actualLevel: 11
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 1
+    completedDots: 0
+    showPercent: 0
+    percent: 0
+  - actualLevel: 12
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 2
+    completedDots: 1
+    showPercent: 0
+    percent: 0
+  - actualLevel: 13
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 3
+    completedDots: 2
+    showPercent: 0
+    percent: 0
+  - actualLevel: 14
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 4
+    completedDots: 3
+    showPercent: 0
+    percent: 0
+  - actualLevel: 15
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.5
+  - actualLevel: 16
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.75
+  - actualLevel: 17
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.9
+  - actualLevel: 18
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.95
+  - actualLevel: 19
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.97
+  - actualLevel: 20
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.98
+  - actualLevel: 21
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.99
+  - actualLevel: 22
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.995
+  - actualLevel: 23
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.997
+  - actualLevel: 24
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.998
+  - actualLevel: 25
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.999
+  - actualLevel: 26
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.9995
+  - actualLevel: 27
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.9997
+  - actualLevel: 28
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.9998
+  - actualLevel: 29
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.9999
+  - actualLevel: 30
+    displayLevel: 8
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 1
+    percent: 0.9999
