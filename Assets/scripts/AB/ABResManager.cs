@@ -6,10 +6,6 @@ public class ABResManager : MonoBehaviour
 {
     public static ABResManager Instance;
 
-    public GameObject txElementManangerPrefab;
-    public GameObject TxElementBtnPrefab;
-    public GameObject BobaoPrefab;
-
     public Sprite diamondsSprite;
     public Sprite diamondRerardIconsSprite;
 
@@ -22,7 +18,6 @@ public class ABResManager : MonoBehaviour
     public void Init()
     {
         UpdateDiamondsUI();
-        InitTxElementPanel();
         if (uiPanel != null)
         {
             foreach (var ui in uiPanel)
@@ -37,12 +32,5 @@ public class ABResManager : MonoBehaviour
         GameManager.Instance.specialDiamonds[1] = diamondsSprite;
         GameManager.Instance.specialRewardsDuis[1] = diamondRerardIconsSprite;
         EventManager.Instance.TriggerEvent(GameEvent.UpdateAppATTUI);
-    }
-
-    private void InitTxElementPanel()
-    {
-        Instantiate(txElementManangerPrefab);
-        Instantiate(TxElementBtnPrefab, UIManager.Instance.GetUI<PlayerInfoUI>().txTrans);
-        Instantiate(BobaoPrefab, UIManager.Instance.GetUI<GameScenePanel>().bobao);
     }
 }

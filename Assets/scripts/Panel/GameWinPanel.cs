@@ -36,11 +36,6 @@ public class GameWinPanel : UIBase
     {
         isOpen = false;
         ResetPanel();
-        string firstTxStr = PlayerPrefs.GetString("GuidePanel_firstTx");
-        if (string.IsNullOrEmpty(firstTxStr) && GameManager.appATTtype == 1)
-        {
-            UIManager.Instance.OpenUI<GuidePanel_firstTx>();
-        }
     }
     /// <summary>
     /// 注册进入下一关按钮事件。

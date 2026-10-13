@@ -16,7 +16,6 @@ public class GameScenePanel : UIBase,IEventListener
     public Button taskBtn;
     public Image taskRedImg;
     public Text levelText;
-    public Transform bobao;
 
     public GameSceneItem_Exchange gameSceneItem_Exchange;
     public GameSceneItem_Hint gameSceneItem_Hint;

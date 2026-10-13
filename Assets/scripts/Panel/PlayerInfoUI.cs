@@ -12,7 +12,6 @@ public class PlayerInfoUI : UIBase,IEventListener
     public Image goldIcon;
     public Text goldCnt;
     public Canvas goldCanvas;
-    public Transform txTrans;
     [Header("Diamond")]
     public Transform diamondTrans;
     public Image diamondIcon;
@@ -34,15 +33,6 @@ public class PlayerInfoUI : UIBase,IEventListener
     {
         isOpen = false;
         EventManager.Instance.UnregisterListener(GameEvent.UpdateAppATTUI, this);
-    }
-
-    private void Start()
-    {
-        //if (TxElementMananger.Instance != null)
-        //{
-        //    var obj = Instantiate(TxElementMananger.Instance.TxProgressPrefab, txTrans);
-        //    obj.transform.localPosition = Vector3.zero;
-        //}
     }
 
     public override void Refresh(object data = null)

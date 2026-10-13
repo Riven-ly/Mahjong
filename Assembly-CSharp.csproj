@@ -68,7 +68,6 @@
     <Compile Include="Assets\scripts\language\PortugueseLanguageConfig.cs" />
     <Compile Include="Assets\scripts\item\ItemBase.cs" />
     <Compile Include="Assets\scripts\Manager\OtherSdkManager.cs" />
-    <Compile Include="Assets\scripts\Panel\TxPanel.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralRewardsPanel.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Exchange.cs" />
     <Compile Include="Assets\scripts\Effect\GoldCollectEffect.cs" />
@@ -103,12 +102,10 @@
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongSlotRules.cs" />
     <Compile Include="Assets\scripts\Panel\GameScenePanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardColorUtility.cs" />
-    <Compile Include="Assets\scripts\Task\TxBtn.cs" />
     <Compile Include="Assets\scripts\Task\TaskItem.cs" />
     <Compile Include="Assets\scripts\Effect\GoldFlyControl.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongOperationResult.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Return.cs" />
-    <Compile Include="Assets\scripts\Task\TxBoBao.cs" />
     <Compile Include="Assets\scripts\Panel\PlayerInfoUI.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongHintEffect.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGeometry.cs" />
@@ -116,7 +113,6 @@
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelValidator.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralTipsPanel.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongGameplayView.cs" />
-    <Compile Include="Assets\scripts\Task\TxElementTypeSelectPanel.cs" />
     <Compile Include="Assets\scripts\NetworkChecker\NetworkChecker.cs" />
     <Compile Include="Assets\scripts\Manager\UIBase.cs" />
     <Compile Include="Assets\scripts\language\EnglishLanguageConfig.cs" />
@@ -126,8 +122,6 @@
     <Compile Include="Assets\scripts\Panel\GuidePanel_firstGame.cs" />
     <Compile Include="Assets\scripts\EventSystem\EventManager.cs" />
     <Compile Include="Assets\scripts\language\LanguageManager.cs" />
-    <Compile Include="Assets\scripts\Task\TxManager.cs" />
-    <Compile Include="Assets\scripts\Panel\GuidePanel_firstTx.cs" />
     <Compile Include="Assets\scripts\Panel\GameLoadingPanel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1172,6 +1166,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnitySkills.Editor">
+      <HintPath>Library\ScriptAssemblies\UnitySkills.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
