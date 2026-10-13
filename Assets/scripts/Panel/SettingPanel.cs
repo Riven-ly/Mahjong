@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,10 @@ public class SettingPanel : UIBase
     //
     public Button continueBtn;
     public Button resetGameBtn;
+    //
+    public TextMeshProUGUI idText;
+    public TextMeshProUGUI gradeText;
+    public Button gradeButton;
 
     private string page_id = "SettingPanel";
 
@@ -97,6 +102,12 @@ public class SettingPanel : UIBase
             Hide();
         });
 
+        gradeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayBtnMusic();
+            OpenLevelDetail();
+        });
+
         OnMusicClick(true);
         OnSoundClick(true);
         OnVibrationClick(true);
@@ -111,6 +122,15 @@ public class SettingPanel : UIBase
         Transform targetTran = isBasePanel ? panel1_btnRoot : panel2_btnRoot;
         btnAll.SetParent(targetTran);
         btnAll.localPosition = Vector3.zero;
+
+        PlayerLevelProgress progress = PhaseTaskService.GetPlayerLevelProgress();
+        idText.text = "ID:" + PlayerProfileService.PlayerId;
+        gradeText.text = "Player Level:" + progress.Level;
+    }
+
+    void OpenLevelDetail()
+    {
+        UIManager.Instance.OpenUI<LevelPopup>();
     }
     public override void Hide()
     {

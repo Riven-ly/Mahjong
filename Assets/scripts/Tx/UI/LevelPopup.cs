@@ -66,7 +66,6 @@ public sealed class LevelPopup : UIBase
 
     void ReturnToSettings()
     {
-        UIManager.Instance.OpenUI<SettingPanel>();
         Hide();
     }
 }

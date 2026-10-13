@@ -129,6 +129,7 @@ public class GameScenePanel : UIBase,IEventListener
     public void ResetGame()
     {
         Refresh();
+        PhaseTaskService.NotifyProgressRefresh();
     }
 
     /// <summary>

@@ -147,6 +147,7 @@ public class GameWinPanel : UIBase
     private void OnNextLevelButtonClick()
     {
         GameManager.Instance.playerInfo.level++;
+        PhaseTaskService.NotifyProgressRefresh();
         callback = () =>
         {
             GameManager.Instance.SavePlayerInfo();

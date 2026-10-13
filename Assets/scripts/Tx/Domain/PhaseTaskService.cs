@@ -143,6 +143,21 @@ public static class PhaseTaskService
         return config == null ? 0 : config.LevelPhase.ActualTargetLevel;
     }
 
+    public static int GetLevelDisplayLevel()
+    {
+        Initialize();
+        int target = config == null ? 0 : config.LevelPhase.ActualTargetLevel;
+        if (target <= 0)
+            return 1;
+        return Mathf.Clamp(GetCurrentLevel(), 1, target);
+    }
+
+    public static void NotifyProgressRefresh()
+    {
+        Initialize();
+        PhaseTaskEvents.RaiseProgressChanged();
+    }
+
     public static void SetGameplayActive(bool active) { }
 
     public static void Tick(float activeDeltaSeconds)

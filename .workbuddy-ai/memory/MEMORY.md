@@ -68,6 +68,10 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 - **嵌套 prefab 的 stripped 块**：`m_CorrespondingSourceObject.fileID` 必须精确等于**目标工程导入后**该对象的真实 fileID
   （不是源工程的 fileID）。用错 → Unity 回退成 `long.MaxValue` 占位 → `Duplicate identifier 9223372036854775807`。
 - 写回文件用 LF（`newline=chr(10)`）。
+- **直接改 prefab 磁盘 YAML 是否会被 Unity 回滚，取决于该 prefab 当时是否被编辑器加载**：
+  未被加载的（只存在于 `Resources/`、`ABRes/`，编辑器没打开）→ 改盘 + `asset_refresh` **不会被回滚**（2026-10-13 实测 `SettingPanel.prefab`）；
+  已被加载/打开的（Prefab Stage、或在打开的场景里）→ 会被内存版本覆盖。
+  改前先备份、改后 `asset_refresh` + 读回文件 + `debug_get_errors` 三重确认。
 
 ## Tx（提现）模块结构（目标工程）
 
@@ -86,3 +90,21 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 - `Assets/ABRes/Tx/UI/Panel/TxWithdrawBar.prefab`（用户 16:30 改过，包了一层 `GameObject` + 改名 `tttt`）
 - `Assets/ABRes/Tx/UI/Panel/TxHudSliders.prefab`（用户 17:13 重构过，272KB→120KB）
 - 用户说「我自己搞定」时，**只改脚本，不碰 prefab**。
+
+## 参考工程 `D:/UnityTest/majiangtext`（Tx 模块的源工程）
+
+- 结构对应：参考 `Demo/Script/Sdk/**` + `Demo/Prefabs/SDK/**` ↔ 本项目 `Assets/scripts/Tx/**` + `Assets/ABRes/Tx/**`。
+- **两个工程的 `LevelPopup.prefab` 结构完全一致（连 fileID 相同，根 GO `3000`）** —— 可用「逐字段对齐 guid」反推映射表。
+- 参考工程设置弹窗 `Demo/Script/EscapePuzzle/B_SettingPopup.cs` 的 `gradeButton`（节点 `LevelButtonText (TMP)`，
+  同 GO 挂 TMP + Button）→ `OpenLevelDetail()` → `Show<LevelPopup>()` + 隐藏设置；另有 `IDText (TMP)`、`Ico`(badge.png)。
+  本项目 `SettingPanel.cs` 已按此一比一补上 `idText` / `gradeText` / `gradeButton`（挂在 `panel2/bg` 下）。
+
+### guid 映射（参考 → 本项目）
+| 资产 | 参考 guid | 本项目 guid |
+|---|---|---|
+| `neuron-extrabold SDF.asset` | `9e8d8050d99c2cb49b754817ec264f9a` | `d6389bd164024a56ba3421ce9947bde4` |
+| `neuron-extrabold Atlas White Outline Material.mat` | `193391c627b444e1ac679b45c076f013` | `fb89e49c0b6545c4a9f884e2dee61fd5` |
+| `badge.png`（`Demo/Sprite/Ico/`） | `3447c0dcde9e2cd45b9273286a93d0bd` | `e557dd68370d40ec9c6c1e3ce75654c6` |
+
+美术类资产在迁移时被重新导入 → guid 全变（本项目在 `Assets/ABRes/Tx/Demo/`）；
+预制体是「连 meta 复制」→ 文件 guid 不变。**搬 YAML 前必须按 basename 建全量 guid 重映射表。**

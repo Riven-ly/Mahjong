@@ -65,7 +65,7 @@ MonoBehaviour:
   topSlideOutDuration: 0.3
   bottomMinInterval: 10
   bottomMaxInterval: 60
-  bottomTotalDuration: 2
+  bottomTotalDuration: 18
   minAmount: 3000
   maxAmount: 6999
 --- !u!1001 &5391825430422442116

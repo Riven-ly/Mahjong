@@ -65,7 +65,7 @@ public sealed class TxHudSliders : MonoBehaviour
                 task1Slider?.Open();
                 if (task1Slider != null)
                     task1Slider.Refresh(
-                        PhaseOneHudCalculator.Get(PhaseTaskService.GetLevelActualTarget(), task1Slider.Config),
+                        PhaseOneHudCalculator.Get(PhaseTaskService.GetLevelDisplayLevel(), task1Slider.Config),
                         PhaseTaskService.GetState(PhaseId.Level8) == PhaseTaskState.Completed);
                 break;
             case PhaseId.ActiveMinutes20:
