@@ -75,6 +75,7 @@ public sealed class SpecialBonusPop : UIBase
 
     void OnDisable()
     {
+        isOpen = false;
         StopAmountAnimation();
     }
 

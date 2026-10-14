@@ -60,6 +60,7 @@ public class GameScenePanel : UIBase,IEventListener
     /// </summary>
     private void OnEnable()
     {
+        isOpen = false;
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.RegisterListener(GameEvent.StopHintAnim, this);
@@ -71,6 +72,7 @@ public class GameScenePanel : UIBase,IEventListener
     /// </summary>
     private void OnDisable()
     {
+        isOpen = false;
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.UnregisterListener(GameEvent.StopHintAnim, this);

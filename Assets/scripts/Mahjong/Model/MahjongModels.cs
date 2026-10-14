@@ -254,6 +254,9 @@ namespace MahjongGame.Model
         public const int RewardTriggerEliminatedCardCount = 10; // 触发随机奖励所需的累计消除卡牌数量
         public const float RewardInitialProbability = 0.5f; // 达到消除阈值时弹出随机奖励的概率
         public const float RewardProbabilityIncreasePerGroup = 0.1f; // 每额外消除一组卡牌增加的随机奖励概率
+        public const int LuckyRewardMinLevel = 4; // 允许触发 Lucky 奖励的最低关卡
+        public const float LuckyRewardLevelSeconds = 45f; // 本关累计游戏时间达到该秒数才有资格触发
+        public const float LuckyRewardCooldownSeconds = 60f; // 距上次 Lucky 弹出的冷却秒数
         public const int LevelCatalogVersion = 1; // 当前支持的关卡目录版本
         public const string LevelCatalogResourcePath = "Mahjong/Levels"; // Resources关卡目录加载路径
     }

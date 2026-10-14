@@ -103,6 +103,7 @@ public sealed class InProgressPop : UIBase
 
     void OnDisable()
     {
+        isOpen = false;
         sequence?.Kill(false);
         sequence = null;
     }

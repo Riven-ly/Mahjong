@@ -113,16 +113,14 @@ public class UIManager : MonoBehaviour
 
     public bool CheckIstheUIopen()
     {
-        bool isOpen = false;
         foreach (var ui in uiDict)
         {
-            if(ui.Value.isOpen)
+            if (ui.Value.isOpen)
             {
-                Debug.Log(ui.Key);
-                isOpen = true;
-                break;
+                Debug.Log($"[LuckyÕï¶Ï] ¿ª×ÅµÄUI={ui.Key} active={ui.Value.gameObject.activeSelf}");
+                return true;
             }
         }
-        return isOpen;
+        return false;
     }
 }

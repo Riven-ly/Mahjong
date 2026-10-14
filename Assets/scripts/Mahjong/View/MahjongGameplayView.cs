@@ -28,6 +28,10 @@ namespace MahjongGame.View
         private int activeEliminationCount; // 当前正在播放消除动画的组数
         private int eliminatedCardCount; // 本局自上次随机奖励后累计消除的卡牌数量
 
+        [SerializeField] private float luckyLevelPlaySeconds; // 本关累计的正常游戏秒数，换关清零
+        private float luckyLastCheckTime; // 上次结算 Lucky 规则的全局时间戳
+        private static float luckyLastShowTime = float.NegativeInfinity; // 上次 Lucky 奖励弹出的全局时间戳，换关不清零
+
         private const float MahjongCellHalfWidth = 85.5f; // 单张麻将牌局部坐标宽度的一半
         private const float MahjongCellHalfHeight = 99.5f; // 单张麻将牌局部坐标高度的一半
         private const float HorizontalScreenMargin = 50f; // 屏幕安全区左右保留边距
@@ -62,6 +66,8 @@ namespace MahjongGame.View
             StopGameplay();
             ClearCellViews();
             eliminatedCardCount = 0;
+            luckyLevelPlaySeconds = 0f;
+            luckyLastCheckTime = Time.time;
             selectedCardId = 0;
             remainingHealth = MahjongViewConfig.InitialHealth;
             autoEliminationRemainingGroupCount = 0;
@@ -677,40 +683,139 @@ namespace MahjongGame.View
         private void TryShowEliminationReward(int eliminatedCount,System.Action _callback)
         {
             eliminatedCardCount += eliminatedCount;
-            if (eliminatedCardCount < MahjongConfig.RewardTriggerEliminatedCardCount)
+            // 原「累计消除数 + 概率」触发逻辑已停用，改由累计游戏时间规则触发（见 UpdateLuckyReward）。
+            //if (eliminatedCardCount < MahjongConfig.RewardTriggerEliminatedCardCount)
+            //{
+            //    _callback?.Invoke();
+            //    return;
+            //}
+
+            //int extraGroupCount = (eliminatedCardCount - MahjongConfig.RewardTriggerEliminatedCardCount) /
+            //                      MahjongConfig.MatchCount;
+            //float probability = Mathf.Min(
+            //    1f,
+            //    MahjongConfig.RewardInitialProbability +
+            //    extraGroupCount * MahjongConfig.RewardProbabilityIncreasePerGroup);
+            //if (Random.value >= probability)
+            //{
+            //    _callback?.Invoke();
+            //    return;
+            //}
+
+            //eliminatedCardCount = 0;
+            //bool isAutoEliminating = autoEliminationRemainingGroupCount > 0;
+            //if (isAutoEliminating)
+            //{
+            //    UIManager.Instance.HideUIMask();
+            //}
+
+            //UIManager.Instance.OpenUI<GeneralRewardsPanel>(null, () =>
+            //{
+            //    if (isAutoEliminating && autoEliminationRemainingGroupCount > 0)
+            //    {
+            //        UIManager.Instance.OpenUIMask();
+            //    }
+
+            //    _callback?.Invoke();
+            //});
+
+            _callback?.Invoke();
+        }
+
+        /// <summary>
+        /// 每秒检查一次玩法状态与界面遮挡情况，通过后累计本关游戏时间，并在达到门槛时判定 Lucky 奖励弹出。
+        /// </summary>
+        private void UpdateLuckyReward()
+        {
+            if (Time.time - luckyLastCheckTime < 1f)
             {
-                _callback?.Invoke();
                 return;
             }
 
-            int extraGroupCount = (eliminatedCardCount - MahjongConfig.RewardTriggerEliminatedCardCount) /
-                                  MahjongConfig.MatchCount;
-            float probability = Mathf.Min(
-                1f,
-                MahjongConfig.RewardInitialProbability +
-                extraGroupCount * MahjongConfig.RewardProbabilityIncreasePerGroup);
-            if (Random.value >= probability)
+            luckyLastCheckTime = Time.time;
+
+            if (!IsPlaying() || !IsNormalPlaying())
             {
-                _callback?.Invoke();
                 return;
             }
 
-            eliminatedCardCount = 0;
-            bool isAutoEliminating = autoEliminationRemainingGroupCount > 0;
-            if (isAutoEliminating)
+            luckyLevelPlaySeconds += 1f;
+
+            if (luckyLevelPlaySeconds < MahjongConfig.LuckyRewardLevelSeconds)
             {
-                UIManager.Instance.HideUIMask();
+                return;
             }
 
+            if (!CanShowLuckyReward())
+            {
+                Debug.LogWarning($"[Lucky诊断] 弹不出 level={GameManager.Instance.playerInfo.level}/{MahjongConfig.LuckyRewardMinLevel} 冷却={Time.time - luckyLastShowTime:F1}s/{MahjongConfig.LuckyRewardCooldownSeconds} activeElim={activeEliminationCount} autoElim={autoEliminationRemainingGroupCount} mask={UIManager.Instance.uiMask.gameObject.activeSelf} uiOpen={UIManager.Instance.CheckIstheUIopen()}");
+                return;
+            }
+
+            ShowLuckyReward();
+        }
+
+        /// <summary>
+        /// 判断主玩法是否处于进行中状态，且当前关卡已达到 Lucky 奖励的开启关卡。
+        /// </summary>
+        private bool IsPlaying()
+        {
+            if (GameManager.Instance == null || GameManager.Instance.playerInfo == null)
+            {
+                return false;
+            }
+
+            if (GameManager.Instance.playerInfo.level < MahjongConfig.LuckyRewardMinLevel)
+            {
+                return false;
+            }
+
+            return gameLogic != null
+                && gameLogic.Model != null
+                && gameLogic.Model.State == MahjongGameState.Playing;
+        }
+
+        /// <summary>
+        /// 判断当前是否处于可正常游玩状态，即玩法进行中且未被广告或弹窗打断。
+        /// </summary>
+        private bool IsNormalPlaying()
+        {
+            if (UIManager.Instance == null || UIManager.Instance.uiMask.gameObject.activeSelf)
+            {
+                return false;
+            }
+
+            return !UIManager.Instance.CheckIstheUIopen();
+        }
+
+        /// <summary>
+        /// 判断 Lucky 奖励当前是否具备弹出条件，条件不满足时保留秒数等待下一秒。
+        /// </summary>
+        private bool CanShowLuckyReward()
+        {
+            if (Time.time - luckyLastShowTime < MahjongConfig.LuckyRewardCooldownSeconds)
+            {
+                return false;
+            }
+
+            return activeEliminationCount == 0 && autoEliminationRemainingGroupCount == 0;
+        }
+
+        /// <summary>
+        /// 弹出 Lucky 奖励并重置本关计时、刷新冷却。
+        /// </summary>
+        private void ShowLuckyReward()
+        {
             UIManager.Instance.OpenUI<GeneralRewardsPanel>(null, () =>
             {
-                if (isAutoEliminating && autoEliminationRemainingGroupCount > 0)
-                {
-                    UIManager.Instance.OpenUIMask();
-                }
-
-                _callback?.Invoke();
+                luckyLevelPlaySeconds = 0f;
+                luckyLastShowTime = Time.time;
             });
+        }
+
+        private void Update()
+        {
+            UpdateLuckyReward();
         }
 
         /// <summary>

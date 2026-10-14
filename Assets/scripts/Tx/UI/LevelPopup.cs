@@ -40,6 +40,7 @@ public sealed class LevelPopup : UIBase
 
     void OnDisable()
     {
+        isOpen = false;
         StopProgressAnimation();
     }
 

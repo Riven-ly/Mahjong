@@ -56,6 +56,7 @@ public class TaskPanel : UIBase
     /// </summary>
     private void OnEnable()
     {
+        isOpen = true;
         if (TaskManager.Instance != null)
         {
             TaskManager.Instance.TasksChanged += RefreshTasks;
@@ -67,6 +68,7 @@ public class TaskPanel : UIBase
     /// </summary>
     private void OnDisable()
     {
+        isOpen = false;
         if (TaskManager.Instance != null)
         {
             TaskManager.Instance.TasksChanged -= RefreshTasks;

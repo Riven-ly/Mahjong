@@ -96,6 +96,7 @@ public sealed class GuidePop : UIBase
 
     void OnDisable()
     {
+        isOpen = false;
         guideSequence?.Kill(false);
         guideSequence = null;
     }
