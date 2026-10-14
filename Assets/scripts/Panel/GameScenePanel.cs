@@ -106,7 +106,7 @@ public class GameScenePanel : UIBase,IEventListener
         gameSceneItem_Hint.Refresh();
         gameSceneItem_Return.Refresh();
         RefreshTaskRedPoint();
-        TryOpenFirstGameGuide();
+        //TryOpenFirstGameGuide();
 
         OtherSdkManager.Instance.CustomEvent("level_start", "level_id", GameManager.Instance.playerInfo.level);
     }
@@ -165,7 +165,7 @@ public class GameScenePanel : UIBase,IEventListener
     /// <summary>
     /// 首次进入第一关时，打开指向首组可消除牌的手势引导。
     /// </summary>
-    private void TryOpenFirstGameGuide()
+    public void TryOpenFirstGameGuide()
     {
         const string FirstGameGuideCompletedKey = "FirstGameGuideCompleted";
         if (GameManager.Instance.playerInfo.level != 1 || PlayerPrefs.GetInt(FirstGameGuideCompletedKey, 0) != 0 ||
