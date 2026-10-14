@@ -58,6 +58,7 @@ public sealed class SpecialBonusPop : UIBase
         if (claimed)
             return;
 
+        TxGameBridge.PlaySfx();
         claimed = true;
         claimButton.interactable = false;
         claimedCallback = data.Claimed;

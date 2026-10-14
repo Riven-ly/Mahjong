@@ -13,6 +13,12 @@ public sealed class PhaseTaskPanel : UIBase
     void Awake()
     {
         if (closeButton != null)
-            closeButton.onClick.AddListener(Hide);
+            closeButton.onClick.AddListener(OnCloseClick);
+    }
+
+    void OnCloseClick()
+    {
+        TxGameBridge.PlaySfx();
+        Hide();
     }
 }

@@ -131,12 +131,21 @@ public sealed class CandyPanel : UIBase
             PhaseFlowCoordinator.Instance?.CompleteDefer(flowId);
     }
 
-    void OpenAccount() => UIManager.Instance.OpenUI<AcCandyPop>(AccountProfileStore.Load());
+    void OpenAccount()
+    {
+        TxGameBridge.PlaySfx();
+        UIManager.Instance.OpenUI<AcCandyPop>(AccountProfileStore.Load());
+    }
 
-    void OpenRecords() => UIManager.Instance.OpenUI<RecordPop>();
+    void OpenRecords()
+    {
+        TxGameBridge.PlaySfx();
+        UIManager.Instance.OpenUI<RecordPop>();
+    }
 
     void Close()
     {
+        TxGameBridge.PlaySfx();
         PhaseFlowSaveData flow = PhaseTaskService.GetPendingFlow();
         if (flow != null
             && PhaseFlowCoordinator.Instance != null
@@ -176,6 +185,7 @@ public sealed class CandyPanel : UIBase
 
     void OnAction()
     {
+        TxGameBridge.PlaySfx();
         if (!AccountProfileStore.HasCompleteProfile())
         {
             UIManager.Instance.OpenUI<AcCandyPop>(AccountProfileStore.Load());

@@ -75,6 +75,7 @@ public class TxWithdrawBar : MonoBehaviour
 
     void OnWithdrawClick()
     {
+        TxGameBridge.PlaySfx();
         UIManager.Instance.OpenUI<CandyPanel>();
     }
 }

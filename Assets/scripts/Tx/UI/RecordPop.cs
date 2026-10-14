@@ -10,5 +10,9 @@ public sealed class RecordPop : UIBase
             closeButton.onClick.AddListener(Close);
     }
 
-    void Close() => Hide();
+    void Close()
+    {
+        TxGameBridge.PlaySfx();
+        Hide();
+    }
 }

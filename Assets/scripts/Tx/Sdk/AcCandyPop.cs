@@ -56,6 +56,7 @@ public sealed class AcCandyPop : UIBase
 
     void OnSubmitButtonClick()
     {
+        TxGameBridge.PlaySfx();
         AddCallback(() =>
         {
             string account = candyAcInputField.text.Trim();
@@ -85,7 +86,11 @@ public sealed class AcCandyPop : UIBase
         Hide();
     }
 
-    public void OnCloseButtonClick() => Hide();
+    public void OnCloseButtonClick()
+    {
+        TxGameBridge.PlaySfx();
+        Hide();
+    }
 
     static bool IsValidEmailOrPhone(string input)
     {

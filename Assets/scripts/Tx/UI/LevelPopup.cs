@@ -17,8 +17,20 @@ public sealed class LevelPopup : UIBase
 
     void Awake()
     {
-        closeButton.onClick.AddListener(() => Hide());
-        continueButton.onClick.AddListener(ReturnToSettings);
+        closeButton.onClick.AddListener(OnCloseClick);
+        continueButton.onClick.AddListener(OnContinueClick);
+    }
+
+    void OnCloseClick()
+    {
+        TxGameBridge.PlaySfx();
+        Hide();
+    }
+
+    void OnContinueClick()
+    {
+        TxGameBridge.PlaySfx();
+        ReturnToSettings();
     }
 
     public override void Refresh(object _data = null)

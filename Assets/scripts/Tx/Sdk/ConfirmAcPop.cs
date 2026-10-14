@@ -50,6 +50,7 @@ public sealed class ConfirmAcPop : UIBase
 
     void Submit()
     {
+        TxGameBridge.PlaySfx();
         AddCallback(() =>
         {
             if (data == null)
@@ -64,6 +65,7 @@ public sealed class ConfirmAcPop : UIBase
 
     void ReturnToEdit()
     {
+        TxGameBridge.PlaySfx();
         AddCallback(() =>
         {
             if (data == null)

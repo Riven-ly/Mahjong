@@ -89,6 +89,7 @@ public sealed class InProgressPop : UIBase
 
     void Continue()
     {
+        TxGameBridge.PlaySfx();
         AddCallback(() =>
         {
             if (continued)

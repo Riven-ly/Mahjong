@@ -38,6 +38,7 @@ public sealed class ProcessCompletePop : UIBase
 
     void Continue()
     {
+        TxGameBridge.PlaySfx();
         AddCallback(() =>
         {
             if (continued)

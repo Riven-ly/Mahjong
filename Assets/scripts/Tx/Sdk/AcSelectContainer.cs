@@ -28,6 +28,9 @@ public sealed class AcSelectContainer : MonoBehaviour
 
     void OnToggleValueChanged(bool selected)
     {
+        if (selected)
+            TxGameBridge.PlaySfx();
+
         RefreshVisual(selected);
         if (selected)
             SdkCandyEvents.RaiseSelectedAcChanged(currentImage.sprite, currentAcType);
@@ -42,8 +45,12 @@ public sealed class AcSelectContainer : MonoBehaviour
 
     public void Select()
     {
-        currentToggle.isOn = true;
+        bool wasOn = currentToggle.isOn;
+        currentToggle.SetIsOnWithoutNotify(true);
         RefreshVisual(true);
+
+        if (!wasOn)
+            SdkCandyEvents.RaiseSelectedAcChanged(currentImage.sprite, currentAcType);
     }
 
     public void SyncVisual() => RefreshVisual(currentToggle.isOn);
