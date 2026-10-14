@@ -259,5 +259,7 @@ namespace MahjongGame.Model
         public const float LuckyRewardCooldownSeconds = 60f; // 距上次 Lucky 弹出的冷却秒数
         public const int LevelCatalogVersion = 1; // 当前支持的关卡目录版本
         public const string LevelCatalogResourcePath = "Mahjong/Levels"; // Resources关卡目录加载路径
+        public const float IdleHintWaitSeconds = 10f; // 闲置多久后触发提示
+        public const float IdleHintActiveSeconds = 2f; // 提示高亮持续秒数
     }
 }

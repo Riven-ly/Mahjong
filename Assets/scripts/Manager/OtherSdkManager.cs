@@ -1,4 +1,5 @@
 using AdjustSdk;
+using MahjongGame.View;
 using SolarEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,6 +52,8 @@ public class OtherSdkManager : MonoBehaviour
         SESDKRemoteConfig.Item item_inter_enable = remoteConfig.boolItem("inter_enable", true);
         // start_inter_sec：启动首次插屏延迟(秒)；游戏启动后，最少等待多少秒才允许弹出第一个插屏
         SESDKRemoteConfig.Item item_start_inter_sec = remoteConfig.intItem("start_inter_sec", 120);
+        SESDKRemoteConfig.Item item_idle_hint_wait = remoteConfig.intItem("idle_hint_wait", 10);
+        SESDKRemoteConfig.Item item_idle_hint_duration = remoteConfig.intItem("idle_hint_duration", 2);
         #endregion
 
         // 组装默认配置数组，当远程参数拉取失败/无网络时，自动使用下面兜底数值
@@ -61,7 +64,9 @@ public class OtherSdkManager : MonoBehaviour
                 item_inter_show_space,
                 item_auto_inter_space,
                 item_inter_enable,
-                item_start_inter_sec
+                item_start_inter_sec,
+                item_idle_hint_wait,
+                item_idle_hint_duration
         };
         // 向热力引擎RC参数下发模块注册兜底默认配置（重要：必须在 initSeSdk 之前调用）
         remoteConfig.SetRemoteDefaultConfig(defaultConfigArray);
@@ -152,6 +157,26 @@ public class OtherSdkManager : MonoBehaviour
                     {
                         AdManager.Instance.applovinMaxInterstitialOperator.insertTimer = startInterSec;
                     }
+                }
+            }
+
+            if (allConfig.TryGetValue("idle_hint_wait", out var idleHintWaitObj))
+            {
+                string result = idleHintWaitObj.ToString();
+                Debug.Log("远程参数 idle_hint_wait = " + result);
+                if (int.TryParse(result, out int idleHintWait) && idleHintWait > 0)
+                {
+                    MahjongGameplayView.RemoteIdleHintWaitSeconds = idleHintWait;
+                }
+            }
+
+            if (allConfig.TryGetValue("idle_hint_duration", out var idleHintDurationObj))
+            {
+                string result = idleHintDurationObj.ToString();
+                Debug.Log("远程参数 idle_hint_duration = " + result);
+                if (int.TryParse(result, out int idleHintDuration) && idleHintDuration > 0)
+                {
+                    MahjongGameplayView.RemoteIdleHintActiveSeconds = idleHintDuration;
                 }
             }
 
