@@ -12,6 +12,7 @@ public sealed class FirstGameGuideData
     public readonly RectTransform firstTargetRectTransform; // 第一个引导目标卡牌矩形变换
     public readonly int secondTargetCardId; // 第二个引导目标卡牌实例ID
     public readonly RectTransform secondTargetRectTransform; // 第二个引导目标卡牌矩形变换
+    public readonly string textKey; // 引导说明文案的本地化键
 
     /// <summary>
     /// 创建首关引导所需的两张目标牌数据。
@@ -21,13 +22,15 @@ public sealed class FirstGameGuideData
         int firstTargetCardId,
         RectTransform firstTargetRectTransform,
         int secondTargetCardId,
-        RectTransform secondTargetRectTransform)
+        RectTransform secondTargetRectTransform,
+        string textKey = "GuideMatchSymbols")
     {
         this.gameplayView = gameplayView;
         this.firstTargetCardId = firstTargetCardId;
         this.firstTargetRectTransform = firstTargetRectTransform;
         this.secondTargetCardId = secondTargetCardId;
         this.secondTargetRectTransform = secondTargetRectTransform;
+        this.textKey = textKey;
     }
 }
 
@@ -70,6 +73,7 @@ public class GuidePanel_firstGame : UIBase
         }
 
         isGuidingSecondCard = false;
+        str.text = LanguageManager.Instance.GetText(guideData.textKey);
         UpdateGuidePosition(guideData.firstTargetRectTransform);
     }
 
@@ -87,8 +91,6 @@ public class GuidePanel_firstGame : UIBase
         }
 
         guideData.gameplayView.SelectFirstGameGuideCard(guideData.secondTargetCardId);
-        PlayerPrefs.SetInt("FirstGameGuideCompleted", 1);
-        PlayerPrefs.Save();
         Hide();
     }
 

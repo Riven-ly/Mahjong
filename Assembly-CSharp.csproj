@@ -86,6 +86,7 @@
     <Compile Include="Assets\scripts\Tx\Sdk\TipMgr.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\SdkTaskProgress.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task1Slider.cs" />
+    <Compile Include="Assets\scripts\Mahjong\View\TutorialStageCatalogLoader.cs" />
     <Compile Include="Assets\scripts\Tx\UI\UiJellyClickAnimation.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\AcSelectContainer.cs" />
     <Compile Include="Assets\scripts\AB\ABResManager.cs" />

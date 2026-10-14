@@ -26,6 +26,42 @@ public class GameScenePanel : UIBase,IEventListener
 
     private readonly CanvasGroup[] healthCanvasGroups = new CanvasGroup[3]; // 三格生命的淡出控制组件
 
+    private const string FirstGameGuideCompletedKey = "FirstGameGuideCompleted"; // 首关新手引导完成标记
+    private const string FirstGameStageProgressKey = "FirstGameStageProgress"; // 首关新手引导小关卡进度
+    private const int FirstGameLevel = 1; // 首关的玩家等级
+
+    private int firstGameStageIndex; // 首关当前正在玩的小关卡序号，从 1 开始
+
+    private static readonly string[] FirstGameStageTextKeys =
+    {
+        "GuideMatchSymbols",
+        "GuideUncoverHidden",
+        "GuideUnlockSide"
+    };
+
+    /// <summary>
+    /// 判断当前是否处于首关的新手引导小关卡流程。
+    /// </summary>
+    private bool IsFirstGameTutorial =>
+        GameManager.Instance.playerInfo.level == FirstGameLevel && TutorialStageCatalogLoader.StageCount > 0;
+
+    /// <summary>
+    /// 从本地进度读取首关新手引导的当前小关卡序号。
+    /// </summary>
+    private static int LoadFirstGameStageIndex()
+    {
+        return Mathf.Clamp(PlayerPrefs.GetInt(FirstGameStageProgressKey, 1), 1, Mathf.Max(1, TutorialStageCatalogLoader.StageCount));
+    }
+
+    /// <summary>
+    /// 记录首关新手引导的当前小关卡序号。
+    /// </summary>
+    private static void SaveFirstGameStageIndex(int stageIndex)
+    {
+        PlayerPrefs.SetInt(FirstGameStageProgressKey, stageIndex);
+        PlayerPrefs.Save();
+    }
+
     /// <summary>
     /// 初始化安全区与生命显示引用。
     /// </summary>
@@ -99,16 +135,64 @@ public class GameScenePanel : UIBase,IEventListener
     {
         int playerLevel = GameManager.Instance.playerInfo.level;
         levelText.text = LanguageManager.Instance.GetText("Level") + $" {PhaseTaskService.GetLevelDisplayNumber()}";
-        gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel));
+
+        if (IsFirstGameTutorial)
+        {
+            StartFirstGameStage(LoadFirstGameStageIndex());
+        }
+        else
+        {
+            gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel));
+        }
+
         RefreshHealth(MahjongViewConfig.InitialHealth);
 
         gameSceneItem_Exchange.Refresh();
         gameSceneItem_Hint.Refresh();
         gameSceneItem_Return.Refresh();
         RefreshTaskRedPoint();
-        //TryOpenFirstGameGuide();
 
         OtherSdkManager.Instance.CustomEvent("level_start", "level_id", GameManager.Instance.playerInfo.level);
+    }
+
+    /// <summary>
+    /// 加载首关指定序号的新手引导小关卡。
+    /// 第 1 小关的手势引导由 LevelTaskTip 关闭后的回调触发，此处不重复调用；
+    /// 第 2、3 小关无前置 LevelTaskTip，直接打开引导。
+    /// </summary>
+    private void StartFirstGameStage(int stageIndex)
+    {
+        int clampedStage = Mathf.Clamp(stageIndex, 1, TutorialStageCatalogLoader.StageCount);
+        firstGameStageIndex = clampedStage;
+        SaveFirstGameStageIndex(clampedStage);
+        gameplayView.StartNewGame(TutorialStageCatalogLoader.CreateRuntimeStage(clampedStage));
+
+        if (clampedStage > 1)
+        {
+            TryOpenFirstGameGuide();
+        }
+    }
+
+    /// <summary>
+    /// 首关当前小关卡完成，推进至下一个小关卡或结束引导流程。
+    /// </summary>
+    private void OnFirstGameStageCleared()
+    {
+        if (!IsFirstGameTutorial)
+        {
+            return;
+        }
+
+        if (firstGameStageIndex >= TutorialStageCatalogLoader.StageCount)
+        {
+            firstGameStageIndex = 0;
+            PlayerPrefs.SetInt(FirstGameStageProgressKey, 1);
+            PlayerPrefs.Save();
+            UIManager.Instance.OpenUI<GameWinPanel>();
+            return;
+        }
+
+        StartFirstGameStage(firstGameStageIndex + 1);
     }
 
     /// <summary>
@@ -163,12 +247,11 @@ public class GameScenePanel : UIBase,IEventListener
     }
 
     /// <summary>
-    /// 首次进入第一关时，打开指向首组可消除牌的手势引导。
+    /// 打开当前小关卡指向首组可消除牌的手势引导；该小关引导已完成时跳过。
     /// </summary>
     public void TryOpenFirstGameGuide()
     {
-        const string FirstGameGuideCompletedKey = "FirstGameGuideCompleted";
-        if (GameManager.Instance.playerInfo.level != 1 || PlayerPrefs.GetInt(FirstGameGuideCompletedKey, 0) != 0 ||
+        if (HasShownFirstGameGuide(firstGameStageIndex) ||
             !gameplayView.TryShowFirstGameGuide(
                 out int firstTargetCardId,
                 out RectTransform firstTargetRectTransform,
@@ -178,12 +261,46 @@ public class GameScenePanel : UIBase,IEventListener
             return;
         }
 
+        MarkFirstGameGuideShown(firstGameStageIndex);
         UIManager.Instance.OpenUI<GuidePanel_firstGame>(new FirstGameGuideData(
             gameplayView,
             firstTargetCardId,
             firstTargetRectTransform,
             secondTargetCardId,
-            secondTargetRectTransform));
+            secondTargetRectTransform,
+            ResolveFirstGameStageTextKey(firstGameStageIndex)));
+    }
+
+    /// <summary>
+    /// 判断首关指定小关卡的手势引导是否已展示过。
+    /// </summary>
+    private static bool HasShownFirstGameGuide(int stageIndex)
+    {
+        if (stageIndex <= 1)
+        {
+            return PlayerPrefs.GetInt(FirstGameGuideCompletedKey, 0) != 0;
+        }
+
+        return PlayerPrefs.GetInt(FirstGameGuideCompletedKey + stageIndex, 0) != 0;
+    }
+
+    /// <summary>
+    /// 记录首关指定小关卡的手势引导已展示。
+    /// </summary>
+    private static void MarkFirstGameGuideShown(int stageIndex)
+    {
+        string key = stageIndex <= 1 ? FirstGameGuideCompletedKey : FirstGameGuideCompletedKey + stageIndex;
+        PlayerPrefs.SetInt(key, 1);
+        PlayerPrefs.Save();
+    }
+
+    /// <summary>
+    /// 获取首关指定小关卡对应的引导文案键。
+    /// </summary>
+    private static string ResolveFirstGameStageTextKey(int stageIndex)
+    {
+        int index = Mathf.Clamp(stageIndex - 1, 0, FirstGameStageTextKeys.Length - 1);
+        return FirstGameStageTextKeys[index];
     }
 
     /// <summary>
@@ -230,6 +347,12 @@ public class GameScenePanel : UIBase,IEventListener
                 DOTween.Sequence().AppendInterval(1f).AppendCallback(() =>
                 {
                     UIManager.Instance.HideUIMask();
+                    if (IsFirstGameTutorial && firstGameStageIndex < TutorialStageCatalogLoader.StageCount)
+                    {
+                        OnFirstGameStageCleared();
+                        return;
+                    }
+
                     UIManager.Instance.OpenUI<GameWinPanel>();
                 });
                 break;

@@ -748,7 +748,6 @@ namespace MahjongGame.View
 
             if (!CanShowLuckyReward())
             {
-                Debug.LogWarning($"[Lucky诊断] 弹不出 level={GameManager.Instance.playerInfo.level}/{MahjongConfig.LuckyRewardMinLevel} 冷却={Time.time - luckyLastShowTime:F1}s/{MahjongConfig.LuckyRewardCooldownSeconds} activeElim={activeEliminationCount} autoElim={autoEliminationRemainingGroupCount} mask={UIManager.Instance.uiMask.gameObject.activeSelf} uiOpen={UIManager.Instance.CheckIstheUIopen()}");
                 return;
             }
 

@@ -13,5 +13,8 @@ public static class IndonesianLanguageConfig
         {"ch", "Q2FzaCBPdXQ="},
         {"AddSceneItemDesc", "Tonton iklan untuk mendapatkan 3 alat. Ketuk alat saat Anda ingin menggunakannya."},
         {"WatchAdX3", "Tonton Iklan X3"},
+        {"GuideMatchSymbols", "Cocokkan simbol untuk membersihkan ubin!"},
+        {"GuideUncoverHidden", "Cocokkan untuk membuka ubin tersembunyi!"},
+        {"GuideUnlockSide", "Cocokkan ubin samping untuk membuka ubin lain!"},
     };
 }

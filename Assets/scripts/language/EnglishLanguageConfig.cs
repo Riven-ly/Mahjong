@@ -56,5 +56,9 @@ public static class EnglishLanguageConfig
         //AddSceneItemPanel
         {"AddSceneItemDesc", "Watch an ad to get 3 tools. Tap a tool when you want to use it."},
         {"WatchAdX3", "Watch Ad X3"},
+        //首关小关卡引导
+        {"GuideMatchSymbols", "Match symbols to clear tile!"},
+        {"GuideUncoverHidden", "Match to uncover hidden tile!"},
+        {"GuideUnlockSide", "Match the side tiles to unlock other tiles!"},
     };
 }
