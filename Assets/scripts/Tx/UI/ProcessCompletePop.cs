@@ -38,20 +38,27 @@ public sealed class ProcessCompletePop : UIBase
 
     void Continue()
     {
-        if (continued)
-            return;
+        AddCallback(() =>
+        {
+            if (continued)
+                return;
 
-        continued = true;
-        continueButton.interactable = false;
-        continuedCallback = data.Continued;
+            continued = true;
+            continueButton.interactable = false;
+            continuedCallback = data.Continued;
+        });
         Hide();
     }
 
     public override void Hide()
     {
-        Action callback = continuedCallback;
-        continuedCallback = null;
+        AddCallback(() =>
+        {
+            Action callback = continuedCallback;
+            continuedCallback = null;
+            callback?.Invoke();
+        });
+    
         base.Hide();
-        callback?.Invoke();
     }
 }

@@ -56,5 +56,6 @@ MonoBehaviour:
   - {fileID: 1008182925727937391, guid: 927f7ff06b154b58b8dcf9fd738081c5, type: 3}
   - {fileID: 1008182925727937391, guid: 5db14333a6b64f34a90d6a722c885746, type: 3}
   - {fileID: 1008182925727937391, guid: fb77b0596551438ba5837c56cd5f563a, type: 3}
+  - {fileID: 4521516656968783598, guid: 3f7c1a92b4e64d0f8a5c2e7b91d3f6a8, type: 3}
   txWithdrawBarPrefab: {fileID: 9000000000000000012, guid: 69cbed130a609624a87544abee63c557, type: 3}
   txTipsRootPrefab: {fileID: 7416951389955493351, guid: 21759ffb297e37a4da42e8ca0b606e09, type: 3}

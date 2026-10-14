@@ -141,10 +141,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateAppATTToDiamond(Image image)
+    public void UpdateAppATTToDiamond(Image image, bool isSetNativeSize = true)
     {
         image.sprite = specialDiamonds[appATTtype];
-        image.SetNativeSize();
+        if(isSetNativeSize)
+        {
+            image.SetNativeSize();
+        }
     }
     public void UpdateAppATTToDiamondDui(Image image)
     {
@@ -221,6 +224,18 @@ public class GameManager : MonoBehaviour
 
         // 满足以上条件则认为格式有效
         return true;
+    }
+
+    public void ShowEvaluationGame()
+    {
+        if(playerInfo.level == 30)
+        {
+            return;
+        }
+        if (playerInfo.level % 3 == 0)
+        {
+            TryEvaluationGame();
+        }
     }
 
     public void TryEvaluationGame()
@@ -457,6 +472,24 @@ public class GameManager : MonoBehaviour
         Debug.Log("Player :\n" + jsonStr);
         PlayerPrefs.SetString("PlayerInfo", jsonStr);
         PlayerPrefs.Save();
+    }
+
+    /// <summary>
+    /// 【调试】直接完成当前关卡。
+    /// </summary>
+    [ContextMenu("Debug/完成当前关卡")]
+    public void DebugCompleteLevel()
+    {
+        GameScenePanel gameScenePanel = UIManager.Instance == null
+            ? null
+            : UIManager.Instance.GetUI<GameScenePanel>();
+        if (gameScenePanel == null || gameScenePanel.gameplayView == null)
+        {
+            Debug.LogWarning("[Debug] 找不到 GameScenePanel 或其 gameplayView，无法完成关卡");
+            return;
+        }
+
+        gameScenePanel.gameplayView.DebugCompleteLevel();
     }
 }
 public static class AssetBundleRequestExtensions

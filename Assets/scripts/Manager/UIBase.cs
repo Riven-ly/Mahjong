@@ -53,6 +53,13 @@ public class UIBase : MonoBehaviour
         callback = _callback;
         Refresh(data);
     }
+    public void AddCallback(Action _callback)
+    {
+        if (_callback == null)
+            return;
+
+        callback += _callback;
+    }
     public virtual void Refresh(object data = null)
     {
         

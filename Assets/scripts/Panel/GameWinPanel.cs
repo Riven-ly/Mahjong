@@ -74,32 +74,7 @@ public class GameWinPanel : UIBase
     private void AdsCallback()
     {
         OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_two");
-        PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
-        UIManager.Instance.OpenUIMask();
-        float awaitTime = 0.1f;
-        foreach (var item in itemBase)
-        {
-            if (item.itemType == ItemType.Gold || item.itemType == ItemType.GoldDui)
-            {
-                awaitTime = 2f;
-                playerInfoUI.GoldCanvasTop();
-            }
-            else if (item.itemType == ItemType.Diamond || item.itemType == ItemType.DiamondDui)
-            {
-                awaitTime = 2f;
-                playerInfoUI.DiamondCanvasTop();
-            }
-            item.GetItemReward();
-            item.PlayItemAnim();
-        }
-        GameManager.Instance.playerInfo.AddGoldExperience(10);
-        //动画
-        DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
-        {
-            playerInfoUI.GoldCanvasRecover();
-            playerInfoUI.DiamondCanvasRecover();
-            OnNextLevelButtonClick();
-        });
+        ShowRewardTip(ad_V, 10);
     }
 
     /// <summary>
@@ -108,33 +83,23 @@ public class GameWinPanel : UIBase
     private void CollectClick()
     {
         OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_one");
-        PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
-        UIManager.Instance.OpenUIMask();
-        float awaitTime = 0.1f;
-        foreach (var item in itemBase)
+        ShowRewardTip(c_V, 1);
+    }
+
+    private void ShowRewardTip(int amount, int experience)
+    {
+        AddCallback(() =>
         {
-            if (item.itemType == ItemType.Gold || item.itemType == ItemType.GoldDui)
-            {
-                awaitTime = 2f;
-                playerInfoUI.GoldCanvasTop();
-            }
-            else if (item.itemType == ItemType.Diamond || item.itemType == ItemType.DiamondDui)
-            {
-                awaitTime = 2f;
-                playerInfoUI.DiamondCanvasTop();
-            }
-            item.count = c_V;
-            item.GetItemReward();
-            item.PlayItemAnim();
-        }
-        GameManager.Instance.playerInfo.AddGoldExperience(1);
-        //动画
-        DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
-        {
-            playerInfoUI.GoldCanvasRecover();
-            playerInfoUI.DiamondCanvasRecover();
-            OnNextLevelButtonClick();
+            UIManager.Instance.OpenUI<RewardTip>(new RewardTipData(
+                      amount / (float)PlayerInfo.CurrencyUnitScale,
+                      () =>
+                      {
+                          GameManager.Instance.playerInfo.AddGoldExperience(experience);
+                          OnNextLevelButtonClick();
+                      }));
         });
+
+        Hide();
     }
     public override void Hide()
     {
@@ -148,12 +113,25 @@ public class GameWinPanel : UIBase
     {
         GameManager.Instance.playerInfo.level++;
         PhaseTaskService.NotifyProgressRefresh();
-        callback = () =>
-        {
-            GameManager.Instance.SavePlayerInfo();
-            UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
-        };
-        Hide();
+        GameManager.Instance.SavePlayerInfo();
+        UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
+
+        LevelTaskTipData tipData = new LevelTaskTipData(
+            PhaseTaskService.GetLevelDisplayNumber(),
+            PhaseTaskService.GetCurrentTaskText(),
+            EnterNextLevel,
+            false);
+
+        if (tipData.CanOpen)
+            UIManager.Instance.OpenUI<LevelTaskTip>(tipData);
+        else
+            EnterNextLevel();
+    }
+
+    private void EnterNextLevel()
+    {
+        TxGameHooks.TryStartPendingLevelFlow();
+        GameManager.Instance.ShowEvaluationGame();
     }
 
     private void ResetPanel()

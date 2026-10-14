@@ -4,8 +4,14 @@ public sealed class TxGameHooks : MonoBehaviour, IEventListener
 {
     static TxGameHooks instance;
 
+    public static TxGameHooks Instance => instance;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void ResetInstance() => instance = null;
+    static void ResetInstance()
+    {
+        instance = null;
+        PhaseTaskService.ResetPendingLevelFlow();
+    }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Create()
@@ -76,8 +82,21 @@ public sealed class TxGameHooks : MonoBehaviour, IEventListener
     {
         int completedLevel = TxGameBridge.CurrentLevel;
         PhaseCompleteResult result = PhaseTaskService.NotifyLevelCompleted(completedLevel);
+
+        if (result.Completed && PhaseFlowCoordinator.Instance != null)
+            PhaseFlowCoordinator.Instance.GateAutoStart(result.FlowId);
+    }
+
+    public static void TryStartPendingLevelFlow()
+    {
+        if (PhaseTaskService.IsAllPhaseCompleted)
+            return;
+
         if (PhaseFlowCoordinator.Instance != null)
-            PhaseFlowCoordinator.Instance.StartCoroutine(PhaseFlowCoordinator.Instance.RunLevelFlow(result));
+        {
+            PhaseFlowCoordinator.Instance.ReleaseAutoStartGate();
+            PhaseFlowCoordinator.Instance.TryResume();
+        }
     }
 
     void NotifyGold()

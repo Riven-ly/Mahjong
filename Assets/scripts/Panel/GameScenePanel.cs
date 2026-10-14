@@ -96,7 +96,7 @@ public class GameScenePanel : UIBase,IEventListener
     public override void Refresh(object data = null)
     {
         int playerLevel = GameManager.Instance.playerInfo.level;
-        levelText.text = LanguageManager.Instance.GetText("Level") + $" {playerLevel}";
+        levelText.text = LanguageManager.Instance.GetText("Level") + $" {PhaseTaskService.GetLevelDisplayNumber()}";
         gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel));
         RefreshHealth(MahjongViewConfig.InitialHealth);
 
@@ -107,11 +107,6 @@ public class GameScenePanel : UIBase,IEventListener
         TryOpenFirstGameGuide();
 
         OtherSdkManager.Instance.CustomEvent("level_start", "level_id", GameManager.Instance.playerInfo.level);
-
-        if (playerLevel % 3 == 0)
-        {
-            GameManager.Instance.TryEvaluationGame();
-        }
     }
 
     /// <summary>

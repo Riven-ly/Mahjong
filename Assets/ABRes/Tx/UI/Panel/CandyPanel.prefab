@@ -3898,7 +3898,7 @@ MonoBehaviour:
   accountText: {fileID: 3935282031709198419}
   nameText: {fileID: 2834329731012127164}
   accountIcon: {fileID: 8866529544083085061}
-  channel0Icon: {fileID: 21300000, guid: eef8fc2da0bf4f96a865cac0139d2bd9, type: 3}
+  channel0Icon: {fileID: 21300000, guid: 0f789791200586d4c98cf7b43bfc184f, type: 3}
   channel1Icon: {fileID: 21300000, guid: 111e697591244177b727de3b8c859098, type: 3}
   channel2Icon: {fileID: 21300000, guid: cff148022e04486c830ca857166ede88, type: 3}
   channel3Icon: {fileID: 21300000, guid: 53219fffc82a4e8e9352851f18bb7e5e, type: 3}
@@ -7697,7 +7697,7 @@ MonoBehaviour:
   maxAmount: 6999
   channel3Icon: {fileID: 21300000, guid: 53219fffc82a4e8e9352851f18bb7e5e, type: 3}
   channel2Icon: {fileID: 21300000, guid: cff148022e04486c830ca857166ede88, type: 3}
-  channel0Icon: {fileID: 21300000, guid: eef8fc2da0bf4f96a865cac0139d2bd9, type: 3}
+  channel0Icon: {fileID: 21300000, guid: 0f789791200586d4c98cf7b43bfc184f, type: 3}
   channel1Icon: {fileID: 21300000, guid: 111e697591244177b727de3b8c859098, type: 3}
 --- !u!114 &5576254022529251197
 MonoBehaviour:

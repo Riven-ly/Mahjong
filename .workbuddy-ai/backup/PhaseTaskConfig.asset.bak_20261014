@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95519aee783424a4588b96b1abee404f, type: 3}
+  m_Name: PhaseTaskConfig
+  m_EditorClassIdentifier: 
+  schemaVersion: 1
+  phases: []
+  levelPhase:
+    actualTargetLevel: 29
+    displayTargetLevel: 8
+  activeMinutePhase:
+    slotDurationSeconds: 60
+    slots:
+    - slotIndex: 1
+      requiredSuccessfulEscapes: 20
+    - slotIndex: 2
+      requiredSuccessfulEscapes: 21
+    - slotIndex: 3
+      requiredSuccessfulEscapes: 22
+    - slotIndex: 4
+      requiredSuccessfulEscapes: 23
+    - slotIndex: 5
+      requiredSuccessfulEscapes: 25
+    - slotIndex: 6
+      requiredSuccessfulEscapes: 27
+    - slotIndex: 7
+      requiredSuccessfulEscapes: 29
+    - slotIndex: 8
+      requiredSuccessfulEscapes: 32
+    - slotIndex: 9
+      requiredSuccessfulEscapes: 35
+    - slotIndex: 10
+      requiredSuccessfulEscapes: 38
+    - slotIndex: 11
+      requiredSuccessfulEscapes: 42
+    - slotIndex: 12
+      requiredSuccessfulEscapes: 46
+    - slotIndex: 13
+      requiredSuccessfulEscapes: 50
+    - slotIndex: 14
+      requiredSuccessfulEscapes: 55
+    - slotIndex: 15
+      requiredSuccessfulEscapes: 60
+    - slotIndex: 16
+      requiredSuccessfulEscapes: 65
+    - slotIndex: 17
+      requiredSuccessfulEscapes: 71
+    - slotIndex: 18
+      requiredSuccessfulEscapes: 77
+    - slotIndex: 19
+      requiredSuccessfulEscapes: 83
+    carryEscapesToNextSlot: 0
+  coinPhase:
+    targetCoin: 2000
+    enableSpecialBonus: 1
+    bonusAmountMin: 0
+    bonusAmountMax: 0
+    bonusTargetMode: 2
+  phaseReward:
+    phase1Reward: 27.85
+    phase2Target: 1600
+    phase3Target: 1000000
+  activeDayPhase:
+    requiredActiveDays: 7
+    winsRequiredPerDay: 5
+    requireConsecutiveDays: 0
+  playerLevelPhase:
+    targetPlayerLevel: 30
+    levelRequirements:
+    - level: 1
+      requiredCompletedLevels: 5
+      queueAhead: 2493
+    - level: 2
+      requiredCompletedLevels: 10
+      queueAhead: 2425
+    - level: 3
+      requiredCompletedLevels: 10
+      queueAhead: 2384
+    - level: 4
+      requiredCompletedLevels: 20
+      queueAhead: 2340
+    - level: 5
+      requiredCompletedLevels: 30
+      queueAhead: 2292
+    - level: 6
+      requiredCompletedLevels: 30
+      queueAhead: 2240
+    - level: 7
+      requiredCompletedLevels: 30
+      queueAhead: 2185
+    - level: 8
+      requiredCompletedLevels: 30
+      queueAhead: 2127
+    - level: 9
+      requiredCompletedLevels: 30
+      queueAhead: 2065
+    - level: 10
+      requiredCompletedLevels: 20
+      queueAhead: 1999
+    - level: 11
+      requiredCompletedLevels: 10
+      queueAhead: 1930
+    - level: 12
+      requiredCompletedLevels: 10
+      queueAhead: 1858
+    - level: 13
+      requiredCompletedLevels: 10
+      queueAhead: 1782
+    - level: 14
+      requiredCompletedLevels: 10
+      queueAhead: 1702
+    - level: 15
+      requiredCompletedLevels: 10
+      queueAhead: 1619
+    - level: 16
+      requiredCompletedLevels: 10
+      queueAhead: 1533
+    - level: 17
+      requiredCompletedLevels: 10
+      queueAhead: 1443
+    - level: 18
+      requiredCompletedLevels: 10
+      queueAhead: 1349
+    - level: 19
+      requiredCompletedLevels: 10
+      queueAhead: 1252
+    - level: 20
+      requiredCompletedLevels: 10
+      queueAhead: 1152
+    - level: 21
+      requiredCompletedLevels: 10
+      queueAhead: 1048
+    - level: 22
+      requiredCompletedLevels: 10
+      queueAhead: 940
+    - level: 23
+      requiredCompletedLevels: 10
+      queueAhead: 829
+    - level: 24
+      requiredCompletedLevels: 20
+      queueAhead: 715
+    - level: 25
+      requiredCompletedLevels: 30
+      queueAhead: 614
+    - level: 26
+      requiredCompletedLevels: 50
+      queueAhead: 523
+    - level: 27
+      requiredCompletedLevels: 100
+      queueAhead: 412
+    - level: 28
+      requiredCompletedLevels: 200
+      queueAhead: 308
+    - level: 29
+      requiredCompletedLevels: 2147483647
+      queueAhead: 102
+    - level: 30
+      requiredCompletedLevels: 0
+      queueAhead: 0

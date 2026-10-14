@@ -143,6 +143,48 @@ namespace MahjongGame.View
         }
 
         /// <summary>
+        /// 【调试】直接完成当前关卡：清空剩余卡牌并触发胜利结算。
+        /// </summary>
+        public void DebugCompleteLevel()
+        {
+            if (gameLogic == null || gameLogic.Model == null || gameLogic.Model.State != MahjongGameState.Playing)
+            {
+                Debug.LogWarning("[Debug] 当前不在进行中的牌局，无法完成关卡");
+                return;
+            }
+
+            List<int> remainingCardIds = new List<int>();
+            for (int i = 0; i < gameLogic.Model.Cards.Count; i++)
+            {
+                MahjongCardModel card = gameLogic.Model.Cards[i];
+                if (card.State == MahjongCardState.OnBoard)
+                {
+                    remainingCardIds.Add(card.InstanceId);
+                }
+            }
+
+            if (remainingCardIds.Count == 0)
+            {
+                return;
+            }
+
+            StopHint();
+            DOTween.Kill(this);
+            activeEliminationCount = 0;
+            selectedCardId = 0;
+            autoEliminationRemainingGroupCount = 0;
+
+            for (int i = 0; i < remainingCardIds.Count / MahjongConfig.MatchCount; i++)
+            {
+                PhaseTaskService.NotifyArrowEscaped();
+            }
+
+            MahjongGameState gameState = gameLogic.CompleteElimination(remainingCardIds);
+            ClearCellViews();
+            TriggerGameResultEvent(gameState);
+        }
+
+        /// <summary>
         /// 根据当前逻辑数据构建整個牌面视图。调用前必须已开始新游戏。
         /// </summary>
         private void BuildBoardViews()
@@ -585,6 +627,7 @@ namespace MahjongGame.View
         /// </summary>
         private void CompleteEliminationAnimation(MahjongOperationResult result)
         {
+            PhaseTaskService.NotifyArrowEscaped();
             MahjongGameState gameState = gameLogic.CompleteElimination(result.EliminatedCardIds);
             for (int i = 0; i < result.EliminatedCardIds.Count; i++)
             {

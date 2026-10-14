@@ -161,7 +161,7 @@ MonoBehaviour:
       requiredCompletedLevels: 200
       queueAhead: 308
     - level: 29
-      requiredCompletedLevels: 2147483647
+      requiredCompletedLevels: 99999
       queueAhead: 102
     - level: 30
       requiredCompletedLevels: 0

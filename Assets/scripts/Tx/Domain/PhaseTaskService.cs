@@ -52,6 +52,8 @@ public static class PhaseTaskService
         return saveData?.pendingFlow;
     }
 
+    public static void ResetPendingLevelFlow() { }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetRuntimeState()
     {
@@ -150,6 +152,16 @@ public static class PhaseTaskService
         if (target <= 0)
             return 1;
         return Mathf.Clamp(GetCurrentLevel(), 1, target);
+    }
+
+    public static int GetLevelDisplayNumber()
+    {
+        Initialize();
+        int stage = Mathf.Max(1, GetCurrentLevel());
+        //if (CurrentPhaseId == PhaseId.Level8)
+        if (stage <= 29)
+            return PhaseOneHudCalculator.Get(stage, phaseOneHudConfig).DisplayLevel;
+        return stage - 21;
     }
 
     public static void NotifyProgressRefresh()

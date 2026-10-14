@@ -76,22 +76,28 @@ public sealed class InProgressPop : UIBase
 
     public override void Hide()
     {
-        sequence?.Kill(false);
-        sequence = null;
-        Action callback = continuedCallback;
-        continuedCallback = null;
+        AddCallback(() =>
+        {
+            sequence?.Kill(false);
+            sequence = null;
+            Action callback = continuedCallback;
+            continuedCallback = null;
+            callback?.Invoke();
+        });
         base.Hide();
-        callback?.Invoke();
     }
 
     void Continue()
     {
-        if (continued)
-            return;
+        AddCallback(() =>
+        {
+            if (continued)
+                return;
 
-        continued = true;
-        continueButton.interactable = false;
-        continuedCallback = data.Continued;
+            continued = true;
+            continueButton.interactable = false;
+            continuedCallback = data.Continued;
+        });
         Hide();
     }
 

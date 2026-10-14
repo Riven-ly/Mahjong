@@ -8,6 +8,9 @@ public sealed class PhaseFlowCoordinator : MonoBehaviour
     bool running;
     string closingFlowId;
     string deferredFlowId;
+    string candyPanelFlowId;
+    string gatedFlowId;
+    bool hasGatedFlow;
 
     public bool IsRunning => running;
 
@@ -16,7 +19,7 @@ public sealed class PhaseFlowCoordinator : MonoBehaviour
     void Update()
     {
         PhaseFlowSaveData flow = PhaseTaskService.GetPendingFlow();
-        if (!running && flow != null && !IsResumeBlocked(flow) && CanStartFromGameplay())
+        if (!running && flow != null && !IsResumeBlocked(flow) && !IsAutoStartGated(flow) && CanStartFromGameplay())
             TryResume();
     }
 
@@ -31,6 +34,7 @@ public sealed class PhaseFlowCoordinator : MonoBehaviour
         if (!result.Completed)
             yield break;
 
+        ReleaseAutoStartGate();
         TryResume();
         while (ShouldWaitLevelFlow(PhaseTaskService.GetPendingFlow()))
             yield return null;
@@ -56,7 +60,11 @@ public sealed class PhaseFlowCoordinator : MonoBehaviour
         if ((flow.source == PhaseFlowSource.LevelComplete || ParsePhase(flow.completedPhaseId) == PhaseId.Level8)
             && (flow.step == PhaseFlowStep.Pending || flow.step == PhaseFlowStep.Restore))
         {
-            UIManager.Instance.OpenUI<CandyPanel>();
+            if (candyPanelFlowId != flow.flowId)
+            {
+                candyPanelFlowId = flow.flowId;
+                UIManager.Instance.OpenUI<CandyPanel>();
+            }
             return;
         }
 
@@ -99,9 +107,28 @@ public sealed class PhaseFlowCoordinator : MonoBehaviour
         PhaseFlowSaveData flow = PhaseTaskService.GetPendingFlow();
         if (flow != null)
             ClearDefer(flow.flowId);
+        ReleaseAutoStartGate();
         UIManager.Instance.HideUI<CandyPanel>();
         RunFlow();
     }
+
+    public void GateAutoStart(string flowId)
+    {
+        if (string.IsNullOrEmpty(flowId))
+            return;
+
+        hasGatedFlow = true;
+        gatedFlowId = flowId;
+    }
+
+    public void ReleaseAutoStartGate()
+    {
+        hasGatedFlow = false;
+        gatedFlowId = string.Empty;
+    }
+
+    bool IsAutoStartGated(PhaseFlowSaveData flow) =>
+        hasGatedFlow && flow != null && flow.flowId == gatedFlowId;
 
     bool IsResumeBlocked(PhaseFlowSaveData flow) =>
         flow != null && (flow.flowId == closingFlowId || flow.flowId == deferredFlowId);
@@ -239,7 +266,7 @@ public sealed class PhaseFlowCoordinator : MonoBehaviour
             return;
         }
 
-        UIManager.Instance.OpenUI<RewardTipPanel>(new RewardTipPanelData(
+        UIManager.Instance.OpenUI<RewardTip>(new RewardTipData(
             flow.grantedReward,
             () => FinishFlow(flow.flowId)));
     }

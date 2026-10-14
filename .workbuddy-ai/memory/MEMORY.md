@@ -68,6 +68,17 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 - **嵌套 prefab 的 stripped 块**：`m_CorrespondingSourceObject.fileID` 必须精确等于**目标工程导入后**该对象的真实 fileID
   （不是源工程的 fileID）。用错 → Unity 回退成 `long.MaxValue` 占位 → `Duplicate identifier 9223372036854775807`。
 - 写回文件用 LF（`newline=chr(10)`）。
+  **注意：参考工程 `D:/UnityTest/majiangtext/Assets/**` 的 .prefab 是 CRLF**，
+  用 Python 按行匹配字段块前必须先 `text.replace("\r\n", "\n")` 归一化，否则匹配恒失败。
+- **跨工程移植 UI 弹窗脚本的体系适配**：参考工程 `ViewBase`(→`PopupBase`) 有整套 DOTween 弹窗框架
+  （序列化字段 `animationDuration/closeAnimationDuration/animationType/animationTarget/slidePadding/background`），
+  本项目 `UIBase` 只有 `panelAnim`(Animation)。移植时：
+  ① prefab 脚本块把这 6 个字段换成本项目 `uIPanelLayer/isOpen/panelAnim`；
+  ② 面板滑入/背景淡入改到 `Refresh()` 里自播 DOTween Sequence；
+  ③ 关闭用 `UIManager.Instance.HideUI<T>()`（`UIBase.Hide()` 在 `panelAnim==null` 时立即失活 + 触发 `callback`）；
+  ④ **绝不在子类定义 `OnEnable/OnDisable`** —— `UIBase` 里这俩是 private，子类一写就"隐藏"基类的，`isOpen` 会坏；清理放 `Hide()` override。
+- **手写新建资源（.cs / .prefab / .png）的 .meta 时**：自己生成 32 位 hex guid 写进 meta，Unity 会沿用；
+  但 `asset_refresh` 后必须**回读 meta 确认 guid 未被改写**，并 grep `Editor.log` 确认按该 guid 导入、无 missing script。
 - **直接改 prefab 磁盘 YAML 是否会被 Unity 回滚，取决于该 prefab 当时是否被编辑器加载**：
   未被加载的（只存在于 `Resources/`、`ABRes/`，编辑器没打开）→ 改盘 + `asset_refresh` **不会被回滚**（2026-10-13 实测 `SettingPanel.prefab`）；
   已被加载/打开的（Prefab Stage、或在打开的场景里）→ 会被内存版本覆盖。
@@ -90,6 +101,36 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 - `Assets/ABRes/Tx/UI/Panel/TxWithdrawBar.prefab`（用户 16:30 改过，包了一层 `GameObject` + 改名 `tttt`）
 - `Assets/ABRes/Tx/UI/Panel/TxHudSliders.prefab`（用户 17:13 重构过，272KB→120KB）
 - 用户说「我自己搞定」时，**只改脚本，不碰 prefab**。
+
+## PhaseTask（五阶段任务）模块 —— 两个参考工程，别搞混
+
+- **`D:/UnityTest/majiangtext`** ← Tx 提现弹窗（Sdk/Prefabs）的来源。
+- **`D:/Backup/Downloads/Packages/Assets`** ← **PhaseTask 五阶段任务模块的来源**
+  （EscapePuzzle 3D 箭头玩法；模块在 `Demo/Script/GamePhaseTask/**`）。
+  排查 Task1~5 / TxHudSliders 的一切行为，**以此工程为准**。
+
+### 关键事实（2026-10-14 实测）
+
+- **`Tick` 由 `PhaseTaskRuntime.Update` 无条件驱动；`SetGameplayActive` 是空实现** ——
+  参考工程同样如此（`:361`），**是原始设计，不是缺陷，别去"修"它**。
+  → 阶段为 `ActiveMinutes20` 时，游戏开着就在累计时长（后台也计时）。
+- **过一档 = `活跃满60秒` 且 `successfulEscapes >= 档位目标`**（`TryCompleteMinuteSlot`），是「与」关系。
+- **`NotifyArrowEscaped()` 的真实调用点：参考工程 `Scripts/Puzzle/PuzzleController.cs:292`**
+  （`IEnumerator Escape()` 协程尾，每逃出 1 个箭头 +1）。
+  **本项目对应挂载点 = `MahjongGameplayView.CompleteEliminationAnimation()` 首行**
+  （`Assets/scripts/Mahjong/View/MahjongGameplayView.cs`，每对牌消除的统一出口），
+  粒度 = **每消除一对牌计 1 次**。**2026-10-14 已补上**（此前完全缺失 → Task2 恒卡 1/20）。
+- Task3 金币源：参考用 `CoinAmount.Count`（`Scripts/Puzzle/CoinAmount.cs`），
+  本项目用 `TxGameBridge.GoldAmount` —— **行为等价，不要搬 CoinAmount**。
+- Task5 / 阶段1 等级：参考用 `StageLoader.CurrentStage`（`Scripts/Puzzle/StageLoader.cs:8`，= 当前关卡号），
+  本项目用 `TxGameBridge.CurrentLevel`（=`playerInfo.level`）—— **等价**。
+  `playerLevelProgress.level`（阶段任务自己的等级轴，由 `totalCompletedLevels` 推）与
+  `playerInfo.level`（主玩法关卡号）**本就是两个量，不一致是正常的，不是 bug**。
+
+### 遗留（未动）
+- `PhaseTaskSaveData.cAmount` 是**死字段**（无任何读写点），保留不用。
+- 判据备忘：`Editor.log` 中段的 `ABResManager.cs` CS0246（`TxWithdrawBar`/`TipMgr`）是**陈旧记录**，
+  判断是否有新错误要看「REST `debug_get_errors` 返回」+「日志新增段的 `error CS` 计数」。
 
 ## 参考工程 `D:/UnityTest/majiangtext`（Tx 模块的源工程）
 

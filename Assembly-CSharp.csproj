@@ -75,6 +75,7 @@
     <Compile Include="Assets\scripts\item\ItemBase.cs" />
     <Compile Include="Assets\scripts\Manager\OtherSdkManager.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\SdkNoticeDisplay.cs" />
+    <Compile Include="Assets\scripts\Tx\Domain\RewardTipData.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\GuidePop.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralRewardsPanel.cs" />
     <Compile Include="Assets\scripts\Tx\UI\PhaseLevelNodeView.cs" />
@@ -134,13 +135,12 @@
     <Compile Include="Assets\scripts\Tx\Sdk\AcType.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardColorUtility.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task2Slider.cs" />
-    <Compile Include="Assets\scripts\Tx\TxSaveKeys.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\SdkNoticeItem.cs" />
+    <Compile Include="Assets\scripts\Tx\TxSaveKeys.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PlayAmountService.cs" />
     <Compile Include="Assets\scripts\Task\TaskItem.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PhaseTaskRuntime.cs" />
     <Compile Include="Assets\scripts\Effect\GoldFlyControl.cs" />
-    <Compile Include="Assets\scripts\Tx\Domain\RewardTipPanelData.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongOperationResult.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Return.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PlayerLevelCalculator.cs" />
@@ -156,8 +156,8 @@
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelValidator.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralTipsPanel.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task4Slider.cs" />
-    <Compile Include="Assets\scripts\Tx\UI\PhaseTaskItem.cs" />
     <Compile Include="Assets\scripts\Tx\UI\LevelPopup.cs" />
+    <Compile Include="Assets\scripts\Tx\UI\PhaseTaskItem.cs" />
     <Compile Include="Assets\scripts\Tx\UI\CandyPanel.cs" />
     <Compile Include="Assets\scripts\Tx\Config\PhaseTaskTextSO.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongGameplayView.cs" />
@@ -167,9 +167,9 @@
     <Compile Include="Assets\scripts\language\EnglishLanguageConfig.cs" />
     <Compile Include="Assets\scripts\Mahjong\Model\MahjongModels.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongBoardRules.cs" />
+    <Compile Include="Assets\scripts\Tx\UI\LevelTaskTip.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelRandomizer.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PhaseFlowCoordinator.cs" />
-    <Compile Include="Assets\scripts\Tx\UI\RewardTipPanel.cs" />
     <Compile Include="Assets\scripts\Panel\GuidePanel_firstGame.cs" />
     <Compile Include="Assets\scripts\EventSystem\EventManager.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseFlowData.cs" />
@@ -177,7 +177,9 @@
     <Compile Include="Assets\scripts\Tx\UI\RecordPop.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PhaseTaskEvents.cs" />
     <Compile Include="Assets\scripts\Panel\GameLoadingPanel.cs" />
+    <Compile Include="Assets\scripts\Tx\UI\LevelTaskTipData.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseTaskService.cs" />
+    <Compile Include="Assets\scripts\Tx\UI\RewardTip.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task5Slider.cs" />
   </ItemGroup>
   <ItemGroup>

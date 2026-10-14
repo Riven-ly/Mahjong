@@ -56,28 +56,33 @@ public sealed class AcCandyPop : UIBase
 
     void OnSubmitButtonClick()
     {
-        string account = candyAcInputField.text.Trim();
-        string name = nameInputField.text.Trim();
-        if (string.IsNullOrEmpty(account))
+        AddCallback(() =>
         {
-            ShowErrorPop("Please enter your account");
-            return;
-        }
+            string account = candyAcInputField.text.Trim();
+            string name = nameInputField.text.Trim();
+            if (string.IsNullOrEmpty(account))
+            {
+                ShowErrorPop("Please enter your account");
+                return;
+            }
 
-        if (!IsValidEmailOrPhone(account))
-        {
-            ShowErrorPop("Invalid email or phone number");
-            return;
-        }
+            if (!IsValidEmailOrPhone(account))
+            {
+                ShowErrorPop("Invalid email or phone number");
+                return;
+            }
 
-        if (string.IsNullOrEmpty(name))
-        {
-            ShowErrorPop("Please enter your name");
-            return;
-        }
+            if (string.IsNullOrEmpty(name))
+            {
+                ShowErrorPop("Please enter your name");
+                return;
+            }
+
+
+            UIManager.Instance.OpenUI<ConfirmAcPop>(new AccountProfileData(account, name, selectedAcType));
+        });
 
         Hide();
-        UIManager.Instance.OpenUI<ConfirmAcPop>(new AccountProfileData(account, name, selectedAcType));
     }
 
     public void OnCloseButtonClick() => Hide();

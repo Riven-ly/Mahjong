@@ -128,8 +128,20 @@ public class GameLoadingPanel : UIBase
                 ABResManager.Instance.Init();
             }
             yield return new WaitForSeconds(0.4f);
+            AddCallback(() =>
+            {
+                ShowGuideIfNeeded();
+            });
             Hide();
         }
+    }
+
+    void ShowGuideIfNeeded()
+    {
+        if (GuideIntro.Shown)
+            return;
+
+        UIManager.Instance.OpenUI<GuidePop>(new GuidePopData(GuideIntro.MarkShown));
     }
 
     public override void Refresh(object data = null)

@@ -79,15 +79,19 @@ public sealed class GuidePop : UIBase
 
     public override void Hide()
     {
-        guideSequence?.Kill(false);
-        guideSequence = null;
-        ResetGuide();
-        base.Hide();
-        if (completed)
-            return;
+        AddCallback(() =>
+        {
+            guideSequence?.Kill(false);
+            guideSequence = null;
+            ResetGuide();
+            if (completed)
+                return;
 
-        completed = true;
-        data?.Completed?.Invoke();
+            completed = true;
+            data?.Completed?.Invoke();
+        });
+        base.Hide();
+
     }
 
     void OnDisable()

@@ -1353,7 +1353,6 @@ MonoBehaviour:
   ItemPrefab: {fileID: 8134801657290373883, guid: 2c392ef3f260a934eb919c20bf82c042, type: 3}
   mahjongCellPrefab: {fileID: 5210653118229894191, guid: a4947f4ca6f5fd84e9ba8f1905c69b76, type: 3}
   playerInfo:
-    gold: 0
     level: 1
     goldLevel: 0
     goldExperience: 0

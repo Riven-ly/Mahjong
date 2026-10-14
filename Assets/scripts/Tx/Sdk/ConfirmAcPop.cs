@@ -50,20 +50,28 @@ public sealed class ConfirmAcPop : UIBase
 
     void Submit()
     {
-        if (data == null)
-            return;
+        AddCallback(() =>
+        {
+            if (data == null)
+                return;
 
-        AccountProfileStore.Save(data);
-        SdkCandyEvents.RaiseAccountProfileUpdated(data);
+            AccountProfileStore.Save(data);
+            SdkCandyEvents.RaiseAccountProfileUpdated(data);
+        });
+
         Hide();
     }
 
     void ReturnToEdit()
     {
-        if (data == null)
-            return;
+        AddCallback(() =>
+        {
+            if (data == null)
+                return;
+
+            UIManager.Instance.OpenUI<AcCandyPop>(data);
+        });
 
         Hide();
-        UIManager.Instance.OpenUI<AcCandyPop>(data);
     }
 }
