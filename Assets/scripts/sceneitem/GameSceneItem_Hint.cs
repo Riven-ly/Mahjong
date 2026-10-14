@@ -23,10 +23,8 @@ public class GameSceneItem_Hint : GameSceneItemBase
 
         cntStr.text = cnt <= 0 ? "+" : GameManager.Instance.playerInfo.gameSceneItem_Hint.ToString();
 
-        clickBtn.gameObject.SetActive(cnt > 0);
         cntStr.gameObject.SetActive(cnt > 0);
-        rewardAdButton.gameObject.SetActive(cnt <= 0);
-        rewardAdButton.Init(AdsCallback, "", false);
+        adImg.gameObject.SetActive(cnt <= 0);
     }
 
     public override void AdsCallback()
@@ -49,7 +47,7 @@ public class GameSceneItem_Hint : GameSceneItemBase
         base.OnClick();
         if (cnt <= 0)
         {
-            //UIManager.Instance.OpenUI<AddSceneItemPanel>(this);
+            UIManager.Instance.OpenUI<AddSceneItemPanel>(this);
             return;
         }
 

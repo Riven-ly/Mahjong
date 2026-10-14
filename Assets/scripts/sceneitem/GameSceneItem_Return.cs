@@ -22,10 +22,8 @@ public class GameSceneItem_Return : GameSceneItemBase
 
         cntStr.text = cnt <= 0 ? "+" : GameManager.Instance.playerInfo.gameSceneItem_Return.ToString();
 
-        clickBtn.gameObject.SetActive(cnt > 0);
         cntStr.gameObject.SetActive(cnt > 0);
-        rewardAdButton.gameObject.SetActive(cnt <= 0);
-        rewardAdButton.Init(AdsCallback, "", false);
+        adImg.gameObject.SetActive(cnt <= 0);
     }
 
     public override void AdsCallback()
@@ -48,6 +46,7 @@ public class GameSceneItem_Return : GameSceneItemBase
         base.OnClick();
         if (cnt <= 0)
         {
+            UIManager.Instance.OpenUI<AddSceneItemPanel>(this);
             return;
         }
 

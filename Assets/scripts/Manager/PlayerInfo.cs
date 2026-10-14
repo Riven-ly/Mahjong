@@ -29,10 +29,10 @@ public class PlayerInfo
     public int goldLevel = 0; // 金币等级
     public int goldExperience; // 当前金币等级经验，单位为0.1
 
-    public int gameSceneItem_Hint = 5;
-    public int gameSceneItem_Extract = 5;
-    public int gameSceneItem_Exchange = 5;
-    public int gameSceneItem_Return = 5;
+    public int gameSceneItem_Hint = 0;
+    public int gameSceneItem_Extract = 0;
+    public int gameSceneItem_Exchange = 0;
+    public int gameSceneItem_Return = 0;
 
     /// <summary>
     /// 增加金币等级经验并处理升级。经验单位为0.1。

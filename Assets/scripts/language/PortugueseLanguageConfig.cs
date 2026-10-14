@@ -11,5 +11,7 @@ public static class PortugueseLanguageConfig
         {"Special_Diamond__unit", "JA=="},
         {"wd", "d2l0aGRyYXc="},
         {"ch", "Q2FzaCBPdXQ="},
+        {"AddSceneItemDesc", "Assista a um anúncio para ganhar 3 ferramentas. Toque em uma ferramenta quando quiser usá-la."},
+        {"WatchAdX3", "Assistir Anúncio X3"},
     };
 }

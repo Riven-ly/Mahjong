@@ -32,7 +32,7 @@ public class GameSceneItemBase : MonoBehaviour
     public Transform unLockTrans;
     public Transform lockTrans;
 
-    public RewardAdButton rewardAdButton;
+    public GameObject adImg;
 
     protected int cnt;
     protected int lockLv = 1;

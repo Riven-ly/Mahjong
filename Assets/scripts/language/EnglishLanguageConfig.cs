@@ -53,5 +53,8 @@ public static class EnglishLanguageConfig
         {"Special_Diamond__unit", "JA=="},//特殊钻石符号$
         {"wd", "d2l0aGRyYXc="},//withdraw
         {"ch", "Q2FzaCBPdXQ="},//Cash Out
+        //AddSceneItemPanel
+        {"AddSceneItemDesc", "Watch an ad to get 3 tools. Tap a tool when you want to use it."},
+        {"WatchAdX3", "Watch Ad X3"},
     };
 }

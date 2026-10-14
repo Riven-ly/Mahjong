@@ -101,6 +101,7 @@
     <Compile Include="Assets\scripts\Ad\ApplovinMaxRewardOperator.cs" />
     <Compile Include="Assets\scripts\Tx\UI\PhaseTaskPanel.cs" />
     <Compile Include="Assets\scripts\language\IndonesianLanguageConfig.cs" />
+    <Compile Include="Assets\scripts\sceneitem\AddSceneItemPanel.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseTaskSaveData.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task3Slider.cs" />
     <Compile Include="Assets\scripts\Task\TaskManager.cs" />
