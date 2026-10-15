@@ -21,10 +21,17 @@ public class GameSceneItem_Exchange : GameSceneItemBase
         unLockTrans.gameObject.SetActive(!isLock);
         lockTrans.gameObject.SetActive(isLock);
 
-        cntStr.text = cnt <= 0 ? "+" : GameManager.Instance.playerInfo.gameSceneItem_Exchange.ToString();
-
-        cntStr.gameObject.SetActive(cnt > 0);
-        adImg.gameObject.SetActive(cnt <= 0);
+        cntStr.text = GameManager.Instance.playerInfo.gameSceneItem_Exchange.ToString();
+        if (GameManager.Instance.playerInfo.level > 2)
+        {
+            cntStr.gameObject.SetActive(cnt > 0);
+            adImg.gameObject.SetActive(cnt <= 0);
+        }
+        else
+        {
+            cntStr.gameObject.SetActive(true);
+            adImg.gameObject.SetActive(false);
+        }
     }
 
     public override void AdsCallback()
@@ -47,7 +54,10 @@ public class GameSceneItem_Exchange : GameSceneItemBase
         base.OnClick();
         if (cnt <= 0)
         {
-            UIManager.Instance.OpenUI<AddSceneItemPanel>(this);
+            if (GameManager.Instance.playerInfo.level > 2)
+            {
+                UIManager.Instance.OpenUI<AddSceneItemPanel>(this);
+            }
             return;
         }
 

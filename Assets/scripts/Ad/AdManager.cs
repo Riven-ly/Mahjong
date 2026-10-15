@@ -42,9 +42,17 @@ public class AdManager : MonoBehaviour
     /// </summary>
     public void ShowRewardedAd(string _page_id, Action _rewardCallback, Action _displayErrorCallback)
     {
-        applovinMaxRewardOperator.RewardReceivedCallback = _rewardCallback;
-        applovinMaxRewardOperator.RewardDisplayErrorCallback = _displayErrorCallback;
-        applovinMaxRewardOperator.ShowRewardedAd();
+        if(GameManager.Instance.playerInfo.level > 2)
+        {
+            applovinMaxRewardOperator.RewardReceivedCallback = _rewardCallback;
+            applovinMaxRewardOperator.RewardDisplayErrorCallback = _displayErrorCallback;
+            applovinMaxRewardOperator.ShowRewardedAd();
+        }
+        else
+        {
+            _rewardCallback?.Invoke();
+        }
+
     }
 
     /// <summary>

@@ -28,8 +28,7 @@ public class RewardAdButton : MonoBehaviour
 
         UpdateAdsBtnState(true);
         isGetAdsReward = false;
-
-        adIcon.gameObject.SetActive(AdManager.ShowAdIcon);
+        adIcon.gameObject.SetActive(GameManager.Instance.playerInfo.level > 2);
     }
 
     private void AdsOnClick()

@@ -175,6 +175,7 @@ MonoBehaviour:
   boardRoot: {fileID: 3800016339410424516}
   adaptivePointTop: {fileID: 6229638337032871692}
   adaptivePointBottom: {fileID: 8550632915678582539}
+  luckyLevelPlaySeconds: 0
 --- !u!223 &4423165543827530341
 Canvas:
   m_ObjectHideFlags: 0
@@ -424,7 +425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5599207458018816651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1679,7 +1680,6 @@ MonoBehaviour:
   taskBtn: {fileID: 4781823955047268460}
   taskRedImg: {fileID: 2370274884660078630}
   levelText: {fileID: 7382740226190717386}
-  bobao: {fileID: 880364531708043493}
   gameSceneItem_Exchange: {fileID: 8729631434394498164}
   gameSceneItem_Hint: {fileID: 5318911294521817078}
   gameSceneItem_Return: {fileID: 4403303122062827440}

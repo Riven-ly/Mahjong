@@ -129,6 +129,10 @@ public class ApplovinMaxInterstitialOperator : MonoBehaviour
 
     public void OnClickInterstitialAd(bool isClick = true)
     {
+        if (GameManager.Instance.playerInfo.level <= 2)
+        {
+            return;
+        }
         if (!isInit) return;
         if (!inter_enable) return;
         if (isPlayInsertAds) return;

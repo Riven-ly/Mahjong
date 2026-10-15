@@ -51,26 +51,29 @@ public class GeneralRewardsPanel : UIBase
 
         taskData = data as TaskData;
 
-        if(taskData !=null && TaskManager.Instance.saveData.loginDays <= 3)
+        if (GameManager.Instance.playerInfo.level <= 2)
         {
-            ad_V = taskData.goldReward;
+            ad_V = UnityEngine.Random.Range(600, 901);
+            c_V = (int)(ad_V / 10f);
         }
         else
         {
-            ad_V = GameManager.Instance.GetReward();
+            ad_V = UnityEngine.Random.Range(2000, 3001);
+            c_V = (int)(ad_V / 10f);
         }
-        c_V = (int)(ad_V * (UnityEngine.Random.Range(30, 51) / 100f));
 
         itemDatas = new List<ItemData>();
         itemDatas.Add(new ItemData(ItemType.GoldDui, ad_V));
         itemBase = GameManager.Instance.CreatItems(itemDatas, itemRoot);
 
-        ad_text.text = $"100%{LanguageManager.Instance.GetText("CLAIM")}";
+        ad_text.text = GameManager.Instance.playerInfo.level > 2 ? $"100%{LanguageManager.Instance.GetText("CLAIM")}" : LanguageManager.Instance.GetText("CLAIM");
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
         AudioManager.Instance.PlaySceneSingleMusic("gamewin");
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
+
+        collectBtn.transform.parent.gameObject.SetActive(GameManager.Instance.playerInfo.level > 2);
     }
 
     /// <summary>

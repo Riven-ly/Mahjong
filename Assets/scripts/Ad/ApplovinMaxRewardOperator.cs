@@ -18,7 +18,6 @@ public class ApplovinMaxRewardOperator : MonoBehaviour
     public Action playRewardAdCompleteCallback = null;//关闭时在调奖励
     public static bool isPlayRewardAds = false;
 
-    private bool isAdLoading;
     public virtual void Init()
     {
         isPlayRewardAds = false;
@@ -38,7 +37,6 @@ public class ApplovinMaxRewardOperator : MonoBehaviour
         MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnRewardedAdFailedToDisplayEvent;
         MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnRewardedAdReceivedRewardEvent;
 
-        isAdLoading = false;
         // Load the first rewarded ad
         LoadRewardedAd();
     }
@@ -53,12 +51,6 @@ public class ApplovinMaxRewardOperator : MonoBehaviour
     // 展示激励视频（调用此方法触发广告展示）
     public void ShowRewardedAd()
     {
-        if (isAdLoading)
-        {
-            return;
-        }
-        isAdLoading = true;
-
         //防刷
         //if (!PRgameManager.PR_pass)
         //{
@@ -102,7 +94,6 @@ public class ApplovinMaxRewardOperator : MonoBehaviour
     }
     private void OnRewardedAdLoadedEvent(string adUnitId, MaxSdk.AdInfo adInfo)
     {
-        isAdLoading = false;
         // Rewarded ad is ready for you to show. MaxSdk.IsRewardedAdReady(adUnitId) now returns 'true'.
         // Reset retry attempt
         retryAttempt = 0;
@@ -113,7 +104,6 @@ public class ApplovinMaxRewardOperator : MonoBehaviour
     {
         // Rewarded ad failed to load
         // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
-        isAdLoading = false;
         retryAttempt++;
         double retryDelay = Math.Pow(2, Math.Min(6, retryAttempt));
 

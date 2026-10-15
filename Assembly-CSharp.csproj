@@ -137,8 +137,8 @@
     <Compile Include="Assets\scripts\Tx\Sdk\AcType.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardColorUtility.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task2Slider.cs" />
-    <Compile Include="Assets\scripts\Tx\Sdk\SdkNoticeItem.cs" />
     <Compile Include="Assets\scripts\Tx\TxSaveKeys.cs" />
+    <Compile Include="Assets\scripts\Tx\Sdk\SdkNoticeItem.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PlayAmountService.cs" />
     <Compile Include="Assets\scripts\Task\TaskItem.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PhaseTaskRuntime.cs" />

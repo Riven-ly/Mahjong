@@ -53,20 +53,31 @@ public class GameWinPanel : UIBase
     public override void Refresh(object data = null)
     {
         base.Refresh(data);
-        ad_V = GameManager.Instance.GetReward();
-        c_V = (int)(ad_V * (UnityEngine.Random.Range(30, 51) / 100f));
+        if(GameManager.Instance.playerInfo.level <= 2)
+        {
+            ad_V = UnityEngine.Random.Range(600, 901);
+            c_V = (int)(ad_V / 10f);
+        }
+        else
+        {
+            ad_V = UnityEngine.Random.Range(2000, 3001);
+            c_V = (int)(ad_V / 10f);
+        }
+    
 
         itemDatas = new List<ItemData>();
         itemDatas.Add(new ItemData(ItemType.GoldDui, ad_V));
         itemBase = GameManager.Instance.CreatItems(itemDatas, itemRoot);
 
-        ad_text.text = $"100%{LanguageManager.Instance.GetText("CLAIM")}";
+        ad_text.text = GameManager.Instance.playerInfo.level > 2 ? $"100%{LanguageManager.Instance.GetText("CLAIM")}" : LanguageManager.Instance.GetText("CLAIM");
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
         AudioManager.Instance.PlaySceneSingleMusic("gamewin");
         OtherSdkManager.Instance.CustomEvent("level_complete", "level_id", GameManager.Instance.playerInfo.level);
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
+
+        collectBtn.transform.parent.gameObject.SetActive(GameManager.Instance.playerInfo.level > 2);
     }
     /// <summary>
     /// 领取激励广告通关奖励并进入下一关。
