@@ -2,7 +2,6 @@ using DG.Tweening;
 using MahjongGame.View;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -116,13 +115,16 @@ public class AudioManager : MonoBehaviour
         MahjongCell2.volume = volume;
     }
 
-    public void SetAudioSource(AudioSource audioSource, string name)
+    public void SetAudioSource(AudioSource audioSource, string name, float customV = 1f)
     {
         if (!isSound) return;
         AudioClip audioClip = GetAudioClip(name);
         if (audioClip == null) return;
         audioSource.Stop();
         audioSource.clip = audioClip;
+        float volume = isSound ? customV : 0f;
+        Debug.Log(volume);
+        audioSource.volume = volume;
         audioSource.Play();
     }
 

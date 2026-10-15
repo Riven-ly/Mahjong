@@ -17,7 +17,7 @@ Unity 2022.3.62f3c1，Happy Mahjong: Rich Adventure；DOTween、AppLovin MAX、A
 - `MahjongCardVisualCatalog.asset` 已按 CardTypeMapping 重排：1–9 万、10–18 筒、19–27 条、28–31 东南西北、32–34 红中发财白板、35–38 梅兰竹菊、39–42 春夏秋冬。改 SO 用 REST export/import JSON，不手改 YAML；`jsonFilePath` 仅接受 `Assets/` 或 `Packages/`，可内联 json。
 - 牌面链：JSON typeId → loader → randomizer（false CloneLevel）→ LayoutGenerator → 只读 `MahjongCardModel.TypeId` → visual catalog sprite。Shuffle 只交换坐标/层，不改 typeId。
 - `InstanceId = cards 下标+1`；`coordX` 是行（上下），`coordY` 是列（左右），相邻牌相差2半格。显示大致 x=(coordY/2-(cols-1)/2)*163，y=(coordX/2-(rows-1)/2)*190；层偏移另计。取证：`gameobject_find(component=MahjongCell)` → `editor_playmode_inspect` 读 InstanceId/localPosition → `component_get_serialized_properties` 读 BlockedMaskObj 引用 → inspect 掩罩 activeSelf。
-- 可点击：`MahjongBoardRules.ValidateSelection` 先 `IsCovered`，再 `HasBothSideNeighbors`；`MahjongGameplayView.RefreshBoardStates` 用相同规则开关 `BlockedMaskObj`。左右侧邻需在场、同 coordX、coordY±2，且 **邻牌 Layer≥目标 Layer**（允许上层跨层邻牌，低层牌不能挡住上层牌侧面）。2026-10-15 第99关第54张9筒 layer2：左南 layer2，右花兰 layer0；原不区分层时误挡，现排除右侧下层牌。被挡牌蒙黑遮罩但仍可点，点后抖动+音效；`NormalAlpha/BlockedAlpha` 均为1。
+- 可点击：`MahjongBoardRules.ValidateSelection` 先 `IsCovered`，再 `HasBothSideNeighbors`；`MahjongGameplayView.RefreshBoardStates` 用相同规则开关 `BlockedMaskObj`。左右侧邻需在场、同 coordX、coordY±2，且**未被更高层牌压住**（2026-10-15 最终裁定：低层侧邻被高层压住时不能阻挡，没被压住时可以阻挡 → 代码即 `IsCovered(other.InstanceId)` 为 true 的侧邻不计；同日早些的"不看层"口径已作废）。被挡牌蒙黑遮罩但仍可点，点后抖动+音效；`NormalAlpha/BlockedAlpha` 均为1。
 - Slot 系统是死代码，`MahjongSlotRules` 未实例化、`SlotFull` 不可达；真实配对 `MarkPairForElimination`。Idle Hint 在 `MahjongGameplayView.UpdateIdleHint`；Combo 计数由 `MahjongGameplayView.comboCount` 管，自动消除不算连击。
 
 ## 埋点（SolarEngine via OtherSdkManager）

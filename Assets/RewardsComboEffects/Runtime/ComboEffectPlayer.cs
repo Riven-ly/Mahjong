@@ -74,10 +74,11 @@ namespace CashRewards.ComboEffects
                 var clip = wordIndex == 1 ? perfectSound : excellentSound;
                 if (clip)
                 {
+                    float volume = wordIndex == 1f ? 0.5f : 1f;
                     if (AudioManager.Instance != null)
-                        AudioManager.Instance.SetAudioSource(audioSource, clip.name);
+                        AudioManager.Instance.SetAudioSource(audioSource, clip.name, volume);
                     else
-                        audioSource.PlayOneShot(clip);
+                        audioSource.PlayOneShot(clip, volume);
                 }
             }
             ApplyWordLayout();
