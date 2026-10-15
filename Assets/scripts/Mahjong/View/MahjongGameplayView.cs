@@ -330,6 +330,18 @@ namespace MahjongGame.View
             comboEffects.PlayCombo(comboCount);
         }
 
+        private void PlayComboCoinFly(Vector3 worldPosition, int combo)
+        {
+            int goldAmount = combo * 10;
+            GameManager.Instance.playerInfo.Add_gold(goldAmount);
+            int coinCount = 4;
+            PlayerInfoUI ui = UIManager.Instance.GetUI<PlayerInfoUI>();
+            if (ui != null)
+            {
+                ui.ComboGoldFlyAnim(worldPosition, coinCount);
+            }
+        }
+
         /// <summary>
         /// 随机交换游戏区域卡牌的完整棋盘位置并刷新牌面显示。
         /// </summary>
@@ -672,6 +684,7 @@ namespace MahjongGame.View
                 }
                 comboCount++;
                 PlayComboEffect(collisionWorldPosition);
+                PlayComboCoinFly(collisionWorldPosition, comboCount);
                 firstCell.AnimateEliminated(null);
                 secondCell.AnimateEliminated(null);
             });

@@ -10,7 +10,6 @@ public class GeneralRewardsPanel : UIBase
     public Transform root;
     public Transform itemRoot;
     public RewardAdButton rewardAdButton;
-    public RewardAdButton otherAdBtn;
     public Button collectBtn;
     public Transform collectTrans;
     public Text ad_text;
@@ -35,7 +34,17 @@ public class GeneralRewardsPanel : UIBase
             AudioManager.Instance.PlayBtnMusic();
             if (GameManager.Instance.playerInfo.consecutiveNoAdCount >= 2)
             {
-                AdManager.Instance.OnClickInterstitialAd(page_id);
+                GameManager.Instance.playerInfo.adShownThisLevel = true;
+                GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
+
+                if(UnityEngine.Random.Range(0,101) > 35)
+                {
+                    AdManager.Instance.OnClickInterstitialAd("");
+                }
+                else
+                {
+                    AdManager.Instance.ShowRewardedAd(page_id, null, null);
+                }
             }
             CollectClick();
         });
@@ -73,14 +82,6 @@ public class GeneralRewardsPanel : UIBase
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
-        if (otherAdBtn != null)
-        {
-            otherAdBtn.Init(CollectAdCallback, page_id, true);
-            bool needForce = GameManager.Instance.playerInfo.level > 2 &&
-                             GameManager.Instance.playerInfo.consecutiveNoAdCount >= 2 &&
-                             UnityEngine.Random.Range(0, 100) < 35;
-            otherAdBtn.gameObject.SetActive(needForce);
-        }
         AudioManager.Instance.PlaySceneSingleMusic("luckybox");
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
 
@@ -163,19 +164,10 @@ public class GeneralRewardsPanel : UIBase
         });
     }
 
-    private void CollectAdCallback()
-    {
-        UIManager.Instance.HideUIMask();
-        GameManager.Instance.playerInfo.adShownThisLevel = true;
-        GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
-        CollectClick();
-    }
-
     public override void Hide()
     {
         GameManager.Instance.SavePlayerInfo();
         base.Hide();
-   
     }
 
     private void ResetPanel()

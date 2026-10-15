@@ -46,6 +46,11 @@ public class GoldCollectEffect : MonoBehaviour
 
     public void StartEffect(ItemType itemType,Vector3 start, Vector3 target)
     {
+        StartEffect(itemType, start, target, 10);
+    }
+
+    public void StartEffect(ItemType itemType, Vector3 start, Vector3 target, int maxCount)
+    {
         List<GoldFlyControl> temList = golds;
         switch (itemType)
         {
@@ -65,14 +70,13 @@ public class GoldCollectEffect : MonoBehaviour
             {
                 temList[i].FlyGold(start, target, (cntIndex + 1) * 0.1f);
                 cntIndex++;
-                if (cntIndex == 10)
+                if (cntIndex == maxCount)
                 {
                     break;
                 }
             }
         }
 
-        //ÉùÒôµþ¼ÓÆÆÒô
         int index = 0;
         foreach (var item in golds)
         {

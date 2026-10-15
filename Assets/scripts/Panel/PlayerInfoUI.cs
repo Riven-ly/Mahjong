@@ -71,6 +71,15 @@ public class PlayerInfoUI : UIBase,IEventListener
             StartGoldAnim();
         });
     }
+
+    public void ComboGoldFlyAnim(Vector3 start, int coinCount)
+    {
+        GoldCollectEffect.Instance.StartEffect(ItemType.Gold, start, goldIcon.transform.position, coinCount);
+        DOTween.Sequence().AppendInterval(0.8f).AppendCallback(() =>
+        {
+            StartGoldAnim();
+        });
+    }
     public void GoldCanvasTop()
     {
         goldCanvas.sortingOrder = 510;
