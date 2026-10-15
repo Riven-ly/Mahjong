@@ -176,7 +176,7 @@ public sealed class GuidePop : UIBase
         TxGameBridge.PlaySfx();
         clicked = true;
         startButton.interactable = false;
-        TxGameBridge.Track(SolarEventNames.GuideClickStart);
+        OtherSdkManager.Instance.CustomEvent("guide_click_start1");
         Hide();
     }
 }

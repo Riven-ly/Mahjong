@@ -198,6 +198,14 @@ public class OtherSdkManager : MonoBehaviour
         });
     }
 
+    public void CustomEvent(string eName)
+    {
+        if (!IsInit)
+            return;
+
+        SolarEngine.Analytics.track(eName, new Dictionary<string, object>());
+    }
+
     public void CustomEvent(string eName,string _key, object _value)
     {
         if (!IsInit)

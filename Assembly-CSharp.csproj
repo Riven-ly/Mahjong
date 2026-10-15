@@ -159,7 +159,6 @@
     <Compile Include="Assets\RewardsComboEffects\Runtime\ComboEffectPlayer.cs" />
     <Compile Include="Assets\scripts\language\MultilingualText.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PlayerProfileService.cs" />
-    <Compile Include="Assets\scripts\Tx\SolarEventNames.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelValidator.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralTipsPanel.cs" />
     <Compile Include="Assets\guochang\Runtime\CashParticleUIPlayer.cs" />

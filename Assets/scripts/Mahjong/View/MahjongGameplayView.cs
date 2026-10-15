@@ -932,6 +932,8 @@ namespace MahjongGame.View
         /// </summary>
         private void ShowLuckyReward()
         {
+            OtherSdkManager.Instance.CustomEvent("bonus_page_enter");
+
             UIManager.Instance.OpenUI<GeneralRewardsPanel>(null, () =>
             {
                 luckyLevelPlaySeconds = 0f;

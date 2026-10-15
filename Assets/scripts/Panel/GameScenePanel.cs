@@ -299,7 +299,8 @@ public class GameScenePanel : UIBase,IEventListener
             firstTargetRectTransform,
             secondTargetCardId,
             secondTargetRectTransform,
-            ResolveFirstGameStageTextKey(firstGameStageIndex)));
+            ResolveFirstGameStageTextKey(firstGameStageIndex),
+            firstGameStageIndex));
     }
 
     /// <summary>

@@ -2,13 +2,11 @@ using UnityEngine;
 
 public static class TxGameBridge
 {
-    public const string SourceSpace = "tx_space";
-    public const string SourceAmount = "tx_amount";
-    public const string SourceLevelId = "tx_level_id";
-    public const string SourceNode = "tx_node";
-    public const string SourceDay = "tx_day";
-    public const string SourceLevel = "tx_level";
-    public const string SourceValue = "tx_value";
+    public const string SourceAmount = "amount";
+    public const string SourceLevelId = "level_id";
+    public const string SourceNode = "node";
+    public const string SourceDay = "day";
+    public const string SourceLevel = "level";
 
     public static int CurrentLevel
     {
@@ -48,22 +46,6 @@ public static class TxGameBridge
     {
         LanguageManager manager = LanguageManager.Instance;
         return manager == null ? string.Empty : manager.GetText_Encrypt(key);
-    }
-
-    public static void Track(string eventName, string key, object value)
-    {
-        if (OtherSdkManager.Instance == null)
-            return;
-
-        OtherSdkManager.Instance.CustomEvent(eventName, key, value);
-    }
-
-    public static void Track(string eventName)
-    {
-        if (OtherSdkManager.Instance == null)
-            return;
-
-        OtherSdkManager.Instance.CustomEvent(eventName, SourceValue, 1);
     }
 
     public static void PlaySfx()

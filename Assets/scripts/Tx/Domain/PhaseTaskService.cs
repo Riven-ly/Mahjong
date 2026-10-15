@@ -1011,19 +1011,19 @@ public static class PhaseTaskService
     static PhaseId ParsePhaseId(string value) =>
         Enum.TryParse(value, out PhaseId phaseId) && phaseId != PhaseId.None ? phaseId : PhaseId.Level8;
 
-    static void TrackTask1(int levelId) => TrackIncreasing(SolarEventNames.Task1, TxGameBridge.SourceLevelId, levelId, levelId, 1, 29, data => data.task1, (data, value) => data.task1 = value);
+    static void TrackTask1(int levelId) => TrackIncreasing("cashout_task_1", TxGameBridge.SourceLevelId, levelId, levelId, 1, 29, data => data.task1, (data, value) => data.task1 = value);
 
-    static void TrackTask2(int node) => TrackIncreasing(SolarEventNames.Task2, TxGameBridge.SourceNode, node, node, 1, 19, data => data.task2, (data, value) => data.task2 = value);
+    static void TrackTask2(int node) => TrackIncreasing("cashout_task_2", TxGameBridge.SourceNode, node, node, 1, 20, data => data.task2, (data, value) => data.task2 = value);
 
     static void TrackTask3(int levelId, float amount)
     {
         float normalized = Mathf.Round(amount * 100f) / 100f;
-        TrackIncreasing(SolarEventNames.Task3, TxGameBridge.SourceAmount, normalized, levelId, 1, int.MaxValue, data => data.task3, (data, value) => data.task3 = value);
+        TrackIncreasing("cashout_task_3", TxGameBridge.SourceAmount, normalized, levelId, 1, int.MaxValue, data => data.task3, (data, value) => data.task3 = value);
     }
 
-    static void TrackTask4(int day) => TrackIncreasing(SolarEventNames.Task4, TxGameBridge.SourceDay, day, day, 1, 7, data => data.task4, (data, value) => data.task4 = value);
+    static void TrackTask4(int day) => TrackIncreasing("cashout_task_4", TxGameBridge.SourceDay, day, day, 1, 7, data => data.task4, (data, value) => data.task4 = value);
 
-    static void TrackTask5(int level) => TrackIncreasing(SolarEventNames.Task5, TxGameBridge.SourceLevel, level, level, 1, int.MaxValue, data => data.task5, (data, value) => data.task5 = value);
+    static void TrackTask5(int level) => TrackIncreasing("cashout_task_5", TxGameBridge.SourceLevel, level, level, 1, int.MaxValue, data => data.task5, (data, value) => data.task5 = value);
 
     static void TrackComplete(PhaseId phaseId)
     {
@@ -1045,12 +1045,12 @@ public static class PhaseTaskService
 
         string eventName = phaseNumber switch
         {
-            1 => SolarEventNames.TaskDone1,
-            2 => SolarEventNames.TaskDone2,
-            3 => SolarEventNames.TaskDone3,
-            _ => SolarEventNames.TaskDone4,
+            1 => "cashout_complete_1",
+            2 => "cashout_complete_2",
+            3 => "cashout_complete_3",
+            _ => "cashout_complete_4",
         };
-        TxGameBridge.Track(eventName);
+        OtherSdkManager.Instance.CustomEvent(eventName);
         data.completeMask |= mask;
         SaveMark(data);
     }
@@ -1064,7 +1064,7 @@ public static class PhaseTaskService
         if (sequence <= read(data))
             return;
 
-        TxGameBridge.Track(eventName, key, value);
+        OtherSdkManager.Instance.CustomEvent(eventName, key, value);
         write(data, sequence);
         SaveMark(data);
     }

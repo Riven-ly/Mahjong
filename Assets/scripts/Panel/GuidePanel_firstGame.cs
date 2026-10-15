@@ -13,6 +13,7 @@ public sealed class FirstGameGuideData
     public readonly int secondTargetCardId; // 第二个引导目标卡牌实例ID
     public readonly RectTransform secondTargetRectTransform; // 第二个引导目标卡牌矩形变换
     public readonly string textKey; // 引导说明文案的本地化键
+    public readonly int stageIndex;
 
     /// <summary>
     /// 创建首关引导所需的两张目标牌数据。
@@ -23,7 +24,8 @@ public sealed class FirstGameGuideData
         RectTransform firstTargetRectTransform,
         int secondTargetCardId,
         RectTransform secondTargetRectTransform,
-        string textKey = "GuideMatchSymbols")
+        string textKey = "GuideMatchSymbols",
+        int stageIndex = 1)
     {
         this.gameplayView = gameplayView;
         this.firstTargetCardId = firstTargetCardId;
@@ -31,6 +33,7 @@ public sealed class FirstGameGuideData
         this.secondTargetCardId = secondTargetCardId;
         this.secondTargetRectTransform = secondTargetRectTransform;
         this.textKey = textKey;
+        this.stageIndex = stageIndex;
     }
 }
 
@@ -84,6 +87,7 @@ public class GuidePanel_firstGame : UIBase
     {
         if (!isGuidingSecondCard)
         {
+            TrackGuideClickStart();
             guideData.gameplayView.SelectFirstGameGuideCard(guideData.firstTargetCardId);
             isGuidingSecondCard = true;
             UpdateGuidePosition(guideData.secondTargetRectTransform);
@@ -92,6 +96,23 @@ public class GuidePanel_firstGame : UIBase
 
         guideData.gameplayView.SelectFirstGameGuideCard(guideData.secondTargetCardId);
         Hide();
+    }
+
+    private void TrackGuideClickStart()
+    {
+        if (guideData == null)
+        {
+            return;
+        }
+
+        if (guideData.stageIndex == 2)
+        {
+            OtherSdkManager.Instance.CustomEvent("guide_click_start2");
+        }
+        else if (guideData.stageIndex == 3)
+        {
+            OtherSdkManager.Instance.CustomEvent("guide_click_start3");
+        }
     }
 
     /// <summary>

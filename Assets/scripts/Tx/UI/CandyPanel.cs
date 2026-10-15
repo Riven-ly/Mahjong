@@ -92,14 +92,6 @@ public sealed class CandyPanel : UIBase
             Instance = null;
     }
 
-    public override void Open(object data = null, Action _callback = null)
-    {
-        bool wasOpen = isOpen;
-        base.Open(data, _callback);
-        if (!wasOpen)
-            TxGameBridge.Track(SolarEventNames.PageEnter);
-    }
-
     public override void Refresh(object _data = null)
     {
         base.Refresh(_data);
@@ -117,6 +109,8 @@ public sealed class CandyPanel : UIBase
         taskText.text = PhaseTaskService.GetCurrentTaskText();
         RefreshAction();
         PlayValueAnimation();
+
+        OtherSdkManager.Instance.CustomEvent("cash_page_enter");
     }
 
     public override void Hide()

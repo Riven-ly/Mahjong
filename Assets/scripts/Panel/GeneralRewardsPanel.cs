@@ -29,6 +29,7 @@ public class GeneralRewardsPanel : UIBase
     private int ad_V;
     private int c_V;
     private TaskData taskData;
+    private bool isBonusContext;
     private string page_id = "GeneralRewardsPanel";
 
     private Sequence showSequence;
@@ -80,6 +81,7 @@ public class GeneralRewardsPanel : UIBase
     {
         base.Refresh(data);
         taskData = data as TaskData;
+        isBonusContext = data == null;
 
         if (GameManager.Instance.playerInfo.level <= 2)
         {
@@ -253,6 +255,10 @@ public class GeneralRewardsPanel : UIBase
         GameManager.Instance.playerInfo.adShownThisLevel = true;
         GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
         OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_two");
+        if (isBonusContext)
+        {
+            OtherSdkManager.Instance.CustomEvent("bonus_ad_click");
+        }
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
         UIManager.Instance.OpenUIMask();
         float awaitTime = 0.1f;
