@@ -58,11 +58,39 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 
 ## 第一关3小关卡引导系统
 
-- 配置：`Assets/Resources/Mahjong/TutorialStages.json`（3关：2张/6张/4张），从 `D:/Backup/Downloads/Levels-998/` 原样导入。
-- 加载：`TutorialStageCatalogLoader.CreateRuntimeStage(index)`，第3小关随机出牌型后 `RearrangeStage3()` 重排为 A,B,B,A。
+- 配置：`Assets/Resources/Mahjong/TutorialStages.json`（3关：2张/6张/4张）。2026-10-15 已换成 `D:/Backup/Downloads/CashRewards-Happy格式-固定配对/level/` 的固定配对版本（真实 typeId，`randomizeTypeIds: false`）。
+- 加载：`TutorialStageCatalogLoader.CreateRuntimeStage(index)`。**旧的 `RearrangeStage3()` 硬编码重排已删除** —— stage3 的 A,B,B,A 由 JSON 数据自身固定，不再由代码写死。
 - 触发链路：第1小关 → LevelTaskTip 关闭 callback → `TryOpenFirstGameGuide()`；第2、3小关 → `StartFirstGameStage()` 里直接调。
 - per-stage 标记：`FirstGameGuideCompleted` / `...2` / `...3`（PlayerPrefs）。
 - `GuidePanel_firstGame` 的 `textKey` 字段控制每关引导文案。
+
+## 关卡数据与卡面映射（2026-10-15 大改）
+
+- `Assets/Resources/Mahjong/Levels.json`：**998 关**（原 321 关），来自 `D:/Backup/Downloads/CashRewards-Happy格式-固定配对/level/`，**全部 `randomizeTypeIds: false`**（固定配对，typeId 真实 1~42）。备份在 `.workbuddy-ai/backup/20261014-levels-replace/`。
+- **`randomizeTypeIds` 语义**：`MahjongLevelRandomizer.CreateRandomizedLevel()` 已改为**尊重该 flag** —— `false` 时走 `CloneLevel()` 原样返回（只复制不改牌型）；`true` 时才打乱。两个加载器（`MahjongLevelCatalogLoader` / `TutorialStageCatalogLoader`）都复用此逻辑，不用各自判。
+- **typeId → 图片** 唯一映射表 = `Assets/Resources/Mahjong/MahjongCardVisualCatalog.asset`（`MahjongCardVisualCatalogLoader.GetSprite(typeId)`）。2026-10-15 已**按 `CardTypeMapping.json` 全量重排**：1–9=1wan~9wan、10–18=1tong~9tong、19–27=1tiao~9tiao、28–31=dong/nan/xi/bei、32–34=hongzhong/facai/baiban、35–38=huamei/hualan/huazhu/huaju、39–42=huachun/huaxia/huaqiu/huadong。图片实体在 `Assets/Texture/Mahjong/cell/*.png`（42 张，文件名与 CardTypeMapping 一致）。
+- ⚠️ **改 ScriptableObject 资产别手改 YAML**：用 `scriptableobject_export_json` → Python 改 → `scriptableobject_import_json` 走 Unity 原生序列化。`import_json` 的 `jsonFilePath` **只接受 `Assets/`/`Packages/` 开头的相对路径**，绝对路径报 `SEMANTIC_INVALID`；变通 = 把 JSON 内联进 `json` 字段（`curl --data-binary @body.json`）。
+- 校验套路：Python 读 `.asset` YAML（`- typeId:\s*(\d+)\s*\n\s*sprite:...guid:\s*([0-9a-f]{32})`，先 CRLF→LF）+ 遍历 `cell/*.png.meta` 抓 guid→文件名，逐条比对 `CardTypeMapping.json`。现成脚本：`~/.workbuddy-ai/skills/unity-so-bulk-edit-via-rest/scripts/verify_so_mapping.py`。
+- ⚠️ **这三个资产都在 `Assets/Resources/` 下走 `Resources.Load`**（`MahjongConfig.LevelCatalogResourcePath = "Mahjong/Levels"`），是**打进 App 包**的，不是 AB。改完必须**重新出包**，重打 AB 包无效。
+
+### typeId 决定牌面的完整链路（已核实，牌面 = 数据，非随机）
+
+```
+关卡 JSON typeId
+  → MahjongLevelCatalogLoader.CreateRuntimeLevel / TutorialStageCatalogLoader.CreateRuntimeStage
+  → MahjongLevelRandomizer.CreateRandomizedLevel   ← randomizeTypeIds=false 时 CloneLevel 原样返回
+  → MahjongGameLogic.StartNewGame → MahjongLayoutGenerator.Generate(cardDefinition.typeId)
+  → MahjongCardModel.TypeId                        ← public int TypeId { get; } 只读，构造后无法改
+  → MahjongCardVisualCatalogLoader.GetSprite(card.TypeId) → iconImage.sprite
+```
+
+- **牌面唯一的运行时写入口**：`MahjongLayoutGenerator.cs:23` 的 `cardDefinition.typeId`。全工程 `TypeId =` 赋值只有模型构造函数一处。
+- **`Shuffle()` 不改牌型**：`MahjongGameLogic.Shuffle()` → `MahjongCardModel.SwapBoardPosition()` 只交换 `Layer/Position/CoordY/CoordX`，**不碰 TypeId**。所以洗牌只重排位置，牌面多重集不变。
+- **`EnsurePlayablePair()` 也不改牌型**：它循环 `Shuffle()` 直到存在可选中同类型对（靠换位置让配对变得可选），牌面种类与数量不变。
+- `MahjongCardColorUtility.GetColor(typeId)` 是**无图时的占位色**（黄金比例取 hue），42 个 typeId 都有图 → 实际不会用到，重排 catalog 不会造成色/图不一致。
+- 关卡创建入口只有两个：`GameScenePanel.cs:145`（普通关 `GetLevel(playerLevel)`）、`GameScenePanel.cs:199`（引导关 `CreateRuntimeStage(stage)`）。
+
+
 
 ## 闲置引导（Idle Hint）
 

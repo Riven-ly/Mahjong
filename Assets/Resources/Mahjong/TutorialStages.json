@@ -49,16 +49,16 @@
       "level": 1,
       "gridColumnCount": 2,
       "gridRowCount": 1,
-      "randomizeTypeIds": true,
+      "randomizeTypeIds": false,
       "cards": [
         {
-          "typeId": 1,
+          "typeId": 17,
           "layer": 0,
           "coordY": 0,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 17,
           "layer": 0,
           "coordY": 2,
           "coordX": 0
@@ -69,40 +69,40 @@
       "level": 2,
       "gridColumnCount": 4,
       "gridRowCount": 1,
-      "randomizeTypeIds": true,
+      "randomizeTypeIds": false,
       "cards": [
         {
-          "typeId": 1,
+          "typeId": 35,
           "layer": 0,
           "coordY": 0,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 24,
           "layer": 0,
           "coordY": 2,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 35,
           "layer": 1,
           "coordY": 2,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 24,
           "layer": 0,
           "coordY": 4,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 17,
           "layer": 1,
           "coordY": 4,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 17,
           "layer": 0,
           "coordY": 6,
           "coordX": 0
@@ -113,28 +113,28 @@
       "level": 3,
       "gridColumnCount": 4,
       "gridRowCount": 1,
-      "randomizeTypeIds": true,
+      "randomizeTypeIds": false,
       "cards": [
         {
-          "typeId": 1,
+          "typeId": 17,
           "layer": 0,
           "coordY": 0,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 35,
           "layer": 0,
           "coordY": 2,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 35,
           "layer": 0,
           "coordY": 4,
           "coordX": 0
         },
         {
-          "typeId": 1,
+          "typeId": 17,
           "layer": 0,
           "coordY": 6,
           "coordX": 0

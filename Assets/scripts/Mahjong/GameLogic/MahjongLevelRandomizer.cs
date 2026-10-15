@@ -20,6 +20,11 @@ namespace MahjongGame.GameLogic
                 return null;
             }
 
+            if (!sourceLevel.randomizeTypeIds)
+            {
+                return CloneLevel(sourceLevel);
+            }
+
             if (sourceLevel.cards.Count % MahjongConfig.MatchCount != 0)
             {
                 return CreateFallbackRandomizedLevel(sourceLevel, availableTypeIds, random);
@@ -60,6 +65,34 @@ namespace MahjongGame.GameLogic
                 {
                     cards[removalOrder[firstOrderIndex + matchIndex]].typeId = typeId;
                 }
+            }
+
+            return new MahjongLevelDefinition
+            {
+                level = sourceLevel.level,
+                gridColumnCount = sourceLevel.gridColumnCount,
+                gridRowCount = sourceLevel.gridRowCount,
+                randomizeTypeIds = sourceLevel.randomizeTypeIds,
+                cards = cards
+            };
+        }
+
+        /// <summary>
+        /// 复制关卡布局与固定牌型，供不随机牌型的关卡直接使用。
+        /// </summary>
+        private static MahjongLevelDefinition CloneLevel(MahjongLevelDefinition sourceLevel)
+        {
+            var cards = new List<MahjongLevelCardDefinition>(sourceLevel.cards.Count);
+            for (int i = 0; i < sourceLevel.cards.Count; i++)
+            {
+                MahjongLevelCardDefinition sourceCard = sourceLevel.cards[i];
+                cards.Add(new MahjongLevelCardDefinition
+                {
+                    typeId = sourceCard.typeId,
+                    layer = sourceCard.layer,
+                    coordY = sourceCard.coordY,
+                    coordX = sourceCard.coordX
+                });
             }
 
             return new MahjongLevelDefinition
