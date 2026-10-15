@@ -164,8 +164,9 @@ namespace MahjongGame.View
             {
                 MahjongLevelCardDefinition card = levelDefinition.cards[i];
                 float x = (card.coordY * 0.5f - (levelDefinition.gridColumnCount - 1) * 0.5f) * MahjongViewConfig.BoardCellWidth -
-                          card.layer / 2 * MahjongViewConfig.LayerVisualOffsetX;
-                float y = (card.coordX * 0.5f - (levelDefinition.gridRowCount - 1) * 0.5f) * MahjongViewConfig.BoardCellHeight;
+                          card.layer * MahjongViewConfig.LayerVisualOffsetX;
+                float y = (card.coordX * 0.5f - (levelDefinition.gridRowCount - 1) * 0.5f) * MahjongViewConfig.BoardCellHeight +
+                          card.layer * MahjongViewConfig.LayerVisualOffsetY;
                 minimumCardX = Mathf.Min(minimumCardX, x - MahjongCellHalfWidth);
                 maximumCardX = Mathf.Max(maximumCardX, x + MahjongCellHalfWidth);
                 minimumCardY = Mathf.Min(minimumCardY, y - MahjongCellHalfHeight);
@@ -1254,9 +1255,10 @@ namespace MahjongGame.View
             float centerRow = card.CoordX * 0.5f;
             float maxColumn = levelDefinition.gridColumnCount - 1;
             float maxRow = levelDefinition.gridRowCount - 1;
-            float layerVisualOffset = card.Layer / 2 * MahjongViewConfig.LayerVisualOffsetX;
+            float layerVisualOffset = card.Layer * MahjongViewConfig.LayerVisualOffsetX;
+            float layerVisualOffsetY = card.Layer * MahjongViewConfig.LayerVisualOffsetY;
             float x = (centerColumn - maxColumn * 0.5f) * MahjongViewConfig.BoardCellWidth - layerVisualOffset;
-            float y = (centerRow - maxRow * 0.5f) * MahjongViewConfig.BoardCellHeight;
+            float y = (centerRow - maxRow * 0.5f) * MahjongViewConfig.BoardCellHeight + layerVisualOffsetY;
             return new Vector2(x, y);
         }
 

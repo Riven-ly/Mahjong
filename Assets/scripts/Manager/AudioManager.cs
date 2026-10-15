@@ -123,7 +123,6 @@ public class AudioManager : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = audioClip;
         float volume = isSound ? customV : 0f;
-        Debug.Log(volume);
         audioSource.volume = volume;
         audioSource.Play();
     }
