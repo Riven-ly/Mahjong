@@ -58,6 +58,14 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 - `MahjongConfig.IdleHintWaitSeconds` / `IdleHintActiveSeconds` 为默认常量。
 - 远程配置通过 `MahjongGameplayView.RemoteIdleHintWaitSeconds` / `RemoteIdleHintActiveSeconds` static 属性设置。
 
+## 连击（Combo）特效
+
+- 资产包 `Assets/CashRewardsComboEffects/`（自包含 UGUI + Spine 4.2 特效，含 `README-中文.txt`）。
+- 核心 `CashRewards.ComboEffects.ComboEffectPlayer.PlayCombo(int count)`，**不维护计数**；阈值写死：3 起 Combo / 5,10 Perfect / 15,20 及 30 起整十 Excellent。
+- 计数在 `MahjongGameplayView.comboCount`。挂点：手动配对成功 +1、配对失败清零、手动洗牌清零、`StartNewGame` 清零；自动洗牌（`EnsurePlayablePair`）与取消选择**不清零**。
+- 自动消除（返回道具）**不算连击**（不走 `HandleCellSelectRequested`）。
+- `comboEffects` 已在 `GameScenePanel.prefab` 接好：ComboEffects 作为嵌套 prefab 实例挂在 `MahjongGameplay` 节点下（新增 fileID `9000000000000000001`=PrefabInstance / `...002`=stripped RT / `...003`=stripped ComboEffectPlayer）。
+
 ## 用户手工排布的 prefab（不要动结构）
 
 - `TxWithdrawBar.prefab` / `TxHudSliders.prefab` — 用户改过，只改脚本不碰 prefab。

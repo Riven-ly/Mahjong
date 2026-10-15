@@ -240,7 +240,7 @@ namespace MahjongGame.View
                     .SetEase(Ease.OutQuad))
                 .Append(rectTransform.DOAnchorPos(secondCollisionPosition, MahjongViewConfig.SecondCollisionDuration).OnComplete(() =>
                 {
-                    AudioManager.Instance.PlayMahjongCellMusic("cardyes");
+                    //AudioManager.Instance.PlayMahjongCellMusic("cardyes");
                 })
                     .SetEase(Ease.InQuad))
                 .SetTarget(this);

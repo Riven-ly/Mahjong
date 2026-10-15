@@ -34,6 +34,9 @@ public class PlayerInfo
     public int gameSceneItem_Exchange = 0;
     public int gameSceneItem_Return = 0;
 
+    public int consecutiveNoAdCount = 0;
+    [JsonIgnore] public bool adShownThisLevel = false;
+
     /// <summary>
     /// 增加金币等级经验并处理升级。经验单位为0.1。
     /// </summary>

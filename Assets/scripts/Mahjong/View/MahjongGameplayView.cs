@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CashRewards.ComboEffects;
 using DG.Tweening;
 using MahjongGame.GameLogic;
 using MahjongGame.Model;
@@ -27,6 +28,10 @@ namespace MahjongGame.View
         private int autoEliminationRemainingGroupCount; // 返回道具尚待自动消除的组数
         private int activeEliminationCount; // 当前正在播放消除动画的组数
         private int eliminatedCardCount; // 本局自上次随机奖励后累计消除的卡牌数量
+        private int comboCount;
+
+        [SerializeField] private ComboEffectPlayer comboEffects;
+        [SerializeField] private MatchEffectPlayer matchEffect;
 
         [SerializeField] private float luckyLevelPlaySeconds; // 本关累计的正常游戏秒数，换关清零
         private float luckyLastCheckTime; // 上次结算 Lucky 规则的全局时间戳
@@ -86,6 +91,7 @@ namespace MahjongGame.View
             luckyLevelPlaySeconds = 0f;
             luckyLastCheckTime = Time.time;
             selectedCardId = 0;
+            comboCount = 0;
             remainingHealth = MahjongViewConfig.InitialHealth;
             autoEliminationRemainingGroupCount = 0;
             idleHintTimer = 0f;
@@ -167,6 +173,7 @@ namespace MahjongGame.View
 
             selectedCardId = 0;
             activeEliminationCount = 0;
+            comboEffects?.Hide();
         }
 
         /// <summary>
@@ -277,6 +284,7 @@ namespace MahjongGame.View
             selectedCardId = 0;
             if (!result.Succeeded)
             {
+                comboCount = 0;
                 firstCell.SetSelectionEffectActive(true);
                 cell.SetSelectionEffectActive(true);
                 SetBoardInput(false);
@@ -311,6 +319,17 @@ namespace MahjongGame.View
             PlayEliminationAnimation(result);
         }
 
+        private void PlayComboEffect(Vector3 worldPosition)
+        {
+            if (comboEffects == null)
+            {
+                return;
+            }
+
+            comboEffects.transform.position = worldPosition;
+            comboEffects.PlayCombo(comboCount);
+        }
+
         /// <summary>
         /// 随机交换游戏区域卡牌的完整棋盘位置并刷新牌面显示。
         /// </summary>
@@ -337,6 +356,7 @@ namespace MahjongGame.View
                 return false;
             }
 
+            comboCount = 0;
             RefreshBoardPositions();
             EnsurePlayablePair();
             return true;
@@ -644,7 +664,14 @@ namespace MahjongGame.View
                 secondCollisionPosition));
             eliminateSequence.AppendCallback(() =>
             {
-                PlayEliminationEffect(collisionWorldPosition);
+                // PlayEliminationEffect(collisionWorldPosition);
+                if (matchEffect != null)
+                {
+                    matchEffect.transform.position = collisionWorldPosition;
+                    matchEffect.Play();
+                }
+                comboCount++;
+                PlayComboEffect(collisionWorldPosition);
                 firstCell.AnimateEliminated(null);
                 secondCell.AnimateEliminated(null);
             });

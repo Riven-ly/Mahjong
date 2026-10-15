@@ -1,0 +1,7 @@
+mj_combo.png
+size:192,56
+filter:Linear,Linear
+pma:true
+mj_combo
+bounds:2,2,186,52
+offsets:3,1,191,53

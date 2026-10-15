@@ -12,6 +12,7 @@ public class GameWinPanel : UIBase
     public Transform root;
     public Transform itemRoot;
     public RewardAdButton rewardAdButton;
+    public RewardAdButton otherAdBtn;
     public Button collectBtn;
     public Text ad_text;
     public Text c_text;
@@ -35,6 +36,11 @@ public class GameWinPanel : UIBase
     private void OnDisable()
     {
         isOpen = false;
+        if (!GameManager.Instance.playerInfo.adShownThisLevel && GameManager.Instance.playerInfo.level > 2)
+        {
+            GameManager.Instance.playerInfo.consecutiveNoAdCount++;
+        }
+        GameManager.Instance.playerInfo.adShownThisLevel = false;
         ResetPanel();
     }
     /// <summary>
@@ -45,7 +51,6 @@ public class GameWinPanel : UIBase
         collectBtn.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
-            AdManager.Instance.OnClickInterstitialAd(page_id);
             CollectClick();
         });
     }
@@ -73,6 +78,13 @@ public class GameWinPanel : UIBase
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
+        if (otherAdBtn != null)
+        {
+            otherAdBtn.Init(CollectAdCallback, page_id, true);
+            bool needForce = GameManager.Instance.playerInfo.level > 2 &&
+                             GameManager.Instance.playerInfo.consecutiveNoAdCount >= 2;
+            otherAdBtn.gameObject.SetActive(needForce);
+        }
         AudioManager.Instance.PlaySceneSingleMusic("gamewin");
         OtherSdkManager.Instance.CustomEvent("level_complete", "level_id", GameManager.Instance.playerInfo.level);
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
@@ -84,8 +96,18 @@ public class GameWinPanel : UIBase
     /// </summary>
     private void AdsCallback()
     {
+        GameManager.Instance.playerInfo.adShownThisLevel = true;
+        GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
         OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_two");
         ShowRewardTip(ad_V, 10);
+    }
+
+    private void CollectAdCallback()
+    {
+        UIManager.Instance.HideUIMask();
+        GameManager.Instance.playerInfo.adShownThisLevel = true;
+        GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
+        CollectClick();
     }
 
     /// <summary>

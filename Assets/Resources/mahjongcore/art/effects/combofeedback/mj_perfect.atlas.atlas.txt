@@ -1,0 +1,6 @@
+mj_perfect.png
+size:264,80
+filter:Linear,Linear
+pma:true
+mj_perfect
+bounds:2,2,259,74

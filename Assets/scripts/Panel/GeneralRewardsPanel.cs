@@ -10,6 +10,7 @@ public class GeneralRewardsPanel : UIBase
     public Transform root;
     public Transform itemRoot;
     public RewardAdButton rewardAdButton;
+    public RewardAdButton otherAdBtn;
     public Button collectBtn;
     public Transform collectTrans;
     public Text ad_text;
@@ -32,7 +33,10 @@ public class GeneralRewardsPanel : UIBase
         collectBtn.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
-            AdManager.Instance.OnClickInterstitialAd(page_id);
+            if (GameManager.Instance.playerInfo.consecutiveNoAdCount >= 2)
+            {
+                AdManager.Instance.OnClickInterstitialAd(page_id);
+            }
             CollectClick();
         });
     }
@@ -48,7 +52,6 @@ public class GeneralRewardsPanel : UIBase
     public override void Refresh(object data = null)
     {
         base.Refresh(data);
-
         taskData = data as TaskData;
 
         if (GameManager.Instance.playerInfo.level <= 2)
@@ -70,7 +73,15 @@ public class GeneralRewardsPanel : UIBase
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
-        AudioManager.Instance.PlaySceneSingleMusic("gamewin");
+        if (otherAdBtn != null)
+        {
+            otherAdBtn.Init(CollectAdCallback, page_id, true);
+            bool needForce = GameManager.Instance.playerInfo.level > 2 &&
+                             GameManager.Instance.playerInfo.consecutiveNoAdCount >= 2 &&
+                             UnityEngine.Random.Range(0, 100) < 35;
+            otherAdBtn.gameObject.SetActive(needForce);
+        }
+        AudioManager.Instance.PlaySceneSingleMusic("luckybox");
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
 
         collectBtn.transform.parent.gameObject.SetActive(GameManager.Instance.playerInfo.level > 2);
@@ -81,6 +92,8 @@ public class GeneralRewardsPanel : UIBase
     /// </summary>
     private void AdsCallback()
     {
+        GameManager.Instance.playerInfo.adShownThisLevel = true;
+        GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
         OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_two");
         PlayerInfoUI playerInfoUI = UIManager.Instance.GetUI<PlayerInfoUI>();
         UIManager.Instance.OpenUIMask();
@@ -148,6 +161,14 @@ public class GeneralRewardsPanel : UIBase
 
             Hide();              
         });
+    }
+
+    private void CollectAdCallback()
+    {
+        UIManager.Instance.HideUIMask();
+        GameManager.Instance.playerInfo.adShownThisLevel = true;
+        GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
+        CollectClick();
     }
 
     public override void Hide()
