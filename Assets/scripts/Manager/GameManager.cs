@@ -503,6 +503,24 @@ public class GameManager : MonoBehaviour
 
         gameScenePanel.gameplayView.DebugCompleteLevel();
     }
+
+    /// <summary>
+    /// 【调试】重播当前牌面的卡牌入场动画。
+    /// </summary>
+    [ContextMenu("Debug/重播卡牌入场动画")]
+    public void DebugReplayEntrance()
+    {
+        GameScenePanel gameScenePanel = UIManager.Instance == null
+            ? null
+            : UIManager.Instance.GetUI<GameScenePanel>();
+        if (gameScenePanel == null || gameScenePanel.gameplayView == null)
+        {
+            Debug.LogWarning("[Debug] 找不到 GameScenePanel 或其 gameplayView，无法重播入场动画");
+            return;
+        }
+
+        gameScenePanel.gameplayView.DebugReplayEntrance();
+    }
 }
 public static class AssetBundleRequestExtensions
 {

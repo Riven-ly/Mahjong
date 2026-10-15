@@ -247,6 +247,18 @@ namespace MahjongGame.View
         }
 
         /// <summary>
+        /// 播放卡牌入场动画：从完全透明淡入至正常显示。调用前必须已完成 Initialize。
+        /// </summary>
+        public Tween AnimateEntrance(float duration, float delay)
+        {
+            DOTween.Kill(this);
+            canvasGroup.alpha = 0f;
+            return canvasGroup.DOFade(MahjongViewConfig.NormalAlpha, duration)
+                .SetDelay(delay)
+                .SetTarget(this);
+        }
+
+        /// <summary>
         /// 播放卡牌消除动画。调用前必须由业务结果确认卡牌已经消除。
         /// </summary>
         public Tween AnimateEliminated(Action eliminationCompleted)
@@ -298,6 +310,8 @@ namespace MahjongGame.View
         public const float ReboundDuration = 0.1f; // 卡牌首次碰撞后的回弹时长
         public const float SecondCollisionDuration = 0.12f; // 卡牌第二次碰撞的动画时长
         public const float EliminateDuration = 0.2f; // 卡牌消除动画时长
+        public const float EntranceDuration = 0.33f; // 单张卡牌入场淡入时长
+        public const float EntranceStagger = 0.021f; // 入场扩散时每格对角距离的错峰间隔
         public const float EliminationEffectDuration = 2f; // 消除粒子完整播放及回收时长
         public const float HealthFadeDuration = 0.25f; // 扣除生命时的淡出时长
         public const float BoardCellWidth = 163f; // 牌面完整网格横向间距

@@ -45,12 +45,14 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 - 配置 SO：`Assets/Resources/Tx/PhaseTaskConfig.asset`、`PhaseOneHudConfig.asset`。
 - 挂载点：`ABResManager.prefab` 拖引用 `txWithdrawBarPrefab` / `txTipsRootPrefab`，`Init()` 实例化到 `PlayerInfoUI`。
 - 埋点 `OtherSdkManager.Instance.CustomEvent(...)`；金币 `GameManager.Instance.playerInfo.Gold`；本地化 `LanguageManager.GetText(key)`。
+- **弹窗音效**：各 Tx 弹窗在 `Refresh()` 里**显式**调 `TxGameBridge.PlaySfx()`（= `AudioManager.PlayBtnMusic()` → `btnMusic` 音频源播 `Assets/Audio/btn.mp3`）。全工程 18 处（CandyPanel / LevelPopup / InProgressPop / SpecialBonusPop / RecordPop / PhaseTaskPanel / ProcessCompletePop / TxWithdrawBar / AcCandyPop / ConfirmAcPop / AcSelectContainer / GuidePop）。`UIBase` / `UIManager` 本身不播音，所以面板有音效一定是自己调的。
 
 ## PhaseTask 关键事实
 
 - `Tick` 由 `PhaseTaskRuntime.Update` 无条件驱动（原始设计，别"修"）。
 - 过一档 = `活跃满60秒` 且 `successfulEscapes >= 档位目标`（与关系）。
-- `NotifyArrowEscaped()` 挂载点 = `MahjongGameplayView.CompleteEliminationAnimation()` 首行（每消除一对牌 +1）。2026-10-14 已补。
+- `NotifyArrowEscaped()` 挂载点 = `MahjongGameplayView.CompleteEliminationAnimation()` 首行（每消除一对牌 +1）；另在 `DebugCompleteLevel()` 里按剩余牌对数循环补发（仅调试路径）。2026-10-14 已补，10-15 复核两处均在。
+- **运行时读阶段存档（免进 Play）**：`Tx.PhaseTask.SaveData` 落在注册表 `HKCU\Software\Unity\UnityEditor\Happy Mahjong: Rich Adventure\Happy Mahjong: Rich Adventure`，值名带 hash 后缀（如 `Tx.PhaseTask.SaveData_h4174998170`），REG_BINARY 字节数组直接解码即 JSON。`Tick` 每跨 1 秒整数就 `Save()`，所以 `activeSeconds` 可实时观测。注意 `reg.exe` 被安全策略禁用，用 PowerShell `[Microsoft.Win32.Registry]::CurrentUser` 读、结果写文件再读。
 - Task3 金币用 `TxGameBridge.GoldAmount`；Task5 等级用 `TxGameBridge.CurrentLevel`（=`playerInfo.level`）。
 - `PhaseTaskSaveData.cAmount` 是死字段，保留不用。
 
@@ -78,6 +80,17 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 - 计数在 `MahjongGameplayView.comboCount`。挂点：手动配对成功 +1、配对失败清零、手动洗牌清零、`StartNewGame` 清零；自动洗牌（`EnsurePlayablePair`）与取消选择**不清零**。
 - 自动消除（返回道具）**不算连击**（不走 `HandleCellSelectRequested`）。
 - `comboEffects` 已在 `GameScenePanel.prefab` 接好：ComboEffects 作为嵌套 prefab 实例挂在 `MahjongGameplay` 节点下（新增 fileID `9000000000000000001`=PrefabInstance / `...002`=stripped RT / `...003`=stripped ComboEffectPlayer）。
+
+## 麻将主玩法（MahjongGameplayView）
+
+- 视图 `Assets/scripts/Mahjong/View/MahjongGameplayView.cs`，单张牌视图 `MahjongCell.cs`（含 `canvasGroup` 控透明度、`rectTransform` 控缩放/位置）。
+- 关卡创建链：`GameScenePanel.Refresh()` → `gameplayView.StartNewGame(levelDef)` → `BuildBoardViews()` → `EnsurePlayablePair()`。
+- **入场动效**（2026-10-15 加）：`StartNewGame` 末尾调 `PlayEntranceAnimation()` —— 每张牌 `canvasGroup` alpha 0→1 淡入，延迟按**从牌面左上角起的对角（Manhattan）距离**扩散。参数常量在 `MahjongViewConfig.EntranceDuration / EntranceStagger`，格距常量在 `MahjongGameplayView.EntranceCellPitchX/Y`（= `BoardCellWidth/Height * 0.5f`，即相邻牌实际间距）。
+  - 用户明确要的是**扩散**（从左上角第一张向外），不是行优先逐行扫。改顺序时别退回 `i * stagger`。
+  - **铁律**：入场必须排在 `EnsurePlayablePair()` **之后**。它内部 `RefreshBoardStates()` → `MahjongCell.SetBlocked()` 会把 `canvasGroup.alpha` 写回 1，放前面会被覆盖。
+  - 入场期间 `SetBoardInput(false)`，避免点到半透明的牌。
+- 表现配置统一放 `MahjongViewConfig`（静态常量类），不要散在方法里。
+- **调试入口三层范式**：`Assets/scripts/Manager/Editor/GameManagerEditor.cs` 的 `OnInspectorGUI` 加按钮 → `GameManager.DebugXxx()`（带 `[ContextMenu("Debug/…")]`）→ 面板/视图的 `DebugXxx()`。新增调试功能照此走，别自创机制（工程虽有 SRDebugger 包，但业务调试入口都走这条链）。
 
 ## 用户手工排布的 prefab（不要动结构）
 

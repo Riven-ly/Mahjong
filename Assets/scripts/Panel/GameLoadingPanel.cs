@@ -122,46 +122,17 @@ public class GameLoadingPanel : UIBase
         {
             slider.DOValue(1f, 0.2f).SetEase(Ease.Linear);
             DoTextNumberAnim(90, 100, 0.2f);
-            GameManager.Instance.Init();
-            if (ABResManager.Instance != null)
-            {
-                ABResManager.Instance.Init();
-            }
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.3f);
             AddCallback(() =>
             {
-                ShowGuideIfNeeded();
+                GameManager.Instance.Init();
+                if (ABResManager.Instance != null)
+                {
+                    ABResManager.Instance.Init();
+                }
             });
             Hide();
         }
-    }
-
-    void ShowGuideIfNeeded()
-    {
-        if (GuideIntro.Shown)
-            return;
-
-        UIManager.Instance.OpenUI<GuidePop>(new GuidePopData(OnGuidePopCompleted));
-    }
-
-    /// <summary>
-    /// 新手引导关闭后补充第一关的关卡任务提示。
-    /// </summary>
-    void OnGuidePopCompleted()
-    {
-        GuideIntro.MarkShown();
-
-        LevelTaskTipData tipData = new LevelTaskTipData(
-            PhaseTaskService.GetLevelDisplayNumber(),
-            PhaseTaskService.GetCurrentTaskText(),
-            null,
-            false);
-
-        if (tipData.CanOpen)
-            UIManager.Instance.OpenUI<LevelTaskTip>(tipData, () =>
-            {
-                UIManager.Instance.GetUI<GameScenePanel>().TryOpenFirstGameGuide();
-            });
     }
 
     public override void Refresh(object data = null)

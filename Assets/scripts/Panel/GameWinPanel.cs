@@ -302,11 +302,12 @@ public class GameWinPanel : UIBase
             .AppendCallback(() =>
             {
 
-                UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
+              
             })
-            .AppendInterval(1.8f)
+            .AppendInterval(1f)
             .AppendCallback(() =>
             {
+                UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
                 UIManager.Instance.HideUIMask();
 
                 LevelTaskTipData tipData = new LevelTaskTipData(
@@ -324,7 +325,7 @@ public class GameWinPanel : UIBase
                      EnterNextLevel();
                  }
             })
-            .AppendInterval(2f)
+            .AppendInterval(1f)
             .AppendCallback(() =>
             {
                 GameManager.Instance.PlayGuoChang(false);

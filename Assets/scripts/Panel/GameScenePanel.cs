@@ -153,6 +153,37 @@ public class GameScenePanel : UIBase,IEventListener
         RefreshTaskRedPoint();
 
         OtherSdkManager.Instance.CustomEvent("level_start", "level_id", GameManager.Instance.playerInfo.level);
+
+        ShowGuideIfNeeded();
+    }
+    void ShowGuideIfNeeded()
+    {
+        if (GuideIntro.Shown)
+            return;
+
+        DOTween.Sequence().AppendInterval(0.4f).AppendCallback(() =>
+        {
+            UIManager.Instance.OpenUI<GuidePop>(new GuidePopData(OnGuidePopCompleted));
+        });
+    }
+    /// <summary>
+    /// 新手引导关闭后补充第一关的关卡任务提示。
+    /// </summary>
+    void OnGuidePopCompleted()
+    {
+        GuideIntro.MarkShown();
+
+        LevelTaskTipData tipData = new LevelTaskTipData(
+            PhaseTaskService.GetLevelDisplayNumber(),
+            PhaseTaskService.GetCurrentTaskText(),
+            null,
+            false);
+
+        if (tipData.CanOpen)
+            UIManager.Instance.OpenUI<LevelTaskTip>(tipData, () =>
+            {
+                UIManager.Instance.GetUI<GameScenePanel>().TryOpenFirstGameGuide();
+            });
     }
 
     /// <summary>

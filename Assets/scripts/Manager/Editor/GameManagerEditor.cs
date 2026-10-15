@@ -16,5 +16,10 @@ public class GameManagerEditor : Editor
         {
             gameManager.DebugCompleteLevel();
         }
+
+        if (GUILayout.Button("重播卡牌入场动画", GUILayout.Height(30f)))
+        {
+            gameManager.DebugReplayEntrance();
+        }
     }
 }

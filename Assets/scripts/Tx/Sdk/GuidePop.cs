@@ -173,6 +173,7 @@ public sealed class GuidePop : UIBase
         if (clicked || !startButton.interactable)
             return;
 
+        TxGameBridge.PlaySfx();
         clicked = true;
         startButton.interactable = false;
         TxGameBridge.Track(SolarEventNames.GuideClickStart);

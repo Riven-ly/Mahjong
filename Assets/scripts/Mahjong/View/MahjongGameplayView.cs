@@ -47,6 +47,8 @@ namespace MahjongGame.View
         private const float MahjongCellHalfWidth = 85.5f; // 单张麻将牌局部坐标宽度的一半
         private const float MahjongCellHalfHeight = 99.5f; // 单张麻将牌局部坐标高度的一半
         private const float HorizontalScreenMargin = 50f; // 屏幕安全区左右保留边距
+        private const float EntranceCellPitchX = MahjongViewConfig.BoardCellWidth * 0.5f; // 相邻列卡牌的水平间距，用于入场扩散距离
+        private const float EntranceCellPitchY = MahjongViewConfig.BoardCellHeight * 0.5f; // 相邻行卡牌的垂直间距，用于入场扩散距离
 
         public event System.Action<int> HealthChanged; // 剩余生命变化事件
 
@@ -101,6 +103,52 @@ namespace MahjongGame.View
             MahjongOperationResult result = gameLogic.StartNewGame(levelDefinition);
             BuildBoardViews();
             EnsurePlayablePair();
+            PlayEntranceAnimation();
+        }
+
+        /// <summary>
+        /// 播放关卡创建完成后的卡牌入场动画：以牌面左上角为原点，按对角距离由近及远依次淡入。
+        /// </summary>
+        private void PlayEntranceAnimation()
+        {
+            if (cellViews.Count == 0)
+            {
+                return;
+            }
+
+            float originX = float.MaxValue;
+            float originY = float.MinValue;
+            foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
+            {
+                if (pair.Value == null)
+                {
+                    continue;
+                }
+
+                Vector2 position = pair.Value.RectTransform.anchoredPosition;
+                originX = Mathf.Min(originX, position.x);
+                originY = Mathf.Max(originY, position.y);
+            }
+
+            float totalDuration = MahjongViewConfig.EntranceDuration;
+            SetBoardInput(false);
+            foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
+            {
+                MahjongCell cell = pair.Value;
+                if (cell == null)
+                {
+                    continue;
+                }
+
+                Vector2 position = cell.RectTransform.anchoredPosition;
+                float distance = Mathf.Abs(position.x - originX) / EntranceCellPitchX
+                                 + Mathf.Abs(originY - position.y) / EntranceCellPitchY;
+                float delay = distance * MahjongViewConfig.EntranceStagger;
+                totalDuration = Mathf.Max(totalDuration, delay + MahjongViewConfig.EntranceDuration);
+                cell.AnimateEntrance(MahjongViewConfig.EntranceDuration, delay);
+            }
+
+            DOVirtual.DelayedCall(totalDuration, () => SetBoardInput(true)).SetTarget(this);
         }
 
         /// <summary>
@@ -216,6 +264,20 @@ namespace MahjongGame.View
             MahjongGameState gameState = gameLogic.CompleteElimination(remainingCardIds);
             ClearCellViews();
             TriggerGameResultEvent(gameState);
+        }
+
+        /// <summary>
+        /// 【调试】重播当前牌面的卡牌入场动画。
+        /// </summary>
+        public void DebugReplayEntrance()
+        {
+            if (cellViews.Count == 0)
+            {
+                Debug.LogWarning("[Debug] 当前没有牌面视图，无法重播入场动画");
+                return;
+            }
+
+            PlayEntranceAnimation();
         }
 
         /// <summary>
