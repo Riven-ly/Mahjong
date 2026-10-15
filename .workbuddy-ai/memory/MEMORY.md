@@ -25,6 +25,19 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 
 - `D:/UnityTest/majiangtext` ← Tx 提现弹窗来源。`LevelPopup.prefab` 两工程 fileID 相同。
 - `D:/Backup/Downloads/Packages/Assets` ← PhaseTask 五阶段任务来源（EscapePuzzle 3D 箭头玩法）。排查 Task1~5 以此工程为准。
+- **渲染管线不同**：参考工程是 **URP 14.0.12**（`Assets/PipleSetting/New Universal Render Pipeline Asset.asset`）；本项目是 **Built-in**（`GraphicsSettings.m_CustomRenderPipeline: {fileID: 0}`，manifest 无 URP 包）。迁移特效时注意：用内置 shader（如 `Particles/Standard Unlit`）的材质在本项目正常，在参考工程反而可能异常。
+
+## 第三方插件（已迁入）
+
+- `Assets/ParticleEffectForUGUI-3.3.13/` —— Coffee.UIParticle（mob-sakai，MIT），让 ParticleSystem 直接在 uGUI 里渲染（免 Camera/RenderTexture）。asmdef：`Coffee.UIParticle`（运行时）+ `Coffee.UIParticle.Editor`。**无外部 guid 依赖**，可整目录连 `.meta` 复制。`UIParticle.cs` guid = `16f0b0b6d0b7542bfbd20a3e05b04ff1`。
+- 迁移外部插件/特效的通用做法：**整个目录连 `.meta` 一起 cp**（guid 原样保留，引用不断），然后 `asset_refresh`。
+
+## 特效资产
+
+- `Assets/Effect/Caidai/` —— 彩带飘落粒子（`LeftCaidai` / `RightCaidai` / `DownCaidai` + `confetti.png` + `confetti_AB.mat`），来自参考工程 `ArtResources/Effect/Caidai/`，连 meta 复制 guid 不变（LeftCaidai = `5bd8d0c11e799bc4e8ad2d9655a55a40`）。
+  - 依赖 UIParticle；`LeftCaidai` 根 RT **自带 `m_LocalScale: {0,0,0}`（默认隐藏）**，用时必须显式放大。
+  - ParticleSystem：5 秒 / `playOnAwake: 1` / 不循环 → SetActive 打开即播。
+- `Assets/guochang/` + 场景 `Game.unity` 的 `GuoChang/guochang/CashRainParticles` —— 过场钞票雨粒子（纯 ParticleSystem 包，无脚本）。`GameManager.guoChangRoot` 引用 `guochang`，`PlayGuoChang(bool)` = `SetActive`。
 
 ## Tx（提现）模块
 

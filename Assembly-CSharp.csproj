@@ -261,6 +261,7 @@
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMPro_Mobile.cginc" />
+    <None Include="Assets\ParticleEffectForUGUI-3.3.13\Shaders\UIAdditive.shader" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
@@ -1350,6 +1351,10 @@
     <ProjectReference Include="AdjustSdk.Scripts.csproj">
       <Project>{96F99D1A-0545-0B4B-F9AC-802C4843C8FB}</Project>
       <Name>AdjustSdk.Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="Coffee.UIParticle.csproj">
+      <Project>{D100F82F-1668-A9D5-AFD7-2599F72A2E9F}</Project>
+      <Name>Coffee.UIParticle</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
