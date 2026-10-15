@@ -1176,7 +1176,8 @@ namespace MahjongGame.View
                 }
 
                 bool blocked = gameLogic.Model.State != MahjongGameState.Playing ||
-                               gameLogic.IsCardCovered(card.InstanceId);
+                               gameLogic.IsCardCovered(card.InstanceId) ||
+                               gameLogic.IsCardBlockedByBothSides(card.InstanceId);
                 cell.SetBlocked(blocked);
             }
         }

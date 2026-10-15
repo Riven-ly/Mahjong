@@ -64,7 +64,6 @@
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelValidator.Editor.cs" />
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelEditorState.cs" />
     <Compile Include="Assets\RewardsComboEffects\Editor\ComboSpineBindings.cs" />
-    <Compile Include="Assets\Editor\TxTmpDebug.cs" />
     <Compile Include="Assets\Editor\ABbuildEditor.cs" />
     <Compile Include="Assets\Editor\CustomToolEditor.cs" />
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelCatalogRepository.cs" />
@@ -1302,6 +1301,10 @@
     <ProjectReference Include="AdjustSdk.Scripts.csproj">
       <Project>{96F99D1A-0545-0B4B-F9AC-802C4843C8FB}</Project>
       <Name>AdjustSdk.Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="Coffee.UIParticle.csproj">
+      <Project>{D100F82F-1668-A9D5-AFD7-2599F72A2E9F}</Project>
+      <Name>Coffee.UIParticle</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

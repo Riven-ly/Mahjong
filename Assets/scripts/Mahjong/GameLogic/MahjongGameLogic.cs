@@ -119,6 +119,16 @@ namespace MahjongGame.GameLogic
             return boardRules.IsCovered(cardInstanceId);
         }
 
+        public bool IsCardBlockedByBothSides(int cardInstanceId)
+        {
+            if (boardRules == null)
+            {
+                throw new InvalidOperationException("游戏尚未开始。");
+            }
+
+            return boardRules.HasBothSideNeighbors(cardInstanceId);
+        }
+
         /// <summary>
         /// 随机交换当前仍在牌面上的卡牌位置。
         /// </summary>

@@ -1,163 +1,26 @@
 # Git_Mahjong 项目长期记忆
 
-Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity + DOTween + AppLovin MAX + Adjust + SolarEngine + TextMeshPro 3.0.9。
+Unity 2022.3.62f3c1，Happy Mahjong: Rich Adventure；DOTween、AppLovin MAX、Adjust、SolarEngine、TMP 3.0.9；Built-in 管线（参考工程可能 URP）。用户自己重打 AB/出包，不代跑；不进 Play/不为验证加载场景。已在 Play 的问题只做用户要求的只读取证。
 
-## AB 包机制
+## 资产与迁移
+- `Assets/Editor/ABbuildEditor.cs` 只收集 `Assets/ABRes/**` 打单包 `StreamingAssets/abres.dat`；meta 的 `assetBundleName` 非空会被排除；复制资产连 meta，排查悬空 guid（特别是动态 TMP 字体源文件）。AB manifest 判依赖进包看 `ClassTypes`，非 `Dependencies: []`。
+- 搬 prefab 子树须复制 RectTransform 全字段并做 diff；跨工程嵌套 prefab stripped `m_CorrespondingSourceObject.fileID` 必须匹配导入后真实 fileID；CRLF 先正规化。用户排好的 prefab 不擅自改；真要改单属性优先 UnitySkills REST `prefab_set_property`，`gameObjectName` 用相对根路径，YAML `m_Name: 'X '` 的引号非名字、尾部空格是名字。
+- 参考：`D:/UnityTest/majiangtext`（Tx）、`D:/Backup/Downloads/Packages/Assets`（PhaseTask）。UIParticle 在 `Assets/ParticleEffectForUGUI-3.3.13/`；彩带在 `Assets/Effect/Caidai/`（LeftCaidai 默认 scale=0）；过场钞票雨在 `Assets/guochang/`。
 
-- 打包脚本 `Assets/Editor/ABbuildEditor.cs`，MenuItem `Tools/AB打包/打包AB包`。
-- 只收集 `Assets/ABRes/**`，打成一个 `abres.dat`（AES-CBC），输出 `Assets/StreamingAssets/abres.dat`。
-- **重打 AB 包由用户自己执行**，不代跑。
-- **坑**：连 meta 复制的资产可能带 `assetBundleName: xxx.dat` → 被排除出 `abres.dat`。修复 = 清空 `assetBundleName`。排查：`grep -rn "assetBundleName: .\+" Assets --include="*.meta"` 应为 0。
-- **坑**：连 meta 复制的资产内部 guid 引用可能悬空（尤其 `TMP_FontAsset.m_SourceFontFile`）。Dynamic 字体拿不到源 otf → 文字不渲染。
-- **AB manifest 读法**：`Assets:` 段只列显式资源；判入包看 `ClassTypes:` 段（按类型去重）。`Dependencies: []` 不代表依赖没进包。
-- TMP shader 加入 `ProjectSettings/GraphicsSettings.asset` 的 `m_AlwaysIncludedShaders`（已加 7 个 SDF 系列）。
+## Tx / PhaseTask
+- Tx 脚本 `Assets/scripts/Tx/`，AB 资源 `Assets/ABRes/Tx/`，SO `Assets/Resources/Tx/`；弹窗音效由各 `Refresh()` 显式调用 `TxGameBridge.PlaySfx()`。
+- `PhaseTaskRuntime.Update` 无条件 Tick；过档需活跃≥60秒且逃脱数达标；`NotifyArrowEscaped` 在 `MahjongGameplayView.CompleteEliminationAnimation()` 首行。Task3 金币来自 `GoldAmount`，Task5 等级来自 `CurrentLevel`。注册表 HKCU `Software/Unity/UnityEditor/Happy Mahjong: Rich Adventure/Happy Mahjong: Rich Adventure` 的 `Tx.PhaseTask.SaveData_...` REG_BINARY 解码 JSON 可只读阶段状态。
+- `TxHudSliders.prefab` 纯显示 HUD，79 个 Graphic 的 raycastTarget 都已关；修改它需用户明确授权并由用户自己重打 AB。
 
-## 搬运 prefab 子树铁律
+## 麻将数据与显示
+- `Resources/Mahjong/Levels.json` 998关、`TutorialStages.json` 3关，皆固定牌型 `randomizeTypeIds:false`；`MahjongLevelRandomizer.CreateRandomizedLevel` 现在尊重 flag，false 时 CloneLevel；第三引导牌序由数据决定，不在代码写死。Resources 和脚本改动需重新出包，不是重打 AB。
+- `MahjongCardVisualCatalog.asset` 已按 CardTypeMapping 重排：1–9 万、10–18 筒、19–27 条、28–31 东南西北、32–34 红中发财白板、35–38 梅兰竹菊、39–42 春夏秋冬。改 SO 用 REST export/import JSON，不手改 YAML；`jsonFilePath` 仅接受 `Assets/` 或 `Packages/`，可内联 json。
+- 牌面链：JSON typeId → loader → randomizer（false CloneLevel）→ LayoutGenerator → 只读 `MahjongCardModel.TypeId` → visual catalog sprite。Shuffle 只交换坐标/层，不改 typeId。
+- `InstanceId = cards 下标+1`；`coordX` 是行（上下），`coordY` 是列（左右），相邻牌相差2半格。显示大致 x=(coordY/2-(cols-1)/2)*163，y=(coordX/2-(rows-1)/2)*190；层偏移另计。取证：`gameobject_find(component=MahjongCell)` → `editor_playmode_inspect` 读 InstanceId/localPosition → `component_get_serialized_properties` 读 BlockedMaskObj 引用 → inspect 掩罩 activeSelf。
+- 可点击：`MahjongBoardRules.ValidateSelection` 先 `IsCovered`，再 `HasBothSideNeighbors`；`MahjongGameplayView.RefreshBoardStates` 用相同规则开关 `BlockedMaskObj`。左右侧邻需在场、同 coordX、coordY±2，且 **邻牌 Layer≥目标 Layer**（允许上层跨层邻牌，低层牌不能挡住上层牌侧面）。2026-10-15 第99关第54张9筒 layer2：左南 layer2，右花兰 layer0；原不区分层时误挡，现排除右侧下层牌。被挡牌蒙黑遮罩但仍可点，点后抖动+音效；`NormalAlpha/BlockedAlpha` 均为1。
+- Slot 系统是死代码，`MahjongSlotRules` 未实例化、`SlotFull` 不可达；真实配对 `MarkPairForElimination`。Idle Hint 在 `MahjongGameplayView.UpdateIdleHint`；Combo 计数由 `MahjongGameplayView.comboCount` 管，自动消除不算连击。
 
-- 必须连 RectTransform 的锚点/位置/尺寸/轴心一起复制，搬完做 RectTransform 级 diff。
-- 嵌套 prefab stripped 块的 `m_CorrespondingSourceObject.fileID` 必须等于目标工程导入后的真实 fileID。
-- 参考工程 `.prefab` 是 CRLF，Python 匹配前先 `text.replace("\r\n", "\n")`。
-- 跨工程移植弹窗脚本：参考 `ViewBase`/`PopupBase` 有 DOTween 弹窗框架，本项目 `UIBase` 只有 `panelAnim`。绝不在子类定义 `OnEnable/OnDisable`（基类 private）。
-- 手写新建资源 .meta：自己生成 32 位 hex guid，`asset_refresh` 后回读确认。
-- 改 prefab 磁盘 YAML 是否被回滚取决于编辑器是否已加载该 prefab。
-
-## 参考工程
-
-- `D:/UnityTest/majiangtext` ← Tx 提现弹窗来源。`LevelPopup.prefab` 两工程 fileID 相同。
-- `D:/Backup/Downloads/Packages/Assets` ← PhaseTask 五阶段任务来源（EscapePuzzle 3D 箭头玩法）。排查 Task1~5 以此工程为准。
-- **渲染管线不同**：参考工程是 **URP 14.0.12**（`Assets/PipleSetting/New Universal Render Pipeline Asset.asset`）；本项目是 **Built-in**（`GraphicsSettings.m_CustomRenderPipeline: {fileID: 0}`，manifest 无 URP 包）。迁移特效时注意：用内置 shader（如 `Particles/Standard Unlit`）的材质在本项目正常，在参考工程反而可能异常。
-
-## 第三方插件（已迁入）
-
-- `Assets/ParticleEffectForUGUI-3.3.13/` —— Coffee.UIParticle（mob-sakai，MIT），让 ParticleSystem 直接在 uGUI 里渲染（免 Camera/RenderTexture）。asmdef：`Coffee.UIParticle`（运行时）+ `Coffee.UIParticle.Editor`。**无外部 guid 依赖**，可整目录连 `.meta` 复制。`UIParticle.cs` guid = `16f0b0b6d0b7542bfbd20a3e05b04ff1`。
-- 迁移外部插件/特效的通用做法：**整个目录连 `.meta` 一起 cp**（guid 原样保留，引用不断），然后 `asset_refresh`。
-
-## 特效资产
-
-- `Assets/Effect/Caidai/` —— 彩带飘落粒子（`LeftCaidai` / `RightCaidai` / `DownCaidai` + `confetti.png` + `confetti_AB.mat`），来自参考工程 `ArtResources/Effect/Caidai/`，连 meta 复制 guid 不变（LeftCaidai = `5bd8d0c11e799bc4e8ad2d9655a55a40`）。
-  - 依赖 UIParticle；`LeftCaidai` 根 RT **自带 `m_LocalScale: {0,0,0}`（默认隐藏）**，用时必须显式放大。
-  - ParticleSystem：5 秒 / `playOnAwake: 1` / 不循环 → SetActive 打开即播。
-- `Assets/guochang/` + 场景 `Game.unity` 的 `GuoChang/guochang/CashRainParticles` —— 过场钞票雨粒子（纯 ParticleSystem 包，无脚本）。`GameManager.guoChangRoot` 引用 `guochang`，`PlayGuoChang(bool)` = `SetActive`。
-
-## Tx（提现）模块
-
-- 脚本 `Assets/scripts/Tx/` + 桥接 `TxGameBridge.cs`；AB 资源 `Assets/ABRes/Tx/`；字体在 `Assets/Font/`（AB 包外）。
-- 配置 SO：`Assets/Resources/Tx/PhaseTaskConfig.asset`、`PhaseOneHudConfig.asset`。
-- 挂载点：`ABResManager.prefab` 拖引用 `txWithdrawBarPrefab` / `txTipsRootPrefab`，`Init()` 实例化到 `PlayerInfoUI`。
-- 埋点 `OtherSdkManager.Instance.CustomEvent(...)`；金币 `GameManager.Instance.playerInfo.Gold`；本地化 `LanguageManager.GetText(key)`。
-- **弹窗音效**：各 Tx 弹窗在 `Refresh()` 里**显式**调 `TxGameBridge.PlaySfx()`（= `AudioManager.PlayBtnMusic()` → `btnMusic` 音频源播 `Assets/Audio/btn.mp3`）。全工程 18 处（CandyPanel / LevelPopup / InProgressPop / SpecialBonusPop / RecordPop / PhaseTaskPanel / ProcessCompletePop / TxWithdrawBar / AcCandyPop / ConfirmAcPop / AcSelectContainer / GuidePop）。`UIBase` / `UIManager` 本身不播音，所以面板有音效一定是自己调的。
-
-## PhaseTask 关键事实
-
-- `Tick` 由 `PhaseTaskRuntime.Update` 无条件驱动（原始设计，别"修"）。
-- 过一档 = `活跃满60秒` 且 `successfulEscapes >= 档位目标`（与关系）。
-- `NotifyArrowEscaped()` 挂载点 = `MahjongGameplayView.CompleteEliminationAnimation()` 首行（每消除一对牌 +1）；另在 `DebugCompleteLevel()` 里按剩余牌对数循环补发（仅调试路径）。2026-10-14 已补，10-15 复核两处均在。
-- **运行时读阶段存档（免进 Play）**：`Tx.PhaseTask.SaveData` 落在注册表 `HKCU\Software\Unity\UnityEditor\Happy Mahjong: Rich Adventure\Happy Mahjong: Rich Adventure`，值名带 hash 后缀（如 `Tx.PhaseTask.SaveData_h4174998170`），REG_BINARY 字节数组直接解码即 JSON。`Tick` 每跨 1 秒整数就 `Save()`，所以 `activeSeconds` 可实时观测。注意 `reg.exe` 被安全策略禁用，用 PowerShell `[Microsoft.Win32.Registry]::CurrentUser` 读、结果写文件再读。
-- Task3 金币用 `TxGameBridge.GoldAmount`；Task5 等级用 `TxGameBridge.CurrentLevel`（=`playerInfo.level`）。
-- `PhaseTaskSaveData.cAmount` 是死字段，保留不用。
-
-## 第一关3小关卡引导系统
-
-- 配置：`Assets/Resources/Mahjong/TutorialStages.json`（3关：2张/6张/4张）。2026-10-15 已换成 `D:/Backup/Downloads/CashRewards-Happy格式-固定配对/level/` 的固定配对版本（真实 typeId，`randomizeTypeIds: false`）。
-- 加载：`TutorialStageCatalogLoader.CreateRuntimeStage(index)`。**旧的 `RearrangeStage3()` 硬编码重排已删除** —— stage3 的 A,B,B,A 由 JSON 数据自身固定，不再由代码写死。
-- 触发链路：第1小关 → LevelTaskTip 关闭 callback → `TryOpenFirstGameGuide()`；第2、3小关 → `StartFirstGameStage()` 里直接调。
-- per-stage 标记：`FirstGameGuideCompleted` / `...2` / `...3`（PlayerPrefs）。
-- `GuidePanel_firstGame` 的 `textKey` 字段控制每关引导文案。
-
-## 关卡数据与卡面映射（2026-10-15 大改）
-
-- `Assets/Resources/Mahjong/Levels.json`：**998 关**（原 321 关），来自 `D:/Backup/Downloads/CashRewards-Happy格式-固定配对/level/`，**全部 `randomizeTypeIds: false`**（固定配对，typeId 真实 1~42）。备份在 `.workbuddy-ai/backup/20261014-levels-replace/`。
-- **`randomizeTypeIds` 语义**：`MahjongLevelRandomizer.CreateRandomizedLevel()` 已改为**尊重该 flag** —— `false` 时走 `CloneLevel()` 原样返回（只复制不改牌型）；`true` 时才打乱。两个加载器（`MahjongLevelCatalogLoader` / `TutorialStageCatalogLoader`）都复用此逻辑，不用各自判。
-- **typeId → 图片** 唯一映射表 = `Assets/Resources/Mahjong/MahjongCardVisualCatalog.asset`（`MahjongCardVisualCatalogLoader.GetSprite(typeId)`）。2026-10-15 已**按 `CardTypeMapping.json` 全量重排**：1–9=1wan~9wan、10–18=1tong~9tong、19–27=1tiao~9tiao、28–31=dong/nan/xi/bei、32–34=hongzhong/facai/baiban、35–38=huamei/hualan/huazhu/huaju、39–42=huachun/huaxia/huaqiu/huadong。图片实体在 `Assets/Texture/Mahjong/cell/*.png`（42 张，文件名与 CardTypeMapping 一致）。
-- ⚠️ **改 ScriptableObject 资产别手改 YAML**：用 `scriptableobject_export_json` → Python 改 → `scriptableobject_import_json` 走 Unity 原生序列化。`import_json` 的 `jsonFilePath` **只接受 `Assets/`/`Packages/` 开头的相对路径**，绝对路径报 `SEMANTIC_INVALID`；变通 = 把 JSON 内联进 `json` 字段（`curl --data-binary @body.json`）。
-- 校验套路：Python 读 `.asset` YAML（`- typeId:\s*(\d+)\s*\n\s*sprite:...guid:\s*([0-9a-f]{32})`，先 CRLF→LF）+ 遍历 `cell/*.png.meta` 抓 guid→文件名，逐条比对 `CardTypeMapping.json`。现成脚本：`~/.workbuddy-ai/skills/unity-so-bulk-edit-via-rest/scripts/verify_so_mapping.py`。
-- ⚠️ **这三个资产都在 `Assets/Resources/` 下走 `Resources.Load`**（`MahjongConfig.LevelCatalogResourcePath = "Mahjong/Levels"`），是**打进 App 包**的，不是 AB。改完必须**重新出包**，重打 AB 包无效。
-
-### typeId 决定牌面的完整链路（已核实，牌面 = 数据，非随机）
-
-```
-关卡 JSON typeId
-  → MahjongLevelCatalogLoader.CreateRuntimeLevel / TutorialStageCatalogLoader.CreateRuntimeStage
-  → MahjongLevelRandomizer.CreateRandomizedLevel   ← randomizeTypeIds=false 时 CloneLevel 原样返回
-  → MahjongGameLogic.StartNewGame → MahjongLayoutGenerator.Generate(cardDefinition.typeId)
-  → MahjongCardModel.TypeId                        ← public int TypeId { get; } 只读，构造后无法改
-  → MahjongCardVisualCatalogLoader.GetSprite(card.TypeId) → iconImage.sprite
-```
-
-- **牌面唯一的运行时写入口**：`MahjongLayoutGenerator.cs:23` 的 `cardDefinition.typeId`。全工程 `TypeId =` 赋值只有模型构造函数一处。
-- **`Shuffle()` 不改牌型**：`MahjongGameLogic.Shuffle()` → `MahjongCardModel.SwapBoardPosition()` 只交换 `Layer/Position/CoordY/CoordX`，**不碰 TypeId**。所以洗牌只重排位置，牌面多重集不变。
-- **`EnsurePlayablePair()` 也不改牌型**：它循环 `Shuffle()` 直到存在可选中同类型对（靠换位置让配对变得可选），牌面种类与数量不变。
-- `MahjongCardColorUtility.GetColor(typeId)` 是**无图时的占位色**（黄金比例取 hue），42 个 typeId 都有图 → 实际不会用到，重排 catalog 不会造成色/图不一致。
-- 关卡创建入口只有两个：`GameScenePanel.cs:145`（普通关 `GetLevel(playerLevel)`）、`GameScenePanel.cs:199`（引导关 `CreateRuntimeStage(stage)`）。
-
-
-
-## 闲置引导（Idle Hint）
-
-- 在 `MahjongGameplayView.Update()` → `UpdateIdleHint()` 实现。
-- 默认等待 10 秒，高亮 2 秒，不消耗道具/不播音效。支持远程配置（`idle_hint_wait` / `idle_hint_duration`）。
-- 首关教学期间不触发（`IsFirstGameTutorialActive()`）。
-- 玩家点击/道具操作时 `ResetIdleHintTimer()` 重置计时。
-- `MahjongConfig.IdleHintWaitSeconds` / `IdleHintActiveSeconds` 为默认常量。
-- 远程配置通过 `MahjongGameplayView.RemoteIdleHintWaitSeconds` / `RemoteIdleHintActiveSeconds` static 属性设置。
-
-## 连击（Combo）特效
-
-- 资产包 `Assets/CashRewardsComboEffects/`（自包含 UGUI + Spine 4.2 特效，含 `README-中文.txt`）。
-- 核心 `CashRewards.ComboEffects.ComboEffectPlayer.PlayCombo(int count)`，**不维护计数**；阈值写死：3 起 Combo / 5,10 Perfect / 15,20 及 30 起整十 Excellent。
-- 计数在 `MahjongGameplayView.comboCount`。挂点：手动配对成功 +1、配对失败清零、手动洗牌清零、`StartNewGame` 清零；自动洗牌（`EnsurePlayablePair`）与取消选择**不清零**。
-- 自动消除（返回道具）**不算连击**（不走 `HandleCellSelectRequested`）。
-- `comboEffects` 已在 `GameScenePanel.prefab` 接好：ComboEffects 作为嵌套 prefab 实例挂在 `MahjongGameplay` 节点下（新增 fileID `9000000000000000001`=PrefabInstance / `...002`=stripped RT / `...003`=stripped ComboEffectPlayer）。
-
-## 麻将主玩法（MahjongGameplayView）
-
-- 视图 `Assets/scripts/Mahjong/View/MahjongGameplayView.cs`，单张牌视图 `MahjongCell.cs`（含 `canvasGroup` 控透明度、`rectTransform` 控缩放/位置）。
-- 关卡创建链：`GameScenePanel.Refresh()` → `gameplayView.StartNewGame(levelDef)` → `BuildBoardViews()` → `EnsurePlayablePair()`。
-- **入场动效**（2026-10-15 加）：`StartNewGame` 末尾调 `PlayEntranceAnimation()` —— 每张牌 `canvasGroup` alpha 0→1 淡入，延迟按**从牌面左上角起的对角（Manhattan）距离**扩散。参数常量在 `MahjongViewConfig.EntranceDuration / EntranceStagger`，格距常量在 `MahjongGameplayView.EntranceCellPitchX/Y`（= `BoardCellWidth/Height * 0.5f`，即相邻牌实际间距）。
-  - 用户明确要的是**扩散**（从左上角第一张向外），不是行优先逐行扫。改顺序时别退回 `i * stagger`。
-  - **铁律**：入场必须排在 `EnsurePlayablePair()` **之后**。它内部 `RefreshBoardStates()` → `MahjongCell.SetBlocked()` 会把 `canvasGroup.alpha` 写回 1，放前面会被覆盖。
-  - 入场期间 `SetBoardInput(false)`，避免点到半透明的牌。
-- 表现配置统一放 `MahjongViewConfig`（静态常量类），不要散在方法里。
-- **调试入口三层范式**：`Assets/scripts/Manager/Editor/GameManagerEditor.cs` 的 `OnInspectorGUI` 加按钮 → `GameManager.DebugXxx()`（带 `[ContextMenu("Debug/…")]`）→ 面板/视图的 `DebugXxx()`。新增调试功能照此走，别自创机制（工程虽有 SRDebugger 包，但业务调试入口都走这条链）。
-
-## 用户手工排布的 prefab（不要动结构）
-
-- `TxWithdrawBar.prefab` — 用户改过，只改脚本不碰 prefab。
-- `TxHudSliders.prefab` — 用户改过；**2026-10-15 用户明确授权改了一次**（全量关 raycastTarget）。仍然是「用户没明确要求就别动」。
-- 通用规则：用户没明确说改某个 prefab 时，**只改脚本**；需要知道结构就读 `.prefab` 的 YAML（只读，不实例化、不 apply）。
-
-## 改预制体资产：优先 REST `prefab_set_property`（2026-10-15 实战）
-
-改**单个属性**（如批量关 `m_RaycastTarget`）时，不用写 C# 临时脚本，也别手改磁盘 YAML：
-
-```
-POST /skill/prefab_set_property
-{"prefabPath":"Assets/.../X.prefab","gameObjectName":"Task2Slider/Fill",
- "componentType":"Image","propertyName":"m_RaycastTarget","value":"false"}
-```
-
-- **`gameObjectName` 接受「相对预制体根节点」的层级路径**（`Task2Slider/Fill`、`Task1Slider/Dots/dot1 (7)/Ico`）。
-- **不传 `gameObjectName` 会失败**（只在根节点找组件，报 `TARGET_NOT_FOUND`）→ **没有"一次改全类型"的用法**，要逐节点调。
-- `componentType`：`Image` / `TextMeshProUGUI`（`TMP_Text` 也认）/ `Text` …；`propertyName` 用**序列化字段名**（`m_RaycastTarget`）。
-- ⚠️ **YAML 单引号坑**：`m_Name: 'TipText (TMP) '` 的单引号是 YAML 语法（名字含首尾空格才加），真实名字是 `TipText (TMP) `（**尾部有空格**）。用带引号的名字调 REST 会 `TARGET_NOT_FOUND` → 去掉引号、保留空格。
-- ⚠️ **先量基线**：本次以为 79 个 Graphic 全要改，实测只有 **27** 个是 `1`、52 个本来就是 `0`。
-- 验证：`grep -c 'm_RaycastTarget: 1'` 前后对比 + `git diff --stat`（应恰好 N insertions / N deletions）+ `git diff | grep '^[+-]' | sort | uniq -c` 只出现 `+0` / `-1` 两行。
-- 批量发请求用 Python `urllib` + `json.dumps`（节点名含空格/括号/引号，shell 循环会被吃掉）。技法与脚本已写入技能 `unity-editor-verify`（三-A 节 + `scripts/set_prefab_property_batch.py`）。
-
-## TxHudSliders.prefab 结构（2026-10-15 摸清）
-
-- `TxHudSliders` → `Task1Slider`..`Task5Slider`。
-  - `Task1Slider`：`Bg` / `Fill` / `Dots`（`dot1`..`dot1 (7)`，每个含 NoComplete/Complete/Current 三态）/ `LimitLevelDisplay`（挂 5 个嵌套 `dot.prefab`）/ `jindu` / `Ico`。
-  - `Task2`~`Task5Slider`：`Bg` / `Fill` / `Ico` / `Ico2` / `Text (TMP)` / `TipText (TMP) `（尾部空格）。
-- **整棵树没有任何可点组件**：无 Button / Slider / Toggle / EventTrigger / Mask / GraphicRaycaster；7 个脚本（TxHudSliders、Task1~5Slider、PhaseLevelNodeView）**都不实现任何指针接口**、不手动处理输入。→ 纯显示 HUD。
-- 2026-10-15 已把**全部 79 个 Graphic 的 `m_RaycastTarget` 改为 0**（原 27 个为 1），点击可穿透。嵌套的 `dot.prefab` 本来就是 0，未改动。
-
-## guid 映射（参考 → 本项目）
-
-| 资产 | 参考 guid | 本项目 guid |
-|---|---|---|
-| neuron-extrabold SDF | 9e8d8050d99c2cb49b754817ec264f9a | d6389bd164024a56ba3421ce9947bde4 |
-| Atlas White Outline Material | 193391c627b444e1ac679b45c076f013 | fb89e49c0b6545c4a9f884e2dee61fd5 |
-| badge.png | 3447c0dcde9e2cd45b9273286a93d0bd | e557dd68370d40ec9c6c1e3ce75654c6 |
-
-美术类资产迁移后 guid 全变；预制体连 meta 复制 guid 不变。搬 YAML 前必须建全量 guid 重映射表。
+## 编译与工具
+- UnitySkills 需编辑器面板启用才监听 8090；按用户约定只在需要时 asset_refresh + debug_get_errors + dll 时间戳/Editor.log 最近编译状态，不做运行功能验证。不要在编辑器已开时用 batchmode。`Editor.log` 旧 `error CS` 会累积，不能简单全文计数。
+- Play 模式 `editor_playmode_inspect` 若运行态变化，应重新 `gameobject_find` 取当下 instanceId；同名多张牌要用 ID 明确指向，`component_get_serialized_properties` 的引用值形如 `-123:UnityEngine.GameObject:BlockedMask`（**第一个字段才是 instanceId**）。
+- Windows Git Bash 的 heredoc `:\n` 可能变 `:/n`，正则脚本用 Write 工具写文件再跑。不要重复验证同一件事；只改用户要求的范围，不主动加新注释。

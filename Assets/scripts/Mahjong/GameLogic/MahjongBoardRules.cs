@@ -49,7 +49,7 @@ namespace MahjongGame.GameLogic
         }
 
         /// <summary>
-        /// 判断指定卡牌同层同行的左右紧邻位置是否同时存在未移除卡牌。调用前必须保证实例ID为正数。
+        /// 判断指定卡牌同行的左右紧邻位置是否同时存在未移除卡牌。调用前必须保证实例ID为正数。
         /// </summary>
         public bool HasBothSideNeighbors(int cardInstanceId)
         {
@@ -68,7 +68,7 @@ namespace MahjongGame.GameLogic
             {
                 MahjongCardModel other = model.Cards[i];
                 if (other.State != MahjongCardState.OnBoard ||
-                    other.Layer != card.Layer ||
+                    other.Layer < card.Layer ||
                     other.CoordX != card.CoordX)
                 {
                     continue;
@@ -116,6 +116,11 @@ namespace MahjongGame.GameLogic
             if (IsCovered(cardInstanceId))
             {
                 return MahjongOperationFailure.CardCovered;
+            }
+
+            if (HasBothSideNeighbors(cardInstanceId))
+            {
+                return MahjongOperationFailure.CardBlockedByBothSides;
             }
 
             if (model.Slot.IsFull)
