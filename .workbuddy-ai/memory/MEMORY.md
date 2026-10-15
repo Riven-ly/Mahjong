@@ -122,7 +122,35 @@ Unity 2022.3.62f3c1，产品 "Happy Mahjong: Rich Adventure"。技术栈：Unity
 
 ## 用户手工排布的 prefab（不要动结构）
 
-- `TxWithdrawBar.prefab` / `TxHudSliders.prefab` — 用户改过，只改脚本不碰 prefab。
+- `TxWithdrawBar.prefab` — 用户改过，只改脚本不碰 prefab。
+- `TxHudSliders.prefab` — 用户改过；**2026-10-15 用户明确授权改了一次**（全量关 raycastTarget）。仍然是「用户没明确要求就别动」。
+- 通用规则：用户没明确说改某个 prefab 时，**只改脚本**；需要知道结构就读 `.prefab` 的 YAML（只读，不实例化、不 apply）。
+
+## 改预制体资产：优先 REST `prefab_set_property`（2026-10-15 实战）
+
+改**单个属性**（如批量关 `m_RaycastTarget`）时，不用写 C# 临时脚本，也别手改磁盘 YAML：
+
+```
+POST /skill/prefab_set_property
+{"prefabPath":"Assets/.../X.prefab","gameObjectName":"Task2Slider/Fill",
+ "componentType":"Image","propertyName":"m_RaycastTarget","value":"false"}
+```
+
+- **`gameObjectName` 接受「相对预制体根节点」的层级路径**（`Task2Slider/Fill`、`Task1Slider/Dots/dot1 (7)/Ico`）。
+- **不传 `gameObjectName` 会失败**（只在根节点找组件，报 `TARGET_NOT_FOUND`）→ **没有"一次改全类型"的用法**，要逐节点调。
+- `componentType`：`Image` / `TextMeshProUGUI`（`TMP_Text` 也认）/ `Text` …；`propertyName` 用**序列化字段名**（`m_RaycastTarget`）。
+- ⚠️ **YAML 单引号坑**：`m_Name: 'TipText (TMP) '` 的单引号是 YAML 语法（名字含首尾空格才加），真实名字是 `TipText (TMP) `（**尾部有空格**）。用带引号的名字调 REST 会 `TARGET_NOT_FOUND` → 去掉引号、保留空格。
+- ⚠️ **先量基线**：本次以为 79 个 Graphic 全要改，实测只有 **27** 个是 `1`、52 个本来就是 `0`。
+- 验证：`grep -c 'm_RaycastTarget: 1'` 前后对比 + `git diff --stat`（应恰好 N insertions / N deletions）+ `git diff | grep '^[+-]' | sort | uniq -c` 只出现 `+0` / `-1` 两行。
+- 批量发请求用 Python `urllib` + `json.dumps`（节点名含空格/括号/引号，shell 循环会被吃掉）。技法与脚本已写入技能 `unity-editor-verify`（三-A 节 + `scripts/set_prefab_property_batch.py`）。
+
+## TxHudSliders.prefab 结构（2026-10-15 摸清）
+
+- `TxHudSliders` → `Task1Slider`..`Task5Slider`。
+  - `Task1Slider`：`Bg` / `Fill` / `Dots`（`dot1`..`dot1 (7)`，每个含 NoComplete/Complete/Current 三态）/ `LimitLevelDisplay`（挂 5 个嵌套 `dot.prefab`）/ `jindu` / `Ico`。
+  - `Task2`~`Task5Slider`：`Bg` / `Fill` / `Ico` / `Ico2` / `Text (TMP)` / `TipText (TMP) `（尾部空格）。
+- **整棵树没有任何可点组件**：无 Button / Slider / Toggle / EventTrigger / Mask / GraphicRaycaster；7 个脚本（TxHudSliders、Task1~5Slider、PhaseLevelNodeView）**都不实现任何指针接口**、不手动处理输入。→ 纯显示 HUD。
+- 2026-10-15 已把**全部 79 个 Graphic 的 `m_RaycastTarget` 改为 0**（原 27 个为 1），点击可穿透。嵌套的 `dot.prefab` 本来就是 0，未改动。
 
 ## guid 映射（参考 → 本项目）
 

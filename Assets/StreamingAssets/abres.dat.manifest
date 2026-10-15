@@ -1,0 +1,288 @@
+ManifestFileVersion: 0
+CRC: 4064554960
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 721af2f5847d58042fc627be64190b38
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6e82dd5fc1b73d479da0bb5067049a94
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 721af2f5847d58042fc627be64190b38
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 111
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e201c8bf6d51c9e4684ffafb7a546022, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7a41d0b6c93e4f1a8d52e7b4c06f3a91, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5be5c8df1b0b2634d9fc96f9438f7793, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d66e83d15fc8aa54685cf80581383637, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7b3588bfc26c8ca42a827622ccc6e2e3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8dbe305e6b0888541b8d46aa80b62e1b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: aa13f047bbb19fe45a7a633e9ae48b92, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b8e4d2f6a1c3497e8d5b0f7a2c6e9d31, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 86568fa71999b9f43a1a4bacee0e7c9e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 75a2edec90e2a604fa04f5b0ce5e1db6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 81f2b06ee9ab76143bc53de1005e054b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 62db59125d04e3e4e9a576aba0c80389, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dfaa54ac6020a924d9d774a0d0b352c8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 411e16756cfe84746ae9b65779f2e0e3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f28a199528fff8941892f958946cad5a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6b82708b3146c864895bada5315d5057, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b330fb7165ac27b4696d41bbbf2a21bc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 049bda13ebc2fb742bf6fc8e969453fe, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ca2a376bea8064f439cc43a515214ae5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 089a0ee8c75d22f4998ce019a0e6a94e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a5ac962149e4db040821e6e51374dbf9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 191e5af37d48571488564ba774d83942, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe0d9e5dba75430478da0da758fb6e65, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8f193cee7e336c444898894c805e431d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 252c0c47a3f374c479d539e11a581d1c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4a9f92ef8098c84e889c4c9d9de985f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 212c40eab9082f741b1cd9c3d39ea920, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 225
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: GuidePop/GuideDot
+- AssemblyName: Assembly-CSharp
+  ClassName: GuidePop/ScaleAnimation
+- AssemblyName: Assembly-CSharp
+  ClassName: PhaseOneHudEntry
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.FaceInfo_Legacy
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.FontAssetCreationSettings
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.KerningTable
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_Character
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_FontFeatureTable
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_FontWeightPair
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_GlyphAdjustmentRecord
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_GlyphPairAdjustmentRecord
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_GlyphValueRecord
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_InputField/OnChangeEvent
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_InputField/SelectionEvent
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_InputField/SubmitEvent
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_InputField/TextSelectionEvent
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_InputField/TouchScreenKeyboardEvent
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.VertexGradient
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.RectOffset
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.FaceInfo
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.Glyph
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.GlyphMetrics
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.GlyphRect
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.AnimationTriggers
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Button/ButtonClickedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.ColorBlock
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Navigation
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.ScrollRect/ScrollRectEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.SpriteState
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Toggle/ToggleEvent
+Assets:
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/progress_fill.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/btn_blue_1.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/back.png
+- Assets/ABRes/Tx/Demo/Sprite/Ico/icon_timer.png
+- Assets/ABRes/Tx/UI/Panel/TxWithdrawBar.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/btn_close 1.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel0_btn.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/clock.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_emblem.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel1_logo.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/field_purple.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/icon_email.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/btn_blue_medium 1.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/bg_green.png
+- Assets/ABRes/Tx/Demo/Sprite/Ico/icon_checklist.png
+- Assets/ABRes/Tx/UI/Panel/TxHudSliders.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/divider_lavender.png
+- Assets/ABRes/ABResManager/md.png
+- Assets/ABRes/Tx/Demo/Sprite/GuidePop/divider_cream.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_vi.png
+- Assets/ABRes/Tx/UI/Panel/LevelPopup.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/clock.png
+- Assets/ABRes/Tx/Demo/Sprite/Ico/icon_c.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/icon_check.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/check_alt.png
+- Assets/ABRes/Tx/Demo/Prefabs/Elements/dot.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/icon_user.png
+- Assets/ABRes/Tx/UI/Panel/TopNotice.prefab
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel2_btn.png
+- Assets/ABRes/Tx/Demo/Sprite/GuidePop/title_earning_tips.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/tooltip_small.png
+- Assets/ABRes/Tx/UI/Panel/BottomNotice.prefab
+- Assets/ABRes/Tx/Demo/Sprite/Hud/crown.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel0_logo.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/ico_v.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/panel_blue.png
+- Assets/ABRes/Tx/UI/Panel/ProcessCompletePop.prefab
+- Assets/ABRes/Tx/UI/Panel/RecordPop.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/btn_gray.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/check.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Ico_p.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel2_logo_gray.png
+- Assets/ABRes/Tx/UI/Panel/ConfirmAcPop.prefab
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel2_logo.png
+- Assets/ABRes/Tx/Demo/Sprite/Ico/icon_cards.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel3_btn.png
+- Assets/ABRes/Tx/Demo/Sprite/SettingPop/progress_fill.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/btn_green.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/panel_purple.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/progress_thin.png
+- Assets/ABRes/Tx/UI/Panel/TxTipsRoot.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/bg.png
+- Assets/ABRes/Tx/Demo/Sprite/Ico/reward.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel1_btn.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_shield.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Ico_c.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel3_logo.png
+- Assets/ABRes/Tx/Demo/Sprite/GuidePop/panel_ribbon.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/card_glossy.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/Title.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/btn.png
+- Assets/ABRes/ABResManager/m.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/dot_green.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/card_purple_wide.png
+- Assets/ABRes/Tx/Demo/Sprite/Ico/badge.png
+- Assets/ABRes/Tx/UI/Panel/CandyPanel.prefab
+- Assets/ABRes/Tx/Demo/Sprite/SettingPop/progress_bg.png
+- Assets/ABRes/Tx/UI/Panel/InProgressPop.prefab
+- Assets/ABRes/Tx/UI/Panel/SpecialBonusPop.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/field_lavender.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/tooltip_tall.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/field_purple_wide.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/icon_empty_box.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel0_logo_gray.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/bg_round.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/btn_green 1.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/tou.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/bubble_1.png
+- Assets/ABRes/Tx/Demo/Sprite/Ico/Test.png
+- Assets/ABRes/ABResManager/ABResManager.prefab
+- Assets/ABRes/Tx/UI/Panel/AcCandyPop.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_spark.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/progress_bg.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/check.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/dot_gray.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/progress_fill.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/bar_bg.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/tip_box.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel3_logo_gray.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/divider_lavender_short.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/channel1_logo_gray.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/bar_fill_green.png
+- Assets/ABRes/Tx/UI/Panel/GuidePop.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/TopBg.png
+- Assets/ABRes/Tx/UI/Panel/LevelTaskTip.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/card_lavender.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/bg_yellow.png
+Dependencies: []
