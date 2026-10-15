@@ -64,9 +64,9 @@
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Components\SkeletonGraphicCustomMaterialsInspector.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Asset Types\SpineAtlasAssetInspector.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Components\SkeletonMecanimRootMotionInspector.cs" />
+    <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\BuildSettings.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Windows\SpriteAtlasImportWindow.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\BlendModeMaterialsUtility.cs" />
-    <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\BuildSettings.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\Icons.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\AssetDatabaseAvailabilityDetector.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Asset Types\SpineSpriteAtlasAssetInspector.cs" />
@@ -99,8 +99,8 @@
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Components\SkeletonMecanimInspector.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\Instantiation.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Shaders\SpineShaderWithOutlineGUI.cs" />
-    <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Components\SkeletonRootMotionBaseInspector.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\SpineInspectorUtility.cs" />
+    <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Components\SkeletonRootMotionBaseInspector.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Windows\SpinePreferences.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\DataReloadHandler.cs" />
     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Utility\SpineBuildProcessor.cs" />

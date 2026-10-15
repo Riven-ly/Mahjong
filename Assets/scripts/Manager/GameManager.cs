@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public PlayerInfo playerInfo;
     public List<Sprite> specialDiamonds;
     public List<Sprite> specialRewardsDuis;
+    public Transform guoChangRoot;
 
     [HideInInspector]public List<MahjongCell> beforeMahjongCells;
     public int addDebug_hours = 0;
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        PlayGuoChang(false);
         BeforeCreatMahjongCells();
     }
 
@@ -52,6 +54,16 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.OpenUI<PlayerInfoUI>();
         gameType = GameType.MainGame;
         UIManager.Instance.OpenUI<GameScenePanel>();
+    }
+
+    public void PlayGuoChang(bool _active)
+    {
+        if (guoChangRoot == null)
+        {
+            return;
+        }
+
+        guoChangRoot.gameObject.SetActive(_active);
     }
 
     public int GetReward()

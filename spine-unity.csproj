@@ -64,9 +64,9 @@
     <Compile Include="Assets\Spine\Runtime\spine-unity\Asset Types\BlendModeMaterials.cs" />
     <Compile Include="Assets\Spine\Runtime\spine-unity\Utility\MaterialChecks.cs" />
     <Compile Include="Assets\Spine\Runtime\spine-unity\Components\RootMotion\SkeletonRootMotion.cs" />
-    <Compile Include="Assets\Spine\Runtime\spine-unity\Utility\YieldInstructions\WaitForSpineAnimationEnd.cs" />
     <Compile Include="Assets\Spine\Runtime\spine-unity\Utility\YieldInstructions\WaitForSpineAnimation.cs" />
     <Compile Include="Assets\Spine\Runtime\spine-unity\Asset Types\SpineSpriteAtlasAsset.cs" />
+    <Compile Include="Assets\Spine\Runtime\spine-unity\Utility\YieldInstructions\WaitForSpineAnimationEnd.cs" />
     <Compile Include="Assets\Spine\Runtime\spine-unity\Utility\SkeletonExtensions.cs" />
     <Compile Include="Assets\Spine\Runtime\spine-unity\Mesh Generation\MeshGenerator.cs" />
     <Compile Include="Assets\Spine\Runtime\spine-unity\Components\RootMotion\SkeletonMecanimRootMotion.cs" />

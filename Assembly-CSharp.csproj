@@ -61,9 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\Panel\EvaluationGamePanel.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\MahjongMatchShatterEffect.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\ConfirmAcPop.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseOneHudCalculator.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\MahjongMatchShatterEffect.cs" />
     <Compile Include="Assets\scripts\Tx\TxGameBridge.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItemBase.cs" />
     <Compile Include="Assets\scripts\Tx\Config\PhaseOneHudConfigSO.cs" />
@@ -71,7 +71,6 @@
     <Compile Include="Assets\scripts\Tx\Domain\GuidePopData.cs" />
     <Compile Include="Assets\scripts\Ad\AdManager.cs" />
     <Compile Include="Assets\scripts\AB\SwitchAorBSprite.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\MahjongImpactGraphic.cs" />
     <Compile Include="Assets\scripts\language\PortugueseLanguageConfig.cs" />
     <Compile Include="Assets\scripts\Tx\UI\InProgressPop.cs" />
     <Compile Include="Assets\scripts\item\ItemBase.cs" />
@@ -82,9 +81,10 @@
     <Compile Include="Assets\scripts\Panel\GeneralRewardsPanel.cs" />
     <Compile Include="Assets\scripts\Tx\UI\PhaseLevelNodeView.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Exchange.cs" />
-    <Compile Include="Assets\scripts\Tx\Domain\ActiveMinuteProgress.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\MahjongBurstGraphic.cs" />
     <Compile Include="Assets\scripts\Effect\GoldCollectEffect.cs" />
     <Compile Include="Assets\scripts\Tx\UI\TxSafeArea.cs" />
+    <Compile Include="Assets\scripts\Tx\Domain\ActiveMinuteProgress.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\TipMgr.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\SdkTaskProgress.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task1Slider.cs" />
@@ -93,9 +93,7 @@
     <Compile Include="Assets\scripts\Tx\Sdk\AcSelectContainer.cs" />
     <Compile Include="Assets\scripts\AB\ABResManager.cs" />
     <Compile Include="Assets\scripts\Panel\GameWinPanel.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\MatchEffectPlayer.cs" />
     <Compile Include="Assets\scripts\Manager\PlayerInfo.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\ComboEffectPlayer.cs" />
     <Compile Include="Assets\scripts\Ad\ApplovinMaxInterstitialOperator.cs" />
     <Compile Include="Assets\scripts\Tx\UI\ProcessCompletePop.cs" />
     <Compile Include="Assets\scripts\AB\ABbuildManager.cs" />
@@ -112,6 +110,7 @@
     <Compile Include="Assets\scripts\Task\TaskManager.cs" />
     <Compile Include="Assets\scripts\Panel\SettingPanel.cs" />
     <Compile Include="Assets\scripts\Tx\Config\PhaseTaskConfigSO.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\MahjongMatchPetalEffect.cs" />
     <Compile Include="Assets\scripts\Tx\UI\TxHudSliders.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\AccountProfileData.cs" />
     <Compile Include="Assets\scripts\Mahjong\Model\MahjongLevelModels.cs" />
@@ -126,7 +125,6 @@
     <Compile Include="Assets\scripts\Tx\UI\PhaseSubLevelDot.cs" />
     <Compile Include="Assets\scripts\Manager\EncryptSDKKey.cs" />
     <Compile Include="Assets\scripts\Tx\UI\TxWithdrawBar.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\ComboEffectDemo.cs" />
     <Compile Include="Assets\scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\scripts\Ad\RewardAdButton.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseTaskPresentation.cs" />
@@ -144,7 +142,6 @@
     <Compile Include="Assets\scripts\Tx\UI\Task2Slider.cs" />
     <Compile Include="Assets\scripts\Tx\TxSaveKeys.cs" />
     <Compile Include="Assets\scripts\Tx\Sdk\SdkNoticeItem.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\MahjongMatchPetalEffect.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PlayAmountService.cs" />
     <Compile Include="Assets\scripts\Task\TaskItem.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PhaseTaskRuntime.cs" />
@@ -153,17 +150,19 @@
     <Compile Include="Assets\scripts\sceneitem\GameSceneItem_Return.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PlayerLevelCalculator.cs" />
     <Compile Include="Assets\scripts\Panel\PlayerInfoUI.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\MahjongImpactGraphic.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongHintEffect.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseTaskProgress.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\GuideIntro.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLayoutGeometry.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\TxGameHooks.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\ComboEffectPlayer.cs" />
     <Compile Include="Assets\scripts\language\MultilingualText.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PlayerProfileService.cs" />
     <Compile Include="Assets\scripts\Tx\SolarEventNames.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelValidator.cs" />
     <Compile Include="Assets\scripts\Panel\GeneralTipsPanel.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\MahjongBurstGraphic.cs" />
+    <Compile Include="Assets\guochang\Runtime\CashParticleUIPlayer.cs" />
     <Compile Include="Assets\scripts\Tx\UI\Task4Slider.cs" />
     <Compile Include="Assets\scripts\Tx\UI\LevelPopup.cs" />
     <Compile Include="Assets\scripts\Tx\UI\PhaseTaskItem.cs" />
@@ -174,8 +173,8 @@
     <Compile Include="Assets\scripts\NetworkChecker\NetworkChecker.cs" />
     <Compile Include="Assets\scripts\Manager\UIBase.cs" />
     <Compile Include="Assets\scripts\language\EnglishLanguageConfig.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\MahjongShardGraphic.cs" />
     <Compile Include="Assets\scripts\Mahjong\Model\MahjongModels.cs" />
-    <Compile Include="Assets\CashRewardsComboEffects\Runtime\MahjongShardGraphic.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongBoardRules.cs" />
     <Compile Include="Assets\scripts\Tx\UI\LevelTaskTip.cs" />
     <Compile Include="Assets\scripts\Mahjong\GameLogic\MahjongLevelRandomizer.cs" />
@@ -184,9 +183,11 @@
     <Compile Include="Assets\scripts\EventSystem\EventManager.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseFlowData.cs" />
     <Compile Include="Assets\scripts\language\LanguageManager.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\MatchEffectPlayer.cs" />
     <Compile Include="Assets\scripts\Tx\UI\RecordPop.cs" />
     <Compile Include="Assets\scripts\Tx\Runtime\PhaseTaskEvents.cs" />
     <Compile Include="Assets\scripts\Panel\GameLoadingPanel.cs" />
+    <Compile Include="Assets\RewardsComboEffects\Runtime\ComboEffectDemo.cs" />
     <Compile Include="Assets\scripts\Tx\UI\LevelTaskTipData.cs" />
     <Compile Include="Assets\scripts\Tx\Domain\PhaseTaskService.cs" />
     <Compile Include="Assets\scripts\Tx\UI\RewardTip.cs" />
@@ -216,6 +217,7 @@
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\guochang\Shaders\BanknoteParticle.shader" />
     <None Include="Assets\Shader\SpineRuntime\CGIncludes\Spine-DepthOnlyPass.cginc" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\Shader\SpineRuntime\Outline\CGIncludes\Spine-Outline-Pass.cginc" />
@@ -233,6 +235,7 @@
     <None Include="Assets\Shader\Spine_SkeletonGraphic.shader" />
     <None Include="Assets\SolarEngine\MainLand\se_mainland.txt" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMPro_Surface.cginc" />
+    <None Include="Assets\guochang\Shaders\BanknoteParticleUI.shader" />
     <None Include="Assets\Resources\mahjongcore\art\effects\comboemoji\mj_b.atlas.atlas.txt" />
     <None Include="Assets\Shader\SpineRuntime\CGIncludes\Spine-Skeleton-Lit-Common-Shadow.cginc" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMPro.cginc" />
@@ -247,7 +250,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\CashRewardsComboEffects\README-中文.txt" />
+    <None Include="Assets\RewardsComboEffects\README-中文.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Shader\SpineRuntime\SkeletonGraphic\CGIncludes\Spine-SkeletonGraphic-TintBlack-NormalPass.cginc" />
     <None Include="Assets\MaxSdk\Mediation\MediationAdapters.txt" />
@@ -1162,10 +1165,6 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Core">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
       <Private>False</Private>
@@ -1180,6 +1179,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
