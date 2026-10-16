@@ -9,7 +9,7 @@
     <package>com.applovin.mediation:bigoads-adapter:6.1.0.0</package>
     <package>com.applovin.mediation:bytedance-adapter:8.3.0.4.1</package>
     <package>com.applovin.mediation:chartboost-adapter:9.14.1.1</package>
-    <package>com.applovin.mediation:facebook-adapter:[6.22.0.1]</package>
+    <package>com.applovin.mediation:facebook-adapter:[6.22.0.0]</package>
     <package>com.applovin.mediation:fyber-adapter:8.5.0.0</package>
     <package>com.applovin.mediation:google-adapter:[25.4.0.0]</package>
     <package>com.applovin.mediation:inmobi-adapter:11.5.0.0</package>
