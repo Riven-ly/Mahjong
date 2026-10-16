@@ -37,6 +37,7 @@ namespace MahjongGame.View
         private GameObject hintEffect; // 提示特效节点
         private GameObject selectionEffect; // 选中特效节点
         private RectTransform rectTransform; // 当前卡牌矩形变换
+        private Canvas cellCanvas; // 当前卡牌独立排序画布
         private Action<MahjongCell> selectRequested; // 卡牌选择事件
         private bool isPointerEnabled; // 当前是否允许接收点击与射线
 
@@ -50,6 +51,7 @@ namespace MahjongGame.View
         private void Awake()
         {
             rectTransform = (RectTransform)transform;
+            cellCanvas = GetComponent<Canvas>();
             hintEffect = transform.Find("HintEffect").gameObject;
             selectionEffect = transform.Find("SelectionEffect").gameObject;
         }
@@ -146,6 +148,14 @@ namespace MahjongGame.View
         public void SetBoardPosition(Vector2 position)
         {
             rectTransform.anchoredPosition = position;
+        }
+
+        /// <summary>
+        /// 设置卡牌所在画布的排序层级。调用前必须先完成 Awake。
+        /// </summary>
+        public void SetSortingOrder(int sortingOrder)
+        {
+            cellCanvas.sortingOrder = sortingOrder;
         }
 
         /// <summary>
@@ -319,9 +329,13 @@ namespace MahjongGame.View
         public const float EntranceStagger = 0.021f; // 入场扩散时每格对角距离的错峰间隔
         public const float EliminationEffectDuration = 2f; // 消除粒子完整播放及回收时长
         public const float HealthFadeDuration = 0.25f; // 扣除生命时的淡出时长
-        public const float BoardCellWidth = 170f; // 牌面完整网格横向间距
-        public const float BoardCellHeight = 220f; // 牌面完整网格纵向间距
-        public const float LayerVisualOffsetX = 0f; // 每升一层额外增加的向左X轴视觉偏移
-        public const float LayerVisualOffsetY = 9f;
+        public const float BoardCellWidth = 162f; // 牌面完整网格横向间距
+        public const float BoardCellHeight = 203f; // 牌面完整网格纵向间距
+        public const float LayerVisualOffsetX = 13f; // 每升一层额外增加的向左X轴视觉偏移
+        public const float LayerVisualOffsetY = 25f;
+        public const int SortingOrderBase = 120;
+        public const int SortingOrderLayerStep = 20;
+        public const int SortingOrderRowStep = 16;
+        public const int SortingOrderEliminating = 380;
     }
 }

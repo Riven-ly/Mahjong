@@ -320,6 +320,7 @@ namespace MahjongGame.View
                         MahjongCardColorUtility.GetColor(card.TypeId),
                         HandleCellSelectRequested);
                     cell.SetBoardPosition(GetBoardPosition(card, gameLogic.Model.LevelDefinition));
+                    cell.SetSortingOrder(GetSortingOrder(card, gameLogic.Model.LevelDefinition));
                     cell.transform.SetAsLastSibling();
                     cellViews.Add(card.InstanceId, cell);
                 }
@@ -688,6 +689,7 @@ namespace MahjongGame.View
                     }
 
                     cell.SetBoardPosition(GetBoardPosition(card, gameLogic.Model.LevelDefinition));
+                    cell.SetSortingOrder(GetSortingOrder(card, gameLogic.Model.LevelDefinition));
                     cell.RefreshVisual(
                         MahjongCardVisualCatalogLoader.GetSprite(card.TypeId),
                         MahjongCardColorUtility.GetColor(card.TypeId));
@@ -705,6 +707,8 @@ namespace MahjongGame.View
             SetBoardInput(false);
             MahjongCell firstCell = cellViews[result.EliminatedCardIds[0]];
             MahjongCell secondCell = cellViews[result.EliminatedCardIds[1]];
+            firstCell.SetSortingOrder(MahjongViewConfig.SortingOrderEliminating);
+            secondCell.SetSortingOrder(MahjongViewConfig.SortingOrderEliminating);
             Vector3 collisionWorldPosition = (firstCell.RectTransform.position + secondCell.RectTransform.position) * 0.5f;
             firstCell.transform.SetParent(eliminationLayer, true);
             secondCell.transform.SetParent(eliminationLayer, true);
@@ -1022,6 +1026,7 @@ namespace MahjongGame.View
                 return;
             }
 
+            StopHint();
             for (int i = 0; i < hintCardIds.Count; i++)
             {
                 if (cellViews.TryGetValue(hintCardIds[i], out MahjongCell cell))
@@ -1276,6 +1281,19 @@ namespace MahjongGame.View
             float x = (centerColumn - maxColumn * 0.5f) * MahjongViewConfig.BoardCellWidth - layerVisualOffset;
             float y = (centerRow - maxRow * 0.5f) * MahjongViewConfig.BoardCellHeight + layerVisualOffsetY;
             return new Vector2(x, y);
+        }
+
+        /// <summary>
+        /// 按层级与牌面位置换算卡牌画布排序层级：层越高越靠上，同层越靠屏幕下方越靠前，同排越靠右越靠前。
+        /// </summary>
+        private static int GetSortingOrder(MahjongCardModel card, MahjongLevelDefinition levelDefinition)
+        {
+            int maximumCoordX = levelDefinition.gridRowCount * MahjongLayoutGeometry.HalfGridUnitsPerCell
+                                - MahjongLayoutGeometry.HalfGridUnitsPerCell;
+            return MahjongViewConfig.SortingOrderBase
+                   + card.Layer * MahjongViewConfig.SortingOrderLayerStep
+                   + (maximumCoordX - card.CoordX) * MahjongViewConfig.SortingOrderRowStep
+                   + card.CoordY;
         }
 
 

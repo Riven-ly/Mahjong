@@ -16,10 +16,10 @@ namespace MahjongGame.View
         private void OnEnable()
         {
             mahjongCell.transform.localScale = Vector3.one;
-            mahjongCell.transform.DOScale(1.06f, 0.55f)
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo)
-                .SetTarget(this);
+            //mahjongCell.transform.DOScale(1.06f, 0.55f)
+            //    .SetEase(Ease.InOutSine)
+            //    .SetLoops(-1, LoopType.Yoyo)
+            //    .SetTarget(this);
         }
 
         /// <summary>
