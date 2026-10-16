@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class ProcessCompletePopData
@@ -12,7 +11,7 @@ public sealed class ProcessCompletePopData
 
 public sealed class ProcessCompletePop : UIBase
 {
-    public TextMeshProUGUI displayText;
+    public Text displayText;
     public Button continueButton;
 
     ProcessCompletePopData data;

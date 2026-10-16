@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using DG.Tweening;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class CandyPanel : UIBase
@@ -14,17 +13,17 @@ public sealed class CandyPanel : UIBase
     public Button editButton;
     public GameObject login;
     public GameObject noLogin;
-    public TextMeshProUGUI accountText;
-    public TextMeshProUGUI nameText;
+    public Text accountText;
+    public Text nameText;
     public Image accountIcon;
     public Sprite channel0Icon;
     public Sprite channel1Icon;
     public Sprite channel2Icon;
     public Sprite channel3Icon;
-    public TextMeshProUGUI amountText;
-    public TextMeshProUGUI taskText;
+    public Text amountText;
+    public Text taskText;
     public Image taskProgressFill;
-    public TextMeshProUGUI taskProgressText;
+    public Text taskProgressText;
     public Image taskIcon;
     public Sprite task2Icon;
     public Sprite task3Icon;

@@ -1,14 +1,13 @@
 using System.Text.RegularExpressions;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class AcCandyPop : UIBase
 {
     public Button closeButton;
     public Button submitButton;
-    public TMP_InputField candyAcInputField;
-    public TMP_InputField nameInputField;
+    public InputField candyAcInputField;
+    public InputField nameInputField;
     public AcSelectContainer[] typeSelectors;
     public AcType selectedAcType;
 

@@ -1,12 +1,11 @@
 using System.Globalization;
 using DG.Tweening;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class RewardTip : UIBase
 {
-    public TextMeshProUGUI countText;
+    public Text countText;
     public RectTransform flightOrigin;
     public Image icon;
     public CanvasGroup background;

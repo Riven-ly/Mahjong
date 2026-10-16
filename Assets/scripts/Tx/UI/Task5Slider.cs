@@ -1,11 +1,10 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class Task5Slider : MonoBehaviour
 {
     public Image progressFill;
-    public TextMeshProUGUI progressText;
+    public Text progressText;
 
     public void Open() => gameObject.SetActive(true);
 

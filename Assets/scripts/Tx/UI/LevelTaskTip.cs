@@ -1,13 +1,13 @@
 using DG.Tweening;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 
 public sealed class LevelTaskTip : UIBase
 {
     public CanvasGroup background;
     public RectTransform panelRoot;
-    public TMP_Text description1;
-    public TMP_Text description2;
+    public Text description1;
+    public Text description2;
     [Min(0.01f)]
     public float panelDuration = 1f;
     [Min(0.01f)]

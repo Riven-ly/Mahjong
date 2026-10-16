@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public readonly struct SdkNoticeData
@@ -20,10 +19,10 @@ public readonly struct SdkNoticeData
 
 public sealed class SdkNoticeItem : MonoBehaviour
 {
-    public TextMeshProUGUI userText;
+    public Text userText;
     public Image accountIcon;
-    public TextMeshProUGUI amountText;
-    public TextMeshProUGUI dateText;
+    public Text amountText;
+    public Text dateText;
 
     public void Refresh(SdkNoticeData data)
     {

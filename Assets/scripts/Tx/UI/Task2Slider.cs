@@ -1,11 +1,10 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class Task2Slider : MonoBehaviour
 {
     public Image totalProgress;
-    public TextMeshProUGUI slotText;
+    public Text slotText;
 
     bool invalidProgressLogged;
 

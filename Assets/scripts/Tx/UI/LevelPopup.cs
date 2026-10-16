@@ -1,12 +1,11 @@
 using DG.Tweening;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class LevelPopup : UIBase
 {
-    public TextMeshProUGUI percentText;
-    public TextMeshProUGUI levelText;
+    public Text percentText;
+    public Text levelText;
     public Image progressFill;
     public Button closeButton;
     public Button continueButton;

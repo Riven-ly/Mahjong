@@ -1,11 +1,10 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TxWithdrawBar : MonoBehaviour
 {
-    public TextMeshProUGUI taskTipText;
-    public TextMeshProUGUI buttonText;
+    public Text taskTipText;
+    public Text buttonText;
     public Button withdrawButton;
 
     void Awake()

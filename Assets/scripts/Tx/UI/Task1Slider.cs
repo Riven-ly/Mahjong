@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class Task1Slider : MonoBehaviour
@@ -9,7 +8,7 @@ public sealed class Task1Slider : MonoBehaviour
     public PhaseLevelNodeView[] levelNodes;
     public GameObject limitLevelDisplay;
     public GameObject percentDisplay;
-    public TextMeshProUGUI percentText;
+    public Text percentText;
 
     readonly List<PhaseSubLevelDot> subDots = new List<PhaseSubLevelDot>();
 

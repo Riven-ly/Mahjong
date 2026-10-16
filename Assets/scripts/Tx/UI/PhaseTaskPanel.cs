@@ -1,13 +1,12 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class PhaseTaskPanel : UIBase
 {
     public Button closeButton;
-    public TextMeshProUGUI titleLabel;
-    public TextMeshProUGUI descriptionLabel;
-    public TextMeshProUGUI progressLabel;
+    public Text titleLabel;
+    public Text descriptionLabel;
+    public Text progressLabel;
     public PhaseTaskItem[] items;
 
     void Awake()

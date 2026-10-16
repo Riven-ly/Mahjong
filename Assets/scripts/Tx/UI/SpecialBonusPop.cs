@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using DG.Tweening;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class SpecialBonusPopData
@@ -19,7 +18,7 @@ public sealed class SpecialBonusPopData
 
 public sealed class SpecialBonusPop : UIBase
 {
-    public TextMeshProUGUI rewardAmountText;
+    public Text rewardAmountText;
     public Button claimButton;
     public float valueAnimDuration = 0.5f;
 

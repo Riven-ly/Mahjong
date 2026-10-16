@@ -1,11 +1,10 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class ConfirmAcPop : UIBase
 {
-    public TextMeshProUGUI accountText;
-    public TextMeshProUGUI nameText;
+    public Text accountText;
+    public Text nameText;
     public Image accountTypeIcon;
     public Sprite channel0Icon;
     public Sprite channel1Icon;

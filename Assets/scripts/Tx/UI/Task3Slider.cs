@@ -1,18 +1,17 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public sealed class Task3Slider : MonoBehaviour
 {
     public Image progressFill;
-    public TextMeshProUGUI progressText;
+    public Text progressText;
 
     void Awake()
     {
         if (progressFill == null)
             progressFill = transform.Find("Fill")?.GetComponent<Image>();
         if (progressText == null)
-            progressText = transform.Find("Text (TMP)")?.GetComponent<TextMeshProUGUI>();
+            progressText = transform.Find("Text (TMP)")?.GetComponent<Text>();
     }
 
     public void Open() => gameObject.SetActive(true);

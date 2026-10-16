@@ -44,29 +44,6 @@ public class ABResManager : MonoBehaviour
         CreateTxTipsRoot();
     }
 
-    void RefreshTMPMaterials(GameObject root)
-    {
-        var shader = tmpSdfShader != null ? tmpSdfShader : Shader.Find("TextMeshPro/Distance Field");
-        if (shader == null)
-            return;
-
-        var texts = root.GetComponentsInChildren<TMP_Text>(true);
-        foreach (var text in texts)
-        {
-            if (text == null)
-                continue;
-
-            var material = text.fontSharedMaterial;
-                material.shader = shader;
-
-            var instance = text.fontMaterial;
-                instance.shader = shader;
-
-            text.SetMaterialDirty();
-            text.ForceMeshUpdate(true);
-        }
-    }
-
     void CreateTxWithdrawBar()
     {
         if (txWithdrawBarPrefab == null)
@@ -78,7 +55,6 @@ public class ABResManager : MonoBehaviour
 
         TxWithdrawBar = Instantiate(txWithdrawBarPrefab, playerInfoUI.txTrans);
         TxWithdrawBar.RefreshTip();
-        RefreshTMPMaterials(TxWithdrawBar.gameObject);
     }
 
     void CreateTxTipsRoot()
