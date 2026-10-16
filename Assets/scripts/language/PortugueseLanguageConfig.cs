@@ -11,10 +11,12 @@ public static class PortugueseLanguageConfig
         {"Special_Diamond__unit", "JA=="},
         {"wd", "d2l0aGRyYXc="},
         {"ch", "Q2FzaCBPdXQ="},
+        {"Wd", "V2l0aGRyYXc="},
         {"AddSceneItemDesc", "Assista a um anúncio para ganhar 3 ferramentas. Toque em uma ferramenta quando quiser usá-la."},
         {"WatchAdX3", "Assistir Anúncio X3"},
         {"GuideMatchSymbols", "Combine símbolos para limpar a peça!"},
         {"GuideUncoverHidden", "Combine para revelar a peça escondida!"},
         {"GuideUnlockSide", "Combine as peças laterais para desbloquear as outras!"},
+        {"MatchesCount", "Pares: {0}"},
     };
 }

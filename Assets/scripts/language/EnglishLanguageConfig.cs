@@ -53,6 +53,7 @@ public static class EnglishLanguageConfig
         {"Special_Diamond__unit", "JA=="},//特殊钻石符号$
         {"wd", "d2l0aGRyYXc="},//withdraw
         {"ch", "Q2FzaCBPdXQ="},//Cash Out
+        {"Wd", "V2l0aGRyYXc="},
         //AddSceneItemPanel
         {"AddSceneItemDesc", "Watch an ad to get 3 tools. Tap a tool when you want to use it."},
         {"WatchAdX3", "Watch Ad X3"},
@@ -60,5 +61,6 @@ public static class EnglishLanguageConfig
         {"GuideMatchSymbols", "Match symbols to clear tile!"},
         {"GuideUncoverHidden", "Match to uncover hidden tile!"},
         {"GuideUnlockSide", "Match the side tiles to unlock other tiles!"},
+        {"MatchesCount", "Matches: {0}"},
     };
 }

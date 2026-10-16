@@ -71,6 +71,7 @@
     <Compile Include="Assets\scripts\Tx\Domain\GuidePopData.cs" />
     <Compile Include="Assets\scripts\Ad\AdManager.cs" />
     <Compile Include="Assets\scripts\AB\SwitchAorBSprite.cs" />
+    <Compile Include="Assets\scripts\Manager\VibrationManager.cs" />
     <Compile Include="Assets\scripts\language\PortugueseLanguageConfig.cs" />
     <Compile Include="Assets\scripts\Tx\UI\InProgressPop.cs" />
     <Compile Include="Assets\scripts\item\ItemBase.cs" />

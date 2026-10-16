@@ -51,6 +51,7 @@ namespace MahjongGame.View
         private const float EntranceCellPitchY = MahjongViewConfig.BoardCellHeight * 0.5f; // 相邻行卡牌的垂直间距，用于入场扩散距离
 
         public event System.Action<int> HealthChanged; // 剩余生命变化事件
+        public event System.Action<int> RemainingPairsChanged;
 
         public static float RemoteIdleHintWaitSeconds
         {
@@ -104,6 +105,21 @@ namespace MahjongGame.View
             BuildBoardViews();
             EnsurePlayablePair();
             PlayEntranceAnimation();
+            RemainingPairsChanged?.Invoke(CountRemainingPairs());
+        }
+
+        private int CountRemainingPairs()
+        {
+            int remainingCardCount = 0;
+            for (int i = 0; i < gameLogic.Model.Cards.Count; i++)
+            {
+                if (gameLogic.Model.Cards[i].State == MahjongCardState.OnBoard)
+                {
+                    remainingCardCount++;
+                }
+            }
+
+            return remainingCardCount / MahjongConfig.MatchCount;
         }
 
         /// <summary>
@@ -365,12 +381,6 @@ namespace MahjongGame.View
                 {
                     remainingHealth--;
                     HealthChanged?.Invoke(remainingHealth);
-                    if (remainingHealth <= 0)
-                    {
-                        DOVirtual.DelayedCall(MahjongViewConfig.HealthFadeDuration, () =>
-                            TriggerGameResultEvent(gameLogic.LoseGame()))
-                            .SetTarget(this);
-                    }
                 }
 
                 return;
@@ -745,6 +755,11 @@ namespace MahjongGame.View
                     matchEffect.transform.position = collisionWorldPosition;
                     matchEffect.Play();
                 }
+                if (SettingPanel.IsVibrateEnabled)
+                {
+                    VibrationManager.Vibrate();
+                }
+
                 comboCount++;
                 PlayComboEffect(collisionWorldPosition);
                 PlayComboCoinFly(collisionWorldPosition, comboCount);
@@ -774,6 +789,7 @@ namespace MahjongGame.View
             }
 
             activeEliminationCount--;
+            RemainingPairsChanged?.Invoke(CountRemainingPairs());
             if (gameState == MahjongGameState.Playing)
             {
                 TryShowEliminationReward(result.EliminatedCardIds.Count, () =>

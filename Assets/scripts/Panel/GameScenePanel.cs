@@ -16,6 +16,9 @@ public class GameScenePanel : UIBase,IEventListener
     public Button taskBtn;
     public Image taskRedImg;
     public Text levelText;
+    public Transform levlepoint1;
+    public Transform levlepoint2;
+    public Text majiangNum;
 
     public GameSceneItem_Exchange gameSceneItem_Exchange;
     public GameSceneItem_Hint gameSceneItem_Hint;
@@ -101,6 +104,7 @@ public class GameScenePanel : UIBase,IEventListener
         EventManager.Instance.RegisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.RegisterListener(GameEvent.StopHintAnim, this);
         gameplayView.HealthChanged += RefreshHealth;
+        gameplayView.RemainingPairsChanged += RefreshMajiangNum;
     }
 
     /// <summary>
@@ -113,6 +117,7 @@ public class GameScenePanel : UIBase,IEventListener
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.UnregisterListener(GameEvent.StopHintAnim, this);
         gameplayView.HealthChanged -= RefreshHealth;
+        gameplayView.RemainingPairsChanged -= RefreshMajiangNum;
     }
 
     /// <summary>
@@ -155,6 +160,17 @@ public class GameScenePanel : UIBase,IEventListener
         OtherSdkManager.Instance.CustomEvent("level_start", "level_id", GameManager.Instance.playerInfo.level);
 
         ShowGuideIfNeeded();
+
+        if(GameManager.Instance.playerInfo.level > 5 && GameManager.Instance.playerInfo.level < 30)
+        {
+            levelText.transform.SetParent(levlepoint1);
+            levelText.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            levelText.transform.SetParent(levlepoint2);
+            levelText.transform.localPosition = Vector3.zero;
+        }
     }
     void ShowGuideIfNeeded()
     {
@@ -275,6 +291,11 @@ public class GameScenePanel : UIBase,IEventListener
                     .OnComplete(() => healthCanvasGroup.gameObject.SetActive(false));
             }
         }
+    }
+
+    private void RefreshMajiangNum(int remainingPairs)
+    {
+        majiangNum.text = string.Format(LanguageManager.Instance.GetText("MatchesCount"), remainingPairs);
     }
 
     /// <summary>

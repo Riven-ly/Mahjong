@@ -201,7 +201,7 @@ namespace MahjongGame.View
         {
             if (SettingPanel.IsVibrateEnabled)
             {
-                Handheld.Vibrate();
+                //VibrationManager.Vibrate();
             }
             AudioManager.Instance.PlayMahjongCellMusic("cardShake");
             DOTween.Kill(this);
@@ -282,6 +282,11 @@ namespace MahjongGame.View
             }
             
             AudioManager.Instance.PlayMahjongCellMusic("cardselect");
+            if (SettingPanel.IsVibrateEnabled)
+            {
+                VibrationManager.Vibrate();
+            }
+
             selectRequested(this);
         }
 
@@ -316,7 +321,7 @@ namespace MahjongGame.View
         public const float HealthFadeDuration = 0.25f; // 扣除生命时的淡出时长
         public const float BoardCellWidth = 163f; // 牌面完整网格横向间距
         public const float BoardCellHeight = 190f; // 牌面完整网格纵向间距
-        public const float LayerVisualOffsetX = 0f; // 每升一层额外增加的向左X轴视觉偏移
+        public const float LayerVisualOffsetX = 9f; // 每升一层额外增加的向左X轴视觉偏移
         public const float LayerVisualOffsetY = 9f;
     }
 }

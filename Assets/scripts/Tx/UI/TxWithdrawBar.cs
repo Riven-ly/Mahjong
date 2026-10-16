@@ -41,7 +41,7 @@ public class TxWithdrawBar : MonoBehaviour
         if (buttonText == null)
             return;
 
-        buttonText.text = TxGameBridge.GetEncrypted("ch");
+        buttonText.text = TxGameBridge.GetEncrypted("Wd");
     }
 
     public void RefreshTip()

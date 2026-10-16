@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 4064554960
+CRC: 310224558
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 721af2f5847d58042fc627be64190b38
+    Hash: d2ea46396ab7a6c8cb9d3be4c8334625
   TypeTreeHash:
     serializedVersion: 2
     Hash: 6e82dd5fc1b73d479da0bb5067049a94
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 721af2f5847d58042fc627be64190b38
+    Hash: d2ea46396ab7a6c8cb9d3be4c8334625
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -210,6 +210,8 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_vi.png
 - Assets/ABRes/Tx/UI/Panel/LevelPopup.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/clock.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/guang.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/lvdou-huang.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/icon_c.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/icon_check.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/check_alt.png
