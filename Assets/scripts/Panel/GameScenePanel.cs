@@ -161,7 +161,7 @@ public class GameScenePanel : UIBase,IEventListener
 
         ShowGuideIfNeeded();
 
-        if(GameManager.Instance.playerInfo.level > 5 && GameManager.Instance.playerInfo.level < 30)
+        if(GameManager.Instance.IsPhaseOne())
         {
             levelText.transform.SetParent(levlepoint1);
             levelText.transform.localPosition = Vector3.zero;
@@ -171,6 +171,7 @@ public class GameScenePanel : UIBase,IEventListener
             levelText.transform.SetParent(levlepoint2);
             levelText.transform.localPosition = Vector3.zero;
         }
+        //levelText.gameObject.SetActive(!GameManager.Instance.IsPhaseOne());
     }
     void ShowGuideIfNeeded()
     {

@@ -244,9 +244,13 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        if (playerInfo.level % 3 == 0)
+        if (playerInfo.level == 4)
         {
-            TryEvaluationGame();
+            string str = PlayerPrefs.GetString("EvaluationGame");
+            if(string.IsNullOrEmpty(str))
+            {
+                TryEvaluationGame();
+            }
         }
     }
 
@@ -502,6 +506,14 @@ public class GameManager : MonoBehaviour
         }
 
         gameScenePanel.gameplayView.DebugCompleteLevel();
+    }
+
+    /// <summary>
+    /// 当前是否处于第一阶段（Task1Slider 对应的 PhaseId.Level8）。
+    /// </summary>
+    public bool IsPhaseOne()
+    {
+        return PhaseTaskService.CurrentPhaseId == PhaseId.Level8;
     }
 
     /// <summary>

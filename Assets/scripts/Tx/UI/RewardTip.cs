@@ -22,7 +22,7 @@ public sealed class RewardTip : UIBase
 
     private void Start()
     {
-        GameManager.Instance.UpdateAppATTToDiamond(icon,false);
+        // GameManager.Instance.UpdateAppATTToDiamond(icon,false);
     }
     public override void Refresh(object _data = null)
     {

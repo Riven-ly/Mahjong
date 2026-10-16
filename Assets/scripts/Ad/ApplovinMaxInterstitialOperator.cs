@@ -146,11 +146,11 @@ public class ApplovinMaxInterstitialOperator : MonoBehaviour
         //    return;
         //}
         //没评分之前
-        string str = PlayerPrefs.GetString("EvaluationGame", "");
-        if (string.IsNullOrEmpty(str))
-        {
-            return;
-        }
+        //string str = PlayerPrefs.GetString("EvaluationGame", "");
+        //if (string.IsNullOrEmpty(str))
+        //{
+        //    return;
+        //}
 
         ShowInterstitialAd();
     }

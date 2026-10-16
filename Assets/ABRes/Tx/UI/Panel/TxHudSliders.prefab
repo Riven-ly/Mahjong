@@ -8004,7 +8004,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2
+  m_Text: 1
 --- !u!1001 &825292935902287344
 PrefabInstance:
   m_ObjectHideFlags: 0
