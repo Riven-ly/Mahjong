@@ -5,19 +5,19 @@
     <package>com.android.installreferrer:installreferrer:2.2</package>
     <package>com.android.support:customtabs:28.+</package>
     <package>com.android.support:recyclerview-v7:28.+</package>
-    <package>com.applovin.mediation:bidmachine-adapter:3.7.1.0</package>
-    <package>com.applovin.mediation:bigoads-adapter:5.10.1.0</package>
-    <package>com.applovin.mediation:bytedance-adapter:8.2.0.4.0</package>
-    <package>com.applovin.mediation:chartboost-adapter:9.13.0.0</package>
-    <package>com.applovin.mediation:facebook-adapter:[6.16.0.0]</package>
-    <package>com.applovin.mediation:fyber-adapter:8.4.7.0</package>
+    <package>com.applovin.mediation:bidmachine-adapter:3.8.0.0</package>
+    <package>com.applovin.mediation:bigoads-adapter:6.1.0.0</package>
+    <package>com.applovin.mediation:bytedance-adapter:8.3.0.4.1</package>
+    <package>com.applovin.mediation:chartboost-adapter:9.14.1.1</package>
+    <package>com.applovin.mediation:facebook-adapter:[6.22.0.1]</package>
+    <package>com.applovin.mediation:fyber-adapter:8.5.0.0</package>
     <package>com.applovin.mediation:google-adapter:[25.4.0.0]</package>
-    <package>com.applovin.mediation:inmobi-adapter:11.4.0.0</package>
-    <package>com.applovin.mediation:ironsource-adapter:9.5.0.0.0</package>
-    <package>com.applovin.mediation:mintegral-adapter:17.1.71.0</package>
-    <package>com.applovin.mediation:moloco-adapter:4.11.1.0</package>
-    <package>com.applovin.mediation:unityads-adapter:4.19.0.1</package>
-    <package>com.applovin.mediation:vungle-adapter:7.7.7.1</package>
+    <package>com.applovin.mediation:inmobi-adapter:11.5.0.0</package>
+    <package>com.applovin.mediation:ironsource-adapter:9.6.1.0.0</package>
+    <package>com.applovin.mediation:mintegral-adapter:17.1.81.0</package>
+    <package>com.applovin.mediation:moloco-adapter:4.13.0.0</package>
+    <package>com.applovin.mediation:unityads-adapter:4.21.0.0</package>
+    <package>com.applovin.mediation:vungle-adapter:7.7.9.0</package>
     <package>com.applovin:applovin-sdk:13.6.0</package>
     <package>com.google.android.gms:play-services-base:16.1.0</package>
     <package>com.squareup.picasso:picasso:2.71828</package>
