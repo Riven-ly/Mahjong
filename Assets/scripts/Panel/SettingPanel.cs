@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,8 +26,8 @@ public class SettingPanel : UIBase
     public Button continueBtn;
     public Button resetGameBtn;
     //
-    public TextMeshProUGUI idText;
-    public TextMeshProUGUI gradeText;
+    public Text idText;
+    public Text gradeText;
     public Button gradeButton;
 
     private string page_id = "SettingPanel";

@@ -308,7 +308,7 @@ namespace MahjongGame.View
         public const float NormalAlpha = 1f; // 可操作卡牌透明度
         public const float BlockedAlpha = 1f; // 被阻挡卡牌透明度
         public const float TransitOffsetX = 300f; // 中转点相对碰撞中心的横向距离
-        public const float CollisionHalfDistance = 85.5f; // 两张完整卡牌刚好触碰时中心到碰撞点的横向距离
+        public const float CollisionHalfDistance = 87.5f; // 两张完整卡牌刚好触碰时中心到碰撞点的横向距离
         public const float ReboundOffsetX = 60f; // 首次碰撞后的横向回弹距离
         public const float MoveToTransitDuration = 0.22f; // 卡牌移动至中转点的动画时长
         public const float MoveToCenterDuration = 0.16f; // 卡牌首次碰撞的动画时长
@@ -319,9 +319,9 @@ namespace MahjongGame.View
         public const float EntranceStagger = 0.021f; // 入场扩散时每格对角距离的错峰间隔
         public const float EliminationEffectDuration = 2f; // 消除粒子完整播放及回收时长
         public const float HealthFadeDuration = 0.25f; // 扣除生命时的淡出时长
-        public const float BoardCellWidth = 163f; // 牌面完整网格横向间距
-        public const float BoardCellHeight = 190f; // 牌面完整网格纵向间距
-        public const float LayerVisualOffsetX = 9f; // 每升一层额外增加的向左X轴视觉偏移
+        public const float BoardCellWidth = 170f; // 牌面完整网格横向间距
+        public const float BoardCellHeight = 220f; // 牌面完整网格纵向间距
+        public const float LayerVisualOffsetX = 0f; // 每升一层额外增加的向左X轴视觉偏移
         public const float LayerVisualOffsetY = 9f;
     }
 }

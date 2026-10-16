@@ -12,7 +12,7 @@ TMP_DROPDOWN = "7b743370ac3e4ec2a1668f5455a8ef8a"
 LEGACY_TEXT = "5f7201a12d95ffc409449d95f23cf332"
 LEGACY_INPUTFIELD = "d199490a83bb2b844b9695cbf13b01ef"
 
-PREFABS = [
+PREFABS = [a for a in sys.argv[1:] if not a.startswith("--")] or [
     r"Assets\ABRes\Tx\UI\Panel\AcCandyPop.prefab",
     r"Assets\ABRes\Tx\UI\Panel\BottomNotice.prefab",
     r"Assets\ABRes\Tx\UI\Panel\CandyPanel.prefab",
@@ -206,7 +206,7 @@ def build_text_block(anchor, items, stats):
         "    m_AlignByGeometry: 0",
         "    m_RichText: %d" % rich,
         "    m_HorizontalOverflow: %d" % (0 if wrap else 1),
-        "    m_VerticalOverflow: %d" % (1 if overflow_mode == 0 else 0),
+        "    m_VerticalOverflow: 0",
         "    m_LineSpacing: 1",
         "  m_Text:%s" % ((" " + text_raw) if text_raw != "" else " "),
         "",

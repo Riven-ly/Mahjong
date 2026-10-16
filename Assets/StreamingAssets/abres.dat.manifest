@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 310224558
+CRC: 2532451033
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d2ea46396ab7a6c8cb9d3be4c8334625
+    Hash: dbe57c7e95d642720ecae64fce06a5f4
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 6e82dd5fc1b73d479da0bb5067049a94
+    Hash: 2abc17d91537dd42c1d395ac2eaf7973
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: d2ea46396ab7a6c8cb9d3be4c8334625
+    Hash: dbe57c7e95d642720ecae64fce06a5f4
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -35,6 +35,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
@@ -45,6 +47,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 7a41d0b6c93e4f1a8d52e7b4c06f3a91, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 5be5c8df1b0b2634d9fc96f9438f7793, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: d66e83d15fc8aa54685cf80581383637, type: 3}
@@ -54,6 +58,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 8dbe305e6b0888541b8d46aa80b62e1b, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: aa13f047bbb19fe45a7a633e9ae48b92, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: b8e4d2f6a1c3497e8d5b0f7a2c6e9d31, type: 3}
 - Class: 114
@@ -81,21 +87,17 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: b330fb7165ac27b4696d41bbbf2a21bc, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 049bda13ebc2fb742bf6fc8e969453fe, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: ca2a376bea8064f439cc43a515214ae5, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 089a0ee8c75d22f4998ce019a0e6a94e, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: a5ac962149e4db040821e6e51374dbf9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
 - Class: 114
@@ -129,54 +131,24 @@ SerializeReferenceClassIdentifiers:
   ClassName: GuidePop/ScaleAnimation
 - AssemblyName: Assembly-CSharp
   ClassName: PhaseOneHudEntry
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.FaceInfo_Legacy
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.FontAssetCreationSettings
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.KerningTable
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_Character
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_FontFeatureTable
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_FontWeightPair
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_GlyphAdjustmentRecord
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_GlyphPairAdjustmentRecord
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_GlyphValueRecord
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_InputField/OnChangeEvent
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_InputField/SelectionEvent
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_InputField/SubmitEvent
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_InputField/TextSelectionEvent
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.TMP_InputField/TouchScreenKeyboardEvent
-- AssemblyName: Unity.TextMeshPro
-  ClassName: TMPro.VertexGradient
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.PersistentCallGroup
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.RectOffset
-- AssemblyName: UnityEngine.TextCoreFontEngineModule
-  ClassName: UnityEngine.TextCore.FaceInfo
-- AssemblyName: UnityEngine.TextCoreFontEngineModule
-  ClassName: UnityEngine.TextCore.Glyph
-- AssemblyName: UnityEngine.TextCoreFontEngineModule
-  ClassName: UnityEngine.TextCore.GlyphMetrics
-- AssemblyName: UnityEngine.TextCoreFontEngineModule
-  ClassName: UnityEngine.TextCore.GlyphRect
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.AnimationTriggers
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.Button/ButtonClickedEvent
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.ColorBlock
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.FontData
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.InputField/EndEditEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.InputField/OnChangeEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.InputField/SubmitEvent
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
 - AssemblyName: UnityEngine.UI
@@ -191,9 +163,10 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/progress_fill.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/btn_blue_1.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/back.png
+- Assets/ABRes/Tx/Demo/Sprite/GuidePop/bg.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/icon_timer.png
-- Assets/ABRes/Tx/UI/Panel/TxWithdrawBar.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/btn_close 1.png
+- Assets/ABRes/Tx/UI/Panel/TxWithdrawBar.prefab
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel0_btn.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/clock.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_emblem.png
@@ -202,16 +175,19 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/icon_email.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/btn_blue_medium 1.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/bg_green.png
+- Assets/ABRes/Tx/Demo/Sprite/20261016-154453.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/icon_checklist.png
+- Assets/ABRes/Tx/Demo/Sprite/di 1.png
 - Assets/ABRes/Tx/UI/Panel/TxHudSliders.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/divider_lavender.png
 - Assets/ABRes/ABResManager/md.png
 - Assets/ABRes/Tx/Demo/Sprite/GuidePop/divider_cream.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_vi.png
 - Assets/ABRes/Tx/UI/Panel/LevelPopup.prefab
-- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/clock.png
+- Assets/ABRes/Tx/Demo/Sprite/Hud/2.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/guang.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/lvdou-huang.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/clock.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/icon_c.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/icon_check.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/check_alt.png
@@ -219,7 +195,6 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/icon_user.png
 - Assets/ABRes/Tx/UI/Panel/TopNotice.prefab
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel2_btn.png
-- Assets/ABRes/Tx/Demo/Sprite/GuidePop/title_earning_tips.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/tooltip_small.png
 - Assets/ABRes/Tx/UI/Panel/BottomNotice.prefab
 - Assets/ABRes/Tx/Demo/Sprite/Hud/crown.png
@@ -236,18 +211,18 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel2_logo.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/icon_cards.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel3_btn.png
-- Assets/ABRes/Tx/Demo/Sprite/SettingPop/progress_fill.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/btn.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/btn_green.png
-- Assets/ABRes/Tx/Demo/Sprite/WdSdk/panel_purple.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/progress_thin.png
-- Assets/ABRes/Tx/UI/Panel/TxTipsRoot.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/panel_purple.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/bg.png
+- Assets/ABRes/Tx/UI/Panel/TxTipsRoot.prefab
 - Assets/ABRes/Tx/Demo/Sprite/Ico/reward.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel1_btn.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_shield.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Ico_c.png
+- Assets/ABRes/Tx/Demo/Sprite/x 1.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel3_logo.png
-- Assets/ABRes/Tx/Demo/Sprite/GuidePop/panel_ribbon.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/card_glossy.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/Title.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/btn.png
@@ -256,7 +231,6 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/card_purple_wide.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/badge.png
 - Assets/ABRes/Tx/UI/Panel/CandyPanel.prefab
-- Assets/ABRes/Tx/Demo/Sprite/SettingPop/progress_bg.png
 - Assets/ABRes/Tx/UI/Panel/InProgressPop.prefab
 - Assets/ABRes/Tx/UI/Panel/SpecialBonusPop.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/field_lavender.png
@@ -266,16 +240,21 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel0_logo_gray.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/bg_round.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/btn_green 1.png
+- Assets/ABRes/Tx/Demo/Sprite/SettingPop/2.png
+- Assets/ABRes/Tx/Demo/Sprite/GuidePop/hengfu.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/tou.png
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/btn(1).png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/bubble_1.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/Test.png
 - Assets/ABRes/ABResManager/ABResManager.prefab
+- Assets/ABRes/Tx/Demo/Sprite/Hud/1.png
 - Assets/ABRes/Tx/UI/Panel/AcCandyPop.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_spark.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/progress_bg.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Progress/check.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/dot_gray.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/progress_fill.png
+- Assets/ABRes/Tx/Demo/Sprite/title_di 1.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/bar_bg.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/tip_box.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel3_logo_gray.png
@@ -283,6 +262,8 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel1_logo_gray.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/bar_fill_green.png
 - Assets/ABRes/Tx/UI/Panel/GuidePop.prefab
+- Assets/ABRes/Tx/Demo/Sprite/GuidePop/title.png
+- Assets/ABRes/Tx/Demo/Sprite/SettingPop/1.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/TopBg.png
 - Assets/ABRes/Tx/UI/Panel/LevelTaskTip.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/card_lavender.png
