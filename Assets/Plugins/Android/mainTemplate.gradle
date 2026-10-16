@@ -13,7 +13,7 @@ dependencies {
     implementation 'com.applovin.mediation:bigoads-adapter:6.1.0.0' // Assets/MaxSdk/Mediation/BigoAds/Editor/Dependencies.xml:4
     implementation 'com.applovin.mediation:bytedance-adapter:8.3.0.4.1' // Assets/MaxSdk/Mediation/ByteDance/Editor/Dependencies.xml:8
     implementation 'com.applovin.mediation:chartboost-adapter:9.14.1.1' // Assets/MaxSdk/Mediation/Chartboost/Editor/Dependencies.xml:8
-    implementation 'com.applovin.mediation:facebook-adapter:[6.22.0.0]' // Assets/MaxSdk/Mediation/Facebook/Editor/Dependencies.xml:8
+    implementation 'com.applovin.mediation:facebook-adapter:[6.20.0.0]' // Assets/MaxSdk/Mediation/Facebook/Editor/Dependencies.xml:8
     implementation 'com.applovin.mediation:fyber-adapter:8.5.0.0' // Assets/MaxSdk/Mediation/Fyber/Editor/Dependencies.xml:4
     implementation 'com.applovin.mediation:google-adapter:[25.4.0.0]' // Assets/MaxSdk/Mediation/Google/Editor/Dependencies.xml:5
     implementation 'com.applovin.mediation:inmobi-adapter:11.5.0.0' // Assets/MaxSdk/Mediation/InMobi/Editor/Dependencies.xml:4
