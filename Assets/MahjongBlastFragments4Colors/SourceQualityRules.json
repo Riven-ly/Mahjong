@@ -1,0 +1,906 @@
+[
+  {
+    "id": 8299833473741323808,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 2710699280803598208
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 9103682080020905636
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 6928027709110615510
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 8389768795524993845
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 2271284501897266262
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 6781574238596544494
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -7105696755588446042
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -7506344275927647449
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": 8543585790105828134,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -5322845433263477529
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -3713365314548498027
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -3715365067030201326
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -6692217355154294686
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -8498832299099256601
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -7944743388283298789
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 3247883575292717810
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -6713949899578454025
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": -7369486745884856316,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 3081739803710274687
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 4329444674352367072
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 8271411447483125215
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -752364977610363583
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -6073357980287156166
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -3838756753339813985
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 4436350325093212744
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 3699348676176762461
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": -5208691004551332375,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -1548963052413982042
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 4646183135644535804
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 108038397640208309
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 8922771774217052893
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 8128086352091765464
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -6293522401744526213
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -7471774964504536612
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 8092507198376787625
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": -3209036503577465849,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -1728774039773055341
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -4038142373059251520
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 3547422757914407083
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -7215459007709359911
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -4161572872304023653
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -530102774977181009
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -8218879690725780887
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 477940585681208681
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": 3893185942029374457,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 8793316376450062774
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 636583455739295605
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 4074425834647142743
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -5714523124682819058
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -4450289751087061964
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -1560780863289126916
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 961987313656216563
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 2050361252363114988
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": 4031990482785652854,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -8673062776147923238
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -5058095175768093015
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -5520547722267477621
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -7147705809006471967
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 5363659638424759118
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 5780156458987900887
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -2877604876150805376
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 4971806539404236651
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": 7718661668839551849,
+    "type": "MonoBehaviour",
+    "data": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -752409523505963729
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 0,
+        "m_PathID": 1176177809312736060
+      },
+      "m_Name": "",
+      "nodeRules": [
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 1369642157768668991
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 2,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -8607264708370275522
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": 2406850934487457220
+          },
+          "controlActive": 1
+        },
+        {
+          "matchMode": 1,
+          "targetTier": 1,
+          "target": {
+            "m_FileID": 0,
+            "m_PathID": -5207669471341556225
+          },
+          "controlActive": 1
+        }
+      ],
+      "particleRules": [
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 7282002989795617030
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": 251943506601090816
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            60,
+            80,
+            115
+          ],
+          "rateOverTimePerTier": [
+            100.0,
+            100.0,
+            167.0
+          ]
+        },
+        {
+          "emitter": {
+            "m_FileID": 0,
+            "m_PathID": -2236212777456999055
+          },
+          "controlActive": 1,
+          "controlMaxParticles": 1,
+          "controlRateOverTime": 1,
+          "maxParticlesPerTier": [
+            5,
+            5,
+            10
+          ],
+          "rateOverTimePerTier": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  }
+]

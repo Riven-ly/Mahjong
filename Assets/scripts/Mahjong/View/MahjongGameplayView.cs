@@ -33,6 +33,10 @@ namespace MahjongGame.View
 
         [SerializeField] private ComboEffectPlayer comboEffects;
         [SerializeField] private MatchEffectPlayer matchEffect;
+        [SerializeField] private GameObject matchNewEffect_Blue;
+        [SerializeField] private GameObject matchNewEffect_Green;
+        [SerializeField] private GameObject matchNewEffect_Yellow;
+        [SerializeField] private GameObject matchNewEffect_Pink;
 
         [SerializeField] private float luckyLevelPlaySeconds; // 本关累计的正常游戏秒数，换关清零
         private float luckyLastCheckTime; // 上次结算 Lucky 规则的全局时间戳
@@ -98,6 +102,7 @@ namespace MahjongGame.View
             selectedCardId = 0;
             comboCount = 0;
             currentBackgroundStyle = (MahjongCellBackgroundStyle)Random.Range(0, 4);
+            SetMatchNewEffectsActive(false);
             remainingHealth = MahjongViewConfig.InitialHealth;
             autoEliminationRemainingGroupCount = 0;
             idleHintTimer = 0f;
@@ -408,6 +413,60 @@ namespace MahjongGame.View
 
             comboEffects.transform.position = worldPosition;
             comboEffects.PlayCombo(comboCount);
+        }
+
+        /// <summary>
+        /// 按当前关卡的卡牌背景颜色打开对应的匹配特效。
+        /// </summary>
+        private void PlayMatchNewEffect(Vector3 worldPosition)
+        {
+            GameObject effect = GetMatchNewEffect(currentBackgroundStyle);
+            if (effect == null)
+            {
+                return;
+            }
+
+            effect.transform.position = worldPosition;
+            effect.SetActive(false);
+            effect.SetActive(true);
+        }
+
+        private GameObject GetMatchNewEffect(MahjongCellBackgroundStyle style)
+        {
+            switch (style)
+            {
+                case MahjongCellBackgroundStyle.Green:
+                    return matchNewEffect_Green;
+                case MahjongCellBackgroundStyle.Yellow:
+                    return matchNewEffect_Yellow;
+                case MahjongCellBackgroundStyle.Red:
+                    return matchNewEffect_Pink;
+                default:
+                    return matchNewEffect_Blue;
+            }
+        }
+
+        private void SetMatchNewEffectsActive(bool active)
+        {
+            if (matchNewEffect_Blue != null)
+            {
+                matchNewEffect_Blue.SetActive(active);
+            }
+
+            if (matchNewEffect_Green != null)
+            {
+                matchNewEffect_Green.SetActive(active);
+            }
+
+            if (matchNewEffect_Yellow != null)
+            {
+                matchNewEffect_Yellow.SetActive(active);
+            }
+
+            if (matchNewEffect_Pink != null)
+            {
+                matchNewEffect_Pink.SetActive(active);
+            }
         }
 
         /// <summary>
@@ -777,11 +836,7 @@ namespace MahjongGame.View
             eliminateSequence.AppendCallback(() =>
             {
                 // PlayEliminationEffect(collisionWorldPosition);
-                if (matchEffect != null)
-                {
-                    matchEffect.transform.position = collisionWorldPosition;
-                    matchEffect.Play();
-                }
+                PlayMatchNewEffect(collisionWorldPosition);
                 if (SettingPanel.IsVibrateEnabled)
                 {
                     VibrationManager.Vibrate();
