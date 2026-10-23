@@ -307,6 +307,7 @@ namespace MahjongGame.View
             int layerCount = gameLogic.Model.LevelDefinition.GetLayerCount();
             for (int layer = 0; layer < layerCount; layer++)
             {
+                int shadowSortingOrder = GetLayerSortingOrderStart(layer);
                 for (int i = 0; i < gameLogic.Model.Cards.Count; i++)
                 {
                     MahjongCardModel card = gameLogic.Model.Cards[i];
@@ -324,6 +325,7 @@ namespace MahjongGame.View
                     cell.SetBackgroundStyle(currentBackgroundStyle);
                     cell.SetBoardPosition(GetBoardPosition(card, gameLogic.Model.LevelDefinition));
                     cell.SetSortingOrder(GetSortingOrder(card, gameLogic.Model.LevelDefinition));
+                    cell.SetShadowSortingOrder(shadowSortingOrder);
                     cell.transform.SetAsLastSibling();
                     cellViews.Add(card.InstanceId, cell);
                 }
@@ -682,6 +684,7 @@ namespace MahjongGame.View
             int layerCount = gameLogic.Model.LevelDefinition.GetLayerCount();
             for (int layer = 0; layer < layerCount; layer++)
             {
+                int shadowSortingOrder = GetLayerSortingOrderStart(layer);
                 for (int i = 0; i < gameLogic.Model.Cards.Count; i++)
                 {
                     MahjongCardModel card = gameLogic.Model.Cards[i];
@@ -693,6 +696,7 @@ namespace MahjongGame.View
 
                     cell.SetBoardPosition(GetBoardPosition(card, gameLogic.Model.LevelDefinition));
                     cell.SetSortingOrder(GetSortingOrder(card, gameLogic.Model.LevelDefinition));
+                    cell.SetShadowSortingOrder(shadowSortingOrder);
                     cell.RefreshVisual(
                         MahjongCardVisualCatalogLoader.GetSprite(card.TypeId),
                         MahjongCardColorUtility.GetColor(card.TypeId));
@@ -1293,10 +1297,19 @@ namespace MahjongGame.View
         {
             int maximumCoordX = levelDefinition.gridRowCount * MahjongLayoutGeometry.HalfGridUnitsPerCell
                                 - MahjongLayoutGeometry.HalfGridUnitsPerCell;
-            return MahjongViewConfig.SortingOrderBase
-                   + card.Layer * MahjongViewConfig.SortingOrderLayerStep
+            return GetLayerSortingOrderStart(card.Layer)
+                   + 1
                    + (maximumCoordX - card.CoordX) * MahjongViewConfig.SortingOrderRowStep
                    + card.CoordY;
+        }
+
+        /// <summary>
+        /// 获取指定层的固定起始排序层级，该层影子使用此层级，牌面从下一级开始。
+        /// </summary>
+        private static int GetLayerSortingOrderStart(int layer)
+        {
+            return MahjongViewConfig.SortingOrderBase
+                   + layer * MahjongViewConfig.SortingOrderLayerStep;
         }
 
 

@@ -52,15 +52,6 @@ public class GameSceneItemBase : MonoBehaviour
         });
     }
 
-    public void CanvasTop()
-    {
-        canvas.sortingOrder = 505;
-    }
-    public void CanvasRecover()
-    {
-        canvas.sortingOrder = 99;
-    }
-
     public void ScaleAnim()
     {
         transform.DOKill();

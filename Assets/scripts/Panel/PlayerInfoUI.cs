@@ -82,11 +82,11 @@ public class PlayerInfoUI : UIBase,IEventListener
     }
     public void GoldCanvasTop()
     {
-        goldCanvas.sortingOrder = 510;
+        goldCanvas.sortingOrder = 2510;
     }
     public void GoldCanvasRecover()
     {
-        goldCanvas.sortingOrder = 410;
+        goldCanvas.sortingOrder = 2410;
     }
 
     public void StartGoldAnim()
@@ -126,11 +126,11 @@ public class PlayerInfoUI : UIBase,IEventListener
     }
     public void DiamondCanvasTop()
     {
-        diamondCanvas.sortingOrder = 510;
+        diamondCanvas.sortingOrder = 2510;
     }
     public void DiamondCanvasRecover()
     {
-        diamondCanvas.sortingOrder = 410;
+        diamondCanvas.sortingOrder = 2410;
     }
 
     public void StartDiamondAnim()

@@ -302,7 +302,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 120
+  m_SortingOrder: 119
   m_TargetDisplay: 0
 --- !u!222 &173221736214032939
 CanvasRenderer:
@@ -748,6 +748,7 @@ MonoBehaviour:
   typeText: {fileID: 5800307341295530575}
   canvasGroup: {fileID: 9197639305159011071}
   BlockedMaskObj: {fileID: 3771939716854875682}
+  yingziCanvas: {fileID: 5638443154262522957}
   hintEffect: {fileID: 7058774995389323823}
   specialMahjongEffect: {fileID: 67786841080821617}
   selectionEffect: {fileID: 4978434968373786316}

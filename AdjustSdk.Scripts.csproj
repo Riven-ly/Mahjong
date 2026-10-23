@@ -522,6 +522,10 @@
       <HintPath>Assets\Plugins\SolarEngine\Windows\solarenginewindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Coffee.UIParticle.R">
+      <HintPath>Assets\MahjongBlastGoldSides\ThirdParty\UIParticle\Runtime\Coffee.UIParticle.R.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.62f3c1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>

@@ -159,6 +159,14 @@ namespace MahjongGame.View
         }
 
         /// <summary>
+        /// 设置卡牌影子的排序层级，使其位于所在层全部卡牌之下。
+        /// </summary>
+        public void SetShadowSortingOrder(int sortingOrder)
+        {
+            yingziCanvas.sortingOrder = sortingOrder;
+        }
+
+        /// <summary>
         /// 重置并回收卡牌视图。调用前必须确保该卡牌已从活动视图映射中移除。
         /// </summary>
         public void ResetForPool(Transform poolParent)
@@ -334,8 +342,8 @@ namespace MahjongGame.View
         public const float LayerVisualOffsetX = 19f; // 每升一层额外增加的向左X轴视觉偏移
         public const float LayerVisualOffsetY = 25f;
         public const int SortingOrderBase = 120;
-        public const int SortingOrderLayerStep = 20;
+        public const int SortingOrderLayerStep = 256;
         public const int SortingOrderRowStep = 16;
-        public const int SortingOrderEliminating = 380;
+        public const int SortingOrderEliminating = 2190;
     }
 }
