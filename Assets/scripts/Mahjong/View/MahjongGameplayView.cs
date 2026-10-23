@@ -30,6 +30,7 @@ namespace MahjongGame.View
         private int eliminatedCardCount; // 本局自上次随机奖励后累计消除的卡牌数量
         private int comboCount;
         private MahjongCellBackgroundStyle currentBackgroundStyle;
+        private readonly List<MatchNewEffectPool> matchNewEffectPools = new List<MatchNewEffectPool>(); // 按颜色模板划分的可复用匹配特效池
 
         [SerializeField] private ComboEffectPlayer comboEffects;
         [SerializeField] private MatchEffectPlayer matchEffect;
@@ -239,6 +240,7 @@ namespace MahjongGame.View
 
             SetBoardInput(false);
             ResetEliminationEffects();
+            ResetMatchNewEffects();
             if (autoEliminationRemainingGroupCount > 0)
             {
                 EndAutoElimination();
@@ -344,10 +346,6 @@ namespace MahjongGame.View
         private void HandleCellSelectRequested(MahjongCell cell)
         {
             ResetIdleHintTimer();
-            if (activeEliminationCount != 0)
-            {
-                return;
-            }
             cell.SetHintEffectActive(false);
             MahjongOperationFailure failure = gameLogic.ValidateSelectCard(cell.InstanceId);
             if (failure != MahjongOperationFailure.None)
@@ -416,19 +414,107 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 按当前关卡的卡牌背景颜色打开对应的匹配特效。
+        /// 单一颜色匹配特效的对象池。
+        /// </summary>
+        private class MatchNewEffectPool
+        {
+            public GameObject Template;
+            public readonly Stack<GameObject> Idle = new Stack<GameObject>();
+            public readonly List<GameObject> Instances = new List<GameObject>();
+        }
+
+        /// <summary>
+        /// 按当前关卡的卡牌背景颜色在指定世界坐标播放一次匹配特效。
         /// </summary>
         private void PlayMatchNewEffect(Vector3 worldPosition)
         {
-            GameObject effect = GetMatchNewEffect(currentBackgroundStyle);
+            GameObject template = GetMatchNewEffect(currentBackgroundStyle);
+            if (template == null)
+            {
+                return;
+            }
+
+            MatchNewEffectPool pool = GetMatchNewEffectPool(template);
+            GameObject effect = pool.Idle.Count > 0 ? pool.Idle.Pop() : CreateMatchNewEffect(pool);
+            effect.transform.position = worldPosition;
+            effect.SetActive(true);
+            DOVirtual.DelayedCall(
+                    MahjongViewConfig.EliminationEffectDuration,
+                    () => RecycleMatchNewEffect(pool, effect))
+                .SetTarget(effect);
+        }
+
+        /// <summary>
+        /// 取得指定模板对应的特效对象池，首次使用时以模板本身作为初始实例。
+        /// </summary>
+        private MatchNewEffectPool GetMatchNewEffectPool(GameObject template)
+        {
+            for (int i = 0; i < matchNewEffectPools.Count; i++)
+            {
+                if (matchNewEffectPools[i].Template == template)
+                {
+                    return matchNewEffectPools[i];
+                }
+            }
+
+            MatchNewEffectPool pool = new MatchNewEffectPool { Template = template };
+            pool.Instances.Add(template);
+            pool.Idle.Push(template);
+            matchNewEffectPools.Add(pool);
+            return pool;
+        }
+
+        /// <summary>
+        /// 实例化一份匹配特效并纳入对应对象池。
+        /// </summary>
+        private GameObject CreateMatchNewEffect(MatchNewEffectPool pool)
+        {
+            GameObject effect = Instantiate(pool.Template, pool.Template.transform.parent);
+            effect.SetActive(false);
+            pool.Instances.Add(effect);
+            return effect;
+        }
+
+        /// <summary>
+        /// 失活并回收指定匹配特效。
+        /// </summary>
+        private void RecycleMatchNewEffect(MatchNewEffectPool pool, GameObject effect)
+        {
             if (effect == null)
             {
                 return;
             }
 
-            effect.transform.position = worldPosition;
+            DOTween.Kill(effect);
             effect.SetActive(false);
-            effect.SetActive(true);
+            if (!pool.Idle.Contains(effect))
+            {
+                pool.Idle.Push(effect);
+            }
+        }
+
+        /// <summary>
+        /// 失活并回收全部匹配特效。面板隐藏或重建游戏前调用。
+        /// </summary>
+        private void ResetMatchNewEffects()
+        {
+            for (int i = 0; i < matchNewEffectPools.Count; i++)
+            {
+                MatchNewEffectPool pool = matchNewEffectPools[i];
+                pool.Idle.Clear();
+                for (int j = 0; j < pool.Instances.Count; j++)
+                {
+                    GameObject instance = pool.Instances[j];
+                    if (instance == null)
+                    {
+                        continue;
+                    }
+
+                    DOTween.Kill(instance);
+                    instance.SetActive(false);
+                    pool.Idle.Push(instance);
+                }
+            }
         }
 
         private GameObject GetMatchNewEffect(MahjongCellBackgroundStyle style)
@@ -538,7 +624,7 @@ namespace MahjongGame.View
                 return;
             }
 
-            while (gameLogic.GetHintCardIds().Count == 0)
+            while (CountRemainingPairs() > 0 && gameLogic.GetHintCardIds().Count == 0)
             {
                 MahjongOperationResult shuffleResult = gameLogic.Shuffle();
                 if (!shuffleResult.Succeeded)
@@ -786,9 +872,10 @@ namespace MahjongGame.View
         private void PlayEliminationAnimation(MahjongOperationResult result)
         {
             activeEliminationCount++;
-            SetBoardInput(false);
             MahjongCell firstCell = cellViews[result.EliminatedCardIds[0]];
             MahjongCell secondCell = cellViews[result.EliminatedCardIds[1]];
+            firstCell.SetInteractable(false);
+            secondCell.SetInteractable(false);
             firstCell.SetSortingOrder(MahjongViewConfig.SortingOrderEliminating);
             secondCell.SetSortingOrder(MahjongViewConfig.SortingOrderEliminating);
             Vector3 collisionWorldPosition = (firstCell.RectTransform.position + secondCell.RectTransform.position) * 0.5f;
