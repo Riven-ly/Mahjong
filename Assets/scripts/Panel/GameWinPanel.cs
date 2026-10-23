@@ -294,43 +294,22 @@ public class GameWinPanel : UIBase
         GameManager.Instance.playerInfo.level++;
         PhaseTaskService.NotifyProgressRefresh();
         GameManager.Instance.SavePlayerInfo();
+        UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
 
-        UIManager.Instance.OpenUIMask();
-       GameManager.Instance.PlayGuoChang(true);
-        DOTween.Sequence()
-            .AppendInterval(1f)
-            .AppendCallback(() =>
-            {
+        LevelTaskTipData tipData = new LevelTaskTipData(
+        PhaseTaskService.GetLevelDisplayNumber(),
+        PhaseTaskService.GetCurrentTaskText(),
+        EnterNextLevel,
+        false);
 
-              
-            })
-            .AppendInterval(1f)
-            .AppendCallback(() =>
-            {
-                UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
-                UIManager.Instance.HideUIMask();
-
-                LevelTaskTipData tipData = new LevelTaskTipData(
-                PhaseTaskService.GetLevelDisplayNumber(),
-                PhaseTaskService.GetCurrentTaskText(),
-                EnterNextLevel,
-                false);
-                
-                 if (tipData.CanOpen)
-                 {
-                     UIManager.Instance.OpenUI<LevelTaskTip>(tipData);
-                 }
-                 else
-                 {
-                     EnterNextLevel();
-                 }
-            })
-            .AppendInterval(1f)
-            .AppendCallback(() =>
-            {
-                GameManager.Instance.PlayGuoChang(false);
-            })
-            ;
+        if (tipData.CanOpen)
+        {
+            UIManager.Instance.OpenUI<LevelTaskTip>(tipData);
+        }
+        else
+        {
+            EnterNextLevel();
+        }
     }
 
     private void EnterNextLevel()

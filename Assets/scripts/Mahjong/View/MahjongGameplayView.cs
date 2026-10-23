@@ -29,6 +29,7 @@ namespace MahjongGame.View
         private int activeEliminationCount; // 当前正在播放消除动画的组数
         private int eliminatedCardCount; // 本局自上次随机奖励后累计消除的卡牌数量
         private int comboCount;
+        private MahjongCellBackgroundStyle currentBackgroundStyle;
 
         [SerializeField] private ComboEffectPlayer comboEffects;
         [SerializeField] private MatchEffectPlayer matchEffect;
@@ -95,6 +96,7 @@ namespace MahjongGame.View
             luckyLastCheckTime = Time.time;
             selectedCardId = 0;
             comboCount = 0;
+            currentBackgroundStyle = (MahjongCellBackgroundStyle)Random.Range(0, 4);
             remainingHealth = MahjongViewConfig.InitialHealth;
             autoEliminationRemainingGroupCount = 0;
             idleHintTimer = 0f;
@@ -319,6 +321,7 @@ namespace MahjongGame.View
                         MahjongCardVisualCatalogLoader.GetSprite(card.TypeId),
                         MahjongCardColorUtility.GetColor(card.TypeId),
                         HandleCellSelectRequested);
+                    cell.SetBackgroundStyle(currentBackgroundStyle);
                     cell.SetBoardPosition(GetBoardPosition(card, gameLogic.Model.LevelDefinition));
                     cell.SetSortingOrder(GetSortingOrder(card, gameLogic.Model.LevelDefinition));
                     cell.transform.SetAsLastSibling();

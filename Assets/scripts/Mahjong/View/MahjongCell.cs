@@ -34,8 +34,10 @@ namespace MahjongGame.View
         [SerializeField] private CanvasGroup canvasGroup; // 卡牌透明度与交互控制
         [SerializeField] private GameObject BlockedMaskObj; // 被阻挡的牌的mask遮罩
 
-        private GameObject hintEffect; // 提示特效节点
-        private GameObject selectionEffect; // 选中特效节点
+        public Canvas yingziCanvas;
+        public GameObject hintEffect; // 提示特效节点
+        public GameObject specialMahjongEffect;
+        public GameObject selectionEffect; // 选中特效节点
         private RectTransform rectTransform; // 当前卡牌矩形变换
         private Canvas cellCanvas; // 当前卡牌独立排序画布
         private Action<MahjongCell> selectRequested; // 卡牌选择事件
@@ -52,8 +54,6 @@ namespace MahjongGame.View
         {
             rectTransform = (RectTransform)transform;
             cellCanvas = GetComponent<Canvas>();
-            hintEffect = transform.Find("HintEffect").gameObject;
-            selectionEffect = transform.Find("SelectionEffect").gameObject;
         }
 
         /// <summary>
@@ -329,9 +329,9 @@ namespace MahjongGame.View
         public const float EntranceStagger = 0.021f; // 入场扩散时每格对角距离的错峰间隔
         public const float EliminationEffectDuration = 2f; // 消除粒子完整播放及回收时长
         public const float HealthFadeDuration = 0.25f; // 扣除生命时的淡出时长
-        public const float BoardCellWidth = 162f; // 牌面完整网格横向间距
-        public const float BoardCellHeight = 203f; // 牌面完整网格纵向间距
-        public const float LayerVisualOffsetX = 13f; // 每升一层额外增加的向左X轴视觉偏移
+        public const float BoardCellWidth = 196f; // 牌面完整网格横向间距
+        public const float BoardCellHeight = 243f; // 牌面完整网格纵向间距
+        public const float LayerVisualOffsetX = 19f; // 每升一层额外增加的向左X轴视觉偏移
         public const float LayerVisualOffsetY = 25f;
         public const int SortingOrderBase = 120;
         public const int SortingOrderLayerStep = 20;
