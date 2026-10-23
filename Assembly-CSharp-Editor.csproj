@@ -1302,6 +1302,10 @@
       <Project>{96F99D1A-0545-0B4B-F9AC-802C4843C8FB}</Project>
       <Name>AdjustSdk.Scripts</Name>
     </ProjectReference>
+    <ProjectReference Include="Coffee.UIParticle.csproj">
+      <Project>{D100F82F-1668-A9D5-AFD7-2599F72A2E9F}</Project>
+      <Name>Coffee.UIParticle</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

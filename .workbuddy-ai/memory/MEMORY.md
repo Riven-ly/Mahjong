@@ -3,6 +3,7 @@
 Unity 2022.3.62f3c1，Happy Mahjong: Rich Adventure；DOTween、AppLovin MAX、Adjust、SolarEngine、TMP 3.0.9；Built-in 管线（参考工程可能 URP）。用户自己重打 AB/出包，不代跑；不进 Play/不为验证加载场景。已在 Play 的问题只做用户要求的只读取证。
 
 ## 资产与迁移
+- **UIParticle 只有一份**：`Assets/ParticleEffectForUGUI-3.3.13/`（asmdef `Coffee.UIParticle`，命名空间 `Coffee.UIExtensions` + `Coffee.UIParticleExtensions`，脚本 guid `16f0b0b6d0b7542bfbd20a3e05b04ff1`）。第三方资源包若自带 `ThirdParty/UIParticle`（尤其带 `Coffee.UIParticle.R.dll`），**一律移出工程**，否则与 asmdef 版本重复定义同名类型、或覆盖源码缺 `Internal/` 导致整个 Assembly-CSharp 级联报 CS1061。2026-10-23 导入 `MahjongBlastGoldSides` 时踩过一次，备份在 `D:/AA_Mahjong/_backup_uiparticle_20261023/`。
 - `Assets/Editor/ABbuildEditor.cs` 只收集 `Assets/ABRes/**` 打单包 `StreamingAssets/abres.dat`；meta 的 `assetBundleName` 非空会被排除；复制资产连 meta，排查悬空 guid（特别是动态 TMP 字体源文件）。AB manifest 判依赖进包看 `ClassTypes`，非 `Dependencies: []`。
 - 搬 prefab 子树须复制 RectTransform 全字段并做 diff；跨工程嵌套 prefab stripped `m_CorrespondingSourceObject.fileID` 必须匹配导入后真实 fileID；CRLF 先正规化。用户排好的 prefab 不擅自改；真要改单属性优先 UnitySkills REST `prefab_set_property`，`gameObjectName` 用相对根路径，YAML `m_Name: 'X '` 的引号非名字、尾部空格是名字。
 - 参考：`D:/UnityTest/majiangtext`（Tx）、`D:/Backup/Downloads/Packages/Assets`（PhaseTask）。UIParticle 在 `Assets/ParticleEffectForUGUI-3.3.13/`；彩带在 `Assets/Effect/Caidai/`（LeftCaidai 默认 scale=0）；过场钞票雨在 `Assets/guochang/`。

@@ -198,6 +198,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_SDF.shader" />
+    <None Include="Assets\MahjongBlastGoldSides\Shaders\Additive.shader" />
     <None Include="Assets\Resources\mahjongcore\art\effects\combofeedback\mj_excellent.atlas.atlas.txt" />
     <None Include="Assets\Resources\mahjongcore\art\effects\combofeedback\mj_combo.atlas.atlas.txt" />
     <None Include="Assets\Adjust\Native\Android\AdjustAndroidManifest.xml" />
@@ -211,6 +212,7 @@
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\scripts\Effect\UIScanLight.shader" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\MahjongBlastGoldSides\Shaders\Star.shader" />
     <None Include="Assets\Shader\SpineRuntime\Sprite\CGIncludes\SpriteUnlit.cginc" />
     <None Include="Assets\Shader\SpineRuntime\Sprite\CGIncludes\SpriteSpecular.cginc" />
     <None Include="Assets\Shader\SpineRuntime\Sprite\CGIncludes\ShaderMaths.cginc" />
@@ -232,6 +234,7 @@
     <None Include="Assets\Shader\SpineRuntime\Sprite\CGIncludes\ShaderShared.cginc" />
     <None Include="Assets\Shader\SpineRuntime\Sprite\CGIncludes\SpriteVertexLighting.cginc" />
     <None Include="Assets\Shader\SpineRuntime\CGIncludes\Spine-BlendModes-NormalPass.cginc" />
+    <None Include="Assets\MahjongBlastGoldSides\Shaders\Blend.shader" />
     <None Include="Assets\Shader\Spine_SkeletonGraphic.shader" />
     <None Include="Assets\SolarEngine\MainLand\se_mainland.txt" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMPro_Surface.cginc" />
@@ -252,6 +255,7 @@
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\RewardsComboEffects\README-中文.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\MahjongBlastGoldSides\README.txt" />
     <None Include="Assets\Shader\SpineRuntime\SkeletonGraphic\CGIncludes\Spine-SkeletonGraphic-TintBlack-NormalPass.cginc" />
     <None Include="Assets\MaxSdk\Mediation\MediationAdapters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
