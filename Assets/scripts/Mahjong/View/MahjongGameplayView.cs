@@ -50,6 +50,7 @@ namespace MahjongGame.View
         private const float HorizontalScreenMargin = 50f; // 屏幕安全区左右保留边距
         private const float EntranceCellPitchX = MahjongViewConfig.BoardCellWidth * 0.5f; // 相邻列卡牌的水平间距，用于入场扩散距离
         private const float EntranceCellPitchY = MahjongViewConfig.BoardCellHeight * 0.5f; // 相邻行卡牌的垂直间距，用于入场扩散距离
+        private const int Combo5EffectTriggerCount = 5; // 五连击特效触发所需连击数
 
         public event System.Action<int> HealthChanged; // 剩余生命变化事件
         public event System.Action<int> RemainingPairsChanged;
@@ -407,6 +408,21 @@ namespace MahjongGame.View
 
             comboEffects.transform.position = worldPosition;
             comboEffects.PlayCombo(comboCount);
+        }
+
+        /// <summary>
+        /// 打开五连击左右金色光效。调用前必须确保特效节点已在场景中配置。
+        /// </summary>
+        private void PlayCombo5Effect()
+        {
+            GameObject effect = GameManager.Instance.Combo5Effect;
+            if (effect == null)
+            {
+                return;
+            }
+
+            effect.SetActive(false);
+            effect.SetActive(true);
         }
 
         private void PlayComboCoinFly(Vector3 worldPosition, int combo)
@@ -774,6 +790,10 @@ namespace MahjongGame.View
                 comboCount++;
                 PlayComboEffect(collisionWorldPosition);
                 PlayComboCoinFly(collisionWorldPosition, comboCount);
+                if (comboCount % Combo5EffectTriggerCount == 0)
+                {
+                    PlayCombo5Effect();
+                }
                 firstCell.AnimateEliminated(null);
                 secondCell.AnimateEliminated(null);
             });

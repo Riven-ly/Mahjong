@@ -533,10 +533,6 @@
       <HintPath>Assets\Plugins\SolarEngine\Windows\solarenginewindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Coffee.UIParticle.R">
-      <HintPath>Assets\MahjongBlastGoldSides\ThirdParty\UIParticle\Runtime\Coffee.UIParticle.R.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
       <Private>False</Private>

@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public List<Sprite> specialDiamonds;
     public List<Sprite> specialRewardsDuis;
     public Transform guoChangRoot;
+    public GameObject Combo5Effect;
 
     [HideInInspector]public List<MahjongCell> beforeMahjongCells;
     public int addDebug_hours = 0;
