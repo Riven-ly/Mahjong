@@ -347,7 +347,7 @@ namespace MahjongGame.View
         public const float NormalAlpha = 1f; // 可操作卡牌透明度
         public const float BlockedAlpha = 1f; // 被阻挡卡牌透明度
         public const float TransitOffsetX = 300f; // 中转点相对碰撞中心的横向距离
-        public const float CollisionHalfDistance = 87.5f; // 两张完整卡牌刚好触碰时中心到碰撞点的横向距离
+        public const float CollisionHalfDistance = 105f; // 两张完整卡牌刚好触碰时中心到碰撞点的横向距离
         public const float ReboundOffsetX = 60f; // 首次碰撞后的横向回弹距离
         public const float MoveToTransitDuration = 0.22f; // 卡牌移动至中转点的动画时长
         public const float MoveToCenterDuration = 0.16f; // 卡牌首次碰撞的动画时长

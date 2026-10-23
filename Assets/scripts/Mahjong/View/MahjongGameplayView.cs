@@ -952,10 +952,11 @@ namespace MahjongGame.View
                 secondTransitPosition = swapPosition;
             }
 
-            Vector2 firstCollisionPosition = centerPosition + Vector2.left * MahjongViewConfig.CollisionHalfDistance;
-            Vector2 secondCollisionPosition = centerPosition + Vector2.right * MahjongViewConfig.CollisionHalfDistance;
-            Vector2 firstReboundPosition = firstCollisionPosition + Vector2.left * MahjongViewConfig.ReboundOffsetX;
-            Vector2 secondReboundPosition = secondCollisionPosition + Vector2.right * MahjongViewConfig.ReboundOffsetX;
+            float boardScale = boardRoot.lossyScale.x / eliminationLayer.lossyScale.x;
+            Vector2 firstCollisionPosition = centerPosition + Vector2.left * (MahjongViewConfig.CollisionHalfDistance * boardScale);
+            Vector2 secondCollisionPosition = centerPosition + Vector2.right * (MahjongViewConfig.CollisionHalfDistance * boardScale);
+            Vector2 firstReboundPosition = firstCollisionPosition + Vector2.left * (MahjongViewConfig.ReboundOffsetX * boardScale);
+            Vector2 secondReboundPosition = secondCollisionPosition + Vector2.right * (MahjongViewConfig.ReboundOffsetX * boardScale);
             if (firstCell.RectTransform.position.x > secondCell.RectTransform.position.x)
             {
                 Vector2 swapPosition = firstCollisionPosition;
