@@ -18,5 +18,8 @@ public static class PortugueseLanguageConfig
         {"GuideUncoverHidden", "Combine para revelar a peça escondida!"},
         {"GuideUnlockSide", "Combine as peças laterais para desbloquear as outras!"},
         {"MatchesCount", "Pares: {0}"},
+        {"EvaluationGamePanel_btn4", "AVALIAR"},
+        {"EvaluationGamePanel_title3", "AVALIE-NOS"},
+        {"EvaluationGamePanel_title3Ex", "Sua opinião nos ajuda a melhorar."},
     };
 }

@@ -18,5 +18,8 @@ public static class IndonesianLanguageConfig
         {"GuideUncoverHidden", "Cocokkan untuk membuka ubin tersembunyi!"},
         {"GuideUnlockSide", "Cocokkan ubin samping untuk membuka ubin lain!"},
         {"MatchesCount", "Pasangan: {0}"},
+        {"EvaluationGamePanel_btn4", "BERI NILAI"},
+        {"EvaluationGamePanel_title3", "BERI RATING"},
+        {"EvaluationGamePanel_title3Ex", "Masukan Anda membantu kami berkembang."},
     };
 }
