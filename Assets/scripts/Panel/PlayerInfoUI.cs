@@ -21,6 +21,9 @@ public class PlayerInfoUI : UIBase,IEventListener
     public Transform txTrans;
     public Transform txTipsRootTrans;
 
+    private static string goldUnit;
+    private float displayedGold;
+
     private void Awake()
     {
         RectTransform rect = GetComponent<RectTransform>();
@@ -54,7 +57,18 @@ public class PlayerInfoUI : UIBase,IEventListener
 
     public void RefreshGoldUI()
     {
-        goldCnt.text = GameManager.Instance.playerInfo.Gold.ToString();
+        displayedGold = GameManager.Instance.playerInfo.Gold;
+        goldCnt.text = FormatGold(displayedGold);
+    }
+
+    private static string FormatGold(float amount)
+    {
+        if (goldUnit == null)
+        {
+            goldUnit = LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit");
+        }
+
+        return goldUnit + amount.ToString();
     }
 
     public void RefreshDiamondUI()
@@ -92,7 +106,7 @@ public class PlayerInfoUI : UIBase,IEventListener
     public void StartGoldAnim()
     {
         goldTrans.DOKill();
-        float _currentValue = float.Parse(goldCnt.text);
+        float _currentValue = displayedGold;
         float targetGold = GameManager.Instance.playerInfo.Gold;
         bool hasDecimal1 = targetGold != Mathf.RoundToInt(targetGold); // true����С����
         int unit = hasDecimal1 ? 2 : 0;
@@ -102,7 +116,8 @@ public class PlayerInfoUI : UIBase,IEventListener
           x =>
           {
               _currentValue = (float)Math.Round(x, unit);
-              goldCnt.text = _currentValue.ToString();
+              displayedGold = _currentValue;
+              goldCnt.text = FormatGold(_currentValue);
           },
           targetGold, // Ŀ��ֵ
           1f // ʱ��
@@ -110,7 +125,7 @@ public class PlayerInfoUI : UIBase,IEventListener
         .OnComplete(() =>
         {
             EventManager.Instance.TriggerEvent(GameEvent.GetGold);
-            goldCnt.text = GameManager.Instance.playerInfo.Gold.ToString();
+            RefreshGoldUI();
         });
     }
 
