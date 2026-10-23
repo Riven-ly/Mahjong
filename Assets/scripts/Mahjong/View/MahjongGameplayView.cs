@@ -12,6 +12,8 @@ namespace MahjongGame.View
     /// </summary>
     public sealed class MahjongGameplayView : MonoBehaviour
     {
+        private const int SpecialCardTypeId = 999; // 特殊麻将的类型ID
+
         [SerializeField] private RectTransform boardRoot; // 牌面卡牌根节点
         [SerializeField] private RectTransform adaptivePointTop; // 牌面允许区域的上边界锚点
         [SerializeField] private RectTransform adaptivePointBottom; // 牌面允许区域的下边界锚点
@@ -112,6 +114,7 @@ namespace MahjongGame.View
             ApplyBoardScale(levelDefinition);
             MahjongOperationResult result = gameLogic.StartNewGame(levelDefinition);
             BuildBoardViews();
+            MarkSpecialPair();
             EnsurePlayablePair();
             PlayEntranceAnimation();
             RemainingPairsChanged?.Invoke(CountRemainingPairs());
@@ -337,6 +340,62 @@ namespace MahjongGame.View
                     cell.transform.SetAsLastSibling();
                     cellViews.Add(card.InstanceId, cell);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 从牌面随机挑一组同类型牌改造成特殊麻将。仅真实关卡生效。
+        /// </summary>
+        private void MarkSpecialPair()
+        {
+            if (TxGameBridge.CurrentLevel < 2)
+            {
+                return;
+            }
+
+            List<MahjongCardModel> boardCards = new List<MahjongCardModel>();
+            for (int i = 0; i < gameLogic.Model.Cards.Count; i++)
+            {
+                MahjongCardModel card = gameLogic.Model.Cards[i];
+                if (card.State == MahjongCardState.OnBoard)
+                {
+                    boardCards.Add(card);
+                }
+            }
+
+            if (boardCards.Count < MahjongConfig.MatchCount)
+            {
+                return;
+            }
+
+            MahjongCardModel firstCard = boardCards[Random.Range(0, boardCards.Count)];
+            List<MahjongCardModel> partners = new List<MahjongCardModel>();
+            for (int i = 0; i < boardCards.Count; i++)
+            {
+                if (boardCards[i].InstanceId != firstCard.InstanceId && boardCards[i].TypeId == firstCard.TypeId)
+                {
+                    partners.Add(boardCards[i]);
+                }
+            }
+
+            if (partners.Count == 0)
+            {
+                return;
+            }
+
+            SetSpecialCard(firstCard);
+            SetSpecialCard(partners[Random.Range(0, partners.Count)]);
+        }
+
+        /// <summary>
+        /// 将指定卡牌改造成特殊麻将并同步视图表现。
+        /// </summary>
+        private void SetSpecialCard(MahjongCardModel card)
+        {
+            card.SetTypeId(SpecialCardTypeId);
+            if (cellViews.TryGetValue(card.InstanceId, out MahjongCell cell))
+            {
+                cell.SetSpecial(true);
             }
         }
 
@@ -945,11 +1004,25 @@ namespace MahjongGame.View
 
 
         /// <summary>
-        /// 回收已完成消除动画的卡牌视图，并刷新卡槽布局和牌面状态。
+        /// 消除动画播放结束后结算本次消除；特殊麻将先弹奖励面板，其余逻辑等面板关闭后执行。
         /// </summary>
         private void CompleteEliminationAnimation(MahjongOperationResult result)
         {
             PhaseTaskService.NotifyArrowEscaped();
+            if (gameLogic.Model.GetCard(result.EliminatedCardIds[0]).TypeId == SpecialCardTypeId)
+            {
+                UIManager.Instance.OpenUI<GeneralRewardsPanel>(null, () => FinishElimination(result));
+                return;
+            }
+
+            FinishElimination(result);
+        }
+
+        /// <summary>
+        /// 回收已完成消除动画的卡牌视图，并刷新卡槽布局和牌面状态。
+        /// </summary>
+        private void FinishElimination(MahjongOperationResult result)
+        {
             MahjongGameState gameState = gameLogic.CompleteElimination(result.EliminatedCardIds);
             for (int i = 0; i < result.EliminatedCardIds.Count; i++)
             {
@@ -1247,7 +1320,7 @@ namespace MahjongGame.View
 
         private void Update()
         {
-            UpdateLuckyReward();
+            //UpdateLuckyReward();
             UpdateIdleHint();
         }
 

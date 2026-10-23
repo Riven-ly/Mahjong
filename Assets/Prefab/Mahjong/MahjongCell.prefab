@@ -482,7 +482,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b3f16b43a9aaac940a70ba18f8681060, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66bffbabbfb18d4438e3038d92ebd06b, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -693,9 +693,9 @@ RectTransform:
   m_Children:
   - {fileID: 4506201583677095829}
   - {fileID: 7856364974113884202}
+  - {fileID: 920175397584248625}
   - {fileID: 8383591015061108296}
   - {fileID: 1256974993513923795}
-  - {fileID: 920175397584248625}
   - {fileID: 4554606504884219671}
   - {fileID: 6074840209014518513}
   - {fileID: 339634754552286272}
@@ -738,6 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32e6386db6e16a41b0a88038dd5464f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  specialIcon: {fileID: 21300000, guid: 21efbd8bd271b8a458d636b5f1dc5094, type: 3}
   audioSource: {fileID: 6731616030524556585}
   backgroundImage: {fileID: 787348986019631252}
   defaultBackgroundSprite: {fileID: 21300000, guid: 54ab415ccadbb094e8c0ad9343b1e2b4, type: 3}

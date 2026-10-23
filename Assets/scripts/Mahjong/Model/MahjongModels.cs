@@ -79,7 +79,7 @@ namespace MahjongGame.Model
     public sealed class MahjongCardModel
     {
         public int InstanceId { get; } // 卡牌唯一实例ID
-        public int TypeId { get; } // 卡牌类型ID
+        public int TypeId { get; private set; } // 卡牌类型ID
         public int Layer { get; private set; } // 卡牌所在堆叠层级
         public MahjongGridPosition Position { get; private set; } // 卡牌逻辑网格坐标
         public int CoordY { get; private set; } // 卡牌中心横向半格坐标
@@ -106,6 +106,14 @@ namespace MahjongGame.Model
         public void SetState(MahjongCardState state)
         {
             State = state;
+        }
+
+        /// <summary>
+        /// 修改卡牌类型ID，用于把牌面上的普通牌改造成特殊麻将。
+        /// </summary>
+        public void SetTypeId(int typeId)
+        {
+            TypeId = typeId;
         }
 
         /// <summary>

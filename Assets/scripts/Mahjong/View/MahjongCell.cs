@@ -23,6 +23,7 @@ namespace MahjongGame.View
     /// </summary>
     public sealed class MahjongCell : MonoBehaviour, IPointerClickHandler
     {
+        public Sprite specialIcon;
         public AudioSource audioSource;
         [SerializeField] private Image backgroundImage; // 卡牌背景图片
         [SerializeField] private Sprite defaultBackgroundSprite; // 默认卡牌背景图片
@@ -45,6 +46,7 @@ namespace MahjongGame.View
 
         public int InstanceId { get; private set; } // 卡牌唯一实例ID
         public int TypeId { get; private set; } // 卡牌类型ID
+        public bool IsSpecial { get; private set; } // 当前是否为特殊麻将
         public RectTransform RectTransform => rectTransform; // 卡牌矩形变换只读引用
 
         /// <summary>
@@ -95,6 +97,11 @@ namespace MahjongGame.View
         /// </summary>
         public void RefreshVisual(Sprite displaySprite, Color fallbackColor)
         {
+            if (IsSpecial)
+            {
+                displaySprite = specialIcon;
+            }
+
             bool hasDisplaySprite = displaySprite != null;
             backgroundImage.color = hasDisplaySprite ? Color.white : fallbackColor;
             iconImage.sprite = displaySprite;
@@ -102,6 +109,19 @@ namespace MahjongGame.View
             typeText.gameObject.SetActive(!hasDisplaySprite);
             typeText.text = TypeId.ToString();
             name = hasDisplaySprite ? iconImage.sprite.name : TypeId.ToString();
+        }
+
+        /// <summary>
+        /// 设置特殊麻将状态，同步特殊图标与特效显示。调用前必须已完成 Initialize。
+        /// </summary>
+        public void SetSpecial(bool special)
+        {
+            IsSpecial = special;
+            specialMahjongEffect.SetActive(special);
+            if (special)
+            {
+                RefreshVisual(specialIcon, Color.white);
+            }
         }
 
         /// <summary>
@@ -188,6 +208,7 @@ namespace MahjongGame.View
             isPointerEnabled = false;
             gameObject.SetActive(false);
             BlockedMaskObj.SetActive(false);
+            SetSpecial(false);
             SetHintEffectActive(false);
             SetSelectionEffectActive(false);
         }
