@@ -292,7 +292,7 @@ public class GameScenePanel : UIBase,IEventListener
                     .OnComplete(() => healthCanvasGroup.gameObject.SetActive(false));
             }
         }
-    }
+    } 
 
     private void RefreshMajiangNum(int remainingPairs)
     {

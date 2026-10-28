@@ -5,6 +5,9 @@ using UnityEngine;
 
 public sealed class TipMgr : MonoBehaviour
 {
+    const float TopShownY = -128f;
+    const float TopHiddenY = 200f;
+
     public RectTransform tipRoot;
     public SdkNoticeItem topNotice;
     public SdkNoticeItem bottomNotice;
@@ -25,7 +28,6 @@ public sealed class TipMgr : MonoBehaviour
     public int minAmount = 3000;
     public int maxAmount = 6999;
 
-    Vector2 topVisiblePosition;
     Vector2 bottomVisiblePosition;
     Sequence topSequence;
     Sequence bottomSequence;
@@ -33,7 +35,6 @@ public sealed class TipMgr : MonoBehaviour
 
     void Awake()
     {
-        topVisiblePosition = (topNotice.transform as RectTransform).anchoredPosition;
         bottomVisiblePosition = (bottomNotice.transform as RectTransform).anchoredPosition;
         ResetNotices();
     }
@@ -42,7 +43,7 @@ public sealed class TipMgr : MonoBehaviour
     {
         RectTransform topRect = topNotice.transform as RectTransform;
         RectTransform bottomRect = bottomNotice.transform as RectTransform;
-        topRect.anchoredPosition = topVisiblePosition + Vector2.up * topRect.rect.height;
+        topRect.anchoredPosition = new Vector2(0f, TopHiddenY);
         bottomRect.anchoredPosition = new Vector2(
             bottomVisiblePosition.x - tipRoot.rect.width - bottomRect.rect.width,
             bottomVisiblePosition.y);
@@ -96,27 +97,14 @@ public sealed class TipMgr : MonoBehaviour
         RectTransform rect = topNotice.transform as RectTransform;
         topSequence?.Kill(false);
         topNotice.Refresh(CreateTopData());
+        rect.anchoredPosition = new Vector2(0f, TopHiddenY);
         topNotice.gameObject.SetActive(true);
-        Vector2 hiddenPosition = topVisiblePosition + Vector2.up * rect.rect.height;
-        Vector2 shownPosition = topVisiblePosition + Vector2.down * TopSafeInset();
-        rect.anchoredPosition = hiddenPosition;
         topSequence = DOTween.Sequence()
             .SetLink(topNotice.gameObject, LinkBehaviour.KillOnDestroy)
-            .Append(rect.DOAnchorPos(shownPosition, topSlideInDuration).SetEase(Ease.OutCubic))
+            .Append(rect.DOAnchorPosY(TopShownY, 0.5f).SetEase(Ease.OutCubic))
             .AppendInterval(topStayDuration)
-            .Append(rect.DOAnchorPos(hiddenPosition, topSlideOutDuration).SetEase(Ease.InCubic))
+            .Append(rect.DOAnchorPosY(TopHiddenY, 0.5f).SetEase(Ease.InOutCirc))
             .OnComplete(() => topNotice.gameObject.SetActive(false));
-    }
-
-    float TopSafeInset()
-    {
-        Canvas canvas = GetComponentInParent<Canvas>();
-        if (canvas == null || Screen.height <= 0)
-            return 0f;
-
-        RectTransform canvasRect = canvas.transform as RectTransform;
-        float topInsetPixels = Screen.height - Screen.safeArea.yMax;
-        return topInsetPixels * canvasRect.rect.height / Screen.height;
     }
 
     void ShowBottom()
