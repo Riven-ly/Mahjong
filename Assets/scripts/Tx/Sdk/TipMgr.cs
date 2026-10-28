@@ -153,7 +153,7 @@ public sealed class TipMgr : MonoBehaviour
         string idText = id.ToString(CultureInfo.InvariantCulture);
         int amount = Random.Range(minAmount, maxAmount + 1);
         string tip = "Congrats! User" + idText.Substring(0, 2) + "***" + idText.Substring(idText.Length - 2)
-                     + " " + TxGameBridge.GetWithdraw() + " <color=#ff0000>" + TxGameBridge.GetMark() + amount.ToString(CultureInfo.InvariantCulture) + "</color>";
+                     + " " + TxGameBridge.GetWithdraw() + " " + TxGameBridge.GetMark() + amount.ToString(CultureInfo.InvariantCulture);
         return new SdkNoticeData(tip, GetRandomIcon(), null, null);
     }
 

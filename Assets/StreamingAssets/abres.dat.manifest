@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 2628960357
+CRC: 1784443259
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 35a0cce6189b8a8db286b3918f4d8959
+    Hash: f6cfc937ede8c6075572051d117cdb05
   TypeTreeHash:
     serializedVersion: 2
     Hash: 045c735616a5c7da1e4af00da90f08e3
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 35a0cce6189b8a8db286b3918f4d8959
+    Hash: f6cfc937ede8c6075572051d117cdb05
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -182,6 +182,7 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/divider_lavender.png
 - Assets/ABRes/ABResManager/md.png
 - Assets/ABRes/Tx/Demo/Sprite/GuidePop/divider_cream.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/paypal.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/icon_vi.png
 - Assets/ABRes/Tx/UI/Panel/LevelPopup.prefab
 - Assets/ABRes/Tx/Demo/Sprite/Hud/2.png
@@ -196,11 +197,13 @@ Assets:
 - Assets/ABRes/Tx/UI/Panel/TopNotice.prefab
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel2_btn.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/tooltip_small.png
-- Assets/ABRes/Tx/UI/Panel/BottomNotice.prefab
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/4.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/crown.png
 - Assets/ABRes/Tx/Demo/Sprite/Sdk/channel0_logo.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/ico_v.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/3.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/panel_blue.png
+- Assets/ABRes/Tx/UI/Panel/BottomNotice.prefab
 - Assets/ABRes/Tx/UI/Panel/ProcessCompletePop.prefab
 - Assets/ABRes/Tx/UI/Panel/RecordPop.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Details/btn_gray.png
@@ -230,8 +233,10 @@ Assets:
 - Assets/ABRes/Tx/Demo/Sprite/Hud/dot_green.png
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/card_purple_wide.png
 - Assets/ABRes/Tx/Demo/Sprite/Ico/badge.png
+- Assets/ABRes/Tx/Demo/Sprite/Sdk/2.png
 - Assets/ABRes/Tx/UI/Panel/CandyPanel.prefab
 - Assets/ABRes/Tx/UI/Panel/InProgressPop.prefab
+- Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/kuang (1).png
 - Assets/ABRes/Tx/UI/Panel/SpecialBonusPop.prefab
 - Assets/ABRes/Tx/Demo/Sprite/WdSdk/Home/field_lavender.png
 - Assets/ABRes/Tx/Demo/Sprite/Hud/tooltip_tall.png
