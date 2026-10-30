@@ -21,6 +21,7 @@ public class OtherSdkManager : MonoBehaviour
     {
         Debug.Log("Other SDK init");
 
+        AdjustInit();
         SolarEngineInit();
     }
 
@@ -74,7 +75,7 @@ public class OtherSdkManager : MonoBehaviour
         SEConfig seConfig = new SEConfig();
         seConfig.initCompletedCallback = (e) =>
         {
-            IsInit = e == 0;
+            IsInit = true;
             Debug.Log("SolarEngineInit :" + e);
             ReadRemoteConfigAfterInit2();
         };

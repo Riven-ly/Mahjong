@@ -187,10 +187,7 @@ public class ApplovinMaxRewardOperator : MonoBehaviour
     private void OnRewardedAdRevenuePaidEvent(MaxSdk.AdInfo adInfo)
     {
         // Ad revenue paid. Use this callback to track user revenue.
-        if (!OtherSdkManager.IsInit)
-        {
-            return;
-        }
+   
         //----------------Adjust------------------------------
         var adRevenue = new AdjustAdRevenue("applovin_max_sdk");
         adRevenue.SetRevenue(adInfo.Revenue, "USD");
@@ -198,7 +195,12 @@ public class ApplovinMaxRewardOperator : MonoBehaviour
         adRevenue.AdRevenueUnit = adInfo.AdUnitIdentifier;
         adRevenue.AdRevenuePlacement = adInfo.Placement;
         Adjust.TrackAdRevenue(adRevenue);
+
         //----------------热力---------------------------
+        if (!OtherSdkManager.IsInit)
+        {
+            return;
+        }
         ImpressionAttributes impressionAttributes = new ImpressionAttributes();
         impressionAttributes.ad_platform = adInfo.NetworkName;
         impressionAttributes.ad_id = adInfo.AdUnitIdentifier;
