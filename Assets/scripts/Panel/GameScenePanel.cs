@@ -1,4 +1,5 @@
 using DG.Tweening;
+using MahjongGame.Model;
 using MahjongGame.View;
 using System;
 using Unity.VisualScripting;
@@ -34,6 +35,9 @@ public class GameScenePanel : UIBase,IEventListener
     private const int FirstGameLevel = 1; // 首关的玩家等级
 
     private int firstGameStageIndex; // 首关当前正在玩的小关卡序号，从 1 开始
+    private int levelEntryVersion;
+    private UIBase levelEntryPopup;
+    public bool IsEnteringLevel { get; private set; }
 
     private static readonly string[] FirstGameStageTextKeys =
     {
@@ -113,6 +117,11 @@ public class GameScenePanel : UIBase,IEventListener
     private void OnDisable()
     {
         isOpen = false;
+        if (IsEnteringLevel)
+        {
+            CancelLevelEntry();
+            gameplayView.StopGameplay();
+        }
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameWon, this);
         EventManager.Instance.UnregisterListener(GameEvent.MahjongGameLost, this);
         EventManager.Instance.UnregisterListener(GameEvent.StopHintAnim, this);
@@ -138,17 +147,13 @@ public class GameScenePanel : UIBase,IEventListener
     /// </summary>
     public override void Refresh(object data = null)
     {
+        BeginLevelEntry(PrepareLevel);
+    }
+
+    private void PrepareLevel()
+    {
         int playerLevel = GameManager.Instance.playerInfo.level;
         levelText.text = LanguageManager.Instance.GetText("Level") + $" {PhaseTaskService.GetLevelDisplayNumber()}";
-
-        if (IsFirstGameTutorial)
-        {
-            StartFirstGameStage(LoadFirstGameStageIndex());
-        }
-        else
-        {
-            gameplayView.StartNewGame(MahjongLevelCatalogLoader.GetLevel(playerLevel));
-        }
 
         RefreshHealth(MahjongViewConfig.InitialHealth);
 
@@ -156,10 +161,6 @@ public class GameScenePanel : UIBase,IEventListener
         gameSceneItem_Hint.Refresh();
         gameSceneItem_Return.Refresh();
         RefreshTaskRedPoint();
-
-        OtherSdkManager.Instance.CustomEvent("level_start", "level_id", GameManager.Instance.playerInfo.level);
-
-        ShowGuideIfNeeded();
 
         if(GameManager.Instance.IsPhaseOne())
         {
@@ -171,54 +172,132 @@ public class GameScenePanel : UIBase,IEventListener
             levelText.transform.SetParent(levlepoint2);
             levelText.transform.localPosition = Vector3.zero;
         }
-        //levelText.gameObject.SetActive(!GameManager.Instance.IsPhaseOne());
+        MahjongLevelDefinition level = IsFirstGameTutorial
+            ? LoadFirstGameStage(LoadFirstGameStageIndex())
+            : MahjongLevelCatalogLoader.GetLevel(playerLevel);
+        gameplayView.PrepareNewGame(level);
+
+        OtherSdkManager.Instance.CustomEvent("level_start", "level_id", playerLevel);
     }
-    void ShowGuideIfNeeded()
+
+    private void BeginLevelEntry(Action prepareLevel, bool closeFirst = false, Action afterLevelTip = null)
     {
-        if (GuideIntro.Shown)
+        if (IsEnteringLevel)
+            CancelLevelEntry();
+
+        int entryVersion = ++levelEntryVersion;
+        IsEnteringLevel = true;
+
+        void PrepareBoard()
+        {
+            if (IsCurrentEntry(entryVersion))
+                prepareLevel();
+        }
+
+        void StartBoard()
+        {
+            if (IsCurrentEntry(entryVersion))
+                gameplayView.PlayEntranceAnimation(() => OnBoardEntranceCompleted(entryVersion, afterLevelTip));
+        }
+
+        object doorData = (Action)StartBoard;
+        if (closeFirst)
+        {
+            gameplayView.StopGameplay();
+            doorData = new LevelEntrancePanel.CloseThenOpen(PrepareBoard, StartBoard);
+        }
+        else
+        {
+            PrepareBoard();
+        }
+
+        if (UIManager.Instance.TryOpenUI<LevelEntrancePanel>(doorData))
             return;
 
-        DOTween.Sequence().AppendInterval(0.4f).AppendCallback(() =>
-        {
-            UIManager.Instance.OpenUI<GuidePop>(new GuidePopData(OnGuidePopCompleted));
-        });
+        if (closeFirst)
+            PrepareBoard();
+        StartBoard();
     }
-    /// <summary>
-    /// 新手引导关闭后补充第一关的关卡任务提示。
-    /// </summary>
-    void OnGuidePopCompleted()
-    {
-        GuideIntro.MarkShown();
 
-        LevelTaskTipData tipData = new LevelTaskTipData(
+    private void OnBoardEntranceCompleted(int entryVersion, Action afterLevelTip)
+    {
+        if (!IsCurrentEntry(entryVersion))
+            return;
+
+        UIManager.Instance.HideUI<LevelEntrancePanel>();
+        Action finish = () => CompleteLevelEntry(entryVersion, afterLevelTip);
+        bool needsIntro = !GuideIntro.Shown;
+        if (needsIntro && UIManager.Instance.TryGetUI<GuidePop>(out var intro))
+        {
+            levelEntryPopup = intro;
+            intro.Open(new GuidePopData(() =>
+            {
+                if (IsCurrentEntry(entryVersion))
+                    ShowLevelTaskTip(finish);
+            }));
+        }
+        else if (needsIntro || afterLevelTip != null)
+        {
+            ShowLevelTaskTip(finish);
+        }
+        else
+        {
+            finish();
+        }
+    }
+
+    private void ShowLevelTaskTip(Action onComplete)
+    {
+        var tipData = new LevelTaskTipData(
             PhaseTaskService.GetLevelDisplayNumber(),
             PhaseTaskService.GetCurrentTaskText(),
-            null,
+            onComplete,
             false);
 
-        if (tipData.CanOpen)
-            UIManager.Instance.OpenUI<LevelTaskTip>(tipData, () =>
-            {
-                UIManager.Instance.GetUI<GameScenePanel>().TryOpenFirstGameGuide();
-            });
+        if (tipData.CanOpen && UIManager.Instance.TryGetUI<LevelTaskTip>(out var tip))
+        {
+            levelEntryPopup = tip;
+            tip.Open(tipData);
+        }
+        else
+            tipData.Skip();
+    }
+
+    private void CompleteLevelEntry(int entryVersion, Action afterLevelTip)
+    {
+        if (!IsCurrentEntry(entryVersion))
+            return;
+
+        IsEnteringLevel = false;
+        levelEntryPopup = null;
+        gameplayView.CompleteLevelEntry();
+        if (IsFirstGameTutorial)
+            TryOpenFirstGameGuide();
+        afterLevelTip?.Invoke();
+    }
+
+    private bool IsCurrentEntry(int entryVersion) => IsEnteringLevel && entryVersion == levelEntryVersion;
+
+    private void CancelLevelEntry()
+    {
+        IsEnteringLevel = false;
+        var popup = levelEntryPopup;
+        levelEntryPopup = null;
+        if (popup != null && popup.gameObject.activeSelf)
+            popup.Hide();
+        if (UIManager.Instance != null && UIManager.Instance.TryGetUI<LevelEntrancePanel>(out var entrance))
+            entrance.RightAwayHide();
     }
 
     /// <summary>
-    /// 加载首关指定序号的新手引导小关卡。
-    /// 第 1 小关的手势引导由 LevelTaskTip 关闭后的回调触发，此处不重复调用；
-    /// 第 2、3 小关无前置 LevelTaskTip，直接打开引导。
+    /// 保存首关小关卡进度并加载对应牌面配置。
     /// </summary>
-    private void StartFirstGameStage(int stageIndex)
+    private MahjongLevelDefinition LoadFirstGameStage(int stageIndex)
     {
         int clampedStage = Mathf.Clamp(stageIndex, 1, TutorialStageCatalogLoader.StageCount);
         firstGameStageIndex = clampedStage;
         SaveFirstGameStageIndex(clampedStage);
-        gameplayView.StartNewGame(TutorialStageCatalogLoader.CreateRuntimeStage(clampedStage));
-
-        if (clampedStage > 1)
-        {
-            TryOpenFirstGameGuide();
-        }
+        return TutorialStageCatalogLoader.CreateRuntimeStage(clampedStage);
     }
 
     /// <summary>
@@ -240,7 +319,9 @@ public class GameScenePanel : UIBase,IEventListener
             return;
         }
 
-        StartFirstGameStage(firstGameStageIndex + 1);
+        gameplayView.PrepareNewGame(LoadFirstGameStage(firstGameStageIndex + 1), hideBoardForEntrance: false);
+        gameplayView.CompleteLevelEntry();
+        TryOpenFirstGameGuide();
     }
 
     /// <summary>
@@ -248,6 +329,7 @@ public class GameScenePanel : UIBase,IEventListener
     /// </summary>
     public override void Hide()
     {
+        CancelLevelEntry();
         gameplayView.StopGameplay();
         base.Hide();
     }
@@ -257,8 +339,17 @@ public class GameScenePanel : UIBase,IEventListener
     /// </summary>
     public void ResetGame()
     {
-        Refresh();
+        BeginLevelEntry(PrepareLevel);
         PhaseTaskService.NotifyProgressRefresh();
+    }
+
+    public void PlayNextLevelTransition(Action afterLevelTip)
+    {
+        BeginLevelEntry(() =>
+        {
+            PrepareLevel();
+            PhaseTaskService.NotifyProgressRefresh();
+        }, closeFirst: true, afterLevelTip: afterLevelTip);
     }
 
     /// <summary>

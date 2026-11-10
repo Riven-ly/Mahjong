@@ -225,12 +225,11 @@ namespace MahjongGame.View
         /// <summary>
         /// 设置卡牌被阻挡时的显示状态。调用前必须保证卡牌仍在牌面上。
         /// </summary>
-        public void SetBlocked(bool blocked)
+        public void SetBlocked(bool blocked, bool interactable)
         {
             BlockedMaskObj.gameObject.SetActive(blocked);
             canvasGroup.alpha = blocked ? MahjongViewConfig.BlockedAlpha : MahjongViewConfig.NormalAlpha;
-            isPointerEnabled = true;
-            canvasGroup.blocksRaycasts = true;
+            SetInteractable(interactable);
         }
 
         /// <summary>
@@ -286,14 +285,15 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 播放卡牌入场动画：从完全透明淡入至正常显示。调用前必须已完成 Initialize。
+        /// 从牌堆对应的一侧滑到牌面位置。调用前必须已完成 Initialize。
         /// </summary>
-        public Tween AnimateEntrance(float duration, float delay)
+        public Tween AnimateEntrance(float horizontalOffset, float speed)
         {
             DOTween.Kill(this);
-            canvasGroup.alpha = 0f;
-            return canvasGroup.DOFade(MahjongViewConfig.NormalAlpha, duration)
-                .SetDelay(delay)
+            float targetX = rectTransform.anchoredPosition.x;
+            rectTransform.anchoredPosition += Vector2.right * horizontalOffset;
+            return rectTransform.DOAnchorPosX(targetX, Mathf.Abs(horizontalOffset) / speed)
+                .SetEase(Ease.OutCubic)
                 .SetTarget(this);
         }
 
@@ -354,8 +354,8 @@ namespace MahjongGame.View
         public const float ReboundDuration = 0.1f; // 卡牌首次碰撞后的回弹时长
         public const float SecondCollisionDuration = 0.12f; // 卡牌第二次碰撞的动画时长
         public const float EliminateDuration = 0.2f; // 卡牌消除动画时长
-        public const float EntranceDuration = 0.33f; // 单张卡牌入场淡入时长
-        public const float EntranceStagger = 0.021f; // 入场扩散时每格对角距离的错峰间隔
+        public const float EntranceMinSpeed = 0.95f; // 入场最小平均速度，单位为屏宽/秒
+        public const float EntranceMaxSpeed = 1.70f; // 入场最大平均速度，单位为屏宽/秒
         public const float EliminationEffectDuration = 2f; // 消除粒子完整播放及回收时长
         public const float HealthFadeDuration = 0.25f; // 扣除生命时的淡出时长
         public const float BoardCellWidth = 196f; // 牌面完整网格横向间距

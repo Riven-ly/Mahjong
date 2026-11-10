@@ -33,12 +33,17 @@ public class UIManager : MonoBehaviour
 
     public void OpenUI<T>(object data = null, Action _callback = null) where T : UIBase
     {
+        TryOpenUI<T>(data, _callback);
+    }
+
+    public bool TryOpenUI<T>(object data = null, Action _callback = null) where T : UIBase
+    {
         string className = typeof(T).Name;
         // 已加载，直接显示
         if (uiDict.ContainsKey(className))
         {
             uiDict[className].Open(data, _callback);
-            return;
+            return true;
         }
 
         // 加载预制体并实例化
@@ -47,7 +52,7 @@ public class UIManager : MonoBehaviour
         if (uiPrefab == null)
         {
             Debug.LogError($"UI加载失败 → 路径:{loadPath}，请检查预制体/类名是否一致");
-            return;
+            return false;
         }
 
         GameObject uiObj = Instantiate(uiPrefab, UIPanelLayer1);
@@ -58,11 +63,13 @@ public class UIManager : MonoBehaviour
             uiDict.Add(className, uiBase);
             uiBase.SetUIPanelLayer();
             uiBase.Open(data, _callback);
+            return true;
         }
         else
         {
             Debug.LogError($"{className}预制体未挂载对应脚本！");
             Destroy(uiObj);
+            return false;
         }
     }
 
@@ -91,12 +98,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public bool TryGetUI<T>(out T panel) where T : UIBase
+    {
+        panel = uiDict.TryGetValue(typeof(T).Name, out var registered) ? registered as T : null;
+        return panel != null;
+    }
+
     public T GetUI<T>() where T : UIBase
     {
         string className = typeof(T).Name;
-        if (uiDict.ContainsKey(className))
+        if (TryGetUI<T>(out var panel))
         {
-            return uiDict[className] as T;
+            return panel;
         }
         Debug.LogWarning($"获取UI失败 → {className}尚未加载/打开");
         return null;

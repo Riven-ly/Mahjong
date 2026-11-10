@@ -292,24 +292,8 @@ public class GameWinPanel : UIBase
     private void OnNextLevelButtonClick()
     {
         GameManager.Instance.playerInfo.level++;
-        PhaseTaskService.NotifyProgressRefresh();
         GameManager.Instance.SavePlayerInfo();
-        UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
-
-        LevelTaskTipData tipData = new LevelTaskTipData(
-        PhaseTaskService.GetLevelDisplayNumber(),
-        PhaseTaskService.GetCurrentTaskText(),
-        EnterNextLevel,
-        false);
-
-        if (tipData.CanOpen)
-        {
-            UIManager.Instance.OpenUI<LevelTaskTip>(tipData);
-        }
-        else
-        {
-            EnterNextLevel();
-        }
+        UIManager.Instance.GetUI<GameScenePanel>().PlayNextLevelTransition(EnterNextLevel);
     }
 
     private void EnterNextLevel()

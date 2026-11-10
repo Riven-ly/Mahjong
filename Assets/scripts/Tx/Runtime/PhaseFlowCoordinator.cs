@@ -42,10 +42,9 @@ public sealed class PhaseFlowCoordinator : MonoBehaviour
 
     bool CanStartFromGameplay()
     {
-        if (UIManager.Instance == null)
-            return false;
-
-        return true;
+        return UIManager.Instance != null &&
+            UIManager.Instance.TryGetUI<GameScenePanel>(out var game) &&
+            game.isActiveAndEnabled && !game.IsEnteringLevel;
     }
 
     public void TryResume()

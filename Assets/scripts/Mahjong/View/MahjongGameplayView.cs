@@ -48,6 +48,7 @@ namespace MahjongGame.View
         private float idleHintTimer; // 闲置计时器，玩家操作或高亮后清零
         private float idleHintLastCheckTime; // 上次结算闲置引导的全局时间戳
         private bool idleHintActive; // 当前是否正在显示闲置高亮
+        private bool isEntryLocked;
 
         private static float remoteIdleHintWaitSeconds = MahjongConfig.IdleHintWaitSeconds; // 闲置等待秒数，可被远程配置覆盖
         private static float remoteIdleHintActiveSeconds = MahjongConfig.IdleHintActiveSeconds; // 闲置高亮持续秒数，可被远程配置覆盖
@@ -55,8 +56,6 @@ namespace MahjongGame.View
         private const float MahjongCellHalfWidth = 85.5f; // 单张麻将牌局部坐标宽度的一半
         private const float MahjongCellHalfHeight = 99.5f; // 单张麻将牌局部坐标高度的一半
         private const float HorizontalScreenMargin = 50f; // 屏幕安全区左右保留边距
-        private const float EntranceCellPitchX = MahjongViewConfig.BoardCellWidth * 0.5f; // 相邻列卡牌的水平间距，用于入场扩散距离
-        private const float EntranceCellPitchY = MahjongViewConfig.BoardCellHeight * 0.5f; // 相邻行卡牌的垂直间距，用于入场扩散距离
         private const int Combo5EffectTriggerCount = 5; // 五连击特效触发所需连击数
 
         public event System.Action<int> HealthChanged; // 剩余生命变化事件
@@ -93,9 +92,9 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 使用指定关卡配置重建本局玩法。调用前必须确认允许丢弃当前局进度。
+        /// 使用指定关卡配置重建牌面，大关入场时先隐藏牌面。
         /// </summary>
-        public void StartNewGame(MahjongLevelDefinition levelDefinition)
+        public void PrepareNewGame(MahjongLevelDefinition levelDefinition, bool hideBoardForEntrance = true)
         {
             StopGameplay();
             ClearCellViews();
@@ -112,11 +111,15 @@ namespace MahjongGame.View
             idleHintActive = false;
             idleHintLastCheckTime = Time.time;
             ApplyBoardScale(levelDefinition);
-            MahjongOperationResult result = gameLogic.StartNewGame(levelDefinition);
+            gameLogic.StartNewGame(levelDefinition);
+            boardRoot.gameObject.SetActive(true);
             BuildBoardViews();
             MarkSpecialPair();
             EnsurePlayablePair();
-            PlayEntranceAnimation();
+            if (hideBoardForEntrance)
+            {
+                boardRoot.gameObject.SetActive(false);
+            }
             RemainingPairsChanged?.Invoke(CountRemainingPairs());
         }
 
@@ -135,48 +138,56 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 播放关卡创建完成后的卡牌入场动画：以牌面左上角为原点，按对角距离由近及远依次淡入。
+        /// 以牌堆中线分左右，各牌同时从屏幕两侧以不同速度滑入。
         /// </summary>
-        private void PlayEntranceAnimation()
+        public void PlayEntranceAnimation(System.Action onComplete)
         {
+            isEntryLocked = true;
+            SetBoardInput(false);
+            boardRoot.gameObject.SetActive(true);
             if (cellViews.Count == 0)
             {
+                onComplete?.Invoke();
                 return;
             }
 
-            float originX = float.MaxValue;
-            float originY = float.MinValue;
-            foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
+            float minX = float.MaxValue;
+            float maxX = float.MinValue;
+            foreach (MahjongCell cell in cellViews.Values)
             {
-                if (pair.Value == null)
-                {
-                    continue;
-                }
-
-                Vector2 position = pair.Value.RectTransform.anchoredPosition;
-                originX = Mathf.Min(originX, position.x);
-                originY = Mathf.Max(originY, position.y);
+                float x = cell.RectTransform.anchoredPosition.x;
+                minX = Mathf.Min(minX, x);
+                maxX = Mathf.Max(maxX, x);
             }
 
-            float totalDuration = MahjongViewConfig.EntranceDuration;
-            SetBoardInput(false);
-            foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
-            {
-                MahjongCell cell = pair.Value;
-                if (cell == null)
-                {
-                    continue;
-                }
+            float splitX = (minX + maxX) * 0.5f;
+            var viewport = (RectTransform)boardRoot.GetComponentInParent<Canvas>().rootCanvas.transform;
+            float leftEdge = boardRoot.InverseTransformPoint(viewport.TransformPoint(new Vector3(viewport.rect.xMin, 0f))).x;
+            float rightEdge = boardRoot.InverseTransformPoint(viewport.TransformPoint(new Vector3(viewport.rect.xMax, 0f))).x;
+            float viewportWidth = rightEdge - leftEdge;
+            float leftOffset = leftEdge - MahjongCellHalfWidth - splitX;
+            float rightOffset = rightEdge + MahjongCellHalfWidth - splitX;
+            var entranceRandom = new System.Random();
 
-                Vector2 position = cell.RectTransform.anchoredPosition;
-                float distance = Mathf.Abs(position.x - originX) / EntranceCellPitchX
-                                 + Mathf.Abs(originY - position.y) / EntranceCellPitchY;
-                float delay = distance * MahjongViewConfig.EntranceStagger;
-                totalDuration = Mathf.Max(totalDuration, delay + MahjongViewConfig.EntranceDuration);
-                cell.AnimateEntrance(MahjongViewConfig.EntranceDuration, delay);
+            Sequence entrance = DOTween.Sequence().SetTarget(this);
+            foreach (MahjongCell cell in cellViews.Values)
+            {
+                float distanceFromCenter = cell.RectTransform.anchoredPosition.x - splitX;
+                bool fromLeft = distanceFromCenter < 0f || (distanceFromCenter == 0f && cell.InstanceId % 2 == 0);
+                float offset = fromLeft ? leftOffset : rightOffset;
+                float speed = viewportWidth * Mathf.Lerp(
+                    MahjongViewConfig.EntranceMinSpeed, MahjongViewConfig.EntranceMaxSpeed, (float)entranceRandom.NextDouble());
+                entrance.Join(cell.AnimateEntrance(offset, speed));
             }
 
-            DOVirtual.DelayedCall(totalDuration, () => SetBoardInput(true)).SetTarget(this);
+            entrance.OnComplete(() => onComplete?.Invoke());
+        }
+
+        public void CompleteLevelEntry()
+        {
+            isEntryLocked = false;
+            ResetIdleHintTimer();
+            SetBoardInput(true);
         }
 
         /// <summary>
@@ -222,6 +233,7 @@ namespace MahjongGame.View
         /// </summary>
         public void StopGameplay()
         {
+            isEntryLocked = true;
             StopHint();
             StopIdleHint();
             DOTween.Kill(this);
@@ -259,7 +271,7 @@ namespace MahjongGame.View
         /// </summary>
         public void DebugCompleteLevel()
         {
-            if (gameLogic == null || gameLogic.Model == null || gameLogic.Model.State != MahjongGameState.Playing)
+            if (isEntryLocked || gameLogic == null || gameLogic.Model == null || gameLogic.Model.State != MahjongGameState.Playing)
             {
                 Debug.LogWarning("[Debug] 当前不在进行中的牌局，无法完成关卡");
                 return;
@@ -307,7 +319,13 @@ namespace MahjongGame.View
                 return;
             }
 
-            PlayEntranceAnimation();
+            if (isEntryLocked || activeEliminationCount != 0)
+            {
+                return;
+            }
+
+            RefreshBoardPositions();
+            PlayEntranceAnimation(CompleteLevelEntry);
         }
 
         /// <summary>
@@ -404,6 +422,11 @@ namespace MahjongGame.View
         /// </summary>
         private void HandleCellSelectRequested(MahjongCell cell)
         {
+            if (isEntryLocked)
+            {
+                return;
+            }
+
             ResetIdleHintTimer();
             cell.SetHintEffectActive(false);
             MahjongOperationFailure failure = gameLogic.ValidateSelectCard(cell.InstanceId);
@@ -647,7 +670,8 @@ namespace MahjongGame.View
         public bool TryShuffle()
         {
             ResetIdleHintTimer();
-            if (gameLogic == null ||
+            if (isEntryLocked ||
+                gameLogic == null ||
                 gameLogic.Model == null ||
                 gameLogic.Model.State != MahjongGameState.Playing ||
                 activeEliminationCount != 0)
@@ -702,7 +726,8 @@ namespace MahjongGame.View
         public bool TryAutoEliminate(int groupCount)
         {
             ResetIdleHintTimer();
-            if (gameLogic == null ||
+            if (isEntryLocked ||
+                gameLogic == null ||
                 gameLogic.Model == null ||
                 gameLogic.Model.State != MahjongGameState.Playing ||
                 activeEliminationCount != 0 ||
@@ -790,7 +815,8 @@ namespace MahjongGame.View
         public bool TryShowHint()
         {
             ResetIdleHintTimer();
-            if (gameLogic == null ||
+            if (isEntryLocked ||
+                gameLogic == null ||
                 gameLogic.Model == null ||
                 gameLogic.Model.State != MahjongGameState.Playing ||
                 activeEliminationCount != 0)
@@ -889,7 +915,8 @@ namespace MahjongGame.View
         /// </summary>
         private bool IsStable()
         {
-            return gameLogic != null &&
+            return !isEntryLocked &&
+                   gameLogic != null &&
                    gameLogic.Model != null &&
                    gameLogic.Model.State == MahjongGameState.Playing &&
                    selectedCardId == 0 &&
@@ -1170,7 +1197,7 @@ namespace MahjongGame.View
         /// </summary>
         private bool IsNormalPlaying()
         {
-            if (UIManager.Instance == null || UIManager.Instance.uiMask.gameObject.activeSelf)
+            if (isEntryLocked || UIManager.Instance == null || UIManager.Instance.uiMask.gameObject.activeSelf)
             {
                 return false;
             }
@@ -1445,7 +1472,7 @@ namespace MahjongGame.View
                 bool blocked = gameLogic.Model.State != MahjongGameState.Playing ||
                                gameLogic.IsCardCovered(card.InstanceId) ||
                                gameLogic.IsCardBlockedByBothSides(card.InstanceId);
-                cell.SetBlocked(blocked);
+                cell.SetBlocked(blocked, !isEntryLocked);
             }
         }
 
