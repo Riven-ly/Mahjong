@@ -34,6 +34,8 @@ public sealed class PhaseOneHudConfigSO : ScriptableObject
 {
     [SerializeField] PhaseOneHudEntry[] entries;
 
+    public int LevelCount => entries?.Length ?? 0;
+
     public PhaseOneHudEntry Get(int actualLevel)
     {
         if (entries == null)
@@ -51,7 +53,7 @@ public sealed class PhaseOneHudConfigSO : ScriptableObject
 
     void OnValidate()
     {
-        if (entries == null || entries.Length != 30)
+        if (LevelCount == 0)
         {
             Debug.LogWarning("101", this);
             return;
@@ -73,18 +75,18 @@ public sealed class PhaseOneHudConfigSO : ScriptableObject
                 Debug.LogWarning("101", this);
             if (entry.DisplayLevel < 1 || entry.DisplayLevel > 8 || entry.DisplayLevel < previousDisplayLevel)
                 Debug.LogWarning("101", this);
-            if (entry.DotCount < 0 || entry.DotCount > 5 || entry.CurrentDot < 0 || entry.CurrentDot > entry.DotCount || entry.CompletedDots < 0 || entry.CompletedDots > entry.DotCount)
+            if (entry.DotCount < 0 || entry.DotCount > 7 || entry.CurrentDot < 0 || entry.CurrentDot > entry.DotCount || entry.CompletedDots < 0 || entry.CompletedDots > entry.DotCount)
                 Debug.LogWarning("101", this);
             if (entry.CurrentDot > 0 && entry.CompletedDots >= entry.CurrentDot)
                 Debug.LogWarning("101", this);
-            if (entry.ShowPercent && (entry.DisplayLevel != 8 || entry.CurrentDot != 5 || entry.Percent <= 0f || entry.Percent < previousPercent))
+            if (entry.ShowPercent && (entry.DisplayLevel != 8 || entry.DotCount == 0 || entry.CurrentDot != entry.DotCount || entry.Percent <= 0f || entry.Percent < previousPercent))
                 Debug.LogWarning("101", this);
 
             previousDisplayLevel = entry.DisplayLevel;
             previousPercent = Mathf.Max(previousPercent, entry.Percent);
         }
 
-        PhaseOneHudEntry finalEntry = entries[28];
+        PhaseOneHudEntry finalEntry = entries[entries.Length - 1];
         if (finalEntry == null || !finalEntry.ShowPercent || !Mathf.Approximately(finalEntry.Percent, 0.9999f))
             Debug.LogWarning("101", this);
     }

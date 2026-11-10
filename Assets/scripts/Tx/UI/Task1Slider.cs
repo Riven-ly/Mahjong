@@ -17,6 +17,11 @@ public sealed class Task1Slider : MonoBehaviour
     void Awake()
     {
         subDots.AddRange(limitLevelDisplay.GetComponentsInChildren<PhaseSubLevelDot>(true));
+        if (limitLevelDisplay.TryGetComponent(out GridLayoutGroup dotLayout))
+        {
+            dotLayout.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+            dotLayout.constraintCount = 1;
+        }
         percentDisplay.SetActive(false);
     }
 
@@ -45,6 +50,9 @@ public sealed class Task1Slider : MonoBehaviour
         if (!showSubDots)
             return;
 
+        while (subDots.Count > 0 && subDots.Count < progress.DotCount)
+            subDots.Add(Instantiate(subDots[0], limitLevelDisplay.transform));
+
         for (int index = 0; index < subDots.Count; index++)
         {
             PhaseSubLevelDot dot = subDots[index];
@@ -59,6 +67,16 @@ public sealed class Task1Slider : MonoBehaviour
                 dotIndex == progress.CurrentDot,
                 progress.ShowPercent && dotIndex == progress.CurrentDot,
                 progress.Percent);
+        }
+
+        if (showPercent && progress.CurrentDot > 0 && progress.CurrentDot <= subDots.Count)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)limitLevelDisplay.transform);
+            Transform percentTransform = percentDisplay.transform;
+            Vector3 position = percentTransform.localPosition;
+            Transform currentDot = subDots[progress.CurrentDot - 1].transform;
+            position.x = percentTransform.parent.InverseTransformPoint(currentDot.position).x;
+            percentTransform.localPosition = position;
         }
     }
 }

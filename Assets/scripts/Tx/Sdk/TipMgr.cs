@@ -97,6 +97,7 @@ public sealed class TipMgr : MonoBehaviour
         RectTransform rect = topNotice.transform as RectTransform;
         topSequence?.Kill(false);
         topNotice.Refresh(CreateTopData());
+        topNotice.accountIcon.SetNativeSize();
         rect.anchoredPosition = new Vector2(0f, TopHiddenY);
         topNotice.gameObject.SetActive(true);
         topSequence = DOTween.Sequence()

@@ -145,23 +145,27 @@ public static class PhaseTaskService
         return config == null ? 0 : config.LevelPhase.ActualTargetLevel;
     }
 
-    public static int GetLevelDisplayLevel()
+    public static PhaseOneHudProgress GetLevelHudProgress(PhaseOneHudConfigSO fallbackConfig)
     {
         Initialize();
         int target = config == null ? 0 : config.LevelPhase.ActualTargetLevel;
-        if (target <= 0)
-            return 1;
-        return Mathf.Clamp(GetCurrentLevel(), 1, target);
+        int stage = target > 0 ? Mathf.Clamp(GetCurrentLevel(), 1, target) : 1;
+        PhaseOneHudConfigSO hudConfig = phaseOneHudConfig != null ? phaseOneHudConfig : fallbackConfig;
+        return PhaseOneHudCalculator.Get(stage, hudConfig);
     }
 
     public static int GetLevelDisplayNumber()
     {
         Initialize();
         int stage = Mathf.Max(1, GetCurrentLevel());
-        //if (CurrentPhaseId == PhaseId.Level8)
-        if (stage <= 29)
+        LevelPhaseConfig levelPhase = config != null ? config.LevelPhase : null;
+        if (levelPhase == null)
+            return stage;
+
+        if (stage <= levelPhase.ActualTargetLevel)
             return PhaseOneHudCalculator.Get(stage, phaseOneHudConfig).DisplayLevel;
-        return stage - 21;
+
+        return stage - levelPhase.ActualTargetLevel + levelPhase.DisplayTargetLevel;
     }
 
     public static void NotifyProgressRefresh()

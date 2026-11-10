@@ -50,176 +50,246 @@ MonoBehaviour:
     percent: 0
   - actualLevel: 6
     displayLevel: 6
-    dotCount: 2
+    dotCount: 3
     currentDot: 1
     completedDots: 0
     showPercent: 0
     percent: 0
   - actualLevel: 7
     displayLevel: 6
-    dotCount: 2
+    dotCount: 3
     currentDot: 2
     completedDots: 1
     showPercent: 0
     percent: 0
   - actualLevel: 8
-    displayLevel: 7
+    displayLevel: 6
     dotCount: 3
-    currentDot: 1
-    completedDots: 0
+    currentDot: 3
+    completedDots: 2
     showPercent: 0
     percent: 0
   - actualLevel: 9
     displayLevel: 7
-    dotCount: 3
-    currentDot: 2
-    completedDots: 1
-    showPercent: 0
-    percent: 0
-  - actualLevel: 10
-    displayLevel: 7
-    dotCount: 3
-    currentDot: 3
-    completedDots: 2
-    showPercent: 0
-    percent: 0
-  - actualLevel: 11
-    displayLevel: 8
     dotCount: 5
     currentDot: 1
     completedDots: 0
     showPercent: 0
     percent: 0
-  - actualLevel: 12
-    displayLevel: 8
+  - actualLevel: 10
+    displayLevel: 7
     dotCount: 5
     currentDot: 2
     completedDots: 1
     showPercent: 0
     percent: 0
-  - actualLevel: 13
-    displayLevel: 8
+  - actualLevel: 11
+    displayLevel: 7
     dotCount: 5
     currentDot: 3
     completedDots: 2
     showPercent: 0
     percent: 0
-  - actualLevel: 14
-    displayLevel: 8
+  - actualLevel: 12
+    displayLevel: 7
     dotCount: 5
     currentDot: 4
     completedDots: 3
     showPercent: 0
     percent: 0
+  - actualLevel: 13
+    displayLevel: 7
+    dotCount: 5
+    currentDot: 5
+    completedDots: 4
+    showPercent: 0
+    percent: 0
+  - actualLevel: 14
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 1
+    completedDots: 0
+    showPercent: 0
+    percent: 0
   - actualLevel: 15
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
-    showPercent: 1
-    percent: 0.5
+    dotCount: 7
+    currentDot: 2
+    completedDots: 1
+    showPercent: 0
+    percent: 0
   - actualLevel: 16
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
-    showPercent: 1
-    percent: 0.75
+    dotCount: 7
+    currentDot: 3
+    completedDots: 2
+    showPercent: 0
+    percent: 0
   - actualLevel: 17
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
-    showPercent: 1
-    percent: 0.9
+    dotCount: 7
+    currentDot: 4
+    completedDots: 3
+    showPercent: 0
+    percent: 0
   - actualLevel: 18
     displayLevel: 8
-    dotCount: 5
+    dotCount: 7
     currentDot: 5
     completedDots: 4
-    showPercent: 1
-    percent: 0.95
+    showPercent: 0
+    percent: 0
   - actualLevel: 19
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
-    showPercent: 1
-    percent: 0.97
+    dotCount: 7
+    currentDot: 6
+    completedDots: 5
+    showPercent: 0
+    percent: 0
   - actualLevel: 20
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
-    showPercent: 1
-    percent: 0.98
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 0
+    percent: 0
   - actualLevel: 21
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.99
+    percent: 0.5
   - actualLevel: 22
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.995
+    percent: 0.6
   - actualLevel: 23
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.997
+    percent: 0.7
   - actualLevel: 24
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.998
+    percent: 0.8
   - actualLevel: 25
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.999
+    percent: 0.9
   - actualLevel: 26
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.9995
+    percent: 0.95
   - actualLevel: 27
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.9997
+    percent: 0.96
   - actualLevel: 28
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.9998
+    percent: 0.97
   - actualLevel: 29
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
-    percent: 0.9999
+    percent: 0.98
   - actualLevel: 30
     displayLevel: 8
-    dotCount: 5
-    currentDot: 5
-    completedDots: 4
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.99
+  - actualLevel: 31
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.995
+  - actualLevel: 32
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.996
+  - actualLevel: 33
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.997
+  - actualLevel: 34
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.998
+  - actualLevel: 35
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.999
+  - actualLevel: 36
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.9995
+  - actualLevel: 37
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.9996
+  - actualLevel: 38
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.9997
+  - actualLevel: 39
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
+    showPercent: 1
+    percent: 0.9998
+  - actualLevel: 40
+    displayLevel: 8
+    dotCount: 7
+    currentDot: 7
+    completedDots: 6
     showPercent: 1
     percent: 0.9999

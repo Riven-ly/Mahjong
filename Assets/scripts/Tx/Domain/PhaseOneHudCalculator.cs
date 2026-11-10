@@ -37,13 +37,13 @@ public static class PhaseOneHudCalculator
 {
     public static PhaseOneHudProgress Get(int actualLevel, PhaseOneHudConfigSO config)
     {
-        int clampedLevel = Mathf.Clamp(actualLevel, 1, 30);
         if (config == null)
         {
             Debug.LogError("101");
-            return CreateFallback(clampedLevel);
+            return CreateFallback(Mathf.Max(1, actualLevel));
         }
 
+        int clampedLevel = Mathf.Clamp(actualLevel, 1, Mathf.Max(1, config.LevelCount));
         PhaseOneHudEntry entry = config.Get(clampedLevel);
         if (entry == null)
         {

@@ -15,7 +15,7 @@ MonoBehaviour:
   schemaVersion: 1
   phases: []
   levelPhase:
-    actualTargetLevel: 29
+    actualTargetLevel: 40
     displayTargetLevel: 8
   activeMinutePhase:
     slotDurationSeconds: 60

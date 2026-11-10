@@ -163,7 +163,7 @@ public sealed class PlayerLevelRequirement
 [Serializable]
 public sealed class LevelPhaseConfig
 {
-    [SerializeField] int actualTargetLevel = 30;
+    [SerializeField] int actualTargetLevel = 40;
 
     [SerializeField] int displayTargetLevel = 8;
 
