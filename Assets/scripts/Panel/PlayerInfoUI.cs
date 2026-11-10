@@ -88,7 +88,7 @@ public class PlayerInfoUI : UIBase,IEventListener
 
     public void ComboGoldFlyAnim(Vector3 start, int coinCount)
     {
-        GoldCollectEffect.Instance.StartEffect(ItemType.Gold, start, goldIcon.transform.position, coinCount);
+        GoldCollectEffect.Instance.StartEffect(ItemType.Gold, start, goldIcon.transform.position, coinCount, fromMahjongMatch: true);
         DOTween.Sequence().AppendInterval(0.8f).AppendCallback(() =>
         {
             StartGoldAnim();

@@ -2,9 +2,12 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoldCollectEffect : MonoBehaviour
 {
+    private const int MahjongMatchSortingOrder = 2450;
+
     public static GoldCollectEffect Instance;
     public GameObject glodPrefab;
     public GameObject diamondPrefab;
@@ -12,10 +15,59 @@ public class GoldCollectEffect : MonoBehaviour
 
     private List<GoldFlyControl> golds = new List<GoldFlyControl>();
     private List<GoldFlyControl> diamonds = new List<GoldFlyControl>();
+    private Canvas sceneEffectCanvas;
+    private int defaultSortingOrder;
+    private int activeMatchFlights;
+    private Transform rewardFlightRoot;
 
     private void Awake()
     {
         Instance = this;
+        sceneEffectCanvas = GetComponentInParent<Canvas>();
+        rewardFlightRoot = transform;
+        if (sceneEffectCanvas != null)
+        {
+            defaultSortingOrder = sceneEffectCanvas.sortingOrder;
+            var rewardCanvas = new GameObject("RewardFlyLayer", typeof(RectTransform), typeof(Canvas), typeof(GraphicRaycaster))
+                .GetComponent<Canvas>();
+            rewardCanvas.gameObject.layer = gameObject.layer;
+            rewardCanvas.transform.SetParent(transform, false);
+            rewardCanvas.overrideSorting = true;
+            rewardCanvas.sortingLayerID = sceneEffectCanvas.sortingLayerID;
+            rewardCanvas.sortingOrder = defaultSortingOrder;
+            rewardFlightRoot = rewardCanvas.transform;
+        }
+    }
+
+    private void OnEnable()
+    {
+        UpdateSceneEffectSorting();
+    }
+
+    private void OnDisable()
+    {
+        if (sceneEffectCanvas != null)
+        {
+            sceneEffectCanvas.sortingOrder = defaultSortingOrder;
+        }
+    }
+
+    private void UpdateSceneEffectSorting()
+    {
+        if (sceneEffectCanvas != null)
+        {
+            sceneEffectCanvas.sortingOrder = isActiveAndEnabled && activeMatchFlights > 0
+                ? MahjongMatchSortingOrder
+                : defaultSortingOrder;
+        }
+    }
+
+    private void FinishMatchFlight()
+    {
+        if (--activeMatchFlights == 0)
+        {
+            UpdateSceneEffectSorting();
+        }
     }
     private void Start()
     {
@@ -49,7 +101,7 @@ public class GoldCollectEffect : MonoBehaviour
         StartEffect(itemType, start, target, 10);
     }
 
-    public void StartEffect(ItemType itemType, Vector3 start, Vector3 target, int maxCount)
+    public void StartEffect(ItemType itemType, Vector3 start, Vector3 target, int maxCount, bool fromMahjongMatch = false)
     {
         List<GoldFlyControl> temList = golds;
         switch (itemType)
@@ -63,12 +115,23 @@ public class GoldCollectEffect : MonoBehaviour
 
         }
 
+        Transform flightRoot = fromMahjongMatch ? transform : rewardFlightRoot;
+        System.Action onArrival = fromMahjongMatch ? FinishMatchFlight : null;
         int cntIndex = 0;
         for (int i = 0; i < temList.Count; i++)
         {
             if(!temList[i].gameObject.activeSelf)
             {
-                temList[i].FlyGold(start, target, (cntIndex + 1) * 0.1f);
+                GoldFlyControl flight = temList[i];
+                if (flight.transform.parent != flightRoot)
+                {
+                    flight.transform.SetParent(flightRoot, false);
+                }
+                if (fromMahjongMatch && activeMatchFlights++ == 0)
+                {
+                    UpdateSceneEffectSorting();
+                }
+                flight.FlyGold(start, target, (cntIndex + 1) * 0.1f, onArrival);
                 cntIndex++;
                 if (cntIndex == maxCount)
                 {

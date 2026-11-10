@@ -18,7 +18,7 @@ public class GoldFlyControl : MonoBehaviour
         }
     }
 
-    public void FlyGold(Vector3 start, Vector3 target,float awaitTime)
+    public void FlyGold(Vector3 start, Vector3 target, float awaitTime, System.Action onArrival = null)
     {
         this.DOKill();
         gameObject.SetActive(true);
@@ -41,6 +41,7 @@ public class GoldFlyControl : MonoBehaviour
                 {
                     AudioManager.Instance.SetAudioSource(source, "gold");
                     icon.gameObject.SetActive(false);
+                    onArrival?.Invoke();
                     DOTween.Sequence().AppendInterval(0.5f).AppendCallback(() =>
                     {
                         icon.gameObject.SetActive(true);

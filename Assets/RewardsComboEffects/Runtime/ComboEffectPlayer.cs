@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CashRewards.ComboEffects
 {
-    /// <summary>Static UGUI prefab. Original 1.0.23 art, combo thresholds and number animation.</summary>
+    /// <summary>Plays the combo label, reward words and emojis.</summary>
     public sealed class ComboEffectPlayer : MonoBehaviour
     {
         public enum Word { Combo, Perfect, Excellent }
@@ -13,26 +13,28 @@ namespace CashRewards.ComboEffects
         [SerializeField] SkeletonGraphic[] words = new SkeletonGraphic[3];
         [SerializeField] SkeletonGraphic[] emojis = new SkeletonGraphic[7];
         [SerializeField] TextMeshProUGUI comboNumber;
+        [SerializeField] TextMeshProUGUI comboOutline;
+        [SerializeField] TextMeshProUGUI comboShadow;
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip perfectSound;
         [SerializeField] AudioClip excellentSound;
         [SerializeField] bool playSound = true;
         [SerializeField, Min(0)] float riseDistance = 14.4f;
-        [SerializeField, Min(0)] float numberGap = 14.4f;
-        [SerializeField] float comboArtScale = 240f / 191f;
 
         SkeletonGraphic activeWord, activeEmoji;
-        Vector2 wordOrigin, numberOrigin;
-        Vector3 numberScale;
-        float elapsed, wordDuration, emojiElapsed, emojiDuration, numberWidth;
+        Spine.Slot comboAnimationSlot;
+        Vector2 wordOrigin, comboOrigin, shadowOffset;
+        Vector3 comboScale;
+        float elapsed, wordDuration, emojiElapsed, emojiDuration;
         int wordIndex = -1;
 
         public bool IsPlaying => activeWord != null || activeEmoji != null;
 
         void Awake()
         {
-            numberOrigin = comboNumber.rectTransform.anchoredPosition;
-            numberScale = comboNumber.rectTransform.localScale;
+            comboOrigin = comboNumber.rectTransform.anchoredPosition;
+            comboScale = comboNumber.rectTransform.localScale;
+            shadowOffset = comboShadow.rectTransform.anchoredPosition - comboOrigin;
             foreach (var g in words) Configure(g);
             foreach (var g in emojis) Configure(g);
             Hide();
@@ -66,9 +68,16 @@ namespace CashRewards.ComboEffects
             wordOrigin = activeWord.rectTransform.anchoredPosition;
             elapsed = 0;
             wordDuration = Restart(activeWord);
-            comboNumber.gameObject.SetActive(wordIndex == 0);
-            comboNumber.text = "×" + count;
-            numberWidth = comboNumber.GetPreferredValues().x + 4;
+            if (word == Word.Combo)
+            {
+                // The Spine slot supplies the scale and fade for all text layers.
+                comboAnimationSlot = activeWord.Skeleton.FindSlot("mj_combo");
+                string label = $"Combo <space=24><size=132%>{count}</size>";
+                comboNumber.text = comboOutline.text = comboShadow.text = label;
+                comboNumber.gameObject.SetActive(true);
+                comboOutline.gameObject.SetActive(true);
+                comboShadow.gameObject.SetActive(true);
+            }
             if (playSound && audioSource && wordIndex > 0)
             {
                 var clip = wordIndex == 1 ? perfectSound : excellentSound;
@@ -126,20 +135,20 @@ namespace CashRewards.ComboEffects
         void ApplyWordLayout()
         {
             if (!activeWord) return;
-            float y = riseDistance * Mathf.SmoothStep(0, 1, elapsed / wordDuration);
-            float x = 0;
-            if (wordIndex == 0)
+            var rise = Vector2.up * (riseDistance * Mathf.SmoothStep(0, 1, elapsed / wordDuration));
+            activeWord.rectTransform.anchoredPosition = wordOrigin + rise;
+            if (comboAnimationSlot != null)
             {
-                float scale = elapsed < .083f ? 1 + Mathf.Clamp01(elapsed / .083f)
-                    : elapsed < .2f ? Mathf.Lerp(2, .9f, (elapsed - .083f) / .117f)
-                    : Mathf.Lerp(.9f, 1, Mathf.Clamp01((elapsed - .2f) / .133f));
-                comboNumber.rectTransform.localScale = numberScale * scale;
-                comboNumber.alpha = Mathf.Clamp01((elapsed - .05f) / .033f) * Mathf.Clamp01((wordDuration - elapsed) / .2f);
-                x = -.5f * (scale * numberWidth + numberGap);
-                float width = 191 * activeWord.Skeleton.FindBone("bone2").ScaleX * comboArtScale;
-                comboNumber.rectTransform.anchoredPosition = numberOrigin + new Vector2(x + width * .5f + numberGap, y);
+                var bone = comboAnimationSlot.Bone;
+                var scale = new Vector3(Mathf.Max(.001f, bone.ScaleX), Mathf.Max(.001f, bone.ScaleY), 1);
+                var position = comboOrigin + rise;
+                var textScale = Vector3.Scale(comboScale, scale);
+                comboNumber.rectTransform.localScale = comboOutline.rectTransform.localScale = textScale;
+                comboShadow.rectTransform.localScale = textScale;
+                comboNumber.rectTransform.anchoredPosition = comboOutline.rectTransform.anchoredPosition = position;
+                comboShadow.rectTransform.anchoredPosition = position + Vector2.Scale(shadowOffset, scale);
+                comboNumber.alpha = comboOutline.alpha = comboShadow.alpha = comboAnimationSlot.A;
             }
-            activeWord.rectTransform.anchoredPosition = wordOrigin + new Vector2(x, y);
         }
 
         public void Hide()
@@ -147,7 +156,6 @@ namespace CashRewards.ComboEffects
             HideWord(); HideEmoji();
             foreach (var g in words) if (g) g.gameObject.SetActive(false);
             foreach (var g in emojis) if (g) g.gameObject.SetActive(false);
-            if (comboNumber) comboNumber.gameObject.SetActive(false);
         }
         void HideWord()
         {
@@ -157,7 +165,10 @@ namespace CashRewards.ComboEffects
                 activeWord.gameObject.SetActive(false);
             }
             activeWord = null;
-            if (comboNumber) { comboNumber.rectTransform.anchoredPosition = numberOrigin; comboNumber.rectTransform.localScale = numberScale; comboNumber.gameObject.SetActive(false); }
+            comboAnimationSlot = null;
+            if (comboNumber) comboNumber.gameObject.SetActive(false);
+            if (comboOutline) comboOutline.gameObject.SetActive(false);
+            if (comboShadow) comboShadow.gameObject.SetActive(false);
         }
         void HideEmoji() { if (activeEmoji) activeEmoji.gameObject.SetActive(false); activeEmoji = null; }
         void OnDisable() { Hide(); }
