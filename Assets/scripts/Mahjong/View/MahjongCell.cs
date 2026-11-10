@@ -23,9 +23,12 @@ namespace MahjongGame.View
     /// </summary>
     public sealed class MahjongCell : MonoBehaviour, IPointerClickHandler
     {
+        private static readonly Color HintBackgroundTint = new Color(0.8f, 1f, 0.8f, 1f);
+
         public Sprite specialIcon;
         public AudioSource audioSource;
         [SerializeField] private Image backgroundImage; // 卡牌背景图片
+        [SerializeField] private Material hintBackgroundMaterial; // 提示期间沿背景轮廓流光的材质
         [SerializeField] private Sprite defaultBackgroundSprite; // 默认卡牌背景图片
         [SerializeField] private Sprite greenBackgroundSprite; // 绿色卡牌背景图片
         [SerializeField] private Sprite yellowBackgroundSprite; // 黄色卡牌背景图片
@@ -43,6 +46,8 @@ namespace MahjongGame.View
         private Canvas cellCanvas; // 当前卡牌独立排序画布
         private Action<MahjongCell> selectRequested; // 卡牌选择事件
         private bool isPointerEnabled; // 当前是否允许接收点击与射线
+        private Color baseBackgroundColor;
+        private Material baseBackgroundMaterial;
 
         public int InstanceId { get; private set; } // 卡牌唯一实例ID
         public int TypeId { get; private set; } // 卡牌类型ID
@@ -56,6 +61,8 @@ namespace MahjongGame.View
         {
             rectTransform = (RectTransform)transform;
             cellCanvas = GetComponent<Canvas>();
+            baseBackgroundColor = backgroundImage.color;
+            baseBackgroundMaterial = backgroundImage.material;
         }
 
         /// <summary>
@@ -79,7 +86,7 @@ namespace MahjongGame.View
             canvasGroup.alpha = MahjongViewConfig.NormalAlpha;
             SetBackgroundStyle(MahjongCellBackgroundStyle.Default);
             bool hasDisplaySprite = displaySprite != null;
-            backgroundImage.color = hasDisplaySprite ? Color.white : fallbackColor;
+            baseBackgroundColor = hasDisplaySprite ? Color.white : fallbackColor;
             iconImage.sprite = displaySprite;
             iconImage.SetNativeSize();
             iconImage.gameObject.SetActive(hasDisplaySprite);
@@ -103,7 +110,8 @@ namespace MahjongGame.View
             }
 
             bool hasDisplaySprite = displaySprite != null;
-            backgroundImage.color = hasDisplaySprite ? Color.white : fallbackColor;
+            baseBackgroundColor = hasDisplaySprite ? Color.white : fallbackColor;
+            ApplyBackgroundTint();
             iconImage.sprite = displaySprite;
             iconImage.gameObject.SetActive(hasDisplaySprite);
             typeText.gameObject.SetActive(!hasDisplaySprite);
@@ -125,11 +133,20 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 设置提示特效节点是否显示。
+        /// 在当前牌底显示提示流光和绿色叠加，关闭时恢复普通显示。
         /// </summary>
         public void SetHintEffectActive(bool active)
         {
+            backgroundImage.material = active ? hintBackgroundMaterial : baseBackgroundMaterial;
             hintEffect.SetActive(active);
+            ApplyBackgroundTint();
+        }
+
+        private void ApplyBackgroundTint()
+        {
+            backgroundImage.color = hintEffect.activeSelf
+                ? baseBackgroundColor * HintBackgroundTint
+                : baseBackgroundColor;
         }
 
         /// <summary>

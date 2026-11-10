@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 920175397584248625}
   - component: {fileID: 2195655508387356492}
   - component: {fileID: 7393443384346262496}
-  - component: {fileID: 2594484401123474082}
   m_Layer: 5
   m_Name: specialMahjongEffect
   m_TagString: Untagged
@@ -28,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 67786841080821617}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.97, y: 0.97, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6634164432225592819}
@@ -76,19 +75,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2594484401123474082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67786841080821617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3851b36f7ea522a428ddec1aea56fbcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mahjongCell: {fileID: 5210653118229894191}
 --- !u!1 &313144678606297143
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,6 +727,7 @@ MonoBehaviour:
   specialIcon: {fileID: 21300000, guid: 21efbd8bd271b8a458d636b5f1dc5094, type: 3}
   audioSource: {fileID: 6731616030524556585}
   backgroundImage: {fileID: 787348986019631252}
+  hintBackgroundMaterial: {fileID: 2100000, guid: 50796f92a1332e845ba8aeaf4235b379, type: 2}
   defaultBackgroundSprite: {fileID: 21300000, guid: 54ab415ccadbb094e8c0ad9343b1e2b4, type: 3}
   greenBackgroundSprite: {fileID: 21300000, guid: a70467a867b7030479283c3020d27128, type: 3}
   yellowBackgroundSprite: {fileID: 21300000, guid: ed1ef04eb6733cf4dabf539383507d93, type: 3}
@@ -898,8 +885,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256974993513923795}
-  - component: {fileID: 341074821239576932}
-  - component: {fileID: 3881506026185355166}
   - component: {fileID: 7683905115895084901}
   m_Layer: 5
   m_Name: HintEffect
@@ -927,44 +912,6 @@ RectTransform:
   m_AnchoredPosition: {x: -7.7, y: 10.1}
   m_SizeDelta: {x: 190, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &341074821239576932
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7058774995389323823}
-  m_CullTransparentMesh: 1
---- !u!114 &3881506026185355166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7058774995389323823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 25eaa13c8a878c74f856c49b1ca42c95, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &7683905115895084901
 MonoBehaviour:
   m_ObjectHideFlags: 0

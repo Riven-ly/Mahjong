@@ -14,6 +14,13 @@ namespace MahjongGame.View
     {
         private const int SpecialCardTypeId = 999; // 特殊麻将的类型ID
 
+        private enum HintSource
+        {
+            None,
+            Idle,
+            Tool
+        }
+
         [SerializeField] private RectTransform boardRoot; // 牌面卡牌根节点
         [SerializeField] private RectTransform adaptivePointTop; // 牌面允许区域的上边界锚点
         [SerializeField] private RectTransform adaptivePointBottom; // 牌面允许区域的下边界锚点
@@ -47,7 +54,7 @@ namespace MahjongGame.View
 
         private float idleHintTimer; // 闲置计时器，玩家操作或高亮后清零
         private float idleHintLastCheckTime; // 上次结算闲置引导的全局时间戳
-        private bool idleHintActive; // 当前是否正在显示闲置高亮
+        private HintSource activeHintSource; // 当前牌面提示的来源
         private bool isEntryLocked;
 
         private static float remoteIdleHintWaitSeconds = MahjongConfig.IdleHintWaitSeconds; // 闲置等待秒数，可被远程配置覆盖
@@ -107,9 +114,6 @@ namespace MahjongGame.View
             SetMatchNewEffectsActive(false);
             remainingHealth = MahjongViewConfig.InitialHealth;
             autoEliminationRemainingGroupCount = 0;
-            idleHintTimer = 0f;
-            idleHintActive = false;
-            idleHintLastCheckTime = Time.time;
             ApplyBoardScale(levelDefinition);
             gameLogic.StartNewGame(levelDefinition);
             boardRoot.gameObject.SetActive(true);
@@ -235,7 +239,6 @@ namespace MahjongGame.View
         {
             isEntryLocked = true;
             StopHint();
-            StopIdleHint();
             DOTween.Kill(this);
             foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
             {
@@ -845,11 +848,13 @@ namespace MahjongGame.View
                 return false;
             }
 
+            StopHint();
             for (int i = 0; i < hintCardIds.Count; i++)
             {
                 cellViews[hintCardIds[i]].SetHintEffectActive(true);
             }
 
+            activeHintSource = HintSource.Tool;
             return true;
         }
 
@@ -900,10 +905,13 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 关闭全部卡牌的提示特效。
+        /// 关闭全部卡牌的提示特效并重新计算闲置等待时间。
         /// </summary>
         public void StopHint()
         {
+            activeHintSource = HintSource.None;
+            idleHintTimer = 0f;
+            idleHintLastCheckTime = Time.time;
             foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
             {
                 pair.Value.SetHintEffectActive(false);
@@ -1237,23 +1245,23 @@ namespace MahjongGame.View
         /// </summary>
         private void UpdateIdleHint()
         {
-            if (Time.time - idleHintLastCheckTime < 1f)
+            if (activeHintSource == HintSource.Tool || Time.time - idleHintLastCheckTime < 1f)
             {
                 return;
             }
             idleHintLastCheckTime = Time.time;
 
-            if (idleHintActive)
+            if (activeHintSource == HintSource.Idle)
             {
                 if (!IsNormalPlaying() || activeEliminationCount != 0)
                 {
-                    StopIdleHint();
+                    StopHint();
                     return;
                 }
                 idleHintTimer += 1f;
                 if (idleHintTimer >= remoteIdleHintActiveSeconds)
                 {
-                    StopIdleHint();
+                    StopHint();
                 }
                 return;
             }
@@ -1304,8 +1312,7 @@ namespace MahjongGame.View
                     cell.SetHintEffectActive(true);
                 }
             }
-            idleHintActive = true;
-            idleHintTimer = 0f;
+            activeHintSource = HintSource.Idle;
         }
 
         private static bool IsFirstGameTutorialActive()
@@ -1317,30 +1324,14 @@ namespace MahjongGame.View
         }
 
         /// <summary>
-        /// 关闭闲置高亮并重新开始等待计时。
-        /// </summary>
-        private void StopIdleHint()
-        {
-            if (!idleHintActive)
-            {
-                return;
-            }
-            idleHintActive = false;
-            idleHintTimer = 0f;
-            foreach (KeyValuePair<int, MahjongCell> pair in cellViews)
-            {
-                pair.Value.SetHintEffectActive(false);
-            }
-        }
-
-        /// <summary>
         /// 重置闲置计时器，在玩家点击、触摸等操作时调用。
         /// </summary>
         private void ResetIdleHintTimer()
         {
-            if (idleHintActive)
+            if (activeHintSource == HintSource.Idle)
             {
-                StopIdleHint();
+                StopHint();
+                return;
             }
             idleHintTimer = 0f;
             idleHintLastCheckTime = Time.time;

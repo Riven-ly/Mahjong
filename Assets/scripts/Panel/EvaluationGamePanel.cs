@@ -51,11 +51,14 @@ public class EvaluationGamePanel : UIBase
         btn4.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
-            PlayerPrefs.SetInt("EvaluationGameStar", 5);
-            callback = () =>
+            if (star > 0)
             {
-                PingJiaTiaoZhuan();
-            };
+                PlayerPrefs.SetInt("EvaluationGameStar", star);
+            }
+            if (star >= 4)
+            {
+                AddCallback(PingJiaTiaoZhuan);
+            }
             Hide();
         });
 

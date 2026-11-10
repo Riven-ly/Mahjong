@@ -1,36 +1,47 @@
-using DG.Tweening;
 using UnityEngine;
 
 namespace MahjongGame.View
 {
     /// <summary>
-    /// 提示特效显示期间驱动所属麻将卡牌呼吸缩放的组件。
+    /// 高亮期间让卡牌短暂左右摇摆，再停顿一拍。
     /// </summary>
     public sealed class MahjongHintEffect : MonoBehaviour
     {
-        [SerializeField] private MahjongCell mahjongCell; // 所属麻将卡牌视图
+        private const float CycleDuration = 1.3f;
+        private const float ShakeDuration = 0.68f;
+        private const float ShakeAmplitude = 6.8f;
 
-        /// <summary>
-        /// 提示特效启用时开始卡牌循环呼吸缩放。
-        /// </summary>
+        [SerializeField] private MahjongCell mahjongCell;
+        private Quaternion restRotation;
+        private float startedAt;
+        private float previousAngle;
+
         private void OnEnable()
         {
-            mahjongCell.transform.localScale = Vector3.one;
-            //mahjongCell.transform.DOScale(1.06f, 0.55f)
-            //    .SetEase(Ease.InOutSine)
-            //    .SetLoops(-1, LoopType.Yoyo)
-            //    .SetTarget(this);
+            restRotation = mahjongCell.transform.localRotation;
+            startedAt = Time.time;
+            previousAngle = 0f;
         }
 
-        /// <summary>
-        /// 提示特效关闭时停止呼吸缩放并恢复卡牌原始尺寸。
-        /// </summary>
+        private void LateUpdate()
+        {
+            float elapsed = (Time.time - startedAt) % CycleDuration;
+            float progress = Mathf.Clamp01(elapsed / ShakeDuration);
+            float angle = ShakeAmplitude * (1f - progress * progress) * Mathf.Sin(progress * 4f * Mathf.PI);
+            if (angle == previousAngle)
+            {
+                return;
+            }
+
+            mahjongCell.transform.localRotation = restRotation * Quaternion.AngleAxis(angle, Vector3.forward);
+            previousAngle = angle;
+        }
+
         private void OnDisable()
         {
-            DOTween.Kill(this);
             if (mahjongCell != null)
             {
-                mahjongCell.transform.localScale = Vector3.one;
+                mahjongCell.transform.localRotation = restRotation;
             }
         }
     }
