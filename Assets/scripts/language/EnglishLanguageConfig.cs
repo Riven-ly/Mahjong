@@ -6,8 +6,8 @@ public static class EnglishLanguageConfig
     public static Dictionary<string, string> currentTexts = new Dictionary<string, string>()
     {
         {"Loading", "Loading"},
-        {"LoadingQuote1", "A journey of a thousand miles begins with a single step."},
-        {"LoadingQuote1Author", "Laozi, <i>Tao Te Ching</i>"},
+        {"LoadingQuote1", "A journey of a thousand\nmiles begins\nwith a single step."},
+        {"LoadingQuote1Author", "Laozi,Tao Te Ching"},
         {"LoadingQuote2", "Without accumulating small steps, you cannot reach a thousand miles; without gathering small streams, you cannot form rivers and seas."},
         {"LoadingQuote2Author", "Xunzi, <i>Encouraging Learning</i>"},
         {"LoadingQuote3", "A craftsman who wishes to do good work must first sharpen his tools."},

@@ -157,13 +157,12 @@ public class GameLoadingPanel : UIBase
             yield return new WaitForSeconds(0.3f);
             AddCallback(() =>
             {
-                GameManager.Instance.Init();
                 if (ABResManager.Instance != null)
                 {
                     ABResManager.Instance.Init();
                 }
             });
-            Hide();
+            GameManager.Instance.Init(Hide);
         }
     }
 

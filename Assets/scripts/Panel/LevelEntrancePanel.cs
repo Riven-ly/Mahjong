@@ -1,7 +1,6 @@
 using System;
-using DG.Tweening;
+using Spine.Unity;
 using UnityEngine;
-using UnityEngine.UI;
 
 public sealed class LevelEntrancePanel : UIBase
 {
@@ -17,20 +16,24 @@ public sealed class LevelEntrancePanel : UIBase
         }
     }
 
-    [SerializeField] private Image leftDoor;
-    [SerializeField] private Image rightDoor;
-    [SerializeField] private CanvasGroup centerGlow;
-    [SerializeField, Min(0.01f)] private float closeDuration = 0.40f;
-    [SerializeField, Min(0f)] private float closedDuration = 0.53f;
-    [SerializeField, Min(0.01f)] private float openDuration = 0.66f;
-    [SerializeField, Min(0f)] private float boardRevealPause = 0.40f;
+    private const string CloseAnimation = "Appear";
+    private const string OpenAnimation = "Disappear";
+    // Closed-pose art bounds at the game's default canvas pixels per unit.
+    private static readonly Vector2 ClosedDoorSize = new Vector2(1080f, 2780f);
 
-    private Sequence opening;
+    [SerializeField] private RectTransform doorArt;
+    [SerializeField] private SkeletonGraphic door;
+    [SerializeField] private SkeletonGraphic leaves;
+    [SerializeField] private AudioSource doorAudio;
+
+    private float timeRemaining;
+    private double lastUpdateTime;
+    private Action onAnimationComplete;
 
     public override void Refresh(object data = null)
     {
         isOpen = true;
-        StopDoorSequence();
+        StopDoorAnimation();
         var transition = data as CloseThenOpen;
         Action onOpened = transition?.OnOpened ?? data as Action;
         var panel = (RectTransform)transform;
@@ -39,57 +42,121 @@ public sealed class LevelEntrancePanel : UIBase
         panel.offsetMin = panel.offsetMax = Vector2.zero;
         panel.localScale = Vector3.one;
 
-        if (leftDoor.sprite != null)
-            leftDoor.color = Color.white;
-        if (rightDoor.sprite != null)
-            rightDoor.color = Color.white;
-        centerGlow.alpha = 0f;
         Canvas.ForceUpdateCanvases();
+        FitDoorToPanel();
 
-        float travel = panel.rect.width * 0.5f + 2f;
-        float startOffset = transition != null ? travel : 0f;
-        leftDoor.rectTransform.anchoredPosition = new Vector2(-startOffset, 0f);
-        rightDoor.rectTransform.anchoredPosition = new Vector2(startOffset, 0f);
-
-        var sequence = DOTween.Sequence().SetUpdate(true);
-        opening = sequence;
-        if (transition != null)
+        if (!CanPlayDoor())
         {
-            sequence.Append(leftDoor.rectTransform.DOAnchorPosX(0f, closeDuration).SetEase(Ease.InOutCubic));
-            sequence.Join(rightDoor.rectTransform.DOAnchorPosX(0f, closeDuration).SetEase(Ease.InOutCubic));
-            sequence.AppendCallback(() =>
+            Debug.LogError("The level entrance Spine animations are missing.", this);
+            transition?.OnClosed?.Invoke();
+            onOpened?.Invoke();
+            return;
+        }
+
+        doorArt.gameObject.SetActive(true);
+        void OpenDoor()
+        {
+            PlayAnimation(OpenAnimation, "open_door_sd", () =>
             {
-                if (opening == sequence)
-                    transition.OnClosed?.Invoke();
+                doorArt.gameObject.SetActive(false);
+                onOpened?.Invoke();
             });
         }
 
-        sequence.Append(centerGlow.DOFade(0.8f, closedDuration).SetEase(Ease.InQuad));
-        sequence.Append(leftDoor.rectTransform.DOAnchorPosX(-travel, openDuration).SetEase(Ease.InQuad));
-        sequence.Join(rightDoor.rectTransform.DOAnchorPosX(travel, openDuration).SetEase(Ease.InQuad));
-        sequence.Join(centerGlow.DOFade(0f, openDuration * 0.5f));
-        sequence.AppendInterval(boardRevealPause);
-        sequence.OnComplete(() =>
+        if (transition == null)
         {
-            if (opening != sequence)
-                return;
+            OpenDoor();
+            return;
+        }
 
-            opening = null;
-            onOpened?.Invoke();
+        PlayAnimation(CloseAnimation, "close_door_sd", () =>
+        {
+            transition.OnClosed?.Invoke();
+            if (isActiveAndEnabled && onAnimationComplete == null)
+                OpenDoor();
         });
+    }
+
+    private bool CanPlayDoor()
+    {
+        if (doorArt == null || door == null || leaves == null)
+            return false;
+
+        door.Initialize(false);
+        leaves.Initialize(false);
+        return door.IsValid && leaves.IsValid
+            && door.Skeleton.Data.FindAnimation(CloseAnimation) != null
+            && door.Skeleton.Data.FindAnimation(OpenAnimation) != null
+            && leaves.Skeleton.Data.FindAnimation(CloseAnimation) != null
+            && leaves.Skeleton.Data.FindAnimation(OpenAnimation) != null;
+    }
+
+    private void PlayAnimation(string animationName, string soundName, Action onComplete)
+    {
+        timeRemaining = RestartAnimation(door, animationName);
+        RestartAnimation(leaves, animationName);
+        lastUpdateTime = Time.realtimeSinceStartupAsDouble;
+        onAnimationComplete = onComplete;
+        if (doorAudio != null && AudioManager.Instance != null)
+            AudioManager.Instance.SetAudioSource(doorAudio, soundName);
+    }
+
+    private static float RestartAnimation(SkeletonGraphic graphic, string animationName)
+    {
+        graphic.AnimationState.ClearTracks();
+        graphic.Skeleton.SetToSetupPose();
+        var entry = graphic.AnimationState.SetAnimation(0, animationName, false);
+        graphic.Update(0f);
+        graphic.UpdateMesh();
+        return entry.Animation.Duration;
+    }
+
+    private void Update()
+    {
+        if (onAnimationComplete == null)
+            return;
+
+        double now = Time.realtimeSinceStartupAsDouble;
+        float deltaTime = Mathf.Min((float)(now - lastUpdateTime), timeRemaining);
+        lastUpdateTime = now;
+        timeRemaining -= deltaTime;
+        door.Update(deltaTime);
+        leaves.Update(deltaTime);
+        if (timeRemaining > 0f)
+            return;
+
+        var completed = onAnimationComplete;
+        onAnimationComplete = null;
+        completed();
+    }
+
+    private void OnRectTransformDimensionsChange()
+    {
+        FitDoorToPanel();
+    }
+
+    private void FitDoorToPanel()
+    {
+        if (doorArt == null)
+            return;
+
+        Vector2 panelSize = ((RectTransform)transform).rect.size;
+        float coverScale = Mathf.Max(panelSize.x / ClosedDoorSize.x, panelSize.y / ClosedDoorSize.y);
+        doorArt.localScale = new Vector3(coverScale, coverScale, 1f);
     }
 
     private void OnDisable()
     {
         isOpen = false;
-        StopDoorSequence();
+        StopDoorAnimation();
     }
 
-    private void StopDoorSequence()
+    private void StopDoorAnimation()
     {
-        var sequence = opening;
-        opening = null;
-        sequence?.Pause();
-        sequence?.Kill();
+        onAnimationComplete = null;
+        if (doorAudio != null)
+            doorAudio.Stop();
+        if (doorArt != null)
+            doorArt.gameObject.SetActive(false);
     }
 }

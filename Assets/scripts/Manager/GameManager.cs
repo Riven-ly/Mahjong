@@ -49,12 +49,13 @@ public class GameManager : MonoBehaviour
         BeforeCreatMahjongCells();
     }
 
-    public void Init()
+    public void Init(Action onStartupDoorClosed = null)
     {
         playerInfo = GetPlayerInfo();
         UIManager.Instance.OpenUI<PlayerInfoUI>();
         gameType = GameType.MainGame;
-        UIManager.Instance.OpenUI<GameScenePanel>();
+        if (!UIManager.Instance.TryOpenUI<GameScenePanel>(onStartupDoorClosed))
+            onStartupDoorClosed?.Invoke();
     }
 
     public void PlayGuoChang(bool _active)

@@ -147,7 +147,12 @@ public class GameScenePanel : UIBase,IEventListener
     /// </summary>
     public override void Refresh(object data = null)
     {
-        BeginLevelEntry(PrepareLevel);
+        var onStartupDoorClosed = data as Action;
+        BeginLevelEntry(() =>
+        {
+            PrepareLevel();
+            onStartupDoorClosed?.Invoke();
+        }, closeFirst: onStartupDoorClosed != null);
     }
 
     private void PrepareLevel()
@@ -337,10 +342,13 @@ public class GameScenePanel : UIBase,IEventListener
     /// <summary>
     /// 重置游戏
     /// </summary>
-    public void ResetGame()
+    public void ResetGame(bool closeFirst = false)
     {
-        BeginLevelEntry(PrepareLevel);
-        PhaseTaskService.NotifyProgressRefresh();
+        BeginLevelEntry(() =>
+        {
+            PrepareLevel();
+            PhaseTaskService.NotifyProgressRefresh();
+        }, closeFirst: closeFirst);
     }
 
     public void PlayNextLevelTransition(Action afterLevelTip)

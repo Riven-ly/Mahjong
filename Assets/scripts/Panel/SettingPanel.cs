@@ -96,7 +96,7 @@ public class SettingPanel : UIBase
             AudioManager.Instance.PlayBtnMusic();
             callback = () =>
             {
-                UIManager.Instance.GetUI<GameScenePanel>().ResetGame();
+                UIManager.Instance.GetUI<GameScenePanel>().ResetGame(closeFirst: true);
             };
             Hide();
         });
