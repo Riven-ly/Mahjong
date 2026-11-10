@@ -9,6 +9,15 @@ public class GameLoadingPanel : UIBase
     public Slider slider;
     public Text loadingText;
     public Text progressText;
+    [SerializeField] private Text quoteText;
+    [SerializeField] private Text quoteAuthorText;
+
+    private const string LastQuoteIndexKey = "GameLoadingPanel.LastQuoteIndex";
+
+    private const int QuoteCount = 20;
+
+    private bool hasStarted;
+
     public static bool isCheckRegister = true;//登录检测：东8区/中国
     public static bool isOpenStatic = false;
 
@@ -17,7 +26,27 @@ public class GameLoadingPanel : UIBase
     {
         isOpen = true;
         isOpenStatic = true;
+        if (hasStarted)
+            ShowRandomQuote();
     }
+
+    private void ShowRandomQuote()
+    {
+        if (quoteText == null || quoteAuthorText == null)
+            return;
+
+        int lastIndex = PlayerPrefs.GetInt(LastQuoteIndexKey, -1);
+        int index = lastIndex >= 0 && lastIndex < QuoteCount
+            ? (lastIndex + Random.Range(1, QuoteCount)) % QuoteCount
+            : Random.Range(0, QuoteCount);
+
+        string key = $"LoadingQuote{index + 1}";
+        quoteText.text = LanguageManager.Instance.GetText(key);
+        quoteAuthorText.text = LanguageManager.Instance.GetText(key + "Author");
+        PlayerPrefs.SetInt(LastQuoteIndexKey, index);
+        PlayerPrefs.Save();
+    }
+
     private void OnDisable()
     {
         isOpen = false;
@@ -28,6 +57,9 @@ public class GameLoadingPanel : UIBase
     // Start is called before the first frame update
     void Start()
     {
+        hasStarted = true;
+        ShowRandomQuote();
+
         slider.value = 0f;
         loadingText.text = $"{LanguageManager.Instance.GetText("Loading")}...";
         progressText.text = "0%";
