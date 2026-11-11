@@ -1,16 +1,16 @@
 using UnityEngine;
 
 /// <summary>
-/// 按普通领取按钮的点击次数触发广告，与关卡进入、完成或面板关闭次数无关。
+/// 第5关起按普通领取按钮的点击次数触发广告。
 /// </summary>
 public static class NormalRewardClaimAdCounter
 {
-    private const string UiClickCounterInitializedKey = "NormalRewardClaimAdCounter.UiClickModeInitialized";
+    private const string UiClickCounterInitializedKey = "NormalRewardClaimAdCounter.LevelFiveModeInitialized";
     private const int TriggerClaimCount = 3;
     private const int InterstitialChancePercent = 65;
 
     /// <summary>
-    /// 通用奖励或通关奖励每点击一次普通领取调用一次；第3次触发广告并重新计数。
+    /// 通用奖励或通关奖励每点击一次普通领取调用一次；第5关起第3次触发广告并重新计数。
     /// </summary>
     public static void RegisterNormalClaim(string pageId)
     {

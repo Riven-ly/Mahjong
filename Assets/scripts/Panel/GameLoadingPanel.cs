@@ -18,7 +18,7 @@ public class GameLoadingPanel : UIBase
 
     private bool hasStarted;
 
-    public static bool isCheckRegister = true;//µÇÂ¼¼ì²â£º¶«8Çø/ÖÐ¹ú
+    public static bool isCheckRegister = true;//ï¿½ï¿½Â¼ï¿½ï¿½â£ºï¿½ï¿½8ï¿½ï¿½/ï¿½Ð¹ï¿½
     public static bool isOpenStatic = false;
 
     // Start is called before the first frame update
@@ -110,12 +110,12 @@ public class GameLoadingPanel : UIBase
     }
     void DoTextNumberAnim(int from, int to, float duration)
     {
-        // Kill ·ÀÖ¹¶à´Î²¥·Åµþ¼Ó
+        // Kill ï¿½ï¿½Ö¹ï¿½ï¿½Î²ï¿½ï¿½Åµï¿½ï¿½ï¿½
         DOTween.Kill(progressText);
 
         DOTween.To(() => from, x =>
         {
-            // x ÊÇ¶¯»­²åÖµµÄÖÐ¼äÊýÖµ£¬×ª³É×Ö·û´®¸³Öµ¸øtext
+            // x ï¿½Ç¶ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½Öµï¿½ï¿½×ªï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½text
             progressText.text = x.ToString() + "%";
         }, to, duration)
             .SetEase(Ease.Linear);
@@ -123,19 +123,18 @@ public class GameLoadingPanel : UIBase
 
     IEnumerator CheckNetworkIE()
     {
-        //1.ÍøÂç¼ì²â
+        //1.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         NetworkChecker.Instance.StartCheckNetworkStatus();
         while (!NetworkChecker.Instance.isNetworkAvailable)
         {
-            Debug.Log("µÈ´ýÍøÂçÁ¬½Ó");
             yield return null;
         }
 
-        //2.¸÷¸öSDK³õÊ¼»¯
+        //2.ï¿½ï¿½ï¿½ï¿½SDKï¿½ï¿½Ê¼ï¿½ï¿½
         GameManager.appATTtype = 1;
         GameManager.Instance.UpdateAppATT();
 
-        //3.loading½ø¶ÈÌõ¶¯ÆðÀ´
+        //3.loadingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         slider.DOValue(0.9f, 1.8f).SetEase(Ease.Linear);
         DoTextNumberAnim(0, 90, 1.8f);
 
@@ -143,10 +142,10 @@ public class GameLoadingPanel : UIBase
 
         OtherSdkManager.Instance.CustomEvent("load_page_open", "load_page_open", "");
 
-        //4.ÓÎÏ·×ÊÔ´×¼±¸
+        //4.ï¿½ï¿½Ï·ï¿½ï¿½Ô´×¼ï¿½ï¿½
         while (!GameManager.LoadABAsyncOK)
         {
-            //Debug.Log("µÈ´ýÒì²½¼ÓÔØ");
+            //Debug.Log("ï¿½È´ï¿½ï¿½ì²½ï¿½ï¿½ï¿½ï¿½");
             yield return null;
         }
 

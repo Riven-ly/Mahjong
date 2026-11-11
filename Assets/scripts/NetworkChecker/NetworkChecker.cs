@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// ÍøÂç×´Ì¬¼ì²âÓë¶ÏÍøÌáÊ¾
+/// ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 /// </summary>
 public class NetworkChecker : MonoBehaviour
 {
     public static NetworkChecker Instance;
 
-    //ÍøÂç¼ì²â¼ä¸ô
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private float checkInterval = 2f;
     [HideInInspector] public bool isNetworkAvailable = true;
     private bool isStart = false;
-    [Header("²âÊÔÍøÂç")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public bool DebugNetwork = true;
     private void Awake()
     {
@@ -38,16 +38,15 @@ public class NetworkChecker : MonoBehaviour
     }
 
     /// <summary>
-    /// ¼ì²âÍøÂç×´Ì¬
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
     /// </summary>
     void CheckNetworkStatus()
     {
-        Debug.Log("ÍøÂç¼ì²â");
-        // ÍøÂç×´Ì¬¼ì²â
+        // ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½
         bool currentNetworkState = Application.internetReachability != NetworkReachability.NotReachable;
         //currentNetworkState = DebugNetwork; //todo
         checkInterval = currentNetworkState ? 10f : 2f;
-        // ×´Ì¬±ä»¯Ê±
+        // ×´Ì¬ï¿½ä»¯Ê±
         if (currentNetworkState != isNetworkAvailable)
         {
             isNetworkAvailable = currentNetworkState;
@@ -64,21 +63,21 @@ public class NetworkChecker : MonoBehaviour
         //    if (networkCheckerPanel != null && networkCheckerPanel.gameObject.activeSelf)
         //    {
         //        networkCheckerPanel.Hide();
-        //        //0.2Ãëºó¼ì²âvpn
+        //        //0.2ï¿½ï¿½ï¿½ï¿½ï¿½vpn
         //        DOTween.Sequence().AppendInterval(0.2f).AppendCallback(() =>
         //        {
-        //            //Debug.Log("¼ì²âvpn");
+        //            //Debug.Log("ï¿½ï¿½ï¿½vpn");
         //        });
         //    }
         //    else
         //    {
-        //        //Debug.Log("¼ì²âvpn");
+        //        //Debug.Log("ï¿½ï¿½ï¿½vpn");
         //    }
         //}
     }
 
     /// <summary>
-    /// ÏÔÊ¾¶ÏÍøÌáÊ¾
+    /// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
     /// </summary>
     void ShowNetworkTip()
     {

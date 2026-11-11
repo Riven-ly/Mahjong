@@ -85,14 +85,14 @@ public class GeneralRewardsPanel : UIBase
         itemDatas.Add(new ItemData(ItemType.GoldDui, ad_V));
         itemBase = GameManager.Instance.CreatItems(itemDatas, itemRoot);
 
-        ad_text.text = GameManager.Instance.playerInfo.level > 2 ? $"100%{LanguageManager.Instance.GetText("CLAIM")}" : LanguageManager.Instance.GetText("CLAIM");
+        ad_text.text = GameManager.Instance.playerInfo.level >= 5 ? $"100%{LanguageManager.Instance.GetText("CLAIM")}" : LanguageManager.Instance.GetText("CLAIM");
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
         AudioManager.Instance.PlaySceneSingleMusic("luckybox");
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
 
-        collectBtn.transform.parent.gameObject.SetActive(GameManager.Instance.playerInfo.level > 2);
+        collectBtn.transform.parent.gameObject.SetActive(GameManager.Instance.playerInfo.level >= 5);
 
         PlayShowAnimation();
     }
@@ -122,7 +122,7 @@ public class GeneralRewardsPanel : UIBase
         AppendShow(titleRoot, titleScale);
         AppendShow(itemRoot as RectTransform, itemScale);
         AppendShow(rewardAdButton != null ? rewardAdButton.transform as RectTransform : null, adBtnScale);
-        if (GameManager.Instance.playerInfo.level > 2)
+        if (GameManager.Instance.playerInfo.level >= 5)
         {
             AppendShow(collectTrans as RectTransform, collectScale);
         }

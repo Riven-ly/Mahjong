@@ -28,14 +28,14 @@ public class RewardAdButton : MonoBehaviour
 
         UpdateAdsBtnState(true);
         isGetAdsReward = false;
-        adIcon.gameObject.SetActive(GameManager.Instance.playerInfo.level > 2);
+        adIcon.gameObject.SetActive(GameManager.Instance.playerInfo.level >= 5);
     }
 
     private void AdsOnClick()
     {
         UpdateAdsBtnState(false);
-        Debug.Log("²¥·Å¼¤Àø¹ã¸æ page_id :" + page_id);
-        //²¥·Å¹ã¸æ
+        Debug.Log("ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ page_id :" + page_id);
+        //ï¿½ï¿½ï¿½Å¹ï¿½ï¿½
         if(isContainGold)
         {
             AdManager.Instance.ShowRewardedAd(
@@ -56,7 +56,7 @@ public class RewardAdButton : MonoBehaviour
     private void AdsCallback()
     {
         UpdateAdsBtnState(false);
-        //»ñµÃ½±Àø
+        //ï¿½ï¿½Ã½ï¿½ï¿½ï¿½
         isGetAdsReward = true;
         adsCallback?.Invoke();
         adsCallback = null;

@@ -32,9 +32,8 @@ public class GameScenePanel : UIBase,IEventListener
 
     private const string FirstGameGuideCompletedKey = "FirstGameGuideCompleted"; // 首关新手引导完成标记
     private const string FirstGameStageProgressKey = "FirstGameStageProgress"; // 首关新手引导小关卡进度
-    private const string SceneItemsInitialGrantKey = "SceneItemsInitialGrant"; // 第3关首次显示道具时的赠送标记
     private const int FirstGameLevel = 1; // 首关的玩家等级
-    private const int SceneItemsUnlockLevel = 3; // 提示和洗牌道具从第3关开始显示
+    private const int SceneItemsUnlockLevel = 5; // 提示和洗牌道具从第5关开始显示
     private const int LevelConfigRedirectStart = 5; // 从玩家第5关开始改读后段关卡配置
     private const int LevelConfigRedirectTarget = 100; // 玩家第5关对应配置第100关
 
@@ -173,7 +172,6 @@ public class GameScenePanel : UIBase,IEventListener
         gameSceneItem_Hint.gameObject.SetActive(sceneItemsVisible);
         if (sceneItemsVisible)
         {
-            EnsureInitialSceneItems();
             gameSceneItem_Exchange.Refresh();
             gameSceneItem_Hint.Refresh();
         }
@@ -208,30 +206,6 @@ public class GameScenePanel : UIBase,IEventListener
         return playerLevel < LevelConfigRedirectStart
             ? playerLevel
             : LevelConfigRedirectTarget + playerLevel - LevelConfigRedirectStart;
-    }
-
-    /// <summary>
-    /// 第3关首次解锁提示和洗牌道具时，各保证至少有1个；只执行一次，消耗后不会重复赠送。
-    /// </summary>
-    private static void EnsureInitialSceneItems()
-    {
-        if (PlayerPrefs.GetInt(SceneItemsInitialGrantKey, 0) != 0)
-        {
-            return;
-        }
-
-        PlayerInfo playerInfo = GameManager.Instance.playerInfo;
-        if (playerInfo.gameSceneItem_Hint <= 0)
-        {
-            playerInfo.Add_item_hint(1);
-        }
-        if (playerInfo.gameSceneItem_Exchange <= 0)
-        {
-            playerInfo.Add_item_exchange(1);
-        }
-
-        PlayerPrefs.SetInt(SceneItemsInitialGrantKey, 1);
-        GameManager.Instance.SavePlayerInfo();
     }
 
     private void BeginLevelEntry(Action prepareLevel, bool closeFirst = false, Action afterLevelTip = null)

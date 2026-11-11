@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Íæ¼Ò´æµµÊý¾Ý¡£
+/// ï¿½ï¿½Ò´æµµï¿½ï¿½ï¿½Ý¡ï¿½
 /// </summary>
 [Serializable]
 public class PlayerInfo
@@ -26,19 +26,19 @@ public class PlayerInfo
     [JsonProperty]
     private int diamond = 0;
     public int level = 1;
-    public int goldLevel = 0; // ½ð±ÒµÈ¼¶
-    public int goldExperience; // µ±Ç°½ð±ÒµÈ¼¶¾­Ñé£¬µ¥Î»Îª0.1
+    public int goldLevel = 0; // ï¿½ï¿½ÒµÈ¼ï¿½
+    public int goldExperience; // ï¿½ï¿½Ç°ï¿½ï¿½ÒµÈ¼ï¿½ï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»Îª0.1
 
-    public int gameSceneItem_Hint = 0;
+    public int gameSceneItem_Hint = 1;
     public int gameSceneItem_Extract = 0;
-    public int gameSceneItem_Exchange = 0;
+    public int gameSceneItem_Exchange = 1;
     public int gameSceneItem_Return = 0;
 
     public int consecutiveNoAdCount = 0;
     [JsonIgnore] public bool adShownThisLevel = false;
 
     /// <summary>
-    /// Ôö¼Ó½ð±ÒµÈ¼¶¾­Ñé²¢´¦ÀíÉý¼¶¡£¾­Ñéµ¥Î»Îª0.1¡£
+    /// ï¿½ï¿½ï¿½Ó½ï¿½ÒµÈ¼ï¿½ï¿½ï¿½ï¿½é²¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½éµ¥Î»Îª0.1ï¿½ï¿½
     /// </summary>
     public void AddGoldExperience(int experience)
     {
@@ -69,7 +69,7 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// »ñÈ¡ÉýÖÁÖ¸¶¨½ð±ÒµÈ¼¶ËùÐè¾­Ñé¡£·µ»ØÖµµ¥Î»Îª0.1¡£
+    /// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ÒµÈ¼ï¿½ï¿½ï¿½ï¿½è¾­ï¿½é¡£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Î»Îª0.1ï¿½ï¿½
     /// </summary>
     public int GetGoldLevelExperienceRequired(int targetLevel)
     {
@@ -77,7 +77,7 @@ public class PlayerInfo
         return Mathf.FloorToInt(10f * Mathf.Pow(targetLevel, exponent)) * 10;
     }
 
-    //========================= ½ð±Ò =========================
+    //========================= ï¿½ï¿½ï¿½ =========================
     public void Add_gold(int _cnt)
     {
         gold += _cnt;
@@ -89,7 +89,7 @@ public class PlayerInfo
         gold = Mathf.Max(gold, 0);
     }
 
-    //========================= ×êÊ¯ =========================
+    //========================= ï¿½ï¿½Ê¯ =========================
     public void Add_diamond(int _cnt)
     {
         diamond += _cnt;
@@ -102,7 +102,7 @@ public class PlayerInfo
 
     }
 
-    //========================= Hint µÀ¾ß =========================
+    //========================= Hint ï¿½ï¿½ï¿½ï¿½ =========================
     public void Add_item_hint(int _cnt)
     {
         gameSceneItem_Hint += _cnt;
@@ -112,7 +112,7 @@ public class PlayerInfo
         gameSceneItem_Hint -= _cnt;
         gameSceneItem_Hint = Mathf.Max(gameSceneItem_Hint, 0);
     }
-    //========================= Extract Ä§·¨°ôµÀ¾ß =========================
+    //========================= Extract Ä§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ =========================
     public void Add_item_extract(int _cnt)
     {
         gameSceneItem_Extract += _cnt;
@@ -123,7 +123,7 @@ public class PlayerInfo
         gameSceneItem_Extract = Mathf.Max(gameSceneItem_Extract, 0);
     }
 
-    //========================= Exchange Ï´ÅÆµÀ¾ß =========================
+    //========================= Exchange Ï´ï¿½Æµï¿½ï¿½ï¿½ =========================
     public void Add_item_exchange(int _cnt)
     {
         gameSceneItem_Exchange += _cnt;
@@ -134,7 +134,7 @@ public class PlayerInfo
         gameSceneItem_Exchange = Mathf.Max(gameSceneItem_Exchange, 0);
     }
 
-    //========================= Return ³·»ØµÀ¾ß =========================
+    //========================= Return ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ =========================
     public void Add_item_return(int _cnt)
     {
         gameSceneItem_Return += _cnt;

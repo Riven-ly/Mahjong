@@ -87,7 +87,7 @@ public class GameWinPanel : UIBase
         itemDatas.Add(new ItemData(ItemType.GoldDui, ad_V));
         itemBase = GameManager.Instance.CreatItems(itemDatas, itemRoot);
 
-        ad_text.text = GameManager.Instance.playerInfo.level > 2 ? $"100%{LanguageManager.Instance.GetText("CLAIM")}" : LanguageManager.Instance.GetText("CLAIM");
+        ad_text.text = GameManager.Instance.playerInfo.level >= 5 ? $"100%{LanguageManager.Instance.GetText("CLAIM")}" : LanguageManager.Instance.GetText("CLAIM");
         c_text.text = $"{LanguageManager.Instance.GetText("ONLY")} {LanguageManager.Instance.GetText_Encrypt("Special_Diamond__unit")}{MathF.Round(c_V / (float)PlayerInfo.CurrencyUnitScale, 2)}";
 
         rewardAdButton.Init(AdsCallback, page_id, true);
@@ -95,7 +95,7 @@ public class GameWinPanel : UIBase
         OtherSdkManager.Instance.CustomEvent("level_complete", "level_id", GameManager.Instance.playerInfo.level);
         OtherSdkManager.Instance.CustomEvent("rewards_show", "show", "");
 
-        collectBtn.transform.parent.gameObject.SetActive(GameManager.Instance.playerInfo.level > 2);
+        collectBtn.transform.parent.gameObject.SetActive(GameManager.Instance.playerInfo.level >= 5);
 
         PlayShowAnimation();
     }
@@ -125,7 +125,7 @@ public class GameWinPanel : UIBase
         AppendShow(titleRoot, titleScale);
         AppendShow(itemRoot as RectTransform, itemScale);
         AppendShow(rewardAdButton != null ? rewardAdButton.transform as RectTransform : null, adBtnScale);
-        if (GameManager.Instance.playerInfo.level > 2)
+        if (GameManager.Instance.playerInfo.level >= 5)
         {
             AppendShow(collectBtn.transform.parent as RectTransform, collectScale);
         }
@@ -243,6 +243,11 @@ public class GameWinPanel : UIBase
     {
         GameManager.Instance.playerInfo.adShownThisLevel = true;
         GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
+        if (GameManager.Instance.playerInfo.level == 4)
+        {
+            Debug.Log("[AdCount] 第4关通关结算领取，触发一次插屏广告");
+            AdManager.Instance.OnClickInterstitialAd(page_id);
+        }
         OtherSdkManager.Instance.CustomEvent("rewards_click", "type", "claim_two");
         ShowRewardTip(ad_V, 10);
     }
