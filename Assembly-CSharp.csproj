@@ -65,6 +65,7 @@
     <Compile Include="Assets\scripts\Tx\Domain\PhaseOneHudCalculator.cs" />
     <Compile Include="Assets\RewardsComboEffects\Runtime\MahjongMatchShatterEffect.cs" />
     <Compile Include="Assets\scripts\Tx\TxGameBridge.cs" />
+    <Compile Include="Assets\scripts\Ad\NormalRewardClaimAdCounter.cs" />
     <Compile Include="Assets\scripts\sceneitem\GameSceneItemBase.cs" />
     <Compile Include="Assets\scripts\Tx\Config\PhaseOneHudConfigSO.cs" />
     <Compile Include="Assets\scripts\Mahjong\View\MahjongCardVisualCatalog.cs" />
@@ -253,10 +254,12 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\MahjongBlastFragments4Colors\README.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\Shader\MahjongHint.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\RecoveredRuntimeShaders\TMP\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\RewardsComboEffects\README-中文.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Resources\mahjongcore\art\effects\leveldoor\HomeUI.atlas.txt" />
     <None Include="Assets\MahjongBlastGoldSides\README.txt" />
     <None Include="Assets\Shader\SpineRuntime\SkeletonGraphic\CGIncludes\Spine-SkeletonGraphic-TintBlack-NormalPass.cginc" />
     <None Include="Assets\MaxSdk\Mediation\MediationAdapters.txt" />

@@ -52,11 +52,6 @@ public class GameWinPanel : UIBase
     private void OnDisable()
     {
         isOpen = false;
-        if (!GameManager.Instance.playerInfo.adShownThisLevel && GameManager.Instance.playerInfo.level > 2)
-        {
-            GameManager.Instance.playerInfo.consecutiveNoAdCount++;
-        }
-        GameManager.Instance.playerInfo.adShownThisLevel = false;
         ResetShowContent();
         ResetPanel();
     }
@@ -68,12 +63,7 @@ public class GameWinPanel : UIBase
         collectBtn.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
-            if (GameManager.Instance.playerInfo.consecutiveNoAdCount >= 2)
-            {
-                AdManager.Instance.ShowRewardedAd(page_id, null, null);
-                GameManager.Instance.playerInfo.adShownThisLevel = true;
-                GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
-            }
+            NormalRewardClaimAdCounter.RegisterNormalClaim(page_id);
             CollectClick();
         });
     }

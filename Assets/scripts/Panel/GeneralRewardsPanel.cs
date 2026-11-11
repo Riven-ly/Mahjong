@@ -50,20 +50,7 @@ public class GeneralRewardsPanel : UIBase
         collectBtn.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayBtnMusic();
-            if (GameManager.Instance.playerInfo.consecutiveNoAdCount >= 2)
-            {
-                GameManager.Instance.playerInfo.adShownThisLevel = true;
-                GameManager.Instance.playerInfo.consecutiveNoAdCount = 0;
-
-                if(UnityEngine.Random.Range(0,101) > 35)
-                {
-                    AdManager.Instance.OnClickInterstitialAd("");
-                }
-                else
-                {
-                    AdManager.Instance.ShowRewardedAd(page_id, null, null);
-                }
-            }
+            NormalRewardClaimAdCounter.RegisterNormalClaim(page_id);
             CollectClick();
         });
     }
@@ -111,7 +98,7 @@ public class GeneralRewardsPanel : UIBase
     }
 
     /// <summary>
-    /// Ãæ°åÄÚÈÝÒÀ´Îµ¯³ö£º±êÌâ ¡ú ½±Àø ¡ú ¼¤Àø°´Å¥ ¡ú ÆÕÍ¨°´Å¥¡£
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ ï¿½ï¿½ ï¿½ï¿½Í¨ï¿½ï¿½Å¥ï¿½ï¿½
     /// </summary>
     private void PlayShowAnimation()
     {
@@ -148,7 +135,7 @@ public class GeneralRewardsPanel : UIBase
     }
 
     /// <summary>
-    /// ¼¤Àø°´Å¥ºôÎü¶¯»­£ºÔÚÔ­³ß´çÓë·Å´ó³ß´çÖ®¼äÍù¸´Ëõ·Å¡£
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ß´ï¿½ï¿½ï¿½Å´ï¿½ß´ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¡ï¿½
     /// </summary>
     private void StartAdButtonBreath()
     {
@@ -248,7 +235,7 @@ public class GeneralRewardsPanel : UIBase
     }
 
     /// <summary>
-    /// ÁìÈ¡¼¤Àø¹ã¸æ½±Àø²¢Ôö¼Ó½ð±ÒµÈ¼¶¾­Ñé¡£
+    /// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ½±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ÒµÈ¼ï¿½ï¿½ï¿½ï¿½é¡£
     /// </summary>
     private void AdsCallback()
     {
@@ -280,7 +267,7 @@ public class GeneralRewardsPanel : UIBase
         }
         TaskManager.Instance.LiLuDailyEstimatedReward(ad_V, ad_V);
         GameManager.Instance.playerInfo.AddGoldExperience(10);
-        //¶¯»­
+        //ï¿½ï¿½ï¿½ï¿½
         DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
         {
             playerInfoUI.GoldCanvasRecover();
@@ -291,7 +278,7 @@ public class GeneralRewardsPanel : UIBase
     }
 
     /// <summary>
-    /// ÁìÈ¡ÆÕÍ¨½±Àø²¢Ôö¼Ó½ð±ÒµÈ¼¶¾­Ñé¡£
+    /// ï¿½ï¿½È¡ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ÒµÈ¼ï¿½ï¿½ï¿½ï¿½é¡£
     /// </summary>
     private void CollectClick()
     {
@@ -317,7 +304,7 @@ public class GeneralRewardsPanel : UIBase
         }
         TaskManager.Instance.LiLuDailyEstimatedReward(c_V, ad_V);
         GameManager.Instance.playerInfo.AddGoldExperience(1);
-        //¶¯»­
+        //ï¿½ï¿½ï¿½ï¿½
         DOTween.Sequence().AppendInterval(awaitTime).AppendCallback(() =>
         {
             playerInfoUI.GoldCanvasRecover();
