@@ -24,6 +24,7 @@ dependencies {
     implementation 'com.applovin.mediation:vungle-adapter:7.7.9.0' // Assets/MaxSdk/Mediation/Vungle/Editor/Dependencies.xml:4
     implementation 'com.applovin:applovin-sdk:13.6.0' // Assets/MaxSdk/AppLovin/Editor/Dependencies.xml:4
     implementation 'com.google.android.gms:play-services-base:16.1.0' // Assets/MaxSdk/Mediation/Chartboost/Editor/Dependencies.xml:9
+    implementation 'com.reyun.solar.engine.oversea:solar-engine-core:+' // Assets/SolarEngineNet/Android/Editor/Dependencies.xml:8
     implementation 'com.squareup.picasso:picasso:2.71828' // Assets/MaxSdk/Mediation/InMobi/Editor/Dependencies.xml:5
 // Android Resolver Dependencies End
 **DEPS**}

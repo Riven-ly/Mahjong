@@ -20,6 +20,7 @@
     <package>com.applovin.mediation:vungle-adapter:7.7.9.0</package>
     <package>com.applovin:applovin-sdk:13.6.0</package>
     <package>com.google.android.gms:play-services-base:16.1.0</package>
+    <package>com.reyun.solar.engine.oversea:solar-engine-core:+</package>
     <package>com.squareup.picasso:picasso:2.71828</package>
   </packages>
   <files />

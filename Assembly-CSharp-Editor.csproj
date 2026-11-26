@@ -73,7 +73,6 @@
     <Compile Include="Assets\scripts\Mahjong\Editor\MahjongLevelCatalogEditorValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\SolarEngineNet\SolarEnginePlugins\ODMInfo\Editor\Dependencies.xml" />
     <None Include="Assets\SolarEngineNet\iOS\Editor\Dependencies.xml" />
     <None Include="Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll" />
     <None Include="Assets\MaxSdk\Mediation\Mintegral\Editor\Dependencies.xml" />
@@ -82,7 +81,6 @@
     <None Include="Assets\MaxSdk\AppLovin\Editor\Dependencies.xml" />
     <None Include="Assets\Adjust\Native\Editor\Dependencies.xml" />
     <None Include="Assets\MaxSdk\Mediation\Google\Editor\Dependencies.xml" />
-    <None Include="Assets\SolarEngineNet\SolarEnginePlugins\Oaid\Editor\Dependencies.xml" />
     <None Include="Assets\MaxSdk\Mediation\ByteDance\Editor\Dependencies.xml" />
     <None Include="Assets\MaxSdk\Mediation\BidMachine\Editor\Dependencies.xml" />
     <None Include="Assets\ExternalDependencyManager\Editor\1.2.186\Google.PackageManagerResolver.dll" />
