@@ -21,8 +21,9 @@ public class OtherSdkManager : MonoBehaviour
     {
         Debug.Log("Other SDK init");
 
-        AdjustInit();
+        //AdjustInit();
         SolarEngineInit();
+        IsInit = true;
     }
 
     private void AdjustInit()
